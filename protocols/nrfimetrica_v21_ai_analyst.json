@@ -1,0 +1,180 @@
+{
+  "protocol_id": "NRFIMETRICA_V21_AI_ANALYST",
+  "system_scope": "NRFI_ONLY",
+  "contract_doc_id": "1Vk0j5QE1pXiHKgi0ZhxVLs7HADnnTNEOkny2SlCazCQ",
+  "brain": "CHATGPT_AI_ANALYST",
+  "kernel_role": "OPERATIONAL_ENFORCEMENT_ONLY",
+  "principles": [
+    "DATA_TO_MEANING_TO_RELATIONSHIPS_TO_MECHANISMS_TO_RIVAL_ROUTES_TO_MATERIALIZATION_TO_DECISION",
+    "CORRELATED_METRICS_DO_NOT_CREATE_MULTIPLE_VOTES",
+    "LOCAL_FAILURE_NEVER_STOPS_SLATE",
+    "ONE_MATERIAL_RECOVERY_PER_ISSUE",
+    "NO_NARRATED_TOOL_EXECUTION_WITHOUT_REAL_TRACE",
+    "NO_CALIBRATED_P_EDGE_EV_OR_REAL_MONEY_WITHOUT_CERTIFIED_CALIBRATION"
+  ],
+  "phases": [
+    {
+      "phase_id": "TRIAGE",
+      "scope": "GAME",
+      "prerequisites": [],
+      "required_fields": [
+        "starters.away",
+        "starters.home",
+        "lineup_status.away",
+        "lineup_status.home",
+        "b1_b3.away",
+        "b1_b3.home"
+      ],
+      "min_source_calls": 1,
+      "min_evidence_ids": 1
+    },
+    {
+      "phase_id": "BILATERAL_FIRST_INNING_ANALYSIS",
+      "scope": "GAME",
+      "prerequisites": ["TRIAGE"],
+      "required_fields": [
+        "away_pitcher.out_creation",
+        "away_pitcher.k_bb",
+        "away_pitcher.traffic",
+        "away_pitcher.damage",
+        "away_pitcher.hr_risk",
+        "away_pitcher.platoon",
+        "away_pitcher.arsenal",
+        "away_pitcher.command",
+        "away_pitcher.current_version",
+        "away_pitcher.restrictions",
+        "home_pitcher.out_creation",
+        "home_pitcher.k_bb",
+        "home_pitcher.traffic",
+        "home_pitcher.damage",
+        "home_pitcher.hr_risk",
+        "home_pitcher.platoon",
+        "home_pitcher.arsenal",
+        "home_pitcher.command",
+        "home_pitcher.current_version",
+        "home_pitcher.restrictions",
+        "away_offense.discipline",
+        "away_offense.contact",
+        "away_offense.damage",
+        "away_offense.platoon",
+        "away_offense.arsenal_access",
+        "away_offense.relevant_form",
+        "home_offense.discipline",
+        "home_offense.contact",
+        "home_offense.damage",
+        "home_offense.platoon",
+        "home_offense.arsenal_access",
+        "home_offense.relevant_form",
+        "mechanisms",
+        "correlated_metrics_check"
+      ],
+      "min_source_calls": 1,
+      "min_evidence_ids": 1
+    },
+    {
+      "phase_id": "MATERIAL_CONTEXT",
+      "scope": "GAME",
+      "prerequisites": ["BILATERAL_FIRST_INNING_ANALYSIS"],
+      "conditional": {"trigger_path": "context_material_trigger"},
+      "required_fields": [
+        "context_material_trigger",
+        "material_context",
+        "materialization_mechanism"
+      ],
+      "min_evidence_ids": 1
+    },
+    {
+      "phase_id": "RED_TEAM",
+      "scope": "GAME",
+      "prerequisites": ["BILATERAL_FIRST_INNING_ANALYSIS"],
+      "conditional": {"trigger_path": "red_team_trigger"},
+      "required_fields": [
+        "red_team_trigger",
+        "trigger_reason",
+        "strongest_countercase",
+        "countercase_evidence",
+        "resolution"
+      ],
+      "min_evidence_ids": 1
+    },
+    {
+      "phase_id": "SYNTHESIS",
+      "scope": "GAME",
+      "prerequisites": ["BILATERAL_FIRST_INNING_ANALYSIS", "MATERIAL_CONTEXT", "RED_TEAM"],
+      "required_fields": [
+        "central_nrfi_case",
+        "best_yrfi_rival",
+        "materialization_chain_nrfi",
+        "materialization_chain_yrfi",
+        "decisive_evidence",
+        "misleading_or_redundant_data",
+        "principal_risk",
+        "what_would_change"
+      ],
+      "max_items": {
+        "governing_uncertainties": 1,
+        "breakpoints": 2,
+        "independent_causal_reasons": 3
+      }
+    },
+    {
+      "phase_id": "VALIDATOR_CHALLENGE",
+      "scope": "GAME",
+      "prerequisites": ["SYNTHESIS"],
+      "required_fields": [
+        "claims_checked",
+        "unsupported_claims",
+        "contradictions_checked",
+        "metric_independence_check",
+        "both_routes_compared",
+        "cutoff_check",
+        "evidence_trace_check",
+        "validator_findings"
+      ]
+    },
+    {
+      "phase_id": "RECONSIDERATION",
+      "scope": "GAME",
+      "prerequisites": ["VALIDATOR_CHALLENGE"],
+      "required_fields": [
+        "validator_findings_addressed",
+        "final_central_nrfi_case",
+        "final_best_yrfi_rival",
+        "decisive_factor",
+        "materiality",
+        "principal_risk",
+        "what_would_change",
+        "final_decision",
+        "reasoned_verdict"
+      ]
+    }
+  ],
+  "decision_gates": {
+    "NRFI_CANDIDATE": [
+      "TRIAGE",
+      "BILATERAL_FIRST_INNING_ANALYSIS",
+      "MATERIAL_CONTEXT",
+      "RED_TEAM",
+      "SYNTHESIS",
+      "VALIDATOR_CHALLENGE",
+      "RECONSIDERATION"
+    ],
+    "NRFI_REJECTED": [
+      "TRIAGE",
+      "BILATERAL_FIRST_INNING_ANALYSIS",
+      "MATERIAL_CONTEXT",
+      "RED_TEAM",
+      "SYNTHESIS",
+      "VALIDATOR_CHALLENGE",
+      "RECONSIDERATION"
+    ]
+  },
+  "configurable_gate_capabilities": {
+    "min_source_calls": "Supports exact requirements such as 30/30 real source calls; count is based on unique source_ref + evidence_id, not a self-reported number.",
+    "required_documents": "Supports mandatory documents such as T100 before phase completion.",
+    "required_phrases": "Supports literal mandatory phrases in phase output.",
+    "required_fields": "Supports mandatory structured outputs.",
+    "prerequisites": "Supports ordered phases and prevents jumping ahead.",
+    "conditional": "Supports adaptive phases that may be skipped only with an explicit not-triggered reason."
+  }
+}
