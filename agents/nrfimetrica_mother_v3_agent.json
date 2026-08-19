@@ -108,7 +108,8 @@
     "run_api": "api/index.py",
     "protocol_gate_api": "api/protocol.py",
     "final_report_gate_api": "api/report.py",
-    "database_migrations_required_through": 19
+    "agent_registry": "public.agent_registry",
+    "database_migrations_required_through": 20
   },
   "current_authority_state": {
     "system_state": "TRADING_HALT_RESEARCH",
