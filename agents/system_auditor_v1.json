@@ -10,7 +10,8 @@
       "question": "¿Qué sistema desea auditar?",
       "options": {
         "1": "@NRFiPrensa",
-        "2": "@NRFImetrica"
+        "2": "@NRFImetrica",
+        "3": "@DepuracionMLB"
       }
     },
     "if_target_present": "DO_NOT_ASK_AGAIN"
@@ -37,13 +38,25 @@
   },
   "adapters": {
     "@NRFiPrensa": "ADAPTER-1.0",
-    "@NRFImetrica": "ADAPTER-1.0"
+    "@NRFImetrica": "ADAPTER-1.0",
+    "@DepuracionMLB": "ADAPTER-1.0"
+  },
+  "adapter_authority": {
+    "@DepuracionMLB": {
+      "system_version": "DEP-MLB-V0.3",
+      "agent_version": "DEP-MLB-AGENT-1.2",
+      "kernel_version": "DEP-MLB-KERNEL-0.4-AUTONOMOUS-REFACTOR",
+      "protocol_id": "DEPURACION_MLB_V0_3_PROGRESSIVE",
+      "repository": "geo2343/depuracion-mlb-kernel",
+      "drive_root_id": "1N8r-rn51Cj2kokFxIzasvhIlH6P1-x4i",
+      "required_checks": 32
+    }
   },
   "supabase": {
     "project_id": "yejaollmavoudbxnbpll",
     "namespace": "system_audit_",
     "authority_table": "system_auditor_authority",
-    "migrations_required_through": 41
+    "migrations_required_through": 42
   },
   "drive": {
     "root_folder_id": "1h7JtnEKxWx0aLOpeGJ5wSBEQgpT4VtoV",
