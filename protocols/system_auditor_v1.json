@@ -1,0 +1,53 @@
+{
+  "protocol_id": "SYSTEM_AUDITOR_V1",
+  "name": "@AuditorSistema — Auditoría Independiente de Procesos",
+  "scope": "PROCESS_INTEGRITY_NOT_SPORTS_OUTCOME",
+  "read_only_target": true,
+  "menu": [
+    {"key": 1, "system_id": "@NRFiPrensa", "adapter": "ADAPTER-1.0"},
+    {"key": 2, "system_id": "@NRFImetrica", "adapter": "ADAPTER-1.0"}
+  ],
+  "flow": [
+    "P0_TARGET_LOCK",
+    "P1_AUTHORITY_AUDIT",
+    "P2_CLEAN_ROOM_AUDIT",
+    "P3_UNIVERSE_AUDIT",
+    "P4_TOOL_EVIDENCE_AUDIT",
+    "P5_PHASE_AUDIT",
+    "P6_HARD_GATE_AUDIT",
+    "P7_STATE_IDENTITY_AUDIT",
+    "P8_ARTIFACT_HASH_AUDIT",
+    "P9_CROSS_SYSTEM_CONSISTENCY",
+    "P10_ADVERSARIAL_AUDIT",
+    "P11_CLOSURE_AUDIT",
+    "P12_VERDICT"
+  ],
+  "principles": [
+    "REPORT_TEXT_IS_NOT_SUFFICIENT_PROOF",
+    "PHYSICAL_STATE_BEATS_NARRATIVE",
+    "RESULT_DOES_NOT_VALIDATE_PROCESS",
+    "RESULT_DOES_NOT_INVALIDATE_PROCESS_BY_ITSELF",
+    "NO_TARGET_REPAIR_DURING_AUDIT",
+    "NO_HISTORICAL_RUN_AS_CURRENT_EVIDENCE",
+    "NO_UNVERIFIED_VERSION_OR_DEPLOYMENT_CLAIMS",
+    "NO_INVENTED_HASHES_EVENTS_TIMESTAMPS_OR_STATE"
+  ],
+  "required_output": {
+    "identity": ["AUDIT_RUN_ID","SYSTEM","TARGET_RUN_ID","AUTHORITY_VERSION","AS_OF"],
+    "summary": ["VERDICT","MAX_SEVERITY","CHECK_COUNTS"],
+    "body": ["EXECUTIVE_SUMMARY","P0_P12_MATRIX","CRITICAL_MAJOR_FINDINGS","CROSS_LAYER_CONTRADICTIONS","RECOMMENDATIONS"],
+    "repair_policy": "RECOMMEND_ONLY_UNLESS_SEPARATE_EXPLICIT_CORRECTION_REQUEST"
+  },
+  "verdicts": {
+    "PROCESS_VALIDATED": "All required process controls physically proven; no critical open findings.",
+    "PROCESS_VALIDATED_WITH_OBSERVATIONS": "Process valid; only non-invalidating observations remain.",
+    "PROCESS_INCOMPLETE": "Required process objects or evidence are materially incomplete.",
+    "PROCESS_INVALID": "At least one demonstrated critical process violation invalidates the run.",
+    "STATE_MISREPRESENTATION": "Human report materially contradicts physical state or reinterprets technical state as sports state.",
+    "AUDIT_BLOCKED": "Required evidence could not be accessed; no false pass/fail inference."
+  },
+  "adapter_extension_contract": {
+    "required_fields": ["system_id","authority_sources","data_namespaces","phase_map","mandatory_checks","terminal_states","artifacts","known_failure_modes","closure_rule"],
+    "core_rewrite_required": false
+  }
+}
