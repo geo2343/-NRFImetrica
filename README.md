@@ -5,13 +5,11 @@ Agente técnico-estadístico y causal para primera entrada MLB, gobernado por el
 ## Autoridad activa
 
 - `SYSTEM_VERSION = NRFIM MOTHER V3`
-- `AGENT_VERSION = MOTHER-V3-AGENT-1.1`
-- `KERNEL_VERSION = NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY`
+- `AGENT_VERSION = MOTHER-V3-AGENT-1.3`
+- `KERNEL_VERSION = NRFIM-KERNEL-0.8-DUAL-STATUS`
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
-- extensión obligatoria: `NRFIMETRICA_SPORTS_REASONING_PACKET_V2`
+- extensiones obligatorias: `NRFIMETRICA_SPORTS_REASONING_PACKET_V2` y `NRFIMETRICA_DUAL_STATUS_V1`
 - `MOTHER_DOCUMENT_SHA256 = d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3`
-- `LATEST_SOVEREIGN_PATCH_WINS`
-- parche vigente: `A0-GOV.18 — REFORMA OPERATIVA SOBERANA V3`
 - `MANUAL_PHASE_AUTHORIZATION_REQUIRED = FALSE`
 - `SYSTEM_STATE = TRADING_HALT_RESEARCH`
 - `REAL_MONEY_AUTHORITY = FALSE`
@@ -20,199 +18,123 @@ V2.1/V1.x se conservan exclusivamente como histórico y no tienen autoridad runt
 
 ## Arquitectura
 
-- **Documento Madre = constitución.** Define objeto, doctrina, obligaciones, precedencia y hard gates.
-- **ChatGPT/IA = analista causal.** Investiga, interpreta mecanismos, compara NRFI contra la mejor tesis YRFI, falsifica y toma posición. No fabrica probabilidades.
-- **Kernel = enforcement + cadena de custodia.** No decide el partido mediante un score; demuestra que el trabajo ocurrió y bloquea atajos.
+- **Documento Madre = constitución.**
+- **ChatGPT/IA = analista causal.** Investiga, interpreta, compara NRFI contra la mejor tesis YRFI, falsifica y toma posición. No fabrica probabilidades.
+- **Kernel = enforcement.** Controla orden, evidencia, timestamps, hashes, freeze, clean room, estado y cierre; no decide el partido mediante un score.
 - **Supabase = estado técnico persistente y enforcement físico.**
-- **Drive = expediente humano-legible, snapshots y hashes verificados.**
-- **Vercel = runtime HTTP.**
-- **@NRFIprensa = agente separado.** Se integra después del freeze técnico conforme A6/A7; no funciona como voto.
+- **Drive = expediente humano-legible, snapshots y hashes.**
+- **GitHub = código, manifests, migraciones y pruebas.**
+- **Vercel = runtime HTTP cuando el despliegue está disponible.**
+- **@NRFIprensa = agente separado.** No funciona como voto.
 
-## Separación soberana: juicio deportivo vs certificación
+## CLEAN ROOM
 
-Dos objetos distintos:
+Cada nueva invocación debe crear:
 
-1. **Juicio causal deportivo.** Debe realizarse para cada partido aunque posteriormente A4/A7/A8 estén bloqueadas.
-2. **Certificación A1–A8.** Decide si el juicio puede convertirse en contrato/mercado ejecutable.
+`RUN_ID NUEVO + INVOCATION_ID NUEVO + DOCUMENTO DRIVE NUEVO + BÚSQUEDAS NUEVAS + EVIDENCIA NUEVA + RAZONAMIENTO NUEVO`.
 
-Por tanto:
+Reportes, packets o razonamiento de una corrida anterior no pueden utilizarse como evidencia deportiva de la nueva corrida. El documento de reporte propio debe existir antes del primer `SPORTS_REASONING_PACKET`.
 
-`BUEN JUICIO DEPORTIVO != APUESTA CERTIFICADA`
+## SPORTS_REASONING_PACKET V2
 
-`FALTA DE CERTIFICACION != AUSENCIA DE ANALISIS DEPORTIVO`
+Cada juego tiene su propio packet. Cadena física:
 
-La ausencia de motor, calibración, mercado o lineup oficial no autoriza a la IA a dejar de pensar. Tampoco autoriza a fingir una fase que no ocurrió.
+`TOOL EVENT -> SOURCE FAMILY -> EVIDENCE + SNAPSHOT/HASH -> CLAIM -> CAUSAL REASONING -> NRFI vs YRFI -> FALSIFICATION -> SPORTS VERDICT -> FREEZE/HASH -> DRIVE -> PROCESS AUDIT`.
 
-## SPORTS_REASONING_PACKET V2 — cadena de custodia
+Un `ANALYSIS_COMPLETE` exige análisis bilateral `TOP_1ST/BOTTOM_1ST`, abridores actuales, top order, especificidad de primera entrada, contraevidencia, caso NRFI, mejor rival YRFI, clusters causales, falsificación de ambos lados y `what_would_change`.
 
-Cada juego registrado debe tener su propio packet. La cadena física es:
+Pisos iniciales de familias independientes: `CLEAR=3`, `NORMAL=5`, `DEEP=7`. Son pisos, no techos.
 
-`RESEARCH_TOOL_EVENT -> SOURCE_FAMILY -> EVIDENCE_ID + SNAPSHOT -> FACTUAL CLAIM -> CAUSAL ANALYSIS -> FALSIFICATION -> SPORTS VERDICT -> PACKET FREEZE/HASH -> DRIVE -> PROCESS AUDIT -> SPORTS_REASONING_SLATE`
+Auditor determinista de proceso: `KERNEL_PROCESS_AUDITOR_0.2`. Deriva sus controles desde la base y tiene prohibido votar NRFI/YRFI.
 
-### Tool calls y evidencia
+## Kernel 0.8 — doble estado: deporte vs ejecución
 
-- Cada búsqueda/open/fetch/query material se registra en `research_tool_events`.
-- El timestamp del tool call lo escribe la base, no la IA.
-- Cada tool call incrementa `runs.tool_call_count` y crea `trace_events`.
-- Evidencia deportiva sin tool event real es rechazada.
-- Cada afirmación factual requiere uno o más `EVIDENCE_ID` del mismo run/game.
-- Cada evidencia requiere `SOURCE_FAMILY_ID`, snapshot y hash.
-- Dato disponible después de su supuesta consulta es rechazado.
+El error que Kernel 0.8 corrige es confundir una carencia técnica posterior con una conclusión deportiva.
 
-### Familias independientes
+**Eje deportivo:**
 
-No se cuentan URLs como votos independientes.
+- `SPORTS_CANDIDATE` — `NRFI_LEAN` auditado con `ANALYSIS_COMPLETE + PROCESS PASS + DRIVE HASH MATCH`.
+- `NO_PLAY` — rechazo deportivo para el producto NRFI; el `sports_verdict` original se conserva, por ejemplo `YRFI_LEAN`.
+- `WATCHLIST` — investigación incompleta o información gobernante todavía insuficiente.
+- `AUDIT_ONLY` — partido fuera de ventana pregame.
 
-- contenido exactamente duplicado no puede crear una familia nueva;
-- mismo publisher/origen declarado debe colapsar en una sola familia;
-- piso inicial adaptativo: `CLEAR=3`, `NORMAL=5`, `DEEP=7`;
-- el piso no es un techo: contradicción material exige continuar investigando.
+**Eje de ejecución:**
 
-La detección determinista de sindicación no idéntica todavía depende de mejor clasificación de provenance/semantic similarity; no se declara resuelta por completo.
+- `EXECUTABLE` — A8 emitió `APOSTAR` o `SOLO_SI_CUOTA` con autoridad real.
+- `TECHNICAL_BLOCK` — existe `SPORTS_CANDIDATE`, pero A4/A6/A7 impiden ejecución real-money.
+- `PENDING` — candidato deportivo cuya cadena técnica todavía no ha terminado.
+- `NOT_APPLICABLE` — no existe candidato deportivo NRFI.
+- `WATCHLIST` / `AUDIT_ONLY` — conservan su condición correspondiente.
 
-### Cobertura causal obligatoria
+Regla clave:
 
-Todo `ANALYSIS_COMPLETE` exige:
+`SPORTS_CANDIDATE + TECHNICAL_BLOCK` es un estado válido.
 
-- `TOP_1ST`;
-- `BOTTOM_1ST`;
-- `STARTER_CURRENT_FORM`;
-- `TOP_ORDER_MATCHUP`;
-- `FIRST_INNING_SPECIFIC`;
-- `COUNTEREVIDENCE`;
-- `CENTRAL_NRFI_CASE`;
-- `BEST_YRFI_RIVAL`;
-- `STRONGEST_COUNTEREVIDENCE`;
-- `CAUSAL_CLUSTERS`;
-- falsificación real contra NRFI y contra YRFI;
-- `WHAT_WOULD_CHANGE_THE_DECISION` falsable;
-- razón verificable de parada de investigación.
+Un `A4_ENGINE_NOT_INTEGRATED` **no puede** reescribir un candidato deportivo como `NO_PLAY`.
 
-`NO_PLAY` y `RESEARCH_ONLY` tienen la misma carga de investigación que un positivo. `UNKNOWN` no se convierte en riesgo por defecto; requiere ruta causal material.
+`eligible_count` en A7 significa únicamente **elegibilidad de ejecución**, nunca calidad deportiva.
 
-Datos full-game solo pueden utilizarse como proxy con explicación explícita de por qué afectan la primera entrada.
+## Reporte final obligatorio
 
-### Integridad temporal y versionado
+Todo reporte final nuevo debe separar físicamente:
 
-- `RETRIEVED_AT` es Kernel-owned.
-- `AS_OF` efectivo se calcula desde la evidencia realmente utilizada.
-- backdating y future leakage están prohibidos.
-- todo packet terminal queda congelado y hasheado;
-- cambiar razonamiento después del freeze requiere una nueva versión enlazada a `previous_packet_hash`;
-- la versión anterior permanece intacta.
+- `sports_candidate_count`;
+- `execution_candidate_count`;
+- `sports_no_play_count`;
+- `sports_watchlist_count`;
+- `sports_audit_only_count`;
+- `technical_block_count`.
 
-### Drive
+Además debe listar:
 
-Cada packet terminal debe existir en Drive y su hash debe coincidir con `packet_hash` antes de sellar la jornada deportiva.
+- las identidades exactas de `sports_candidates`;
+- `game_statuses` para todos los juegos del RUN con `sports_status`, `execution_status` y `sports_verdict`.
 
-Estructura esperada:
+Supabase valida esas identidades contra `public.nrfimetrica_game_dual_status`; la IA no puede inventar el conteo ni sustituir un candidato real por otro juego.
 
-```text
-YYYY-MM-DD — RUN_ID/
-  00 — JORNADA Y FREEZE/
-  PARTIDO — AWAY@HOME/
-    00 — SPORTS_REASONING_PACKET/
-      packet_vN
-      sources/
-      snapshots/
-      claim_evidence_map
-      trace_log
-    A1/
-    A2/
-    A3/
-    A4 o RESOLUCIÓN TERMINAL/
-    A5/
-    A6/
-    A7/
-    A8/
-  90 — AUDITORÍA/
-  99 — REPORTE FINAL
-```
+Si existen candidatos deportivos pero cero ejecutables, el reporte debe declarar:
 
-El `FINAL_REPORT` también debe quedar registrado como artifact Drive verificado antes del cierre del run.
+`TECHNICAL_BLOCK_NOT_SPORTS_REJECTION`.
 
-## Auditor de proceso
+No puede presentar `0 elegibles` como si significara que la IA rechazó deportivamente toda la jornada.
 
-Auditor determinista activo: `KERNEL_PROCESS_AUDITOR_0.2`.
+## Flujo de certificación
 
-No confía en booleans enviados por la IA. Supabase deriva físicamente:
+La cadena contractual sigue intacta:
 
-- `structural_pass`;
-- `temporal_pass`;
-- `evidence_pass`;
-- `falsification_pass`;
-- `independence_pass`;
-- correspondencia packet/Drive.
+`A0 -> SPORTS_REASONING_SLATE -> A1 -> A2 -> A3 -> A4 -> A5 -> A6 -> A7 -> A8 -> PORTFOLIO -> FINAL_REPORT -> DRIVE VERIFIED -> CLOSE`.
 
-El auditor puede marcar `PASS`, `FAIL` o `REVIEW`, pero **tiene prohibido votar NRFI/YRFI**. La decisión deportiva sigue perteneciendo al analista causal.
+A4 sigue siendo el dueño de la probabilidad RAW y no puede ser simulado. A5 integra `P0/P1/P2/P3+`. A6/A7/A8 siguen controlando auditoría independiente, calibración, prensa, mercado, edge/EV y ejecución.
 
-## Verdad de jornada
+Kernel 0.8 **no baja los controles de dinero real**. Solo impide que esos controles borren el juicio deportivo ya demostrado.
 
-Estados terminales deportivos:
+## Pruebas físicas de la reforma 0.8
 
-- `ANALYSIS_COMPLETE`
-- `RESEARCH_INCOMPLETE`
-- `INFORMATION_UNAVAILABLE`
-- `NOT_EXECUTABLE`
-- `WITHDRAWN_POST_FREEZE`
-- `PROCESS_FAIL`
+La corrida histórica `NRFIM-MOTHER-20260819-99cf2c30`, antes reportada ambiguamente como `0 elegibles`, queda representada por la vista física así:
 
-La frase `N/TOTAL ANALISIS_COMPLETOS` es generada por Kernel. Solo cuenta el último packet de cada partido que tenga:
+- 3 `SPORTS_CANDIDATE + TECHNICAL_BLOCK`: CWS@CHC, NYY@BAL, SEA@MIL.
+- 6 `NO_PLAY` para el producto NRFI, preservando sus verdicts deportivos.
+- 3 `WATCHLIST`.
+- 3 `AUDIT_ONLY`.
+- 0 `EXECUTABLE`.
 
-`ANALYSIS_COMPLETE + PROCESS_AUDIT PASS + DRIVE HASH MATCH`.
+Pruebas adversariales de Kernel 0.8:
 
-Si hay 14 completos y 1 incompleto, el sistema declara `14/15 ANALISIS_COMPLETOS`; jamás lo redondea a 15/15. El incompleto local no detiene los demás juegos.
-
-## Flujo de certificación A1–A8
-
-La cadena de custodia deportiva no sustituye el protocolo contractual:
-
-`A0 AUTO-SEAL -> SPORTS_REASONING_SLATE -> A1 -> A2 -> A3 -> A4 -> A5 -> A6 -> A7 -> A8 -> PORTFOLIO -> FINAL_REPORT -> DRIVE VERIFIED -> CLOSE`
-
-- **A1:** identidad, pitchers, lineups, catcher/umpire/contexto, temporal integrity, freeze y market quarantine.
-- **A2:** baselines jerárquicos, shrinkage, dependency clusters y double-count control.
-- **A3:** versión actual + matchup y rutas reales de supresión/ruptura.
-- **A4:** motor numérico real; la IA no puede sustituirlo.
-- **A5:** distribución conjunta `P0/P1/P2/P3+` y contratos derivados.
-- **A6:** falsificación causal, SRA, auditor independiente, Sports Seal y freeze pre-prensa.
-- **A7:** calibración/eligibilidad y contraste con packet real de `@NRFIprensa`.
-- **A8:** mercado, precio, break-even, edge/EV autorizados, T-10/T-5 y ejecución.
-
-Candidatos permitidos por jornada: `0–3`; tres es máximo, nunca obligación. U1.5/U2.5 no rescatan una tesis P0 débil.
-
-## Pruebas adversariales Kernel 0.6
-
-Suite live en Supabase: `DIAG-SR-CUSTODY-20260819-1022`.
-
-Resultado: **14/14 ataques físicos bloqueados o derivados correctamente**, incluyendo:
-
-- evidencia sin tool call;
-- timestamp falso;
-- tool call sin contador/trace;
-- dato futuro;
-- claim factual sin evidencia;
-- piso de familias insuficiente;
-- contenido duplicado como familia nueva;
-- mismo origen declarado como familia nueva;
-- packet sin freeze/hash;
-- Drive/auditoría sin vínculo de hash;
-- auditor falso/booleans falsos;
-- tampering post-freeze;
-- conteo falso de jornada;
-- cierre sin FINAL_REPORT de Drive.
-
-Ver `tests/research_chain_adversarial_cases.json` y `docs/KERNEL_0_6_CHAIN_OF_CUSTODY_AUDIT.md`.
+- intentar declarar `sports_candidate_count=0` cuando la base deriva 3 -> **BLOQUEADO**;
+- intentar insertar una identidad falsa dentro de `sports_candidates` -> **BLOQUEADO**.
 
 ## Estado real actual
 
 - Documento Madre: **ACTIVO**.
-- Agent 1.1 / Kernel 0.6: **ACTIVOS EN GITHUB Y SUPABASE**.
-- Migraciones: **001–024 aplicadas en Supabase**.
+- Agent 1.3 / Kernel 0.8: **ACTIVOS EN GITHUB Y SUPABASE**.
+- Migraciones: **001–027 aplicadas en Supabase**.
+- Clean Room: **ACTIVO**.
 - Sports Reasoning chain: **ACTIVA**.
+- Dual sports/execution status: **ACTIVO**.
 - A4 `ACTIVE_TRUSTED`: **0**.
 - A6 independent auditor `ACTIVE_TRUSTED`: **0**.
 - A7 calibration `ACTIVE_TRUSTED`: **0**.
 - `SYSTEM_STATE = TRADING_HALT_RESEARCH`.
 - `REAL_MONEY_AUTHORITY = FALSE`.
 
-El Kernel 0.6 garantiza la demostrabilidad física del proceso de investigación; no inventa los componentes soberanos que todavía faltan para real-money y no sustituye el razonamiento causal de la IA con una suma mecánica.
+El sistema puede producir y preservar juicios deportivos auditados aunque la ejecución real-money quede bloqueada. No puede fabricar probabilidades, calibraciones, edge, EV ni autoridad de apuesta inexistentes.
