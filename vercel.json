@@ -9,6 +9,9 @@
     },
     "api/report.py": {
       "maxDuration": 60
+    },
+    "api/research.py": {
+      "maxDuration": 60
     }
   }
 }
