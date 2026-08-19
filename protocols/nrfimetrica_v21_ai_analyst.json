@@ -23,15 +23,46 @@
         "lineup_status.away",
         "lineup_status.home",
         "b1_b3.away",
-        "b1_b3.home"
+        "b1_b3.home",
+        "depth_plan.b4_b5_trigger",
+        "depth_plan.b6_b9_trigger",
+        "depth_plan.reason"
       ],
       "min_source_calls": 1,
       "min_evidence_ids": 1
     },
     {
-      "phase_id": "BILATERAL_FIRST_INNING_ANALYSIS",
+      "phase_id": "DEPTH_B4_B5",
       "scope": "GAME",
       "prerequisites": ["TRIAGE"],
+      "conditional": {"trigger_path": "b4_b5_trigger"},
+      "required_fields": [
+        "b4_b5_trigger",
+        "trigger_reason",
+        "b4_b5.away",
+        "b4_b5.home",
+        "material_impact"
+      ],
+      "min_evidence_ids": 1
+    },
+    {
+      "phase_id": "DEPTH_B6_B9",
+      "scope": "GAME",
+      "prerequisites": ["DEPTH_B4_B5"],
+      "conditional": {"trigger_path": "b6_b9_trigger"},
+      "required_fields": [
+        "b6_b9_trigger",
+        "trigger_reason",
+        "b6_b9.away",
+        "b6_b9.home",
+        "material_impact"
+      ],
+      "min_evidence_ids": 1
+    },
+    {
+      "phase_id": "BILATERAL_FIRST_INNING_ANALYSIS",
+      "scope": "GAME",
+      "prerequisites": ["TRIAGE", "DEPTH_B4_B5", "DEPTH_B6_B9"],
       "required_fields": [
         "away_pitcher.out_creation",
         "away_pitcher.k_bb",
@@ -109,7 +140,11 @@
         "decisive_evidence",
         "misleading_or_redundant_data",
         "principal_risk",
-        "what_would_change"
+        "what_would_change",
+        "research_stop_reason",
+        "additional_information_can_change_decision",
+        "stress_test_or_rescue_attempt",
+        "counterevidence_resolution"
       ],
       "max_items": {
         "governing_uncertainties": 1,
@@ -129,6 +164,7 @@
         "both_routes_compared",
         "cutoff_check",
         "evidence_trace_check",
+        "causal_not_vote_check",
         "validator_findings"
       ]
     },
@@ -152,6 +188,8 @@
   "decision_gates": {
     "NRFI_CANDIDATE": [
       "TRIAGE",
+      "DEPTH_B4_B5",
+      "DEPTH_B6_B9",
       "BILATERAL_FIRST_INNING_ANALYSIS",
       "MATERIAL_CONTEXT",
       "RED_TEAM",
@@ -161,6 +199,8 @@
     ],
     "NRFI_REJECTED": [
       "TRIAGE",
+      "DEPTH_B4_B5",
+      "DEPTH_B6_B9",
       "BILATERAL_FIRST_INNING_ANALYSIS",
       "MATERIAL_CONTEXT",
       "RED_TEAM",
@@ -170,8 +210,8 @@
     ]
   },
   "configurable_gate_capabilities": {
-    "min_source_calls": "Supports exact requirements such as 30/30 real source calls; count is based on unique source_ref + evidence_id, not a self-reported number.",
-    "required_documents": "Supports mandatory documents such as T100 before phase completion.",
+    "min_source_calls": "Supports exact requirements such as 30/30 real source calls; count is based on unique evidence IDs linked to source refs and timestamps, not a self-reported number.",
+    "required_documents": "Supports mandatory documents such as T100 and requires a real source/evidence trace for each required document.",
     "required_phrases": "Supports literal mandatory phrases in phase output.",
     "required_fields": "Supports mandatory structured outputs.",
     "prerequisites": "Supports ordered phases and prevents jumping ahead.",
