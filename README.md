@@ -2,6 +2,8 @@
 
 Kernel externo para `@NRFImetrica` V2.1.
 
+[Deploy to Vercel](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgeo2343%2F-NRFImetrica&repository-name=nrfimetrica-kernel)
+
 Arquitectura mínima:
 
 - GitHub: código y versionado.
