@@ -21,7 +21,7 @@ SUPABASE_SECRET_KEY = (
 MANIFEST_PATH = Path(__file__).resolve().parents[1] / "protocols" / "nrfimetrica_mother_v3_autonomous.json"
 MANIFEST = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
 
-app = FastAPI(title="@NRFImetrica Mother Protocol Gate", version="2.0")
+app = FastAPI(title="@NRFImetrica Mother Protocol Gate", version="2.1")
 
 
 def _headers(prefer: str | None = None) -> dict[str, str]:
@@ -114,6 +114,13 @@ class ProtocolRequest(BaseModel):
     documents_analyzed: list[str] = Field(default_factory=list)
     output_text: str = ""
     skip_reason: str | None = None
+    terminal_phase: str | None = None
+    resolution_code: str | None = None
+    authority_level: str | None = None
+    reason: str | None = None
+    materiality: str | None = None
+    what_would_resolve: str | None = None
+    recovery_issue_id: str | None = None
 
 
 async def ensure_a0_sealed(run_id: str) -> dict[str, Any]:
@@ -190,6 +197,19 @@ async def protocol_action(req: ProtocolRequest):
         )
         return {"protocol_id": MOTHER_PROTOCOL_ID, "phases": rows or []}
 
+    if req.action == "resolution_state":
+        if not req.run_id:
+            raise HTTPException(status_code=422, detail="RUN_ID_REQUIRED")
+        filters = {"run_id": f"eq.{req.run_id}", "protocol_id": f"eq.{MOTHER_PROTOCOL_ID}"}
+        if req.game_id:
+            filters["game_id"] = f"eq.{req.game_id}"
+        rows = await sb(
+            "GET",
+            "protocol_game_resolution",
+            params={"select": "*", **filters, "order": "created_at.asc"},
+        )
+        return {"protocol_id": MOTHER_PROTOCOL_ID, "resolutions": rows or []}
+
     if req.action == "run_state":
         if not req.run_id:
             raise HTTPException(status_code=422, detail="RUN_ID_REQUIRED")
@@ -210,6 +230,50 @@ async def protocol_action(req: ProtocolRequest):
             raise HTTPException(status_code=422, detail="RUN_ID_REQUIRED")
         state = await ensure_a0_sealed(req.run_id)
         return {"accepted": True, "stage_id": "A0_CONSTITUTION_SEALED", "state": state}
+
+    if req.action == "submit_resolution":
+        if not req.run_id or not req.game_id:
+            raise HTTPException(status_code=422, detail="RUN_GAME_REQUIRED")
+        if not all((req.terminal_phase, req.resolution_code, req.authority_level, req.reason, req.materiality, req.what_would_resolve)):
+            raise HTTPException(status_code=422, detail="RESOLUTION_FIELDS_REQUIRED")
+        await ensure_a0_sealed(req.run_id)
+        row = {
+            "run_id": req.run_id,
+            "game_id": req.game_id,
+            "protocol_id": MOTHER_PROTOCOL_ID,
+            "terminal_phase": req.terminal_phase,
+            "resolution_code": req.resolution_code,
+            "authority_level": req.authority_level,
+            "reason": req.reason,
+            "materiality": req.materiality,
+            "what_would_resolve": req.what_would_resolve,
+            "recovery_issue_id": req.recovery_issue_id,
+            "evidence_ids": req.evidence_ids,
+            "created_at": now_iso(),
+        }
+        saved = await sb(
+            "POST",
+            "protocol_game_resolution",
+            params={"on_conflict": "run_id,game_id,protocol_id"},
+            payload=row,
+            prefer="resolution=merge-duplicates,return=representation",
+        )
+        event = await record_protocol_trace(
+            run_id=req.run_id,
+            game_id=req.game_id,
+            task_id=req.terminal_phase or "TERMINAL_RESOLUTION",
+            event_type="MOTHER_GAME_TERMINAL_RESOLUTION",
+            status=req.authority_level or "RESOLVED",
+            input_payload=req.model_dump(),
+            output_payload=row,
+            evidence_ids=req.evidence_ids,
+        )
+        return {
+            "accepted": True,
+            "resolution": (saved or [row])[0],
+            "event_hash": event["event_hash"],
+            "slate_continues": True,
+        }
 
     if req.action == "submit_run_stage":
         if not req.run_id or not req.stage_id:
