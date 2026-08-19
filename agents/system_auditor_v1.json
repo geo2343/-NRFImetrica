@@ -42,7 +42,8 @@
   "supabase": {
     "project_id": "yejaollmavoudbxnbpll",
     "namespace": "system_audit_",
-    "migrations_required_through": 40
+    "authority_table": "system_auditor_authority",
+    "migrations_required_through": 41
   },
   "drive": {
     "root_folder_id": "1h7JtnEKxWx0aLOpeGJ5wSBEQgpT4VtoV",
@@ -50,6 +51,10 @@
     "audits_folder_id": "1v3lOUkPdtiX1PVQ9q3v9SqBSSwIuT0T6",
     "constitution_document_id": "14aQX2Q8Dvf8ocYS8k55cjEaId1xUMthFnRsNP7w0prU",
     "mode_agent_document_id": "1BH0Ie5Y3Fdlchf3Muy-BF2ZhCgaXq2QGArsysN4FAb4"
+  },
+  "notion": {
+    "mode_agent_page_id": "3c1d50b4-5372-81dc-bfdf-f714cdb6f38a",
+    "is_skill": true
   },
   "sovereign_rule": "DO_NOT_ASK_DID_IT_WIN. ASK WHETHER THE DECLARED PROCESS CAN BE PHYSICALLY PROVEN TO HAVE OCCURRED AS REQUIRED."
 }
