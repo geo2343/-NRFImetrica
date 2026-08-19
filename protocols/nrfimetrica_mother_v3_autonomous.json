@@ -1,6 +1,7 @@
 {
   "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
   "status": "ACTIVE_SOVEREIGN_PROTOCOL",
+  "kernel_version": "NRFIM-KERNEL-0.5-MOTHER-ENFORCED",
   "mother_document": {
     "name": "@NRFImetrica DOCUMENTO MADRE",
     "sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
@@ -43,35 +44,22 @@
     "calibrated_probability_required_for_certified_edge_ev": true
   },
   "minimum_run_distribution": ["P0", "P1", "P2", "P3PLUS"],
+  "trusted_components": {
+    "A4": {"registry": "numeric_engine_registry", "execution_ledger": "numeric_engine_executions", "controlled_real_required_status": "ACTIVE_TRUSTED"},
+    "A6": {"registry": "independent_auditor_registry", "execution_ledger": "independent_audit_executions", "controlled_real_required_status": "ACTIVE_TRUSTED"},
+    "A7": {"packet_ledger": "nrfiprensa_packets", "controlled_real_required_status": "VERIFIED"}
+  },
   "constitutional_prohibitions": [
-    "FIRST_INNING_ERA_NOT_SOVEREIGN",
-    "STREAK_NOT_CAUSALITY",
-    "SMALL_BVP_NOT_PROOF",
-    "NO_CORRELATED_METRIC_VOTING",
-    "NO_AI_PROBABILITY_FABRICATION",
-    "TRAFFIC_NOT_RUN",
-    "SHORT_ROUTE_NOT_PROBABLE_ROUTE",
-    "GOOD_PITCHER_NOT_SUFFICIENT",
-    "BILATERAL_REQUIRED",
-    "NO_FULL_GAME_BULLPEN_REASONING",
-    "MARKET_QUARANTINE_UNTIL_A8",
-    "NO_FUTURE_DATA_LEAKAGE",
-    "UNCERTAINTY_NOT_AUTOMATIC_DANGER",
-    "MISSING_EVIDENCE_NOT_SAFETY",
-    "POSSIBILITY_NOT_MATERIALIZATION",
-    "NO_FORCED_CANDIDATE_COUNT",
-    "NO_FOURTH_CANDIDATE",
-    "NO_RULE_CHANGE_FROM_SINGLE_LOSS",
-    "NO_HIDDEN_CONTRADICTIONS",
-    "NO_UNSUPPORTED_GRANULARITY",
-    "NARRATIVE_CANNOT_REPLACE_NUMERIC_ENGINE",
-    "U15_OR_U25_CANNOT_RESCUE_WEAK_P0_THESIS"
+    "FIRST_INNING_ERA_NOT_SOVEREIGN", "STREAK_NOT_CAUSALITY", "SMALL_BVP_NOT_PROOF", "NO_CORRELATED_METRIC_VOTING",
+    "NO_AI_PROBABILITY_FABRICATION", "TRAFFIC_NOT_RUN", "SHORT_ROUTE_NOT_PROBABLE_ROUTE", "GOOD_PITCHER_NOT_SUFFICIENT",
+    "BILATERAL_REQUIRED", "NO_FULL_GAME_BULLPEN_REASONING", "MARKET_QUARANTINE_UNTIL_A8", "NO_FUTURE_DATA_LEAKAGE",
+    "UNCERTAINTY_NOT_AUTOMATIC_DANGER", "MISSING_EVIDENCE_NOT_SAFETY", "POSSIBILITY_NOT_MATERIALIZATION", "NO_FORCED_CANDIDATE_COUNT",
+    "NO_FOURTH_CANDIDATE", "NO_RULE_CHANGE_FROM_SINGLE_LOSS", "NO_HIDDEN_CONTRADICTIONS", "NO_UNSUPPORTED_GRANULARITY",
+    "NARRATIVE_CANNOT_REPLACE_NUMERIC_ENGINE", "U15_OR_U25_CANNOT_RESCUE_WEAK_P0_THESIS"
   ],
   "phases": [
     {
-      "phase_id": "A1_DATA_INTEGRITY_FREEZE",
-      "scope": "GAME",
-      "prerequisites": [],
+      "phase_id": "A1_DATA_INTEGRITY_FREEZE", "scope": "GAME", "prerequisites": [],
       "required_fields": [
         "model_version", "as_of", "data_available_at", "input_freeze_id", "target_scope", "targets_enabled",
         "game.game_id", "game.date", "game.start_time", "game.status", "game.venue",
@@ -82,205 +70,117 @@
         "scratches_status", "injury_restriction_status", "governing_unknowns", "material_unknowns", "data_source_map", "conflict_log",
         "market_quarantine", "market_contamination_flag", "post_first_pitch_contamination", "temporal_integrity", "freeze_integrity",
         "sra_freeze_status", "research_handoff", "a1_real_money_status", "hard_gates", "phase_result"
-      ],
-      "min_source_calls": 1,
-      "min_evidence_ids": 1,
-      "semantic_gates": [
-        "MARKET_QUARANTINE_INTACT",
-        "TEMPORAL_INTEGRITY_PASS",
-        "FREEZE_INTEGRITY_PASS",
-        "REAL_MONEY_PASS_REQUIRES_CONFIRMED_FIRST_INNING_PITCHERS",
-        "REAL_MONEY_PASS_REQUIRES_OFFICIAL_LINEUPS",
-        "REAL_MONEY_PASS_REQUIRES_FINAL_INPUT_FREEZE_ID"
-      ]
+      ], "min_source_calls": 1, "min_evidence_ids": 1
     },
     {
-      "phase_id": "A2_HIERARCHICAL_BASELINES",
-      "scope": "GAME",
-      "prerequisites": ["A1_DATA_INTEGRITY_FREEZE"],
+      "phase_id": "A2_HIERARCHICAL_BASELINES", "scope": "GAME", "prerequisites": ["A1_DATA_INTEGRITY_FREEZE"],
       "required_fields": [
-        "input_freeze_id", "baseline_spec_version", "pitcher_priors.away", "pitcher_priors.home",
-        "batter_priors.away_b1_b5", "batter_priors.home_b1_b5", "out_creation_baseline", "free_traffic_baseline", "contact_damage_baseline",
-        "platoon_shrinkage", "sample_states", "dependency_clusters", "double_count_check", "baseline_provenance",
-        "sra.baseline_comparison", "sra.shrinkage", "central_baseline_case", "strongest_baseline_rival", "questions_for_a3",
-        "market_blindness", "hard_gates", "a2_baseline_status", "phase_result"
-      ],
-      "min_evidence_ids": 1,
-      "semantic_gates": ["A1_FREEZE_LINEAGE_MATCH", "DOUBLE_COUNT_CHECK_PASS", "MARKET_BLINDNESS_PASS", "NO_IMPROVISED_COMBINER"]
+        "input_freeze_id", "baseline_spec_version", "pitcher_priors.away", "pitcher_priors.home", "batter_priors.away_b1_b5", "batter_priors.home_b1_b5",
+        "out_creation_baseline", "free_traffic_baseline", "contact_damage_baseline", "platoon_shrinkage", "sample_states", "dependency_clusters",
+        "double_count_check", "baseline_provenance", "sra.baseline_comparison", "sra.shrinkage", "central_baseline_case", "strongest_baseline_rival",
+        "questions_for_a3", "market_blindness", "hard_gates", "a2_baseline_status", "phase_result"
+      ], "min_evidence_ids": 1
     },
     {
-      "phase_id": "A3_CURRENT_VERSION_MATCHUP",
-      "scope": "GAME",
-      "prerequisites": ["A2_HIERARCHICAL_BASELINES"],
+      "phase_id": "A3_CURRENT_VERSION_MATCHUP", "scope": "GAME", "prerequisites": ["A2_HIERARCHICAL_BASELINES"],
       "required_fields": [
-        "input_freeze_id", "a2_baseline_spec_version", "a3_spec_version", "current_version.away_pitcher", "current_version.home_pitcher",
-        "current_version.hitters", "current_version_evidence_ids", "matchup.b1_b3", "matchup.b4_b5_conditional",
-        "out_creation_updated_state", "free_traffic_updated_state", "contact_damage_updated_state", "execution_state", "arsenal_expectation", "location_access",
-        "first_inning_failure_modes", "two_out_extension_risk", "b4_plus_exposure_state", "best_pitcher_suppression_mechanism", "best_offensive_rupture_route",
-        "bilateral_vulnerability_flag", "dependency_clusters", "uncertainty_objects", "sra.process_state", "numeric_fabrication_check", "market_blindness",
-        "hard_gates", "a3_current_version_status", "phase_result"
-      ],
-      "min_evidence_ids": 1,
-      "semantic_gates": ["NO_NUMERIC_NARRATIVE_ADJUSTMENT", "DEPENDENCY_CONTROL", "SRA_AUTHORITY_CONTROL", "MARKET_BLINDNESS_PASS"]
+        "input_freeze_id", "a2_baseline_spec_version", "a3_spec_version", "current_version.away_pitcher", "current_version.home_pitcher", "current_version.hitters",
+        "current_version_evidence_ids", "matchup.b1_b3", "matchup.b4_b5_conditional", "out_creation_updated_state", "free_traffic_updated_state",
+        "contact_damage_updated_state", "execution_state", "arsenal_expectation", "location_access", "first_inning_failure_modes", "two_out_extension_risk",
+        "b4_plus_exposure_state", "best_pitcher_suppression_mechanism", "best_offensive_rupture_route", "bilateral_vulnerability_flag", "dependency_clusters",
+        "uncertainty_objects", "sra.process_state", "numeric_fabrication_check", "market_blindness", "hard_gates", "a3_current_version_status", "phase_result"
+      ], "min_evidence_ids": 1
     },
     {
-      "phase_id": "A4_NUMERIC_STATE_ENGINE",
-      "scope": "GAME",
-      "prerequisites": ["A3_CURRENT_VERSION_MATCHUP"],
+      "phase_id": "A4_NUMERIC_STATE_ENGINE", "scope": "GAME", "prerequisites": ["A3_CURRENT_VERSION_MATCHUP"],
       "required_fields": [
-        "numeric_engine.execution_id", "numeric_engine.model_version", "numeric_engine.engine_mode", "numeric_engine.model_tier",
-        "numeric_engine.transition_version", "numeric_engine.as_of", "numeric_engine.input_freeze_id", "numeric_engine.provenance_status", "numeric_engine.transformation_status",
+        "numeric_engine.execution_id", "numeric_engine.model_version", "numeric_engine.engine_mode", "numeric_engine.model_tier", "numeric_engine.transition_version",
+        "numeric_engine.as_of", "numeric_engine.input_freeze_id", "numeric_engine.provenance_status", "numeric_engine.transformation_status",
         "top.p0", "top.p1", "top.p2", "top.p3plus", "bottom.p0", "bottom.p1", "bottom.p2", "bottom.p3plus",
         "mass_conservation_check", "state_sanity_checks", "parameter_uncertainty", "model_uncertainty", "sensitivity", "fragility", "sra.integration_status",
         "hard_gates", "a4_numeric_provenance_status", "phase_result"
-      ],
-      "min_source_calls": 1,
-      "min_evidence_ids": 1,
-      "semantic_gates": [
-        "REAL_NUMERIC_TOOL_EXECUTION_WITH_MATCHING_EXECUTION_ID",
-        "PROVENANCE_PASS",
-        "VALIDATED_A3_TO_A4_TRANSFORM",
-        "TOP_DISTRIBUTION_SUMS_TO_ONE",
-        "BOTTOM_DISTRIBUTION_SUMS_TO_ONE",
-        "MASS_CONSERVATION_PASS",
-        "STATE_SANITY_PASS"
-      ]
+      ], "min_source_calls": 1, "min_evidence_ids": 1
     },
     {
-      "phase_id": "A5_JOINT_INTEGRATION",
-      "scope": "GAME",
-      "prerequisites": ["A4_NUMERIC_STATE_ENGINE"],
+      "phase_id": "A5_JOINT_INTEGRATION", "scope": "GAME", "prerequisites": ["A4_NUMERIC_STATE_ENGINE"],
       "required_fields": [
-        "input_freeze_id", "shared_context", "context_distribution", "same_context_realization_check", "residual_dependence_audit", "double_adjustment_check",
+        "input_freeze_id", "a4_execution_id", "shared_context", "context_distribution", "same_context_realization_check", "residual_dependence_audit", "double_adjustment_check",
         "joint.p0", "joint.p1", "joint.p2", "joint.p3plus", "contracts.p_u0_5", "contracts.p_u1_5", "contracts.p_u2_5", "p_yrfi",
         "weakest_half", "more_fragile_half", "primary_yrfi_risk", "joint_sensitivity", "breakpoints", "joint_fragility", "joint_uncertainty", "data_lineage",
         "raw_not_calibrated_check", "market_blindness", "hard_gates", "a5_joint_model_status", "phase_result"
-      ],
-      "max_items": {"breakpoints": 2},
-      "semantic_gates": [
-        "JOINT_P0_P1_P2_P3PLUS_SUMS_TO_ONE",
-        "PU05_EQUALS_P0",
-        "PU15_EQUALS_P0_PLUS_P1",
-        "PU25_EQUALS_P0_PLUS_P1_PLUS_P2",
-        "PYRFI_EQUALS_ONE_MINUS_P0",
-        "SAME_SHARED_CONTEXT",
-        "NO_DOUBLE_ADJUSTMENT",
-        "RAW_NOT_CALIBRATED",
-        "MARKET_BLINDNESS_PASS"
-      ]
+      ], "max_items": {"breakpoints": 2}
     },
     {
-      "phase_id": "A6_CAUSAL_FALSIFICATION_SPORTS_SEAL",
-      "scope": "GAME",
-      "prerequisites": ["A5_JOINT_INTEGRATION"],
+      "phase_id": "A6_CAUSAL_FALSIFICATION_SPORTS_SEAL", "scope": "GAME", "prerequisites": ["A5_JOINT_INTEGRATION"],
       "required_fields": [
         "primary_analyst_id", "central_nrfi_case", "best_yrfi_rival", "governing_mechanisms", "weakest_half", "governing_uncertainty", "breakpoints",
-        "falsification.central_case", "falsification.rival", "dependency_control",
-        "independent_audit.auditor_id", "independent_audit.central_case", "independent_audit.best_yrfi_rival", "independent_audit.divergence_class", "independent_audit.status",
-        "sports_stability", "sports_seal.status", "sports_seal.market_blindness",
-        "sra.packet_status", "sra.team_packet_status", "sra.b1_b4_packet_status", "sra.confounding_check", "sra.shrinkage", "sra.a3_state", "sra.a4_integration",
-        "pre_press_verdict.frozen", "pre_press_verdict.hash", "pre_press_verdict.central_under_case", "pre_press_verdict.best_yrfi_rival", "pre_press_verdict.status",
-        "hard_gates", "phase_result"
-      ],
-      "required_phrases": ["ESPERANDO RESULTADO DE NRFI-PRENSA"],
-      "max_items": {"breakpoints": 2},
-      "semantic_gates": [
-        "PRIMARY_ANALYST_AND_INDEPENDENT_AUDITOR_MUST_DIFFER",
-        "SRA_COMPLETE_OR_DATA_UNAVAILABLE_JUSTIFIED",
-        "SPORTS_SEAL_MARKET_BLIND",
-        "PRE_PRESS_VERDICT_FROZEN_AND_HASHED"
-      ]
+        "falsification.central_case", "falsification.rival", "dependency_control", "independent_audit.auditor_id", "independent_audit.audit_execution_id",
+        "independent_audit.central_case", "independent_audit.best_yrfi_rival", "independent_audit.divergence_class", "independent_audit.status",
+        "sports_stability", "sports_seal.status", "sports_seal.market_blindness", "sra.packet_status", "sra.team_packet_status", "sra.b1_b4_packet_status",
+        "sra.confounding_check", "sra.shrinkage", "sra.a3_state", "sra.a4_integration", "pre_press_verdict.frozen", "pre_press_verdict.hash",
+        "pre_press_verdict.central_under_case", "pre_press_verdict.best_yrfi_rival", "pre_press_verdict.status", "hard_gates", "phase_result"
+      ], "required_phrases": ["ESPERANDO RESULTADO DE NRFI-PRENSA"], "max_items": {"breakpoints": 2}
     },
     {
-      "phase_id": "A7_CALIBRATION_ELIGIBILITY_PRESS",
-      "scope": "GAME",
-      "prerequisites": ["A6_CAUSAL_FALSIFICATION_SPORTS_SEAL"],
+      "phase_id": "A7_CALIBRATION_ELIGIBILITY_PRESS", "scope": "GAME", "prerequisites": ["A6_CAUSAL_FALSIFICATION_SPORTS_SEAL"],
       "required_fields": [
-        "model_version", "engine_mode", "model_tier", "target_id", "raw_p", "calibrator_version", "calibration_status", "calibration_region_support",
-        "oos_validation_status", "temporal_validation_status", "leakage_control_status", "provenance_status", "total_uncertainty", "sports_stability", "absolute_eligibility",
-        "calibration_in_the_large", "calibration_slope", "reliability_analysis", "brier_score", "log_loss", "baseline_comparison", "ablation_status", "drift_audit", "calibration_uncertainty",
-        "nrfi_prensa.packet_id", "nrfi_prensa.received_at", "nrfi_prensa.original_verdict_hash", "nrfi_prensa.coincidences", "nrfi_prensa.discrepancies",
-        "nrfi_prensa.new_data", "nrfi_prensa.unverified_data", "nrfi_prensa.omitted_risks", "nrfi_prensa.questions", "nrfi_prensa.responses",
-        "nrfi_prensa.impact_p0", "nrfi_prensa.impact_p1", "nrfi_prensa.impact_p2plus", "nrfi_prensa.effect",
+        "input_freeze_id", "a4_execution_id", "model_version", "engine_mode", "model_tier", "target_id", "raw_p", "calibrator_version", "calibration_status",
+        "calibration_region_support", "oos_validation_status", "temporal_validation_status", "leakage_control_status", "provenance_status", "total_uncertainty",
+        "sports_stability", "absolute_eligibility", "calibration_in_the_large", "calibration_slope", "reliability_analysis", "brier_score", "log_loss",
+        "baseline_comparison", "ablation_status", "drift_audit", "calibration_uncertainty",
+        "contract_calibration.u0_5.raw_p", "contract_calibration.u0_5.status", "contract_calibration.u1_5.raw_p", "contract_calibration.u1_5.status",
+        "contract_calibration.u2_5.raw_p", "contract_calibration.u2_5.status",
+        "nrfi_prensa.packet_id", "nrfi_prensa.packet_hash", "nrfi_prensa.received_at", "nrfi_prensa.original_verdict_hash", "nrfi_prensa.coincidences",
+        "nrfi_prensa.discrepancies", "nrfi_prensa.new_data", "nrfi_prensa.unverified_data", "nrfi_prensa.omitted_risks", "nrfi_prensa.questions",
+        "nrfi_prensa.responses", "nrfi_prensa.impact_p0", "nrfi_prensa.impact_p1", "nrfi_prensa.impact_p2plus", "nrfi_prensa.effect",
         "reformulated_verdict", "sports_seal_final", "hard_gates", "release_token", "phase_result"
-      ],
-      "min_source_calls": 1,
-      "min_evidence_ids": 1,
-      "semantic_gates": [
-        "NRFI_PRENSA_PACKET_REAL_AND_TRACED",
-        "PRESS_PACKET_RECEIVED_AFTER_FROZEN_A6_VERDICT",
-        "PRESS_PACKET_NOT_FROM_FUTURE",
-        "PRESS_ORIGINAL_VERDICT_HASH_MATCH",
-        "PRESS_IS_AUDIT_NOT_VOTE",
-        "OOS_VALIDATION_PASS_FOR_RELEASE",
-        "PROVENANCE_PASS_FOR_RELEASE",
-        "CALIBRATION_CERTIFIED_FOR_RELEASE",
-        "REGION_SUPPORT_FOR_RELEASE",
-        "ABSOLUTE_ELIGIBILITY_FOR_RELEASE",
-        "A7_NOT_CERTIFIED_IMPLIES_A8_LOCKED"
-      ]
+      ], "min_source_calls": 1, "min_evidence_ids": 1
     },
     {
-      "phase_id": "A8_MARKET_VALUE_EXECUTION",
-      "scope": "GAME",
-      "prerequisites": ["A7_CALIBRATION_ELIGIBILITY_PRESS"],
+      "phase_id": "A8_MARKET_VALUE_EXECUTION", "scope": "GAME", "prerequisites": ["A7_CALIBRATION_ELIGIBILITY_PRESS"],
       "required_fields": [
-        "a7_release_token", "a7_eligibility_status", "verdict_emitted_at",
-        "probability.p0", "probability.p1", "probability.p2", "probability.p3plus", "line_recommended",
-        "market.sportsbook", "market.line_exact", "market.price_exact", "market.decimal_odds", "market.as_of", "market.break_even", "market.p_conservative", "market.edge", "market.ev",
-        "calibration_status", "t5.revalidation_id", "t5.active_freeze_id", "t5.as_of", "t5.starter_confirmed", "t5.official_lineup_verified", "t5.catcher_confirmed",
-        "t5.scratches_status", "t5.roof_weather_critical_context", "t5.contract_identity", "t5.line_exact", "t5.price_exact", "t5.break_even", "t5.primary_risk",
-        "ranking_state", "execution_authority", "primary_reason", "primary_risk", "final_verdict", "phase_result"
-      ],
-      "semantic_gates": [
-        "A7_RELEASE_ISSUED",
-        "A7_ABSOLUTE_ELIGIBILITY_PASS",
-        "CERTIFIED_CALIBRATION_REQUIRED_FOR_EXECUTABLE_MARKET_MATH",
-        "PROBABILITY_DISTRIBUTION_SUMS_TO_ONE",
-        "EDGE_EQUALS_PCONSERVATIVE_MINUS_BREAK_EVEN",
-        "EV_EQUALS_PCONSERVATIVE_TIMES_DECIMAL_ODDS_MINUS_ONE",
-        "NO_BET_IF_EDGE_OR_EV_NONPOSITIVE",
-        "VERDICT_BY_T10",
-        "T5_FAST_REVALIDATION_ONLY",
-        "STARTER_AND_OFFICIAL_LINEUPS_REVALIDATED",
-        "MAX_THREE_CANDIDATES",
-        "U15_U25_CANNOT_RESCUE_WEAK_ZERO_RUN_THESIS"
+        "a7_release_token", "a7_eligibility_status", "verdict_emitted_at", "probability.p0", "probability.p1", "probability.p2", "probability.p3plus",
+        "line_recommended", "market.sportsbook", "market.line_exact", "market.price_exact", "market.decimal_odds", "market.as_of", "market.break_even",
+        "market.p_conservative", "market.edge", "market.ev", "market.minimum_acceptable_price", "calibration_status", "t5.revalidation_id", "t5.active_freeze_id",
+        "t5.as_of", "t5.starter_confirmed", "t5.official_lineup_verified", "t5.catcher_confirmed", "t5.scratches_status", "t5.roof_weather_critical_context",
+        "t5.contract_identity", "t5.line_exact", "t5.price_exact", "t5.break_even", "t5.primary_risk", "ranking_state", "execution_authority",
+        "primary_reason", "primary_risk", "final_verdict", "phase_result"
       ]
     }
   ],
-  "run_stages": [
-    "A0_CONSTITUTION_SEALED",
-    "A1_SLATE_ROUTED",
-    "A7_SLATE_ELIGIBILITY",
-    "A8_PORTFOLIO",
-    "FINAL_REPORT"
-  ],
-  "terminal_rules": {
-    "A1": "UNRESOLVABLE_MATERIAL_INPUT_CAN_HOLD_OR_TERMINATE_ONE_GAME_WITHOUT_STOPPING_SLATE",
-    "A4": "MISSING_REAL_NUMERIC_PROVENANCE_STOPS_PROBABILITY_CHAIN_NO_AI_SUBSTITUTION",
-    "A7": "RAW_ONLY_MAY_REMAIN_PROVISIONAL_RESEARCH_BUT_NO_CERTIFIED_EDGE_EV; NO_RELEASE_LOCKS_A8",
-    "A8": "MAX_THREE_CANDIDATES_ZERO_ALLOWED_VERDICT_BY_T10"
+  "run_stages": ["A0_CONSTITUTION_SEALED", "A1_SLATE_ROUTED", "A7_SLATE_ELIGIBILITY", "A8_PORTFOLIO", "FINAL_REPORT"],
+  "run_stage_contracts": {
+    "A1_SLATE_ROUTED": "EVERY_REGISTERED_GAME_ROUTED_OR_EXPLICITLY_RESOLVED",
+    "A7_SLATE_ELIGIBILITY": "EVERY_GAME_HAS_A7_STATE_OR_TERMINAL_RESOLUTION",
+    "A8_PORTFOLIO": {
+      "candidate_count": "0_TO_3_EXACT_MATCH_WITH_A8",
+      "candidate_identity": "GAME_PLUS_LINE",
+      "tickets_if_2": ["double_primary"],
+      "tickets_if_3": ["double_primary", "double_secondary", "double_alternative", "triple_optional"],
+      "ticket_rules": ["REAL_OFFERED_PRICE", "JOINT_PROBABILITY", "BREAK_EVEN", "EDGE", "EV", "DEPENDENCE_AUDIT"]
+    },
+    "FINAL_REPORT": "MUST_MATCH_SLATE_PORTFOLIO_A8_PROBABILITIES_AND_TICKETS; ZERO_CANDIDATES_ALLOWED"
   },
+  "terminal_resolutions": [
+    "A1_HOLD", "A1_NOT_EXECUTABLE", "A1_EXCLUDED", "A1_GOVERNING_DATA_UNRESOLVED", "A4_ENGINE_NOT_INTEGRATED", "A4_TRUE_MODEL_FAILURE",
+    "A6_INDEPENDENT_AUDIT_UNAVAILABLE", "A7_NOT_ELIGIBLE", "A7_RESEARCH_ONLY", "A7_CALIBRATION_UNCERTIFIED", "A7_MODEL_AUDIT_REQUIRED",
+    "A7_PRESS_UNAVAILABLE", "AUDIT_ONLY", "LOCAL_DATA_BLOCK"
+  ],
+  "terminal_resolution_requirements": ["SPECIFIC_REASON", "MATERIALITY", "WHAT_WOULD_RESOLVE", "REAL_EVIDENCE_WHEN_USED", "ONE_RECOVERY_WHEN_GOVERNING_DATA_REQUIRES_RECOVERY"],
   "press_interface": {
-    "system": "@NRFIprensa",
-    "separate_agent": true,
-    "must_not_receive_pre_press_verdict_before_its_report": true,
-    "not_a_vote": true,
-    "original_verdict_hash_required": true,
-    "final_executable_flow_requires_contrast": true
+    "system": "@NRFIprensa", "separate_agent": true, "must_not_receive_pre_press_verdict_before_its_report": true, "not_a_vote": true,
+    "original_verdict_hash_required": true, "physical_packet_registry_required": true, "final_executable_flow_requires_contrast": true
   },
   "sra": {
-    "mandatory_every_pregame": true,
-    "must_be_traced": true,
-    "team_first_inning_packet_required": true,
-    "b1_b4_packet_required": true,
-    "authority_until_oos_validation": "SECONDARY_OR_CANDIDATE",
-    "silent_omission": "SRA_GATE_NOT_EXECUTED"
+    "mandatory_every_pregame": true, "must_be_traced": true, "team_first_inning_packet_required": true, "b1_b4_packet_required": true,
+    "authority_until_oos_validation": "SECONDARY_OR_CANDIDATE", "silent_omission": "SRA_GATE_NOT_EXECUTED"
   },
   "source_truth": {
-    "source_call_requires_physical_evidence_id": true,
-    "source_call_evidence_must_belong_to_run_game": true,
-    "source_call_timestamp_cannot_be_future": true,
-    "source_ref_must_match_evidence_when_both_exist": true
+    "source_call_requires_physical_evidence_id": true, "source_call_evidence_must_belong_to_run_game": true,
+    "source_call_timestamp_cannot_be_future": true, "source_ref_must_match_evidence_when_both_exist": true
+  },
+  "current_real_status": {
+    "active_trusted_numeric_engines": 0, "active_trusted_independent_auditors": 0, "verified_real_nrfiprensa_bridge": false,
+    "oos_calibration_certified": false, "system_state": "TRADING_HALT_RESEARCH", "real_money_authority": false
   }
 }
