@@ -15,7 +15,12 @@ KERNEL_VERSION = "NRFIM-KERNEL-0.1-FOUNDATION"
 SYSTEM_SCOPE = "NRFI_ONLY"
 
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
-SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+# Prefer the current Supabase server-side secret key. Legacy service_role remains
+# supported temporarily for compatibility while Supabase completes its key migration.
+SUPABASE_SECRET_KEY = (
+    os.getenv("SUPABASE_SECRET_KEY", "")
+    or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
+)
 
 app = FastAPI(title="@NRFImetrica Kernel", version=KERNEL_VERSION)
 
@@ -30,15 +35,14 @@ def stable_hash(value: Any) -> str:
 
 
 def require_db() -> None:
-    if not SUPABASE_URL or not SUPABASE_SERVICE_ROLE_KEY:
+    if not SUPABASE_URL or not SUPABASE_SECRET_KEY:
         raise HTTPException(status_code=503, detail="SUPABASE_RUNTIME_NOT_CONFIGURED")
 
 
 async def supabase_insert(table: str, payload: dict[str, Any]) -> None:
     require_db()
     headers = {
-        "apikey": SUPABASE_SERVICE_ROLE_KEY,
-        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}",
+        "apikey": SUPABASE_SECRET_KEY,
         "Content-Type": "application/json",
         "Prefer": "return=minimal",
     }
@@ -98,7 +102,7 @@ async def health():
         "ok": True,
         "system_version": SYSTEM_VERSION,
         "kernel_version": KERNEL_VERSION,
-        "supabase_configured": bool(SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY),
+        "supabase_configured": bool(SUPABASE_URL and SUPABASE_SECRET_KEY),
     }
 
 
