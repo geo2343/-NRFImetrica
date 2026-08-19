@@ -1,0 +1,53 @@
+{
+  "extension_id": "NRFIMETRICA_CLEAN_ROOM_V07",
+  "status": "ACTIVE_REQUIRED_EXTENSION",
+  "kernel_version": "NRFIM-KERNEL-0.7-CLEAN-ROOM",
+  "agent_version": "MOTHER-V3-AGENT-1.2",
+  "purpose": "Prevent cross-run contamination and report reuse when a new @NRFImetrica invocation starts from zero.",
+  "activation_rules": {
+    "new_invocation_requires_new_run_id": true,
+    "kernel_generates_new_invocation_id": true,
+    "new_run_requires_new_drive_run_folder": true,
+    "new_run_requires_new_unique_report_document": true,
+    "report_document_must_be_registered_before_first_sports_packet": true
+  },
+  "analysis_isolation": {
+    "current_run_only": true,
+    "prior_run_reports_as_sports_input": false,
+    "prior_run_packets_as_sports_input": false,
+    "prior_run_rankings_as_sports_input": false,
+    "prior_run_theses_as_sports_input": false,
+    "prior_run_conclusions_as_sports_input": false,
+    "historical_material_role": "AUDIT_OR_EXPLICIT_COMPARISON_ONLY",
+    "explicit_historical_read_never_promotes_old_material_to_current_sports_evidence": true
+  },
+  "physical_enforcement": {
+    "runs_columns": ["invocation_id", "clean_room_mode", "historical_reports_as_analysis_input"],
+    "report_registry": "public.run_report_documents",
+    "drive_report_file_id_unique": true,
+    "sports_packet_blocked_without_registered_report_document": true,
+    "prior_run_drive_artifact_blocked_as_sports_evidence": true,
+    "prior_run_report_blocked_as_sports_evidence": true,
+    "prior_run_id_reference_blocked_as_sports_evidence": true,
+    "final_report_must_use_registered_run_document": true,
+    "run_close_requires_final_verified_run_document": true
+  },
+  "required_start_order": [
+    "CREATE_NEW_RUN_ID",
+    "GENERATE_NEW_INVOCATION_ID",
+    "CREATE_NEW_DRIVE_RUN_FOLDER",
+    "CREATE_NEW_UNIQUE_REPORT_DOCUMENT",
+    "REGISTER_REPORT_DOCUMENT",
+    "FETCH_CURRENT_SLATE_AND_SOURCES_FROM_ZERO",
+    "REGISTER_CURRENT_RUN_TOOL_EVENTS_AND_EVIDENCE",
+    "BEGIN_SPORTS_REASONING_PACKETS"
+  ],
+  "prohibitions": [
+    "NO_RESUME_OLD_ANALYSIS_WHEN_NEW_RUN_REQUESTED",
+    "NO_COPY_PRIOR_REPORT_AS_CURRENT_REASONING",
+    "NO_REUSE_PRIOR_REPORT_DOCUMENT",
+    "NO_PRIOR_RUN_ARTIFACT_AS_CURRENT_SPORTS_EVIDENCE",
+    "NO_CURRENT_FACTUAL_CLAIM_WITHOUT_CURRENT_RUN_EVIDENCE"
+  ],
+  "database_migration": "025_enforce_clean_room_runs_and_unique_reports"
+}
