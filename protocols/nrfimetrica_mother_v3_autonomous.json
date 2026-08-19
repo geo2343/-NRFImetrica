@@ -1,7 +1,7 @@
 {
   "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
   "status": "ACTIVE_SOVEREIGN_PROTOCOL",
-  "kernel_version": "NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY",
+  "kernel_version": "NRFIM-KERNEL-0.7-CLEAN-ROOM",
   "mother_document": {
     "name": "@NRFImetrica DOCUMENTO MADRE",
     "sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
@@ -29,11 +29,24 @@
     "auto_resolve_missing_resolvable_data": true,
     "do_not_ask_user_for_internal_technical_fields": true,
     "local_failure_never_stops_slate": true,
-    "max_material_recovery_per_issue": 1
+    "max_material_recovery_per_issue": 1,
+    "new_run_per_invocation_required": true,
+    "new_report_document_per_run_required": true,
+    "report_document_required_before_first_sports_packet": true
   },
   "brain": "CHATGPT_CAUSAL_ANALYST",
   "kernel_role": "ENFORCE_MOTHER_DOCUMENT_NOT_SPORTS_SCORE",
-  "required_process_extensions": ["NRFIMETRICA_SPORTS_REASONING_PACKET_V2"],
+  "required_process_extensions": ["NRFIMETRICA_SPORTS_REASONING_PACKET_V2", "NRFIMETRICA_CLEAN_ROOM_V07"],
+  "run_isolation": {
+    "mode": "CLEAN_ROOM_CURRENT_RUN_ONLY",
+    "new_invocation_id_per_run": true,
+    "prior_run_reports_as_sports_input": false,
+    "prior_run_packets_as_sports_input": false,
+    "prior_run_reasoning_reuse": false,
+    "historical_material_role": "AUDIT_ONLY",
+    "current_run_claims_require_current_run_evidence": true,
+    "unique_drive_report_document_required": true
+  },
   "probability_authority": {
     "ai_may_invent_probability": false,
     "ai_may_invent_calibration_band": false,
@@ -57,7 +70,8 @@
     "UNCERTAINTY_NOT_AUTOMATIC_DANGER", "MISSING_EVIDENCE_NOT_SAFETY", "POSSIBILITY_NOT_MATERIALIZATION", "NO_FORCED_CANDIDATE_COUNT",
     "NO_FOURTH_CANDIDATE", "NO_RULE_CHANGE_FROM_SINGLE_LOSS", "NO_HIDDEN_CONTRADICTIONS", "NO_UNSUPPORTED_GRANULARITY",
     "NARRATIVE_CANNOT_REPLACE_NUMERIC_ENGINE", "U15_OR_U25_CANNOT_RESCUE_WEAK_P0_THESIS",
-    "NO_FALSE_RESEARCH_CLAIM", "NO_BACKDATING", "NO_FACTUAL_CLAIM_WITHOUT_CHAIN_VERIFIED_EVIDENCE", "NO_FALSE_FULL_SLATE_CLAIM"
+    "NO_FALSE_RESEARCH_CLAIM", "NO_BACKDATING", "NO_FACTUAL_CLAIM_WITHOUT_CHAIN_VERIFIED_EVIDENCE", "NO_FALSE_FULL_SLATE_CLAIM",
+    "NO_PRIOR_RUN_ANALYSIS_CONTAMINATION", "NO_REPORT_REUSE_BETWEEN_RUNS", "NO_ANALYSIS_BEFORE_NEW_RUN_REPORT_DOCUMENT"
   ],
   "phases": [
     {
@@ -162,7 +176,7 @@
       "tickets_if_3": ["double_primary", "double_secondary", "double_alternative", "triple_optional"],
       "ticket_rules": ["REAL_OFFERED_PRICE", "JOINT_PROBABILITY", "BREAK_EVEN", "EDGE", "EV", "DEPENDENCE_AUDIT"]
     },
-    "FINAL_REPORT": "MUST_MATCH_SPORTS_REASONING_SLATE_AND_SLATE_PORTFOLIO_A8_PROBABILITIES_AND_TICKETS; ZERO_CANDIDATES_ALLOWED; VERIFIED_DRIVE_FINAL_REPORT_REQUIRED_FOR_RUN_CLOSE"
+    "FINAL_REPORT": "MUST_MATCH_SPORTS_REASONING_SLATE_AND_SLATE_PORTFOLIO_A8_PROBABILITIES_AND_TICKETS; ZERO_CANDIDATES_ALLOWED; UNIQUE_REGISTERED_DRIVE_REPORT_DOCUMENT_REQUIRED; VERIFIED_DRIVE_FINAL_REPORT_REQUIRED_FOR_RUN_CLOSE"
   },
   "terminal_resolutions": [
     "A1_HOLD", "A1_NOT_EXECUTABLE", "A1_EXCLUDED", "A1_GOVERNING_DATA_UNRESOLVED", "A4_ENGINE_NOT_INTEGRATED", "A4_TRUE_MODEL_FAILURE",
@@ -188,7 +202,11 @@
     "sports_reasoning_snapshot_hash_required": true,
     "factual_claim_requires_chain_verified_evidence": true,
     "terminal_sports_packet_requires_drive_hash_match": true,
-    "sports_process_audit_is_db_derived": true
+    "sports_process_audit_is_db_derived": true,
+    "sports_evidence_must_be_current_run": true,
+    "prior_run_drive_artifact_as_sports_evidence_forbidden": true,
+    "prior_run_report_as_sports_evidence_forbidden": true,
+    "prior_run_id_reference_as_sports_evidence_forbidden": true
   },
   "current_real_status": {
     "active_trusted_numeric_engines": 0, "active_trusted_independent_auditors": 0, "verified_real_nrfiprensa_bridge": false,
