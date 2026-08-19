@@ -1,6 +1,4 @@
-import json
 import unittest
-from pathlib import Path
 
 from kernel.protocol import ProtocolViolation, validate_phase_submission
 
@@ -13,7 +11,6 @@ class ProtocolStraightjacketTest(unittest.TestCase):
                 "prerequisites": [],
                 "required_fields": ["analysis"],
                 "min_source_calls": 30,
-                "min_evidence_ids": 0,
             }]
         }
         calls = [
@@ -32,7 +29,32 @@ class ProtocolStraightjacketTest(unittest.TestCase):
                 output_text="",
             )
 
-    def test_30_of_30_real_sources_can_advance(self):
+    def test_reusing_same_evidence_does_not_fake_30_sources(self):
+        manifest = {
+            "phases": [{
+                "phase_id": "F1",
+                "prerequisites": [],
+                "required_fields": ["analysis"],
+                "min_source_calls": 30,
+            }]
+        }
+        calls = [
+            {"source_ref": f"source-{i}", "evidence_id": "SAME-EVIDENCE", "retrieved_at": "2026-08-19T10:00:00Z"}
+            for i in range(30)
+        ]
+        with self.assertRaisesRegex(ProtocolViolation, "MIN_SOURCE_CALLS_NOT_MET:1/30"):
+            validate_phase_submission(
+                manifest=manifest,
+                phase_id="F1",
+                completed_phase_ids=set(),
+                payload={"analysis": "done"},
+                evidence_ids=[],
+                source_calls=calls,
+                documents_analyzed=[],
+                output_text="",
+            )
+
+    def test_30_of_30_unique_real_sources_can_advance(self):
         manifest = {
             "phases": [{
                 "phase_id": "F1",
@@ -77,6 +99,53 @@ class ProtocolStraightjacketTest(unittest.TestCase):
                 documents_analyzed=[],
                 output_text="",
             )
+
+    def test_claiming_t100_without_real_trace_is_rejected(self):
+        manifest = {
+            "phases": [{
+                "phase_id": "F2",
+                "prerequisites": [],
+                "required_fields": [],
+                "required_documents": ["T100"],
+            }]
+        }
+        with self.assertRaisesRegex(ProtocolViolation, "REQUIRED_DOCUMENTS_WITHOUT_REAL_TRACE:T100"):
+            validate_phase_submission(
+                manifest=manifest,
+                phase_id="F2",
+                completed_phase_ids=set(),
+                payload={},
+                evidence_ids=[],
+                source_calls=[],
+                documents_analyzed=["T100"],
+                output_text="",
+            )
+
+    def test_t100_with_real_trace_can_pass(self):
+        manifest = {
+            "phases": [{
+                "phase_id": "F2",
+                "prerequisites": [],
+                "required_fields": [],
+                "required_documents": ["T100"],
+            }]
+        }
+        result = validate_phase_submission(
+            manifest=manifest,
+            phase_id="F2",
+            completed_phase_ids=set(),
+            payload={},
+            evidence_ids=["E-T100"],
+            source_calls=[{
+                "source_ref": "drive://t100",
+                "evidence_id": "E-T100",
+                "retrieved_at": "2026-08-19T10:00:00Z",
+                "document": "T100",
+            }],
+            documents_analyzed=["T100"],
+            output_text="",
+        )
+        self.assertEqual(result["status"], "COMPLETE")
 
     def test_required_phrase_is_enforced(self):
         manifest = {
