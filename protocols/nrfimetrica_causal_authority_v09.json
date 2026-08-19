@@ -1,0 +1,59 @@
+{
+  "protocol_extension_id": "NRFIMETRICA_CAUSAL_AUTHORITY_V09",
+  "kernel_version": "NRFIM-KERNEL-0.9-CAUSAL-AUTHORITY",
+  "agent_version": "MOTHER-V3-AGENT-1.4",
+  "authority": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+  "principle": "SPORTS_JUDGMENT_PROCESS_VALIDATION_AND_EXECUTION_ARE_SEPARATE_AXES",
+  "sports_judgment": {
+    "owner": "CHATGPT_CAUSAL_ANALYST",
+    "requires": [
+      "CURRENT_RUN_GAME_DATA",
+      "TOP_1ST_AND_BOTTOM_1ST",
+      "CENTRAL_NRFI_CASE",
+      "BEST_YRFI_RIVAL",
+      "STRONGEST_COUNTEREVIDENCE",
+      "CAUSAL_CLUSTERS",
+      "DOMINANT_FACTOR",
+      "FALSIFICATION_NRFI_AND_YRFI",
+      "WHAT_WOULD_CHANGE"
+    ],
+    "forbids": [
+      "METRIC_VOTING",
+      "SCORE_SUM_AS_DECISION",
+      "PROCESS_FAILURE_AS_SPORTS_REJECTION",
+      "TECHNICAL_BLOCK_AS_SPORTS_REJECTION"
+    ],
+    "sports_candidate_requires_process_pass": false,
+    "sports_candidate_requires_drive_hash_match": false,
+    "sports_candidate_requires_basic_current_run_data": true
+  },
+  "process_validation": {
+    "owner": "KERNEL_PROCESS_AUDITOR_0.2",
+    "role": "VERIFY_CHAIN_OF_CUSTODY_AND_RESEARCH_QUALITY",
+    "may_vote_sports": false,
+    "source_family_floors": "PROCESS_QUALITY_ONLY",
+    "may_block_execution": true,
+    "may_erase_sports_verdict": false
+  },
+  "execution": {
+    "owner": "A4_A5_A6_A7_A8",
+    "requires_real_authority": true,
+    "technical_block_is_not_sports_no_play": true,
+    "process_block_is_not_sports_no_play": true
+  },
+  "zero_candidate": {
+    "process_generated_zero": "FORBIDDEN",
+    "technical_generated_zero": "FORBIDDEN",
+    "watchlist_present": "INCOMPLETE_NOT_ZERO",
+    "valid_zero_requires": "ALL_NON_AUDIT_GAMES_DATA_DRIVEN_SPORTS_NO_PLAY",
+    "required_status": "ZERO_SPORTS_CANDIDATES_BY_DATA",
+    "required_burden_per_game": [
+      "data_reason",
+      "nrfi_case_rejected_because",
+      "yrfi_or_no_play_mechanism",
+      "what_would_reverse",
+      "current_run_evidence_ids"
+    ]
+  },
+  "database_migrations_required_through": 30
+}
