@@ -10,12 +10,20 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from kernel.core import (
+    AI_ANALYST_STATUS,
     CALIBRATION_STATUS,
+    INDEPENDENT_AUDITOR_STATUS,
     KERNEL_VERSION,
     MODEL_STATUS,
+    MOTHER_DOCUMENT_SHA256,
+    MOTHER_PROTOCOL_ID,
+    NRFI_PRENSA_BRIDGE_STATUS,
     NUMERIC_ENGINE_STATUS,
+    REAL_MONEY_AUTHORITY,
     SYSTEM_SCOPE,
+    SYSTEM_STATE,
     SYSTEM_VERSION,
+    classify_game_status,
     now_iso,
     stable_hash,
     validate_decision,
@@ -28,16 +36,13 @@ SUPABASE_SECRET_KEY = (
     or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 )
 
-app = FastAPI(title="@NRFImetrica Kernel", version=KERNEL_VERSION)
+app = FastAPI(title="@NRFImetrica Mother Kernel", version="0.5")
 
 
-def _db_headers(prefer: str | None = None) -> dict[str, str]:
+def _headers(prefer: str | None = None) -> dict[str, str]:
     if not SUPABASE_URL or not SUPABASE_SECRET_KEY:
         raise HTTPException(status_code=503, detail="SUPABASE_RUNTIME_NOT_CONFIGURED")
-    headers = {
-        "apikey": SUPABASE_SECRET_KEY,
-        "Content-Type": "application/json",
-    }
+    headers = {"apikey": SUPABASE_SECRET_KEY, "Content-Type": "application/json"}
     if SUPABASE_SECRET_KEY.count(".") == 2:
         headers["Authorization"] = f"Bearer {SUPABASE_SECRET_KEY}"
     if prefer:
@@ -50,95 +55,56 @@ async def sb_request(
     table: str,
     *,
     params: dict[str, str] | None = None,
-    payload: Any | None = None,
+    payload: Any = None,
     prefer: str | None = None,
 ) -> Any:
-    headers = _db_headers(prefer)
-    async with httpx.AsyncClient(timeout=20.0) as client:
+    async with httpx.AsyncClient(timeout=25.0) as client:
         response = await client.request(
             method,
             f"{SUPABASE_URL}/rest/v1/{table}",
-            headers=headers,
+            headers=_headers(prefer),
             params=params,
             json=payload,
         )
     if response.status_code >= 300:
-        body = response.text[:500]
-        if response.status_code == 409 or '"23505"' in body or "duplicate key" in body.lower():
-            raise HTTPException(status_code=409, detail=f"DB_CONFLICT:{table}")
         raise HTTPException(
             status_code=502,
-            detail=f"SUPABASE_{method.upper()}_FAILED:{table}:{response.status_code}:{body}",
+            detail={
+                "code": f"SUPABASE_{table}_{response.status_code}",
+                "body": response.text[:800],
+            },
         )
-    if not response.content:
-        return None
-    return response.json()
-
-
-async def sb_insert(table: str, payload: Any) -> Any:
-    return await sb_request("POST", table, payload=payload, prefer="return=representation")
-
-
-async def sb_select(
-    table: str,
-    *,
-    select: str = "*",
-    filters: dict[str, str] | None = None,
-    order: str | None = None,
-    limit: int | None = None,
-) -> list[dict[str, Any]]:
-    params: dict[str, str] = {"select": select}
-    if filters:
-        params.update(filters)
-    if order:
-        params["order"] = order
-    if limit is not None:
-        params["limit"] = str(limit)
-    result = await sb_request("GET", table, params=params)
-    return result or []
-
-
-async def sb_update(
-    table: str,
-    *,
-    filters: dict[str, str],
-    payload: dict[str, Any],
-) -> Any:
-    return await sb_request(
-        "PATCH",
-        table,
-        params=filters,
-        payload=payload,
-        prefer="return=representation",
-    )
+    return response.json() if response.content else None
 
 
 async def latest_trace_hash(run_id: str) -> str | None:
-    rows = await sb_select(
+    rows = await sb_request(
+        "GET",
         "trace_events",
-        select="event_hash,occurred_at",
-        filters={"run_id": f"eq.{run_id}"},
-        order="occurred_at.desc",
-        limit=1,
-    )
+        params={
+            "select": "event_hash,occurred_at",
+            "run_id": f"eq.{run_id}",
+            "order": "occurred_at.desc",
+            "limit": "1",
+        },
+    ) or []
     return rows[0]["event_hash"] if rows else None
 
 
-async def record_trace(
+async def persist_trace(
     *,
     run_id: str,
     game_id: str | None,
     task_id: str,
     event_type: str,
     status: str,
-    tool_name: str | None,
-    input_payload: Any | None,
-    output_payload: Any | None,
+    input_payload: Any = None,
+    output_payload: Any = None,
+    tool_name: str | None = None,
     evidence_ids: list[str] | None = None,
     details: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    occurred_at = now_iso()
-    previous_event_hash = await latest_trace_hash(run_id)
+    previous = await latest_trace_hash(run_id)
     base = {
         "event_id": f"EVT-{uuid4().hex}",
         "run_id": run_id,
@@ -146,39 +112,144 @@ async def record_trace(
         "task_id": task_id,
         "event_type": event_type,
         "status": status,
-        "occurred_at": occurred_at,
+        "occurred_at": now_iso(),
         "input_hash": stable_hash(input_payload) if input_payload is not None else None,
         "output_hash": stable_hash(output_payload) if output_payload is not None else None,
         "tool_name": tool_name,
         "evidence_ids": evidence_ids or [],
-        "prev_event_hash": previous_event_hash,
+        "prev_event_hash": previous,
         "details": details or {},
     }
     base["event_hash"] = stable_hash(base)
-    await sb_insert("trace_events", base)
+    await sb_request("POST", "trace_events", payload=base, prefer="return=minimal")
     return base
 
 
+async def ensure_mother_a0(run_id: str) -> dict[str, Any]:
+    rows = await sb_request(
+        "GET",
+        "protocol_run_state",
+        params={
+            "select": "*",
+            "run_id": f"eq.{run_id}",
+            "protocol_id": f"eq.{MOTHER_PROTOCOL_ID}",
+            "stage_id": "eq.A0_CONSTITUTION_SEALED",
+            "limit": "1",
+        },
+    ) or []
+    if rows:
+        return rows[0]
+
+    payload = {
+        "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+        "authority": "@NRFImetrica DOCUMENTO MADRE",
+        "precedence": "LATEST_SOVEREIGN_PATCH_WINS",
+        "latest_sovereign_patch": "A0-GOV.18 — REFORMA OPERATIVA SOBERANA V3",
+        "manual_phase_authorization_required": False,
+        "automatic_gate_advancement": True,
+        "system_state": SYSTEM_STATE,
+        "sealed_at": now_iso(),
+    }
+    row = {
+        "run_id": run_id,
+        "protocol_id": MOTHER_PROTOCOL_ID,
+        "stage_id": "A0_CONSTITUTION_SEALED",
+        "status": "COMPLETE",
+        "payload": payload,
+        "evidence_ids": [],
+        "output_text": "A0 mother constitution sealed automatically by Kernel.",
+        "submitted_at": now_iso(),
+    }
+    saved = await sb_request(
+        "POST",
+        "protocol_run_state",
+        params={"on_conflict": "run_id,protocol_id,stage_id"},
+        payload=row,
+        prefer="resolution=merge-duplicates,return=representation",
+    )
+    await persist_trace(
+        run_id=run_id,
+        game_id=None,
+        task_id="A0_CONSTITUTION_SEALED",
+        event_type="MOTHER_CONSTITUTION_AUTO_SEALED",
+        status="COMPLETE",
+        input_payload={"run_id": run_id},
+        output_payload=payload,
+        tool_name="kernel.mother",
+        details={"mother_document_sha256": MOTHER_DOCUMENT_SHA256},
+    )
+    return (saved or [row])[0]
+
+
+async def create_run_row(
+    *,
+    run_date: str,
+    run_id: str | None,
+    timezone: str,
+    mode: str,
+    metadata: dict[str, Any] | None,
+) -> dict[str, Any]:
+    rid = run_id or f"NRFIM-MOTHER-{run_date.replace('-', '')}-{uuid4().hex[:8]}"
+    row = {
+        "run_id": rid,
+        "system_version": SYSTEM_VERSION,
+        "run_date": run_date,
+        "timezone": timezone,
+        "status": "OPEN",
+        "mode": mode,
+        "metadata": {
+            **(metadata or {}),
+            "kernel_version": KERNEL_VERSION,
+            "protocol_id": MOTHER_PROTOCOL_ID,
+            "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+            "system_state": SYSTEM_STATE,
+            "real_money_authority": REAL_MONEY_AUTHORITY,
+            "numeric_engine_status": NUMERIC_ENGINE_STATUS,
+            "independent_auditor_status": INDEPENDENT_AUDITOR_STATUS,
+            "nrfiprensa_bridge_status": NRFI_PRENSA_BRIDGE_STATUS,
+            "calibration_status": CALIBRATION_STATUS,
+        },
+    }
+    saved = await sb_request("POST", "runs", payload=row, prefer="return=representation")
+    await ensure_mother_a0(rid)
+    return (saved or [row])[0]
+
+
 class RunCreate(BaseModel):
-    run_id: str = Field(min_length=3, max_length=120)
     run_date: str
+    run_id: str | None = None
     timezone: str = "America/Santo_Domingo"
-    universe_hash: str | None = None
+    mode: str = "CONTROLLED_REAL"
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
-class MLBRunCreate(BaseModel):
+class SyncMlbRequest(BaseModel):
     run_date: str
+    run_id: str | None = None
     timezone: str = "America/Santo_Domingo"
-    cutoff_minutes_before: int = Field(default=0, ge=0, le=60)
+    mode: str = "CONTROLLED_REAL"
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class EvidenceCreate(BaseModel):
+    run_id: str
+    game_id: str | None = None
+    evidence_id: str | None = None
+    tool_name: str
+    source_ref: str | None = None
+    source_url: str | None = None
+    retrieved_at: str | None = None
+    data_available_at: str | None = None
+    input_payload: Any = None
+    payload: Any
 
 
 class RecoveryCreate(BaseModel):
     run_id: str
     game_id: str | None = None
-    issue_id: str = Field(min_length=3, max_length=160)
+    issue_id: str
     task_id: str | None = None
-    reason: str = Field(min_length=3)
+    reason: str
     outcome: str | None = None
 
 
@@ -188,23 +259,11 @@ class TraceCreate(BaseModel):
     task_id: str
     event_type: str
     status: str
-    input_payload: Any | None = None
-    output_payload: Any | None = None
+    input_payload: Any = None
+    output_payload: Any = None
     tool_name: str | None = None
     evidence_ids: list[str] = Field(default_factory=list)
     details: dict[str, Any] = Field(default_factory=dict)
-
-
-class EvidenceCreate(BaseModel):
-    run_id: str
-    game_id: str | None = None
-    tool_name: str
-    source_ref: str | None = None
-    source_url: str | None = None
-    retrieved_at: str | None = None
-    data_available_at: str | None = None
-    input_payload: Any | None = None
-    payload: Any
 
 
 class DecisionCreate(BaseModel):
@@ -225,196 +284,189 @@ class DecisionCreate(BaseModel):
 @app.get("/")
 async def root():
     return {
-        "service": "@NRFImetrica Kernel",
+        "service": "@NRFImetrica Mother Kernel",
         "system_version": SYSTEM_VERSION,
         "kernel_version": KERNEL_VERSION,
-        "scope": SYSTEM_SCOPE,
-        "status": "CONTROLLED_REAL_RUNTIME",
+        "system_scope": SYSTEM_SCOPE,
+        "protocol_id": MOTHER_PROTOCOL_ID,
+        "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+        "system_state": SYSTEM_STATE,
+        "ai_analyst_status": AI_ANALYST_STATUS,
         "numeric_engine_status": NUMERIC_ENGINE_STATUS,
+        "independent_auditor_status": INDEPENDENT_AUDITOR_STATUS,
+        "nrfiprensa_bridge_status": NRFI_PRENSA_BRIDGE_STATUS,
         "model_status": MODEL_STATUS,
         "calibration_status": CALIBRATION_STATUS,
-        "real_money_authority": False,
+        "real_money_authority": REAL_MONEY_AUTHORITY,
+        "active_flow": "A0_AUTO -> A1 -> A2 -> A3 -> A4 -> A5 -> A6 -> A7 -> A8 -> PORTFOLIO -> FINAL_REPORT",
+        "legacy_competitive_decision_endpoint": "SUPERSEDED",
     }
 
 
 @app.get("/health")
 async def health():
-    configured = bool(SUPABASE_URL and SUPABASE_SECRET_KEY)
-    db_reachable = False
-    canonical: dict[str, Any] | None = None
-    error: str | None = None
-    if configured:
-        try:
-            rows = await sb_select(
-                "system_versions",
-                select="system_version,kernel_version,model_version,calibration_status",
-                filters={"system_version": f"eq.{SYSTEM_VERSION}"},
-                limit=1,
-            )
-            db_reachable = bool(rows)
-            canonical = rows[0] if rows else None
-        except Exception as exc:
-            error = type(exc).__name__
+    versions = await sb_request(
+        "GET",
+        "system_versions",
+        params={
+            "select": "system_version,kernel_version,model_version,calibration_status",
+            "system_version": f"eq.{SYSTEM_VERSION}",
+            "limit": "1",
+        },
+    ) or []
+    authority = await sb_request(
+        "GET",
+        "protocol_authority",
+        params={
+            "select": "protocol_id,document_sha256,document_lines,precedence_rule,latest_sovereign_patch,manual_phase_authorization_required,active",
+            "protocol_id": f"eq.{MOTHER_PROTOCOL_ID}",
+            "limit": "1",
+        },
+    ) or []
+    engines = await sb_request(
+        "GET",
+        "numeric_engine_registry",
+        params={"select": "engine_id", "status": "eq.ACTIVE_TRUSTED"},
+    ) or []
+    auditors = await sb_request(
+        "GET",
+        "independent_auditor_registry",
+        params={"select": "auditor_id", "status": "eq.ACTIVE_TRUSTED"},
+    ) or []
+    healthy = bool(versions and authority)
     return {
-        "ok": configured and db_reachable,
+        "ok": healthy,
         "system_version": SYSTEM_VERSION,
         "kernel_version": KERNEL_VERSION,
-        "supabase_configured": configured,
-        "supabase_reachable": db_reachable,
-        "canonical_version": canonical,
-        "numeric_engine_status": NUMERIC_ENGINE_STATUS,
-        "real_money_authority": False,
-        "error": error,
+        "protocol_authority": authority[0] if authority else None,
+        "active_trusted_numeric_engines": len(engines),
+        "active_trusted_independent_auditors": len(auditors),
+        "real_money_authority": REAL_MONEY_AUTHORITY,
+        "system_state": SYSTEM_STATE,
     }
 
 
 @app.get("/mlb/schedule/{run_date}")
-async def mlb_schedule_probe(run_date: str):
+async def mlb_schedule(run_date: str):
     try:
-        date.fromisoformat(run_date)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="INVALID_DATE")
-    try:
-        result = await fetch_schedule(run_date)
-    except httpx.HTTPError as exc:
-        raise HTTPException(status_code=502, detail=f"MLB_PROVIDER_FAILED:{type(exc).__name__}")
-    return {
-        "provider": result["provider"],
-        "retrieved_at": result["retrieved_at"],
-        "source_url": result["source_url"],
-        "universe_hash": result["universe_hash"],
-        "game_count": len(result["games"]),
-        "games": result["games"],
-    }
+        return await fetch_schedule(run_date)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"MLB_PROVIDER_ERROR:{exc}") from exc
 
 
-@app.post("/runs", status_code=201)
+@app.post("/runs")
 async def create_run(req: RunCreate):
     try:
         date.fromisoformat(req.run_date)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="INVALID_DATE")
-    payload = {
-        "run_id": req.run_id,
-        "system_version": SYSTEM_VERSION,
-        "run_date": req.run_date,
-        "timezone": req.timezone,
-        "status": "OPEN",
-        "mode": "CONTROLLED_REAL",
-        "universe_hash": req.universe_hash,
-        "metadata": req.metadata,
-    }
-    await sb_insert("runs", payload)
-    await record_trace(
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail="RUN_DATE_MUST_BE_YYYY_MM_DD") from exc
+    return await create_run_row(
+        run_date=req.run_date,
         run_id=req.run_id,
-        game_id=None,
-        task_id="RUN_OPEN",
-        event_type="RUN_CREATED",
-        status="OK",
-        tool_name="kernel",
-        input_payload=req.model_dump(),
-        output_payload=payload,
+        timezone=req.timezone,
+        mode=req.mode,
+        metadata=req.metadata,
     )
-    return {"created": True, "run_id": req.run_id}
 
 
-@app.post("/runs/sync-mlb", status_code=201)
-async def create_real_mlb_run(req: MLBRunCreate):
+@app.post("/runs/sync-mlb")
+async def sync_mlb(req: SyncMlbRequest):
     try:
         date.fromisoformat(req.run_date)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="INVALID_DATE")
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail="RUN_DATE_MUST_BE_YYYY_MM_DD") from exc
 
-    try:
-        provider = await fetch_schedule(req.run_date, cutoff_minutes_before=req.cutoff_minutes_before)
-    except httpx.HTTPError as exc:
-        raise HTTPException(status_code=502, detail=f"MLB_PROVIDER_FAILED:{type(exc).__name__}")
+    provider = await fetch_schedule(req.run_date)
+    run = await create_run_row(
+        run_date=req.run_date,
+        run_id=req.run_id,
+        timezone=req.timezone,
+        mode=req.mode,
+        metadata={**req.metadata, "provider": provider.get("provider")},
+    )
+    run_id = run["run_id"]
 
-    games = provider["games"]
-    if not games:
-        raise HTTPException(status_code=502, detail="MLB_PROVIDER_RETURNED_EMPTY_SLATE")
+    games_payload: list[dict[str, Any]] = []
+    for game in provider.get("games", []):
+        runtime_status = game.get("runtime_status") or classify_game_status(
+            game.get("abstract_game_state"), game.get("detailed_state")
+        )
+        games_payload.append(
+            {
+                "run_id": run_id,
+                "game_id": str(game.get("game_id")),
+                "away_team": game.get("away_team"),
+                "home_team": game.get("home_team"),
+                "scheduled_start": game.get("scheduled_start"),
+                "cutoff_at": game.get("cutoff_at") or game.get("scheduled_start"),
+                "status": runtime_status,
+            }
+        )
+    if games_payload:
+        await sb_request(
+            "POST",
+            "games",
+            params={"on_conflict": "run_id,game_id"},
+            payload=games_payload,
+            prefer="resolution=merge-duplicates,return=minimal",
+        )
 
-    run_id = f"NRFIM-V21-{req.run_date.replace('-', '')}-{uuid4().hex[:10]}"
-    run_payload = {
-        "run_id": run_id,
-        "system_version": SYSTEM_VERSION,
-        "run_date": req.run_date,
-        "timezone": req.timezone,
-        "status": "OPEN",
-        "mode": "CONTROLLED_REAL",
-        "universe_hash": provider["universe_hash"],
-        "tool_call_count": 1,
-        "metadata": {
-            "universe_frozen": True,
-            "provider": provider["provider"],
-            "cutoff_minutes_before": req.cutoff_minutes_before,
-            "game_count": len(games),
-            "numeric_status": "NOT_EXECUTED",
-            "model_status": "NOT_INTEGRATED",
-            "real_money_authority": False,
-        },
-    }
-    await sb_insert("runs", run_payload)
-
-    game_rows = [
-        {
-            "run_id": run_id,
-            "game_id": game["game_id"],
-            "away_team": game["away_team"],
-            "home_team": game["home_team"],
-            "scheduled_start": game["scheduled_start"],
-            "cutoff_at": game["cutoff_at"],
-            "status": game["status"],
-        }
-        for game in games
-    ]
-    await sb_insert("games", game_rows)
-
-    evidence_id = f"EVID-{uuid4().hex}"
-    evidence_payload = {
+    evidence_id = f"EVID-MLB-SLATE-{uuid4().hex}"
+    evidence_row = {
         "evidence_id": evidence_id,
         "run_id": run_id,
         "game_id": None,
-        "tool_name": "MLB_STATS_API.schedule",
-        "source_ref": "/api/v1/schedule",
-        "source_url": provider["source_url"],
-        "retrieved_at": provider["retrieved_at"],
-        "data_available_at": provider["retrieved_at"],
-        "input_hash": stable_hash({"run_date": req.run_date, "sportId": 1, "cutoff_minutes_before": req.cutoff_minutes_before}),
-        "payload_hash": provider["raw_payload_hash"],
-        "payload": provider["raw"],
+        "tool_name": "providers.mlb.fetch_schedule",
+        "source_ref": provider.get("source_ref") or provider.get("provider"),
+        "source_url": provider.get("source_url"),
+        "retrieved_at": provider.get("retrieved_at") or now_iso(),
+        "data_available_at": provider.get("retrieved_at") or now_iso(),
+        "input_hash": stable_hash({"run_date": req.run_date}),
+        "payload_hash": provider.get("raw_payload_hash") or stable_hash(provider),
+        "payload": provider,
     }
-    await sb_insert("evidence", evidence_payload)
+    await sb_request("POST", "evidence", payload=evidence_row, prefer="return=minimal")
 
-    await record_trace(
+    universe_hash = provider.get("universe_hash") or stable_hash(games_payload)
+    run_metadata = {
+        **(run.get("metadata") or {}),
+        "universe_hash": universe_hash,
+        "game_count": len(games_payload),
+        "slate_evidence_id": evidence_id,
+    }
+    await sb_request(
+        "PATCH",
+        "runs",
+        params={"run_id": f"eq.{run_id}"},
+        payload={"universe_hash": universe_hash, "metadata": run_metadata},
+        prefer="return=minimal",
+    )
+    event = await persist_trace(
         run_id=run_id,
         game_id=None,
-        task_id="UNIVERSE_FREEZE",
-        event_type="MLB_SLATE_FETCHED_AND_FROZEN",
-        status="OK",
-        tool_name="MLB_STATS_API.schedule",
-        input_payload=req.model_dump(),
-        output_payload=games,
+        task_id="A1_SLATE_DISCOVERY",
+        event_type="MLB_REAL_UNIVERSE_SYNC",
+        status="COMPLETE",
+        input_payload={"run_date": req.run_date},
+        output_payload={"game_count": len(games_payload), "universe_hash": universe_hash},
+        tool_name="providers.mlb.fetch_schedule",
         evidence_ids=[evidence_id],
-        details={"game_count": len(games), "universe_hash": provider["universe_hash"]},
+        details={"protocol_id": MOTHER_PROTOCOL_ID},
     )
-
     return {
-        "created": True,
         "run_id": run_id,
-        "universe_frozen": True,
-        "universe_hash": provider["universe_hash"],
-        "game_count": len(games),
-        "games": games,
-        "numeric_status": "NOT_EXECUTED",
-        "real_money_authority": False,
+        "game_count": len(games_payload),
+        "universe_hash": universe_hash,
+        "evidence_id": evidence_id,
+        "event_hash": event["event_hash"],
+        "a0_status": "AUTO_SEALED",
     }
 
 
-@app.post("/evidence", status_code=201)
-async def create_evidence(req: EvidenceCreate):
+@app.post("/evidence")
+async def add_evidence(req: EvidenceCreate):
+    evidence_id = req.evidence_id or f"EVID-{uuid4().hex}"
     retrieved_at = req.retrieved_at or now_iso()
-    evidence_id = f"EVID-{uuid4().hex}"
     row = {
         "evidence_id": evidence_id,
         "run_id": req.run_id,
@@ -423,28 +475,29 @@ async def create_evidence(req: EvidenceCreate):
         "source_ref": req.source_ref,
         "source_url": req.source_url,
         "retrieved_at": retrieved_at,
-        "data_available_at": req.data_available_at,
+        "data_available_at": req.data_available_at or retrieved_at,
         "input_hash": stable_hash(req.input_payload) if req.input_payload is not None else None,
         "payload_hash": stable_hash(req.payload),
         "payload": req.payload,
     }
-    await sb_insert("evidence", row)
-    await record_trace(
+    saved = await sb_request("POST", "evidence", payload=row, prefer="return=representation")
+    await persist_trace(
         run_id=req.run_id,
         game_id=req.game_id,
         task_id="EVIDENCE_CAPTURE",
-        event_type="EVIDENCE_PERSISTED",
-        status="OK",
-        tool_name=req.tool_name,
+        event_type="REAL_EVIDENCE_CAPTURED",
+        status="COMPLETE",
         input_payload=req.input_payload,
         output_payload=req.payload,
+        tool_name=req.tool_name,
         evidence_ids=[evidence_id],
+        details={"source_ref": req.source_ref},
     )
-    return {"recorded": True, "evidence_id": evidence_id, "payload_hash": row["payload_hash"]}
+    return (saved or [row])[0]
 
 
-@app.post("/recoveries", status_code=201)
-async def create_recovery(req: RecoveryCreate):
+@app.post("/recoveries")
+async def add_recovery(req: RecoveryCreate):
     row = {
         "run_id": req.run_id,
         "game_id": req.game_id,
@@ -453,59 +506,41 @@ async def create_recovery(req: RecoveryCreate):
         "reason": req.reason,
         "attempt": 1,
         "outcome": req.outcome,
+        "occurred_at": now_iso(),
     }
-    try:
-        await sb_insert("recoveries", row)
-    except HTTPException as exc:
-        if exc.status_code == 409:
-            raise HTTPException(status_code=409, detail="RECOVERY_LIMIT_REACHED")
-        raise
-
-    current = await sb_select("runs", select="recovery_count", filters={"run_id": f"eq.{req.run_id}"}, limit=1)
-    if current:
-        await sb_update(
-            "runs",
-            filters={"run_id": f"eq.{req.run_id}"},
-            payload={"recovery_count": int(current[0].get("recovery_count") or 0) + 1},
-        )
-
-    await record_trace(
+    saved = await sb_request("POST", "recoveries", payload=row, prefer="return=representation")
+    await persist_trace(
         run_id=req.run_id,
         game_id=req.game_id,
         task_id=req.task_id or "RECOVERY",
-        event_type="RECOVERY_EXECUTED",
-        status=req.outcome or "RECORDED",
-        tool_name="kernel",
+        event_type="ONE_MATERIAL_RECOVERY",
+        status=req.outcome or "ATTEMPTED",
         input_payload={"issue_id": req.issue_id, "reason": req.reason},
-        output_payload={"attempt": 1, "outcome": req.outcome},
+        output_payload={"outcome": req.outcome},
+        tool_name="kernel.recovery",
+        details={"attempt": 1},
     )
-    return {"recorded": True, "issue_id": req.issue_id, "attempt": 1}
+    return (saved or [row])[0]
 
 
-@app.post("/trace", status_code=201)
-async def create_trace(req: TraceCreate):
-    event = await record_trace(
+@app.post("/trace")
+async def add_trace(req: TraceCreate):
+    return await persist_trace(
         run_id=req.run_id,
         game_id=req.game_id,
         task_id=req.task_id,
         event_type=req.event_type,
         status=req.status,
-        tool_name=req.tool_name,
         input_payload=req.input_payload,
         output_payload=req.output_payload,
+        tool_name=req.tool_name,
         evidence_ids=req.evidence_ids,
         details=req.details,
     )
-    return {
-        "recorded": True,
-        "event_id": event["event_id"],
-        "event_hash": event["event_hash"],
-        "prev_event_hash": event["prev_event_hash"],
-    }
 
 
-@app.post("/decisions", status_code=201)
-async def create_decision(req: DecisionCreate):
+@app.post("/decisions")
+async def legacy_decision(req: DecisionCreate):
     try:
         validate_decision(
             decision=req.decision,
@@ -520,7 +555,7 @@ async def create_decision(req: DecisionCreate):
             calibration_status=req.calibration_status,
         )
     except ValueError as exc:
-        raise HTTPException(status_code=422, detail=str(exc))
+        raise HTTPException(status_code=409, detail=str(exc)) from exc
 
     row = {
         "run_id": req.run_id,
@@ -536,104 +571,127 @@ async def create_decision(req: DecisionCreate):
         "model_version": "NOT_INTEGRATED",
         "calibration_status": "NOT_CERTIFIED",
     }
-    await sb_insert("decisions", row)
-    await sb_update(
-        "games",
-        filters={"run_id": f"eq.{req.run_id}", "game_id": f"eq.{req.game_id}"},
-        payload={
-            "decision": req.decision,
-            "central_nrfi_case": req.central_nrfi_case,
-            "best_yrfi_rival": req.best_yrfi_rival,
-            "decision_reason": {
-                "decisive_factor": req.decisive_factor,
-                "materiality": req.materiality,
-                "what_would_change": req.what_would_change,
-            },
-        },
-    )
-    await record_trace(
-        run_id=req.run_id,
-        game_id=req.game_id,
-        task_id="DECISION",
-        event_type="SPORTS_DECISION_PERSISTED",
-        status=req.decision,
-        tool_name="llm_reasoning_contract",
-        input_payload=req.model_dump(),
-        output_payload=row,
-        details={"numeric_engine_status": NUMERIC_ENGINE_STATUS, "real_money_authority": False},
+    saved = await sb_request(
+        "POST",
+        "decisions",
+        params={"on_conflict": "run_id,game_id"},
+        payload=row,
+        prefer="resolution=merge-duplicates,return=representation",
     )
     return {
-        "recorded": True,
-        "decision": req.decision,
-        "numeric_status": "NOT_EXECUTED",
-        "real_money_authority": False,
+        "legacy": True,
+        "authority": "AUDIT_ONLY_ONLY",
+        "decision": (saved or [row])[0],
     }
 
 
 @app.post("/runs/{run_id}/close")
 async def close_run(run_id: str):
-    games = await sb_select("games", filters={"run_id": f"eq.{run_id}"})
-    if not games:
-        raise HTTPException(status_code=404, detail="RUN_NOT_FOUND_OR_EMPTY")
-
-    decisions = await sb_select("decisions", filters={"run_id": f"eq.{run_id}"})
-    recoveries = await sb_select("recoveries", filters={"run_id": f"eq.{run_id}"})
-    decision_counts: dict[str, int] = {}
-    for item in decisions:
-        key = item["decision"]
-        decision_counts[key] = decision_counts.get(key, 0) + 1
-
-    audit_only = sum(1 for g in games if g.get("status") == "AUDIT_ONLY")
-    unresolved = [g["game_id"] for g in games if g.get("status") != "AUDIT_ONLY" and not g.get("decision")]
-    summary = {
-        "total_games": len(games),
-        "audit_only": audit_only,
-        "decision_counts": decision_counts,
-        "recoveries": len(recoveries),
-        "unresolved_games": unresolved,
-        "numeric_status": "NOT_EXECUTED",
-        "model_status": "NOT_INTEGRATED",
-        "real_money_authority": False,
-    }
-    if unresolved:
-        raise HTTPException(status_code=409, detail={"code": "RUN_INCOMPLETE", "summary": summary})
-
-    await sb_update(
+    runs = await sb_request(
+        "GET",
         "runs",
-        filters={"run_id": f"eq.{run_id}"},
-        payload={
-            "status": "CLOSED",
-            "closed_at": now_iso(),
-            "recovery_count": len(recoveries),
-            "metadata": summary,
-        },
+        params={"select": "*", "run_id": f"eq.{run_id}", "limit": "1"},
+    ) or []
+    if not runs:
+        raise HTTPException(status_code=404, detail="RUN_NOT_FOUND")
+    run = runs[0]
+
+    if run.get("system_version") == SYSTEM_VERSION:
+        final_rows = await sb_request(
+            "GET",
+            "protocol_run_state",
+            params={
+                "select": "stage_id,status,payload,submitted_at",
+                "run_id": f"eq.{run_id}",
+                "protocol_id": f"eq.{MOTHER_PROTOCOL_ID}",
+                "stage_id": "eq.FINAL_REPORT",
+                "status": "eq.COMPLETE",
+                "limit": "1",
+            },
+        ) or []
+        if not final_rows:
+            raise HTTPException(status_code=409, detail="MOTHER_FINAL_REPORT_GATE_INCOMPLETE")
+        resolutions = await sb_request(
+            "GET",
+            "protocol_game_resolution",
+            params={"select": "game_id,resolution_code,authority_level", "run_id": f"eq.{run_id}", "protocol_id": f"eq.{MOTHER_PROTOCOL_ID}"},
+        ) or []
+        stages = await sb_request(
+            "GET",
+            "protocol_run_state",
+            params={"select": "stage_id,status", "run_id": f"eq.{run_id}", "protocol_id": f"eq.{MOTHER_PROTOCOL_ID}"},
+        ) or []
+        metadata = {
+            **(run.get("metadata") or {}),
+            "closed_by": "MOTHER_FINAL_REPORT_GATE",
+            "protocol_id": MOTHER_PROTOCOL_ID,
+            "run_stage_count": len(stages),
+            "terminal_resolution_count": len(resolutions),
+        }
+    else:
+        metadata = {**(run.get("metadata") or {}), "closed_by": "LEGACY_RUN"}
+
+    closed = await sb_request(
+        "PATCH",
+        "runs",
+        params={"run_id": f"eq.{run_id}"},
+        payload={"status": "CLOSED", "closed_at": now_iso(), "metadata": metadata},
+        prefer="return=representation",
     )
-    await record_trace(
+    event = await persist_trace(
         run_id=run_id,
         game_id=None,
         task_id="RUN_CLOSE",
-        event_type="RUN_CLOSED",
-        status="OK",
-        tool_name="kernel",
+        event_type="MOTHER_RUN_CLOSED" if run.get("system_version") == SYSTEM_VERSION else "LEGACY_RUN_CLOSED",
+        status="CLOSED",
         input_payload={"run_id": run_id},
-        output_payload=summary,
+        output_payload={"closed": True},
+        tool_name="kernel.close",
     )
-    return {"closed": True, "run_id": run_id, "summary": summary}
+    return {"run": (closed or [{}])[0], "event_hash": event["event_hash"]}
 
 
 @app.get("/runs/{run_id}/snapshot")
-async def run_snapshot(run_id: str):
-    runs = await sb_select("runs", filters={"run_id": f"eq.{run_id}"}, limit=1)
+async def snapshot(run_id: str):
+    async def get(table: str, select: str = "*"):
+        return await sb_request(
+            "GET",
+            table,
+            params={"select": select, "run_id": f"eq.{run_id}"},
+        ) or []
+
+    runs = await get("runs")
     if not runs:
         raise HTTPException(status_code=404, detail="RUN_NOT_FOUND")
-    games = await sb_select("games", filters={"run_id": f"eq.{run_id}"}, order="scheduled_start.asc")
-    decisions = await sb_select("decisions", filters={"run_id": f"eq.{run_id}"}, order="created_at.asc")
-    recoveries = await sb_select("recoveries", filters={"run_id": f"eq.{run_id}"}, order="occurred_at.asc")
-    trace = await sb_select("trace_events", filters={"run_id": f"eq.{run_id}"}, order="occurred_at.asc")
+
+    games = await get("games")
+    evidence = await get("evidence")
+    recoveries = await get("recoveries")
+    traces = await sb_request(
+        "GET",
+        "trace_events",
+        params={"select": "*", "run_id": f"eq.{run_id}", "order": "occurred_at.asc"},
+    ) or []
+    decisions = await get("decisions")
+    phase_state = await get("protocol_phase_state")
+    resolutions = await get("protocol_game_resolution")
+    run_stages = await get("protocol_run_state")
+
     return {
         "run": runs[0],
         "games": games,
-        "decisions": decisions,
+        "evidence": evidence,
         "recoveries": recoveries,
-        "trace": trace,
+        "trace_events": traces,
+        "mother_phase_state": [x for x in phase_state if x.get("protocol_id") == MOTHER_PROTOCOL_ID],
+        "mother_game_resolutions": [x for x in resolutions if x.get("protocol_id") == MOTHER_PROTOCOL_ID],
+        "mother_run_stages": [x for x in run_stages if x.get("protocol_id") == MOTHER_PROTOCOL_ID],
+        "legacy_decisions": decisions,
+        "authority": {
+            "protocol_id": MOTHER_PROTOCOL_ID,
+            "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+            "kernel_version": KERNEL_VERSION,
+            "system_state": SYSTEM_STATE,
+            "real_money_authority": REAL_MONEY_AUTHORITY,
+        },
     }
