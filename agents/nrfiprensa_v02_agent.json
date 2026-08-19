@@ -1,0 +1,70 @@
+{
+  "agent_id": "@NRFiPrensa",
+  "agent_version": "V0.2-AGENT-1.0",
+  "protocol_id": "SO_MEDIA_NRFI_V02",
+  "kernel_version": "NRFIPRENSA-KERNEL-0.1-RESEARCH-CUSTODY",
+  "document_sha256": "a6ed0be85ea66750dbea7e3deafe717675433a78d141f0656688421e15dacbac",
+  "document_lines": 1248,
+  "status": "RESEARCH_ONLY_TRADING_HALT",
+  "real_money_authority": false,
+  "market": "MLB_NRFI",
+  "activation": {
+    "trigger": "@NRFiPrensa",
+    "manual_phase_authorization_required": false,
+    "new_run_per_invocation": true,
+    "new_report_document_per_run": true,
+    "prior_run_analysis_as_current_input": false
+  },
+  "roles": {
+    "collector": "DISCOVER_VERIFY_FACTS_NO_SPORTS_INTERPRETATION",
+    "so_media_analyst": "CAUSAL_INTERPRETATION_OF_DEPURATED_FACTS",
+    "independent_clean_room": "FACTS_AND_TECHNICAL_DATA_ONLY_NO_PICKS_CONSENSUS_ODDS_JRC",
+    "kernel": "PROCESS_CUSTODY_HARD_GATES_NO_SPORTS_VOTING"
+  },
+  "lanes": {
+    "A_FACTUAL": "official/beat/direct verifiable facts",
+    "B_ANALYST": "picks/opinion/arguments kept separate",
+    "SOCIAL_TIP": "rumor/comment as lead only",
+    "TECHNICAL_DATA": "metric verification"
+  },
+  "flow": ["F0","F1","F2","F3","F4","F5","F6","F7","F7-Q","F7-R","F8","F9","F10","POSTRESULT"],
+  "hard_gates": ["HG-01","HG-02","HG-03","HG-04","HG-05","HG-06","HG-07","HG-08","HG-09","HG-10","HG-11","HG-12","HG-13","HG-14"],
+  "firewalls": {
+    "so_media_status_is_pick": false,
+    "review_priority_is_pick": false,
+    "transfer_is_pick": false,
+    "hold_dynamic_is_no_bet": true,
+    "unresolved_pregame_is_no_bet": true,
+    "final_seal_not_pass_is_no_bet": true,
+    "may_fabricate_probability": false,
+    "may_emit_stake": false
+  },
+  "f8_independence": {
+    "must_freeze_before_jrc": true,
+    "strong_nrfi_operationally_enabled": false
+  },
+  "f10": {
+    "max_transfer_candidates": 3,
+    "minimum_candidates": 0,
+    "review_priority_requires_final_pregame_seal_pass": true,
+    "all_game_ids_require_disposition": true
+  },
+  "supabase": {
+    "project_id": "yejaollmavoudbxnbpll",
+    "namespace_prefix": "nrfiprensa_",
+    "shared_with_nrfimetrica_but_logically_separate": true
+  },
+  "drive": {
+    "root_folder_id": "1NFlh5PV7bTnG_wT_K_4sVmjZ_W0sWa_i",
+    "authority_folder_id": "1-LRHs0XzdtNjtkW2ybl5rh7ihA9mMUDb",
+    "executions_folder_id": "1trAFmf4bBzJbqQSiSAlMc273r6hpZKHg",
+    "sovereign_document_id": "1DahLE2LE04ZhfRv5mlLIwRqhdEOabjKACwlZm7X1Ack",
+    "mandate_document_id": "1Qbb17NCOhdWwgnUM6n2yrKnd8oXEpxHxBQLmg7Wsq7g"
+  },
+  "known_forensic_failure": {
+    "case": "SEA-HOU-2026-08-14",
+    "classification": "GOVERNANCE_BYPASS",
+    "do_not_repeat": ["HOLD_TO_PICK_VERBAL_OVERRIDE","CURRENT_ROSTER_AS_LINEUP","CONTROL_ONLY_RISK_MODEL","MISSING_OSR","MISSING_NO_WALK_PATHS","MISSING_RED_TEAM"]
+  },
+  "database_migrations_required_through": 37
+}
