@@ -5,14 +5,20 @@ import json
 from datetime import datetime, timezone
 from typing import Any
 
-SYSTEM_VERSION = "NRFIM V2.1"
-KERNEL_VERSION = "NRFIM-KERNEL-0.3-PROTOCOL-GATED"
-SYSTEM_SCOPE = "NRFI_ONLY"
-AI_ANALYST_STATUS = "CHATGPT_EXTERNAL_BRAIN"
+SYSTEM_VERSION = "NRFIM MOTHER V3"
+KERNEL_VERSION = "NRFIM-KERNEL-0.4-MOTHER-ALIGNED"
+SYSTEM_SCOPE = "FIRST_INNING_UNDER__NRFI_SOVEREIGN"
+MOTHER_PROTOCOL_ID = "NRFIMETRICA_MOTHER_V3_AUTONOMOUS"
+MOTHER_DOCUMENT_SHA256 = "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3"
+SYSTEM_STATE = "TRADING_HALT_RESEARCH"
+AI_ANALYST_STATUS = "CHATGPT_CAUSAL_ANALYST"
 NUMERIC_ENGINE_STATUS = "NOT_INTEGRATED"
-MODEL_STATUS = "NOT_INTEGRATED"
+MODEL_STATUS = "NOT_CERTIFIED"
 CALIBRATION_STATUS = "NOT_CERTIFIED"
+REAL_MONEY_AUTHORITY = False
 
+# Legacy decisions are retained only for historical compatibility. The active
+# mother-document runtime is A1->A8 through protocol_phase_state.
 ALLOWED_DECISIONS = {
     "NRFI_CANDIDATE",
     "NRFI_REJECTED",
@@ -60,43 +66,17 @@ def validate_decision(
     if decision not in ALLOWED_DECISIONS:
         raise ValueError(f"INVALID_DECISION:{decision}")
 
-    # raw_p_nrfi is reserved for an identifiable numeric/calibrated engine.
-    # The AI analyst may express an uncalibrated judgment estimate in the
-    # protocol RECONSIDERATION payload, but it must never masquerade as raw_p_nrfi.
+    # The old /decisions route is no longer an active route to a sports verdict.
+    # A mother-document decision must be produced by A1->A8. Keeping this guard
+    # prevents the legacy V2.1 schema from bypassing the new constitutional flow.
+    if decision != "AUDIT_ONLY":
+        raise ValueError("LEGACY_DECISION_ENDPOINT_SUPERSEDED_BY_MOTHER_A1_A8")
+
     if numeric_status != "NOT_EXECUTED" or raw_p_nrfi is not None:
-        raise ValueError("NUMERIC_ENGINE_NOT_INTEGRATED")
+        raise ValueError("LEGACY_DECISION_CANNOT_CARRY_PROBABILITY")
 
     if model_version not in (None, "", "NOT_INTEGRATED"):
-        raise ValueError("MODEL_VERSION_NOT_AUTHORIZED")
+        raise ValueError("LEGACY_MODEL_VERSION_NOT_AUTHORIZED")
 
     if calibration_status not in (None, "", "NOT_CERTIFIED"):
-        raise ValueError("CALIBRATION_NOT_CERTIFIED")
-
-    if decision in {"NRFI_CANDIDATE", "NRFI_REJECTED"}:
-        missing: list[str] = []
-        if not central_nrfi_case:
-            missing.append("central_nrfi_case")
-        if not best_yrfi_rival:
-            missing.append("best_yrfi_rival")
-        if not decisive_factor.strip():
-            missing.append("decisive_factor")
-        if not materiality.strip():
-            missing.append("materiality")
-        if not what_would_change.strip():
-            missing.append("what_would_change")
-        if missing:
-            raise ValueError("COMPETITIVE_DECISION_MISSING:" + ",".join(missing))
-
-    if decision == "NRFI_REJECTED" and len(what_would_change.strip()) < 8:
-        raise ValueError("REJECTION_MUST_STATE_CONCRETE_REVERSAL_CONDITION")
-
-    if decision in {"RESEARCH_ONLY_DATA", "RESEARCH_ONLY_MODEL", "LOCAL_DATA_BLOCK"}:
-        missing_exit: list[str] = []
-        if len(decisive_factor.strip()) < 8:
-            missing_exit.append("specific_cause")
-        if len(materiality.strip()) < 8:
-            missing_exit.append("materiality")
-        if len(what_would_change.strip()) < 8:
-            missing_exit.append("concrete_reversal_condition")
-        if missing_exit:
-            raise ValueError("NONCOMPETITIVE_EXIT_MISSING:" + ",".join(missing_exit))
+        raise ValueError("LEGACY_CALIBRATION_NOT_AUTHORIZED")
