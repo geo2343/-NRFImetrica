@@ -1,7 +1,7 @@
 {
   "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
   "status": "ACTIVE_SOVEREIGN_PROTOCOL",
-  "kernel_version": "NRFIM-KERNEL-0.5-MOTHER-ENFORCED",
+  "kernel_version": "NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY",
   "mother_document": {
     "name": "@NRFImetrica DOCUMENTO MADRE",
     "sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
@@ -33,6 +33,7 @@
   },
   "brain": "CHATGPT_CAUSAL_ANALYST",
   "kernel_role": "ENFORCE_MOTHER_DOCUMENT_NOT_SPORTS_SCORE",
+  "required_process_extensions": ["NRFIMETRICA_SPORTS_REASONING_PACKET_V2"],
   "probability_authority": {
     "ai_may_invent_probability": false,
     "ai_may_invent_calibration_band": false,
@@ -55,7 +56,8 @@
     "BILATERAL_REQUIRED", "NO_FULL_GAME_BULLPEN_REASONING", "MARKET_QUARANTINE_UNTIL_A8", "NO_FUTURE_DATA_LEAKAGE",
     "UNCERTAINTY_NOT_AUTOMATIC_DANGER", "MISSING_EVIDENCE_NOT_SAFETY", "POSSIBILITY_NOT_MATERIALIZATION", "NO_FORCED_CANDIDATE_COUNT",
     "NO_FOURTH_CANDIDATE", "NO_RULE_CHANGE_FROM_SINGLE_LOSS", "NO_HIDDEN_CONTRADICTIONS", "NO_UNSUPPORTED_GRANULARITY",
-    "NARRATIVE_CANNOT_REPLACE_NUMERIC_ENGINE", "U15_OR_U25_CANNOT_RESCUE_WEAK_P0_THESIS"
+    "NARRATIVE_CANNOT_REPLACE_NUMERIC_ENGINE", "U15_OR_U25_CANNOT_RESCUE_WEAK_P0_THESIS",
+    "NO_FALSE_RESEARCH_CLAIM", "NO_BACKDATING", "NO_FACTUAL_CLAIM_WITHOUT_CHAIN_VERIFIED_EVIDENCE", "NO_FALSE_FULL_SLATE_CLAIM"
   ],
   "phases": [
     {
@@ -148,8 +150,9 @@
       ]
     }
   ],
-  "run_stages": ["A0_CONSTITUTION_SEALED", "A1_SLATE_ROUTED", "A7_SLATE_ELIGIBILITY", "A8_PORTFOLIO", "FINAL_REPORT"],
+  "run_stages": ["A0_CONSTITUTION_SEALED", "SPORTS_REASONING_SLATE", "A1_SLATE_ROUTED", "A7_SLATE_ELIGIBILITY", "A8_PORTFOLIO", "FINAL_REPORT"],
   "run_stage_contracts": {
+    "SPORTS_REASONING_SLATE": "ONE_TERMINAL_DRIVE_VERIFIED_SPORTS_REASONING_PACKET_PER_GAME; EXACT_ANALYSIS_COMPLETE_COUNT; NO_FALSE_FULL_SLATE_CLAIM",
     "A1_SLATE_ROUTED": "EVERY_REGISTERED_GAME_ROUTED_OR_EXPLICITLY_RESOLVED",
     "A7_SLATE_ELIGIBILITY": "EVERY_GAME_HAS_A7_STATE_OR_TERMINAL_RESOLUTION",
     "A8_PORTFOLIO": {
@@ -159,7 +162,7 @@
       "tickets_if_3": ["double_primary", "double_secondary", "double_alternative", "triple_optional"],
       "ticket_rules": ["REAL_OFFERED_PRICE", "JOINT_PROBABILITY", "BREAK_EVEN", "EDGE", "EV", "DEPENDENCE_AUDIT"]
     },
-    "FINAL_REPORT": "MUST_MATCH_SLATE_PORTFOLIO_A8_PROBABILITIES_AND_TICKETS; ZERO_CANDIDATES_ALLOWED"
+    "FINAL_REPORT": "MUST_MATCH_SPORTS_REASONING_SLATE_AND_SLATE_PORTFOLIO_A8_PROBABILITIES_AND_TICKETS; ZERO_CANDIDATES_ALLOWED; VERIFIED_DRIVE_FINAL_REPORT_REQUIRED_FOR_RUN_CLOSE"
   },
   "terminal_resolutions": [
     "A1_HOLD", "A1_NOT_EXECUTABLE", "A1_EXCLUDED", "A1_GOVERNING_DATA_UNRESOLVED", "A4_ENGINE_NOT_INTEGRATED", "A4_TRUE_MODEL_FAILURE",
@@ -176,8 +179,16 @@
     "authority_until_oos_validation": "SECONDARY_OR_CANDIDATE", "silent_omission": "SRA_GATE_NOT_EXECUTED"
   },
   "source_truth": {
-    "source_call_requires_physical_evidence_id": true, "source_call_evidence_must_belong_to_run_game": true,
-    "source_call_timestamp_cannot_be_future": true, "source_ref_must_match_evidence_when_both_exist": true
+    "source_call_requires_physical_evidence_id": true,
+    "source_call_evidence_must_belong_to_run_game": true,
+    "source_call_timestamp_cannot_be_future": true,
+    "source_ref_must_match_evidence_when_both_exist": true,
+    "sports_reasoning_tool_event_required": true,
+    "sports_reasoning_source_family_required": true,
+    "sports_reasoning_snapshot_hash_required": true,
+    "factual_claim_requires_chain_verified_evidence": true,
+    "terminal_sports_packet_requires_drive_hash_match": true,
+    "sports_process_audit_is_db_derived": true
   },
   "current_real_status": {
     "active_trusted_numeric_engines": 0, "active_trusted_independent_auditors": 0, "verified_real_nrfiprensa_bridge": false,
