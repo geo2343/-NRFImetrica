@@ -110,7 +110,7 @@ where s.run_id=n.run_id and s.game_id=n.game_id
   and s.phase_id='A7_CALIBRATION_ELIGIBILITY_PRESS';
 update public.nrfiprensa_packets set content_hash=encode(digest(payload::text,'sha256'),'hex');
 update public.protocol_phase_state s
-set payload=jsonb_set(payload,'{nrfi_prensa,packet_hash}',to_jsonb(n.content_hash))
+set payload=jsonb_set(s.payload,'{nrfi_prensa,packet_hash}',to_jsonb(n.content_hash))
 from public.nrfiprensa_packets n
 where s.run_id=n.run_id and s.game_id=n.game_id
   and s.protocol_id='NRFIMETRICA_MOTHER_V3_AUTONOMOUS'
@@ -125,7 +125,7 @@ where exists(select 1 from public.runs where run_id='DIAG-MOTHER-V3-20260819-K04
 on conflict(packet_id) do nothing;
 update public.sra_packets set content_hash=encode(digest(payload::text,'sha256'),'hex') where packet_id='SRA-DIAG-1';
 update public.protocol_phase_state s
-set payload=jsonb_set(jsonb_set(payload,'{sra,packet_id}','"SRA-DIAG-1"'::jsonb),'{sra,packet_hash}',to_jsonb(p.content_hash))
+set payload=jsonb_set(jsonb_set(s.payload,'{sra,packet_id}','"SRA-DIAG-1"'::jsonb),'{sra,packet_hash}',to_jsonb(p.content_hash))
 from public.sra_packets p
 where s.run_id=p.run_id and s.game_id=p.game_id
   and s.protocol_id='NRFIMETRICA_MOTHER_V3_AUTONOMOUS'
