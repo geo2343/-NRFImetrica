@@ -103,6 +103,17 @@
     "final_report_requires_all_game_dual_statuses": true,
     "zero_executable_with_sports_candidates_must_say": "TECHNICAL_BLOCK_NOT_SPORTS_REJECTION"
   },
+  "research_fallback": {
+    "controlled_real_may_use_diagnostic_trusted_for_research_only": true,
+    "a4_allowed_statuses": ["A4_RESEARCH_READY_FULL", "A4_RESEARCH_READY_REDUCED", "A4_RESEARCH_READY_BOOTSTRAP", "A4_RESEARCH_READY_HIGH_UNCERTAINTY"],
+    "a6_conditioned_may_use_diagnostic_trusted": true,
+    "real_numeric_execution_still_required": true,
+    "real_independent_audit_execution_still_required": true,
+    "may_issue_a7_release": false,
+    "may_execute_a8": false,
+    "controlled_real_calibration_still_requires_active_trusted": true,
+    "purpose": "CONTINUE_RESEARCH_WITHOUT_CONVERTING_RESEARCH_AUTHORITY_INTO_REAL_MONEY_AUTHORITY"
+  },
   "sports_packet_terminal_states": ["ANALYSIS_COMPLETE", "RESEARCH_INCOMPLETE", "INFORMATION_UNAVAILABLE", "NOT_EXECUTABLE", "WITHDRAWN_POST_FREEZE", "PROCESS_FAIL"],
   "sports_slate_truth_rule": "N/N_ANALYZED_MAY_ONLY_EQUAL_COUNT_OF_LATEST_PACKETS_WITH_ANALYSIS_COMPLETE_PROCESS_PASS_AND_DRIVE_HASH_MATCH",
   "certification_flow": ["A1_DATA_INTEGRITY_FREEZE", "A2_HIERARCHICAL_BASELINES", "A3_CURRENT_VERSION_MATCHUP", "A4_NUMERIC_STATE_ENGINE", "A5_JOINT_INTEGRATION", "A6_CAUSAL_FALSIFICATION_SPORTS_SEAL", "A7_CALIBRATION_ELIGIBILITY_PRESS", "A8_MARKET_VALUE_EXECUTION"],
@@ -113,7 +124,8 @@
     "local_failure_stops_slate": false,
     "fabricated_phase_allowed": false,
     "incomplete_sports_packet_may_be_reported_but_never_rounded_to_complete": true,
-    "technical_block_may_erase_sports_candidate": false
+    "technical_block_may_erase_sports_candidate": false,
+    "research_fallback_may_open_real_money": false
   },
   "hard_truth_rules": [
     "NEW_INVOCATION_NEW_RUN",
@@ -137,6 +149,7 @@
     "NO_FALSE_FULL_SLATE_CLAIM",
     "NO_TECHNICAL_BLOCK_AS_FAKE_SPORTS_NO_PLAY",
     "NO_ZERO_ELIGIBLE_WORDING_AS_SPORTS_CONCLUSION_WHEN_SPORTS_CANDIDATES_EXIST",
+    "NO_RESEARCH_FALLBACK_AS_REAL_MONEY_RELEASE",
     "NO_CLOSE_WITHOUT_VERIFIED_DRIVE_FINAL_REPORT"
   ],
   "physical_artifacts": {
@@ -179,7 +192,7 @@
     "protocol_gate_api": "api/protocol.py",
     "final_report_gate_api": "api/report.py",
     "agent_registry": "public.agent_registry",
-    "database_migrations_required_through": 27
+    "database_migrations_required_through": 28
   },
   "current_authority_state": {
     "system_state": "TRADING_HALT_RESEARCH",
@@ -187,6 +200,7 @@
     "active_trusted_numeric_engine": false,
     "active_trusted_independent_auditor": false,
     "active_trusted_calibration": false,
-    "behavior_when_component_missing": "DO_NOT_SIMULATE; PRESERVE_SPORTS_JUDGMENT; SET_EXECUTION_STATUS_TECHNICAL_BLOCK_WHEN_APPLICABLE; CONTINUE_SLATE"
+    "research_fallback_available": true,
+    "behavior_when_component_missing": "DO_NOT_SIMULATE; PRESERVE_SPORTS_JUDGMENT; USE_RESEARCH_ONLY_FALLBACK_WHEN_PHYSICALLY_AVAILABLE; SET_EXECUTION_STATUS_TECHNICAL_BLOCK_WHEN_REAL_AUTHORITY_IS_MISSING; CONTINUE_SLATE"
   }
 }
