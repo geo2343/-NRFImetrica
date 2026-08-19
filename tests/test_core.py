@@ -55,6 +55,35 @@ class CoreRulesTest(unittest.TestCase):
             calibration_status="NOT_CERTIFIED",
         )
 
+    def test_research_only_cannot_be_empty_escape(self):
+        with self.assertRaisesRegex(ValueError, "NONCOMPETITIVE_EXIT_MISSING"):
+            validate_decision(
+                decision="RESEARCH_ONLY_DATA",
+                central_nrfi_case={},
+                best_yrfi_rival={},
+                decisive_factor="",
+                materiality="",
+                what_would_change="",
+                numeric_status="NOT_EXECUTED",
+                raw_p_nrfi=None,
+                model_version="NOT_INTEGRATED",
+                calibration_status="NOT_CERTIFIED",
+            )
+
+    def test_research_only_with_specific_burden_is_valid_at_core_layer(self):
+        validate_decision(
+            decision="RESEARCH_ONLY_DATA",
+            central_nrfi_case={},
+            best_yrfi_rival={},
+            decisive_factor="Confirmed lineup remains unavailable after material recheck",
+            materiality="Top-order identities govern the platoon and damage route",
+            what_would_change="Confirmed lineup becomes available before cutoff",
+            numeric_status="NOT_EXECUTED",
+            raw_p_nrfi=None,
+            model_version="NOT_INTEGRATED",
+            calibration_status="NOT_CERTIFIED",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
