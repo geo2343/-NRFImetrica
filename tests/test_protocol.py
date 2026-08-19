@@ -83,6 +83,8 @@ class MotherProtocolTest(unittest.TestCase):
             "p_yrfi": .40,
             "same_context_realization_check": "PASS",
             "double_adjustment_check": "PASS",
+            "raw_not_calibrated_check": "PASS",
+            "market_blindness": "PASS",
         }
         with self.assertRaisesRegex(ProtocolViolation, "A5_U15_DERIVATION_FAIL"):
             run_phase("A5_JOINT_INTEGRATION", payload)
@@ -111,6 +113,7 @@ class MotherProtocolTest(unittest.TestCase):
 
     def test_a7_cannot_issue_release_without_certification(self):
         payload = {
+            "target_id": "U0.5",
             "release_token": "ISSUED",
             "calibration_status": "NOT_CERTIFIED",
             "calibration_region_support": "HIGH",
@@ -118,8 +121,28 @@ class MotherProtocolTest(unittest.TestCase):
             "provenance_status": "PASS",
             "absolute_eligibility": "A7_ELIGIBLE",
             "nrfi_prensa": {"effect": "CONFIRM"},
+            "contract_calibration": {
+                "u0_5": {"status": "NOT_CERTIFIED"}
+            },
         }
         with self.assertRaisesRegex(ProtocolViolation, "A7_NOT_CERTIFIED_A8_LOCKED"):
+            run_phase("A7_CALIBRATION_ELIGIBILITY_PRESS", payload)
+
+    def test_a7_release_requires_zero_run_contract_calibration(self):
+        payload = {
+            "target_id": "NRFI",
+            "release_token": "ISSUED",
+            "calibration_status": "CERTIFIED",
+            "calibration_region_support": "HIGH",
+            "oos_validation_status": "PASS",
+            "provenance_status": "PASS",
+            "absolute_eligibility": "A7_ELIGIBLE",
+            "nrfi_prensa": {"effect": "CONFIRM"},
+            "contract_calibration": {
+                "u0_5": {"status": "NOT_CERTIFIED"}
+            },
+        }
+        with self.assertRaisesRegex(ProtocolViolation, "A7_ZERO_RUN_CALIBRATION_REQUIRED_FOR_RELEASE"):
             run_phase("A7_CALIBRATION_ELIGIBILITY_PRESS", payload)
 
     def test_a8_no_bet_when_edge_and_ev_are_not_positive(self):
