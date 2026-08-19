@@ -6,8 +6,9 @@ from datetime import datetime, timezone
 from typing import Any
 
 SYSTEM_VERSION = "NRFIM V2.1"
-KERNEL_VERSION = "NRFIM-KERNEL-0.2"
+KERNEL_VERSION = "NRFIM-KERNEL-0.3-PROTOCOL-GATED"
 SYSTEM_SCOPE = "NRFI_ONLY"
+AI_ANALYST_STATUS = "CHATGPT_EXTERNAL_BRAIN"
 NUMERIC_ENGINE_STATUS = "NOT_INTEGRATED"
 MODEL_STATUS = "NOT_INTEGRATED"
 CALIBRATION_STATUS = "NOT_CERTIFIED"
@@ -59,6 +60,9 @@ def validate_decision(
     if decision not in ALLOWED_DECISIONS:
         raise ValueError(f"INVALID_DECISION:{decision}")
 
+    # raw_p_nrfi is reserved for an identifiable numeric/calibrated engine.
+    # The AI analyst may express an uncalibrated judgment estimate in the
+    # protocol RECONSIDERATION payload, but it must never masquerade as raw_p_nrfi.
     if numeric_status != "NOT_EXECUTED" or raw_p_nrfi is not None:
         raise ValueError("NUMERIC_ENGINE_NOT_INTEGRATED")
 
