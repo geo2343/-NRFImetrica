@@ -36,6 +36,7 @@
     "evidence_ids_require_tool_event": true,
     "source_family_id_required": true,
     "exact_duplicate_content_cannot_create_new_family": true,
+    "same_declared_origin_must_collapse": true,
     "adaptive_independent_family_floor": {"CLEAR": 3, "NORMAL": 5, "DEEP": 7},
     "continue_beyond_floor_when_material_contradiction_exists": true,
     "required_dimensions": ["TOP_1ST", "BOTTOM_1ST", "STARTER_CURRENT_FORM", "TOP_ORDER_MATCHUP", "FIRST_INNING_SPECIFIC", "COUNTEREVIDENCE"],
@@ -51,6 +52,8 @@
     "post_freeze_change_requires_new_version": true,
     "drive_packet_hash_match_required": true,
     "process_audit_required_for_analysis_complete_count": true,
+    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2",
+    "process_audit_truth_values_are_db_derived": true,
     "process_auditor_may_not_vote_nrfi_yrfi": true,
     "slate_statement_is_kernel_generated": true
   },
@@ -82,7 +85,7 @@
     "NO_CLOSE_WITHOUT_VERIFIED_DRIVE_FINAL_REPORT"
   ],
   "physical_artifacts": {
-    "sports_reasoning": ["research_tool_events", "research_source_families", "evidence", "sports_reasoning_packets", "sports_reasoning_claims", "sports_process_audits", "research_drive_artifacts"],
+    "sports_reasoning": ["research_tool_events", "research_source_families", "evidence", "sports_reasoning_packets", "sports_reasoning_claims", "sports_process_audits", "sports_process_auditor_registry", "research_drive_artifacts"],
     "A4": ["numeric_engine_registry", "numeric_engine_executions"],
     "A6": ["independent_auditor_registry", "independent_audit_executions", "sra_packets"],
     "A7": ["nrfiprensa_packets", "calibration_certifications"],
@@ -103,6 +106,7 @@
     "active_authority_folder_id": "1pnj7XTgDnAnT0vDDP6AI1k3MyyxHdb9t",
     "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
     "agent_mandate_document_id": "1pChqvOgMvobJnIaTPCX2Nkg5VeBBXWaoATzj28lMYq4",
+    "sports_reasoning_authority_document_id": "1r-g4HXVN9JFFoZcR_pZBfKHssCpIVrnvJLdXrS9y_0E",
     "execution_folder_id": "1IvwfaUWrXD540acN0-twJIgBPTcbzRSA",
     "panel_document_id": "1AKagj51B7VO5HTjsfVSZ43BHiNwA5jlVCPYfuIvFFm4",
     "execution_index_document_id": "1skNUCUKEDUnUjc6Q9FYVXw3Shg6KUnJzmLeytb6Yk3Y",
@@ -116,7 +120,7 @@
     "protocol_gate_api": "api/protocol.py",
     "final_report_gate_api": "api/report.py",
     "agent_registry": "public.agent_registry",
-    "database_migrations_required_through": 23
+    "database_migrations_required_through": 24
   },
   "current_authority_state": {
     "system_state": "TRADING_HALT_RESEARCH",
