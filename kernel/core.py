@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 SYSTEM_VERSION = "NRFIM MOTHER V3"
-KERNEL_VERSION = "NRFIM-KERNEL-0.7-CLEAN-ROOM"
+KERNEL_VERSION = "NRFIM-KERNEL-0.8-DUAL-STATUS"
 SYSTEM_SCOPE = "FIRST_INNING_UNDER__NRFI_SOVEREIGN"
 MOTHER_PROTOCOL_ID = "NRFIMETRICA_MOTHER_V3_AUTONOMOUS"
 MOTHER_DOCUMENT_SHA256 = "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3"
@@ -26,6 +26,14 @@ CLEAN_ROOM_EXECUTION_REQUIRED = True
 NEW_RUN_PER_INVOCATION_REQUIRED = True
 NEW_REPORT_DOCUMENT_PER_RUN_REQUIRED = True
 PRIOR_RUN_REPORTS_AS_SPORTS_INPUT_ALLOWED = False
+
+# Dual-status doctrine: sports judgment and execution authority are separate
+# axes. A technical A4/A6/A7 block may stop real-money execution but may never
+# erase, rewrite, or relabel an audited sports judgment as a sports NO_PLAY.
+SPORTS_EXECUTION_DUAL_STATUS_REQUIRED = True
+SPORTS_STATUS_VALUES = ("SPORTS_CANDIDATE", "NO_PLAY", "WATCHLIST", "AUDIT_ONLY")
+EXECUTION_STATUS_VALUES = ("EXECUTABLE", "TECHNICAL_BLOCK", "PENDING", "NOT_APPLICABLE", "WATCHLIST", "AUDIT_ONLY")
+A4_TECHNICAL_BLOCK_IS_SPORTS_REJECTION = False
 
 # Legacy decisions are retained only for historical compatibility. The active
 # mother-document runtime is A1->A8 through protocol_phase_state.
