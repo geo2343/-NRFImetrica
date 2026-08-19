@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 SYSTEM_VERSION = "NRFIM MOTHER V3"
-KERNEL_VERSION = "NRFIM-KERNEL-0.8-DUAL-STATUS"
+KERNEL_VERSION = "NRFIM-KERNEL-0.9-CAUSAL-AUTHORITY"
 SYSTEM_SCOPE = "FIRST_INNING_UNDER__NRFI_SOVEREIGN"
 MOTHER_PROTOCOL_ID = "NRFIMETRICA_MOTHER_V3_AUTONOMOUS"
 MOTHER_DOCUMENT_SHA256 = "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3"
@@ -19,24 +19,34 @@ MODEL_STATUS = "NOT_CERTIFIED"
 CALIBRATION_STATUS = "NOT_CERTIFIED"
 REAL_MONEY_AUTHORITY = False
 
-# Clean-room doctrine: every new invocation is a new run with its own report
-# document. Prior-run reports/packets are historical/audit material only and
-# cannot be used as sports-analysis input for the current run.
+# Clean-room doctrine.
 CLEAN_ROOM_EXECUTION_REQUIRED = True
 NEW_RUN_PER_INVOCATION_REQUIRED = True
 NEW_REPORT_DOCUMENT_PER_RUN_REQUIRED = True
 PRIOR_RUN_REPORTS_AS_SPORTS_INPUT_ALLOWED = False
 
-# Dual-status doctrine: sports judgment and execution authority are separate
-# axes. A technical A4/A6/A7 block may stop real-money execution but may never
-# erase, rewrite, or relabel an audited sports judgment as a sports NO_PLAY.
-SPORTS_EXECUTION_DUAL_STATUS_REQUIRED = True
+# Causal-authority doctrine: three separate axes.
+SPORTS_PROCESS_EXECUTION_SEPARATION_REQUIRED = True
 SPORTS_STATUS_VALUES = ("SPORTS_CANDIDATE", "NO_PLAY", "WATCHLIST", "AUDIT_ONLY")
-EXECUTION_STATUS_VALUES = ("EXECUTABLE", "TECHNICAL_BLOCK", "PENDING", "NOT_APPLICABLE", "WATCHLIST", "AUDIT_ONLY")
-A4_TECHNICAL_BLOCK_IS_SPORTS_REJECTION = False
+PROCESS_STATUS_VALUES = ("VERIFIED", "FAIL", "REVIEW", "UNVERIFIED", "INCOMPLETE", "MISSING", "PENDING", "NOT_APPLICABLE")
+EXECUTION_STATUS_VALUES = ("EXECUTABLE", "TECHNICAL_BLOCK", "PROCESS_BLOCK", "PENDING", "NOT_APPLICABLE", "WATCHLIST", "AUDIT_ONLY")
 
-# Legacy decisions are retained only for historical compatibility. The active
-# mother-document runtime is A1->A8 through protocol_phase_state.
+# A sports verdict is decided by causal analysis grounded in current-run data.
+# Process validation may block execution, but it may not erase the sports verdict.
+SPORTS_CANDIDATE_REQUIRES_PROCESS_PASS = False
+SPORTS_CANDIDATE_REQUIRES_DRIVE_HASH_MATCH = False
+SPORTS_CANDIDATE_REQUIRES_BASIC_CURRENT_RUN_DATA = True
+SOURCE_FAMILY_FLOORS_DECIDE_SPORTS_CANDIDACY = False
+A4_TECHNICAL_BLOCK_IS_SPORTS_REJECTION = False
+PROCESS_FAILURE_IS_SPORTS_REJECTION = False
+
+# Zero sports candidates is not a default or process-generated outcome.
+# It is valid only when the sports layer has substantively rejected every
+# non-audit game with current-run evidence and explicit causal burden.
+ZERO_SPORTS_CANDIDATES_REQUIRES_DATA_BURDEN = True
+ZERO_SPORTS_CANDIDATES_MAY_BE_CAUSED_BY_PROCESS = False
+
+# Legacy decisions are retained only for historical compatibility.
 ALLOWED_DECISIONS = {
     "NRFI_CANDIDATE",
     "NRFI_REJECTED",
