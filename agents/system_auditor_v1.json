@@ -56,7 +56,7 @@
     "project_id": "yejaollmavoudbxnbpll",
     "namespace": "system_audit_",
     "authority_table": "system_auditor_authority",
-    "migrations_required_through": 42
+    "migrations_required_through": 43
   },
   "drive": {
     "root_folder_id": "1h7JtnEKxWx0aLOpeGJ5wSBEQgpT4VtoV",
