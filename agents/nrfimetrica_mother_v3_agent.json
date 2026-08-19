@@ -1,17 +1,19 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.1",
+  "agent_version": "MOTHER-V3-AGENT-1.2",
   "status": "ACTIVE_MANDATE",
   "activation": {
     "primary_trigger": "@NRFImetrica",
-    "aliases": ["ejecuta @NRFImetrica", "ejecutar NRFImetrica", "corre NRFImetrica"],
+    "aliases": ["ejecuta @NRFImetrica", "ejecutar NRFImetrica", "corre NRFimetrica"],
     "manual_phase_authorization_required": false,
-    "activation_meaning": "EXECUTE_FULL_RELEVANT_MLB_SLATE_MANDATE"
+    "activation_meaning": "EXECUTE_FULL_RELEVANT_MLB_SLATE_MANDATE",
+    "every_activation_requires_new_run": true,
+    "every_activation_requires_new_report_document": true
   },
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY",
+    "kernel_version": "NRFIM-KERNEL-0.7-CLEAN-ROOM",
     "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
     "mother_document_rendered_lines": 15570,
     "precedence": "LATEST_SOVEREIGN_PATCH_WINS",
@@ -20,13 +22,40 @@
   "roles": {
     "document_mother": "CONSTITUTION",
     "chatgpt": "CAUSAL_ANALYST_AND_ORCHESTRATOR",
-    "kernel": "OPERATIONAL_STRAIGHTJACKET_AND_CHAIN_OF_CUSTODY",
+    "kernel": "OPERATIONAL_STRAIGHTJACKET_CHAIN_OF_CUSTODY_AND_RUN_ISOLATION",
     "supabase": "PERSISTENT_TECHNICAL_STATE_AND_DB_ENFORCEMENT",
     "vercel": "HTTP_RUNTIME",
     "drive": "PERMANENT_DOCUMENTARY_CASEFILE_AND_IMMUTABLE_SNAPSHOTS",
     "nrfiprensa": "SEPARATE_PRESS_AUDIT_AGENT"
   },
-  "run_start": ["CREATE_RUN_ID", "FETCH_REAL_MLB_SLATE", "REGISTER_ALL_GAMES", "FREEZE_UNIVERSE", "AUTO_SEAL_A0_AGAINST_MOTHER_HASH"],
+  "clean_room_execution": {
+    "required": true,
+    "new_run_id_per_invocation": true,
+    "new_invocation_id_per_run": true,
+    "new_drive_report_document_per_run": true,
+    "report_document_must_exist_before_first_sports_packet": true,
+    "drive_report_file_id_must_be_globally_unique": true,
+    "prior_reports_as_sports_analysis_input": "FORBIDDEN",
+    "prior_packets_as_sports_analysis_input": "FORBIDDEN",
+    "prior_run_reasoning_reuse": "FORBIDDEN",
+    "prior_runs_role": "HISTORICAL_AUDIT_ONLY",
+    "explicit_historical_audit_may_read_old_material": true,
+    "explicit_historical_audit_may_promote_old_material_to_current_sports_evidence": false,
+    "current_run_sports_claims_require_current_run_evidence": true,
+    "current_run_analysis_must_start_from_current_sources": true
+  },
+  "run_start": [
+    "CREATE_NEW_RUN_ID",
+    "KERNEL_GENERATE_NEW_INVOCATION_ID",
+    "CREATE_NEW_DRIVE_RUN_FOLDER",
+    "CREATE_NEW_UNIQUE_REPORT_DOCUMENT",
+    "REGISTER_REPORT_DOCUMENT_IN_RUN_REPORT_DOCUMENTS",
+    "FETCH_REAL_MLB_SLATE_FROM_CURRENT_SOURCES",
+    "REGISTER_ALL_GAMES",
+    "FREEZE_UNIVERSE",
+    "AUTO_SEAL_A0_AGAINST_MOTHER_HASH",
+    "ONLY_THEN_BEGIN_SPORTS_REASONING"
+  ],
   "sports_reasoning_chain": {
     "packet_version": "2.0",
     "one_packet_per_registered_game": true,
@@ -69,6 +98,12 @@
     "incomplete_sports_packet_may_be_reported_but_never_rounded_to_complete": true
   },
   "hard_truth_rules": [
+    "NEW_INVOCATION_NEW_RUN",
+    "NEW_RUN_NEW_REPORT_DOCUMENT",
+    "NO_ANALYSIS_BEFORE_NEW_REPORT_DOCUMENT_EXISTS",
+    "NO_PRIOR_RUN_REPORT_AS_SPORTS_EVIDENCE",
+    "NO_PRIOR_RUN_PACKET_AS_SPORTS_EVIDENCE",
+    "NO_INHERITED_PRIOR_RUN_REASONING",
     "NO_AI_PROBABILITY_FABRICATION",
     "NO_NARRATED_TOOL_EXECUTION_WITHOUT_PHYSICAL_TRACE",
     "NO_FACTUAL_CLAIM_WITHOUT_CHAIN_VERIFIED_EVIDENCE",
@@ -85,6 +120,7 @@
     "NO_CLOSE_WITHOUT_VERIFIED_DRIVE_FINAL_REPORT"
   ],
   "physical_artifacts": {
+    "run_isolation": ["runs.invocation_id", "runs.clean_room_mode", "run_report_documents"],
     "sports_reasoning": ["research_tool_events", "research_source_families", "evidence", "sports_reasoning_packets", "sports_reasoning_claims", "sports_process_audits", "sports_process_auditor_registry", "research_drive_artifacts"],
     "A4": ["numeric_engine_registry", "numeric_engine_executions"],
     "A6": ["independent_auditor_registry", "independent_audit_executions", "sra_packets"],
@@ -112,7 +148,8 @@
     "execution_index_document_id": "1skNUCUKEDUnUjc6Q9FYVXw3Shg6KUnJzmLeytb6Yk3Y",
     "historical_folder_id": "1cjhGvKsg3JTd6ILhaMzQr4mCN6OEDuoG",
     "run_folder_template": "YYYY-MM-DD — RUN_ID",
-    "run_documentary_blocks": ["00 — JORNADA Y FREEZE", "GAME — SPORTS_REASONING_PACKET + EVIDENCE SNAPSHOTS", "GAME — A1-A8 OR TERMINAL_RESOLUTION", "90 — AUDITORIA", "99 — REPORTE FINAL"]
+    "unique_report_document_template": "99 — REPORTE FINAL — RUN_ID",
+    "run_documentary_blocks": ["00 — JORNADA Y FREEZE", "GAME — SPORTS_REASONING_PACKET + EVIDENCE SNAPSHOTS", "GAME — A1-A8 OR TERMINAL_RESOLUTION", "90 — AUDITORIA", "99 — REPORTE FINAL — RUN_ID"]
   },
   "runtime": {
     "run_api": "api/index.py",
@@ -120,7 +157,7 @@
     "protocol_gate_api": "api/protocol.py",
     "final_report_gate_api": "api/report.py",
     "agent_registry": "public.agent_registry",
-    "database_migrations_required_through": 24
+    "database_migrations_required_through": 25
   },
   "current_authority_state": {
     "system_state": "TRADING_HALT_RESEARCH",
