@@ -13,7 +13,7 @@ from kernel.core import KERNEL_VERSION, MOTHER_PROTOCOL_ID, SYSTEM_VERSION, stab
 SUPABASE_URL = os.getenv('SUPABASE_URL', '').rstrip('/')
 SUPABASE_SECRET_KEY = os.getenv('SUPABASE_SECRET_KEY', '') or os.getenv('SUPABASE_SERVICE_ROLE_KEY', '')
 
-app = FastAPI(title='@NRFImetrica Sports Research Chain', version='1.0')
+app = FastAPI(title='@NRFImetrica Sports Research Chain', version='1.1')
 
 
 def _headers(prefer: str | None = None) -> dict[str, str]:
@@ -134,20 +134,22 @@ class DriveArtifactRequest(BaseModel):
 
 class ProcessAuditRequest(BaseModel):
     packet_id: str
-    auditor_id: str = 'KERNEL_PROCESS_AUDITOR_0.1'
-    structural_pass: bool
-    temporal_pass: bool
-    evidence_pass: bool
-    falsification_pass: bool
-    independence_pass: bool
     clone_risk: str = 'NOT_EVALUATED'
     findings: dict[str, Any] = Field(default_factory=dict)
-    status: str
 
 
 @app.get('/')
 async def root():
-    return {'service': '@NRFImetrica Sports Research Chain', 'system_version': SYSTEM_VERSION, 'kernel_version': KERNEL_VERSION, 'protocol_id': MOTHER_PROTOCOL_ID, 'packet_version': '2.0', 'rule': 'NO_CLAIM_OF_RESEARCH_WITHOUT_PHYSICAL_CHAIN_OF_CUSTODY'}
+    return {
+        'service': '@NRFImetrica Sports Research Chain',
+        'system_version': SYSTEM_VERSION,
+        'kernel_version': KERNEL_VERSION,
+        'protocol_id': MOTHER_PROTOCOL_ID,
+        'packet_version': '2.0',
+        'process_auditor': 'KERNEL_PROCESS_AUDITOR_0.2',
+        'process_audit_truth_values': 'DERIVED_BY_DATABASE',
+        'rule': 'NO_CLAIM_OF_RESEARCH_WITHOUT_PHYSICAL_CHAIN_OF_CUSTODY',
+    }
 
 
 @app.post('/tool-events')
@@ -217,7 +219,23 @@ async def register_drive_artifact(req: DriveArtifactRequest):
 
 @app.post('/process-audits')
 async def register_process_audit(req: ProcessAuditRequest):
-    row = {'audit_id': f'PAUD-{uuid4().hex}', 'packet_id': req.packet_id, 'run_id': 'SET_BY_DB', 'game_id': 'SET_BY_DB', 'auditor_id': req.auditor_id, 'structural_pass': req.structural_pass, 'temporal_pass': req.temporal_pass, 'evidence_pass': req.evidence_pass, 'falsification_pass': req.falsification_pass, 'independence_pass': req.independence_pass, 'clone_risk': req.clone_risk.upper(), 'findings': req.findings, 'status': req.status.upper()}
+    # Placeholder values satisfy the table shape only. The DB trigger discards
+    # them and derives every process truth value from the frozen packet/evidence.
+    row = {
+        'audit_id': f'PAUD-{uuid4().hex}',
+        'packet_id': req.packet_id,
+        'run_id': 'SET_BY_DB',
+        'game_id': 'SET_BY_DB',
+        'auditor_id': 'KERNEL_PROCESS_AUDITOR_0.2',
+        'structural_pass': False,
+        'temporal_pass': False,
+        'evidence_pass': False,
+        'falsification_pass': False,
+        'independence_pass': False,
+        'clone_risk': req.clone_risk.upper(),
+        'findings': req.findings,
+        'status': 'FAIL',
+    }
     saved = await sb('POST', 'sports_process_audits', payload=row, prefer='return=representation')
     return (saved or [row])[0]
 
@@ -242,4 +260,6 @@ async def run_research_state(run_id: str):
     run = await sb('GET', 'runs', params={'select': 'run_id,status,tool_call_count,metadata', 'run_id': f'eq.{run_id}', 'limit': '1'}) or []
     packets = await sb('GET', 'sports_reasoning_packets', params={'select': '*', 'run_id': f'eq.{run_id}', 'order': 'game_id.asc,version.desc'}) or []
     tool_events = await sb('GET', 'research_tool_events', params={'select': 'event_id,game_id,tool_name,operation,occurred_at,evidence_id', 'run_id': f'eq.{run_id}', 'order': 'occurred_at.asc'}) or []
-    return {'run': run[0] if run else None, 'packets': packets, 'tool_events': tool_events}
+    process_audits = await sb('GET', 'sports_process_audits', params={'select': '*', 'run_id': f'eq.{run_id}', 'order': 'created_at.asc'}) or []
+    drive_artifacts = await sb('GET', 'research_drive_artifacts', params={'select': '*', 'run_id': f'eq.{run_id}', 'order': 'verified_at.asc'}) or []
+    return {'run': run[0] if run else None, 'packets': packets, 'tool_events': tool_events, 'process_audits': process_audits, 'drive_artifacts': drive_artifacts}
