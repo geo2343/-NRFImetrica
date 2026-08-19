@@ -18,6 +18,7 @@ NEW_REPORT_PER_AUDIT = True
 TARGET_MENU = {
     "1": "@NRFiPrensa",
     "2": "@NRFImetrica",
+    "3": "@DepuracionMLB",
 }
 
 AUDIT_LAYERS = (
@@ -66,7 +67,12 @@ SOVEREIGN_RULES = {
 
 
 def target_prompt() -> str:
-    return "¿Qué sistema desea auditar?\n1 — @NRFiPrensa\n2 — @NRFImetrica"
+    return (
+        "¿Qué sistema desea auditar?\n"
+        "1 — @NRFiPrensa\n"
+        "2 — @NRFImetrica\n"
+        "3 — @DepuracionMLB"
+    )
 
 
 def normalize_target(value: str) -> str:
@@ -74,10 +80,15 @@ def normalize_target(value: str) -> str:
     if value in TARGET_MENU:
         return TARGET_MENU[value]
     lowered = value.lower()
-    if lowered == "@nrfiprensa":
-        return "@NRFiPrensa"
-    if lowered == "@nrfimetrica":
-        return "@NRFImetrica"
+    aliases = {
+        "@nrfiprensa": "@NRFiPrensa",
+        "@nrfimetrica": "@NRFImetrica",
+        "@depuracionmlb": "@DepuracionMLB",
+        "@mlbdepuracion": "@DepuracionMLB",
+        "@mlbdepuración": "@DepuracionMLB",
+    }
+    if lowered in aliases:
+        return aliases[lowered]
     raise ValueError("AUDITOR_UNKNOWN_TARGET")
 
 
