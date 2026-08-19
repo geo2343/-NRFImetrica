@@ -1,0 +1,121 @@
+{
+  "agent_id": "@NRFImetrica",
+  "agent_version": "MOTHER-V3-AGENT-1.0",
+  "status": "ACTIVE_MANDATE",
+  "activation": {
+    "primary_trigger": "@NRFImetrica",
+    "aliases": [
+      "ejecuta @NRFImetrica",
+      "ejecutar NRFImetrica",
+      "corre NRFImetrica"
+    ],
+    "manual_phase_authorization_required": false,
+    "activation_meaning": "EXECUTE_FULL_RELEVANT_MLB_SLATE_MANDATE"
+  },
+  "authority": {
+    "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+    "system_version": "NRFIM MOTHER V3",
+    "kernel_version": "NRFIM-KERNEL-0.5-MOTHER-ENFORCED",
+    "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
+    "mother_document_rendered_lines": 15570,
+    "precedence": "LATEST_SOVEREIGN_PATCH_WINS",
+    "latest_sovereign_patch": "A0-GOV.18 — REFORMA OPERATIVA SOBERANA V3"
+  },
+  "roles": {
+    "document_mother": "CONSTITUTION",
+    "chatgpt": "CAUSAL_ANALYST_AND_ORCHESTRATOR",
+    "kernel": "OPERATIONAL_STRAIGHTJACKET",
+    "supabase": "PERSISTENT_TECHNICAL_STATE_AND_DB_ENFORCEMENT",
+    "vercel": "HTTP_RUNTIME",
+    "drive": "PERMANENT_DOCUMENTARY_CASEFILE",
+    "nrfiprensa": "SEPARATE_PRESS_AUDIT_AGENT"
+  },
+  "run_start": [
+    "CREATE_RUN_ID",
+    "FETCH_REAL_MLB_SLATE",
+    "REGISTER_ALL_GAMES",
+    "FREEZE_UNIVERSE_AND_TIMESTAMPS",
+    "AUTO_SEAL_A0_AGAINST_MOTHER_HASH"
+  ],
+  "game_flow": [
+    "A1_DATA_INTEGRITY_FREEZE",
+    "A2_HIERARCHICAL_BASELINES",
+    "A3_CURRENT_VERSION_MATCHUP",
+    "A4_NUMERIC_STATE_ENGINE",
+    "A5_JOINT_INTEGRATION",
+    "A6_CAUSAL_FALSIFICATION_SPORTS_SEAL",
+    "A7_CALIBRATION_ELIGIBILITY_PRESS",
+    "A8_MARKET_VALUE_EXECUTION"
+  ],
+  "advance_policy": {
+    "pass": "AUTO_ADVANCE",
+    "recoverable_material_issue": "ONE_RECOVERY_MAX_PER_ISSUE_ID",
+    "unresolved_material_issue": "WRITE_TERMINAL_RESOLUTION_AND_CONTINUE_SLATE",
+    "local_failure_stops_slate": false,
+    "fabricated_phase_allowed": false
+  },
+  "hard_truth_rules": [
+    "NO_AI_PROBABILITY_FABRICATION",
+    "NO_NARRATED_TOOL_EXECUTION_WITHOUT_PHYSICAL_TRACE",
+    "NO_DUPLICATE_EVIDENCE_COUNTING",
+    "NO_PHASE_SKIP",
+    "NO_MARKET_BEFORE_A8",
+    "NO_FUTURE_DATA",
+    "NO_SELF_INDEPENDENT_AUDIT",
+    "NO_UNCERTAINTY_AS_EASY_EXIT",
+    "NO_FORCED_PICKS",
+    "NO_U15_U25_RESCUE_OF_WEAK_P0",
+    "NO_CLOSE_WITH_UNRESOLVED_GAMES"
+  ],
+  "physical_artifacts": {
+    "A4": ["numeric_engine_registry", "numeric_engine_executions"],
+    "A6": ["independent_auditor_registry", "independent_audit_executions", "sra_packets"],
+    "A7": ["nrfiprensa_packets", "calibration_certifications"],
+    "A8": ["market_offers", "t5_revalidations"]
+  },
+  "portfolio": {
+    "origin": "STRONG_ZERO_RUN_THESIS",
+    "candidate_count_allowed": [0, 1, 2, 3],
+    "maximum_candidates": 3,
+    "distribution_required": ["P0", "P1", "P2", "P3PLUS"],
+    "derived_contracts": ["U0.5/NRFI", "U1.5", "U2.5"],
+    "tickets_are_separate_value_objects": true
+  },
+  "timing": {
+    "executable_verdict_deadline": "T-10",
+    "t5_role": "FAST_REVALIDATION_ONLY",
+    "started_game": "NOT_EXECUTABLE_OR_AUDIT_ONLY"
+  },
+  "drive": {
+    "root_folder_id": "1hkgDlFtP7XtOOEHtYrcz4Q2uc887-JVe",
+    "system_master_folder_id": "1e9lRdWwT9f4MK1G9rHPmWycM6vw8EwtD",
+    "active_authority_folder_id": "1pnj7XTgDnAnT0vDDP6AI1k3MyyxHdb9t",
+    "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
+    "agent_mandate_document_id": "1pChqvOgMvobJnIaTPCX2Nkg5VeBBXWaoATzj28lMYq4",
+    "execution_folder_id": "1IvwfaUWrXD540acN0-twJIgBPTcbzRSA",
+    "panel_document_id": "1AKagj51B7VO5HTjsfVSZ43BHiNwA5jlVCPYfuIvFFm4",
+    "execution_index_document_id": "1skNUCUKEDUnUjc6Q9FYVXw3Shg6KUnJzmLeytb6Yk3Y",
+    "historical_folder_id": "1cjhGvKsg3JTd6ILhaMzQr4mCN6OEDuoG",
+    "run_folder_template": "YYYY-MM-DD — RUN_ID",
+    "run_documentary_blocks": [
+      "00 — JORNADA Y FREEZE",
+      "GAME — A1-A8 OR TERMINAL_RESOLUTION",
+      "90 — AUDITORIA",
+      "99 — REPORTE FINAL"
+    ]
+  },
+  "runtime": {
+    "run_api": "api/index.py",
+    "protocol_gate_api": "api/protocol.py",
+    "final_report_gate_api": "api/report.py",
+    "database_migrations_required_through": 19
+  },
+  "current_authority_state": {
+    "system_state": "TRADING_HALT_RESEARCH",
+    "real_money_authority": false,
+    "active_trusted_numeric_engine": false,
+    "active_trusted_independent_auditor": false,
+    "active_trusted_calibration": false,
+    "behavior_when_component_missing": "DO_NOT_SIMULATE; TERMINAL_RESOLUTION; CONTINUE_SLATE"
+  }
+}
