@@ -1,17 +1,18 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.4",
+  "agent_version": "MOTHER-V3-AGENT-1.5",
   "status": "ACTIVE_MANDATE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-0.9-CAUSAL-AUTHORITY",
+    "kernel_version": "NRFIM-KERNEL-1.0-SELECTIVE-CONCLUSION",
     "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
     "precedence": "LATEST_SOVEREIGN_PATCH_WINS",
     "active_extensions": [
       "NRFIMETRICA_SPORTS_REASONING_PACKET_V2",
       "NRFIMETRICA_CLEAN_ROOM_V07",
-      "NRFIMETRICA_CAUSAL_AUTHORITY_V09"
+      "NRFIMETRICA_CAUSAL_AUTHORITY_V09",
+      "NRFIMETRICA_SELECTIVE_CONCLUSION_V10"
     ]
   },
   "activation": {
@@ -58,6 +59,49 @@
     "no_play": "SPORTS_REJECTION_OR_YRFI_LEAN_WITH_CURRENT_RUN_GAME_DATA",
     "watchlist": "NO_FINAL_DATA_SUPPORTED_SPORTS_VERDICT_YET",
     "audit_only": "PREGAME_WINDOW_NOT_AVAILABLE"
+  },
+  "selective_conclusion": {
+    "required": true,
+    "physical_object": "public.nrfimetrica_sports_shortlists",
+    "candidate_pool_is_not_final_shortlist": true,
+    "primary_candidate_target": 2,
+    "primary_candidates_when_pool_at_least_two": 2,
+    "optional_third_allowed": true,
+    "maximum_final_sports_shortlist": 3,
+    "third_is_exceptional_not_automatic": true,
+    "if_pool_has_one": "RETURN_ONE_AND_MARK_INSUFFICIENT_POTABLE_SHORTLIST",
+    "if_pool_has_zero": "FOLLOW_ZERO_CANDIDATE_DATA_BURDEN_RULE",
+    "ranking_owner": "CHATGPT_CAUSAL_ANALYST",
+    "kernel_may_rank_by_metric_score": false,
+    "metric_scoring_as_shortlist_decision": "FORBIDDEN",
+    "required_primary_fields": [
+      "rank",
+      "game_id",
+      "central_argument",
+      "dominant_suppression_mechanism",
+      "strongest_risk",
+      "why_it_survives_risk",
+      "why_above_next_best",
+      "current_run_evidence_ids"
+    ],
+    "required_optional_third_fields": [
+      "rank_3",
+      "game_id",
+      "central_argument",
+      "why_third_is_worth_including",
+      "why_not_primary_two",
+      "current_run_evidence_ids"
+    ],
+    "every_unselected_sports_candidate_requires": [
+      "why_not_top_two",
+      "material_weakness_vs_selected"
+    ],
+    "comparative_conclusion_required": true,
+    "report_must_distinguish": [
+      "sports_candidate_pool_count",
+      "sports_shortlist_count",
+      "execution_candidate_count"
+    ]
   },
   "process_status": {
     "values": ["VERIFIED", "FAIL", "REVIEW", "UNVERIFIED", "INCOMPLETE", "MISSING", "PENDING", "NOT_APPLICABLE"],
@@ -111,12 +155,18 @@
     "NO_PROCESS_FAIL_AS_SPORTS_REJECTION",
     "NO_ZERO_SPORTS_CANDIDATES_FROM_PROCESS",
     "NO_ZERO_SPORTS_CANDIDATES_WITHOUT_DATA_BURDEN",
+    "NO_FOUR_OR_MORE_FINAL_SPORTS_CANDIDATES",
+    "TWO_PRIMARY_SPORTS_CANDIDATES_WHEN_POOL_HAS_AT_LEAST_TWO",
+    "THIRD_SPORTS_CANDIDATE_MUST_BE_EXCEPTIONALLY_JUSTIFIED",
+    "EVERY_EXCLUDED_SPORTS_CANDIDATE_REQUIRES_RELATIVE_CAUSAL_REASON",
+    "NO_METRIC_SCORE_AS_SHORTLIST_SELECTOR",
     "NO_MARKET_BEFORE_A8",
     "NO_REAL_MONEY_WITHOUT_REAL_AUTHORITY"
   ],
   "runtime": {
-    "database_migrations_required_through": 30,
+    "database_migrations_required_through": 32,
     "game_status_view": "public.nrfimetrica_game_dual_status",
+    "sports_shortlist_table": "public.nrfimetrica_sports_shortlists",
     "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2",
     "run_api": "api/index.py",
     "research_chain_api": "api/research.py",
