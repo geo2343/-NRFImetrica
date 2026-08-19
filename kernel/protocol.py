@@ -41,44 +41,167 @@ def _unique_source_calls(source_calls: list[dict[str, Any]]) -> list[dict[str, A
     return unique
 
 
-def validate_ai_estimate(payload: dict[str, Any]) -> None:
-    estimate = payload.get('ai_estimate')
-    if not estimate:
-        return
-    if not isinstance(estimate, dict):
-        raise ProtocolViolation('AI_ESTIMATE_MUST_BE_OBJECT')
+def _walk_keys(value: Any):
+    if isinstance(value, dict):
+        for key, child in value.items():
+            yield str(key).lower()
+            yield from _walk_keys(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from _walk_keys(child)
 
-    kind = str(estimate.get('kind') or '').strip()
-    value = estimate.get('percent')
-    label = estimate.get('label')
 
-    if value is not None:
-        if kind != 'AI_JUDGMENT_UNCALIBRATED':
-            raise ProtocolViolation('AI_PERCENT_MUST_BE_LABELED_UNCALIBRATED_JUDGMENT')
+def _number(value: Any, label: str) -> float:
+    try:
+        result = float(value)
+    except (TypeError, ValueError) as exc:
+        raise ProtocolViolation(f'NUMERIC_FIELD_INVALID:{label}') from exc
+    if not 0.0 <= result <= 1.0:
+        raise ProtocolViolation(f'PROBABILITY_OUT_OF_RANGE:{label}')
+    return result
+
+
+def _assert_distribution(payload: dict[str, Any], prefix: str, *, tolerance: float = 1e-6) -> tuple[float, float, float, float]:
+    values = tuple(_number(_get_path(payload, f'{prefix}.{name}'), f'{prefix}.{name}') for name in ('p0', 'p1', 'p2', 'p3plus'))
+    if abs(sum(values) - 1.0) > tolerance:
+        raise ProtocolViolation(f'PROBABILITY_MASS_NOT_ONE:{prefix}:{sum(values):.8f}')
+    return values  # type: ignore[return-value]
+
+
+def _assert_bool_true(payload: dict[str, Any], path: str, code: str) -> None:
+    if _get_path(payload, path) is not True:
+        raise ProtocolViolation(code)
+
+
+def _mother_semantics(phase_id: str, payload: dict[str, Any], output_text: str) -> None:
+    keys = set(_walk_keys(payload))
+    if {'ai_estimate', 'ai_nrfi_estimate', 'ai_probability'} & keys:
+        raise ProtocolViolation('MOTHER_DOCUMENT_FORBIDS_AI_PROBABILITY_FABRICATION')
+
+    if phase_id == 'A1_DATA_INTEGRITY_FREEZE':
+        if str(_get_path(payload, 'market_quarantine')).upper() not in {'PASS', 'SEALED', 'INTACT'}:
+            raise ProtocolViolation('A1_MARKET_QUARANTINE_NOT_INTACT')
+        if str(_get_path(payload, 'temporal_integrity')).upper() != 'PASS':
+            raise ProtocolViolation('A1_TEMPORAL_INTEGRITY_FAIL')
+
+    elif phase_id == 'A2_HIERARCHICAL_BASELINES':
+        if str(_get_path(payload, 'market_blindness')).upper() != 'PASS':
+            raise ProtocolViolation('A2_MARKET_BLINDNESS_FAIL')
+        if str(_get_path(payload, 'double_count_check')).upper() != 'PASS':
+            raise ProtocolViolation('A2_DEPENDENCY_CONTROL_FAIL')
+
+    elif phase_id == 'A3_CURRENT_VERSION_MATCHUP':
+        if str(_get_path(payload, 'market_blindness')).upper() != 'PASS':
+            raise ProtocolViolation('A3_MARKET_BLINDNESS_FAIL')
+        if str(_get_path(payload, 'numeric_fabrication_check')).upper() != 'PASS':
+            raise ProtocolViolation('A3_NUMERIC_BOUNDARY_FAIL')
+
+    elif phase_id == 'A4_NUMERIC_STATE_ENGINE':
+        if str(_get_path(payload, 'numeric_engine.provenance_status')).upper() != 'PASS':
+            raise ProtocolViolation('A4_NUMERIC_PROVENANCE_NOT_PASS')
+        if str(_get_path(payload, 'numeric_engine.transformation_status')).upper() != 'PASS':
+            raise ProtocolViolation('A4_TRANSFORMATION_NOT_VALIDATED')
+        mode = str(_get_path(payload, 'numeric_engine.engine_mode')).upper()
+        if mode not in {'PRODUCTION', 'REDUCED', 'BOOTSTRAP', 'HIGH_UNCERTAINTY'}:
+            raise ProtocolViolation('A4_ENGINE_MODE_INVALID')
+        _assert_distribution(payload, 'top')
+        _assert_distribution(payload, 'bottom')
+        if str(_get_path(payload, 'mass_conservation_check')).upper() != 'PASS':
+            raise ProtocolViolation('A4_MASS_CONSERVATION_FAIL')
+        if str(_get_path(payload, 'state_sanity_checks')).upper() != 'PASS':
+            raise ProtocolViolation('A4_STATE_SANITY_FAIL')
+
+    elif phase_id == 'A5_JOINT_INTEGRATION':
+        p0, p1, p2, p3plus = _assert_distribution(payload, 'joint')
+        p_u05 = _number(_get_path(payload, 'contracts.p_u0_5'), 'contracts.p_u0_5')
+        p_u15 = _number(_get_path(payload, 'contracts.p_u1_5'), 'contracts.p_u1_5')
+        p_u25 = _number(_get_path(payload, 'contracts.p_u2_5'), 'contracts.p_u2_5')
+        p_yrfi = _number(_get_path(payload, 'p_yrfi'), 'p_yrfi')
+        if abs(p_u05 - p0) > 1e-6:
+            raise ProtocolViolation('A5_U05_DERIVATION_FAIL')
+        if abs(p_u15 - (p0 + p1)) > 1e-6:
+            raise ProtocolViolation('A5_U15_DERIVATION_FAIL')
+        if abs(p_u25 - (p0 + p1 + p2)) > 1e-6:
+            raise ProtocolViolation('A5_U25_DERIVATION_FAIL')
+        if abs(p_yrfi - (1.0 - p0)) > 1e-6:
+            raise ProtocolViolation('A5_COMPLEMENT_CHECK_FAIL')
+        if str(_get_path(payload, 'same_context_realization_check')).upper() != 'PASS':
+            raise ProtocolViolation('A5_SHARED_CONTEXT_FAIL')
+        if str(_get_path(payload, 'double_adjustment_check')).upper() != 'PASS':
+            raise ProtocolViolation('A5_DOUBLE_ADJUSTMENT_FAIL')
+
+    elif phase_id == 'A6_CAUSAL_FALSIFICATION_SPORTS_SEAL':
+        primary = str(_get_path(payload, 'primary_analyst_id') or '').strip()
+        auditor = str(_get_path(payload, 'independent_audit.auditor_id') or '').strip()
+        if not primary or not auditor or primary == auditor:
+            raise ProtocolViolation('A6_INDEPENDENT_AUDIT_NOT_INDEPENDENT')
+        sra_status = str(_get_path(payload, 'sra.packet_status')).upper()
+        if sra_status not in {'COMPLETE', 'DATA_UNAVAILABLE'}:
+            raise ProtocolViolation('SRA_GATE_NOT_EXECUTED')
+        _assert_bool_true(payload, 'pre_press_verdict.frozen', 'A6_PRE_PRESS_VERDICT_NOT_FROZEN')
+        if 'ESPERANDO RESULTADO DE NRFI-PRENSA' not in output_text:
+            raise ProtocolViolation('A6_PRESS_WAIT_MARKER_MISSING')
+        if str(_get_path(payload, 'sports_seal.market_blindness')).upper() != 'PASS':
+            raise ProtocolViolation('A6_MARKET_BLINDNESS_FAIL')
+
+    elif phase_id == 'A7_CALIBRATION_ELIGIBILITY_PRESS':
+        release = str(_get_path(payload, 'release_token')).upper()
+        calibration = str(_get_path(payload, 'calibration_status')).upper()
+        region = str(_get_path(payload, 'calibration_region_support')).upper()
+        oos = str(_get_path(payload, 'oos_validation_status')).upper()
+        provenance = str(_get_path(payload, 'provenance_status')).upper()
+        eligibility = str(_get_path(payload, 'absolute_eligibility')).upper()
+        press_effect = str(_get_path(payload, 'nrfi_prensa.effect')).upper()
+        if press_effect not in {'CONFIRM', 'STRENGTHEN', 'CONDITION', 'REVISE', 'REJECT', 'NON_DISCRIMINANT'}:
+            raise ProtocolViolation('A7_NRFI_PRENSA_EFFECT_INVALID')
+        if release == 'ISSUED':
+            if calibration not in {'CERTIFIED', 'CERTIFIED_CONDITIONED'}:
+                raise ProtocolViolation('A7_NOT_CERTIFIED_A8_LOCKED')
+            if region not in {'HIGH', 'MEDIUM'}:
+                raise ProtocolViolation('A7_REGION_SUPPORT_INSUFFICIENT')
+            if oos != 'PASS' or provenance != 'PASS':
+                raise ProtocolViolation('A7_RELEASE_WITHOUT_OOS_OR_PROVENANCE')
+            if eligibility not in {'A7_ELIGIBLE', 'A7_ELIGIBLE_CONDITIONED'}:
+                raise ProtocolViolation('A7_RELEASE_WITHOUT_ABSOLUTE_ELIGIBILITY')
+        elif release not in {'NOT_ISSUED', 'BLOCKED', 'N/A', 'NA'}:
+            raise ProtocolViolation('A7_RELEASE_TOKEN_INVALID')
+
+    elif phase_id == 'A8_MARKET_VALUE_EXECUTION':
+        p0, p1, p2, _ = _assert_distribution(payload, 'probability')
+        line = str(_get_path(payload, 'line_recommended')).upper()
+        if line not in {'U0.5', 'NRFI', 'U1.5', 'U2.5'}:
+            raise ProtocolViolation('A8_LINE_INVALID')
+        if str(_get_path(payload, 'a7_release_token')).upper() != 'ISSUED':
+            raise ProtocolViolation('A8_RELEASE_BLOCKED')
+        if str(_get_path(payload, 'a7_eligibility_status')).upper() not in {'A7_ELIGIBLE', 'A7_ELIGIBLE_CONDITIONED'}:
+            raise ProtocolViolation('A8_ELIGIBILITY_BLOCKED')
+        if str(_get_path(payload, 'calibration_status')).upper() not in {'CERTIFIED', 'CERTIFIED_CONDITIONED'}:
+            raise ProtocolViolation('A8_REQUIRES_CERTIFIED_CALIBRATION')
+        if line == 'U1.5' and 'El partido fue seleccionado por su fortaleza para cero carreras.' not in output_text:
+            raise ProtocolViolation('A8_U15_REQUIRED_MESSAGE_MISSING')
+        break_even = _number(_get_path(payload, 'market.break_even'), 'market.break_even')
+        p_conservative = _number(_get_path(payload, 'market.p_conservative'), 'market.p_conservative')
         try:
-            numeric = float(value)
+            decimal_odds = float(_get_path(payload, 'market.decimal_odds'))
+            edge = float(_get_path(payload, 'market.edge'))
+            ev = float(_get_path(payload, 'market.ev'))
         except (TypeError, ValueError) as exc:
-            raise ProtocolViolation('AI_ESTIMATE_PERCENT_INVALID') from exc
-        if not 0 <= numeric <= 100:
-            raise ProtocolViolation('AI_ESTIMATE_PERCENT_OUT_OF_RANGE')
-
-    if label is not None:
-        allowed = {
-            'STRONGLY_FAVORABLE',
-            'MODERATELY_FAVORABLE',
-            'SLIGHTLY_FAVORABLE',
-            'BALANCED',
-            'SLIGHTLY_UNFAVORABLE',
-            'MODERATELY_UNFAVORABLE',
-            'STRONGLY_UNFAVORABLE',
-        }
-        if str(label).strip().upper() not in allowed:
-            raise ProtocolViolation('AI_ESTIMATE_LABEL_INVALID')
-
-    forbidden = ('edge', 'ev', 'calibrated_probability', 'real_money_authority')
-    for key in forbidden:
-        if _nonempty(estimate.get(key)):
-            raise ProtocolViolation(f'AI_ESTIMATE_FORBIDDEN_FIELD:{key}')
+            raise ProtocolViolation('A8_MARKET_MATH_INVALID') from exc
+        if decimal_odds <= 1.0:
+            raise ProtocolViolation('A8_DECIMAL_ODDS_INVALID')
+        if abs(edge - (p_conservative - break_even)) > 1e-6:
+            raise ProtocolViolation('A8_EDGE_MATH_FAIL')
+        if abs(ev - (p_conservative * decimal_odds - 1.0)) > 1e-6:
+            raise ProtocolViolation('A8_EV_MATH_FAIL')
+        final_verdict = str(_get_path(payload, 'final_verdict')).upper()
+        if final_verdict == 'APOSTAR' and (edge <= 0 or ev <= 0):
+            raise ProtocolViolation('A8_NONPOSITIVE_EDGE_OR_EV_NO_BET')
+        if line in {'U0.5', 'NRFI'} and abs(p0 - _number(_get_path(payload, 'market.p_conservative'), 'market.p_conservative')) < -1:
+            raise ProtocolViolation('UNREACHABLE')
+        if line == 'U1.5' and p0 + p1 <= 0:
+            raise ProtocolViolation('A8_U15_NOT_MODELLED')
+        if line == 'U2.5' and p0 + p1 + p2 <= 0:
+            raise ProtocolViolation('A8_U25_NOT_MODELLED')
 
 
 def validate_phase_submission(
@@ -160,7 +283,7 @@ def validate_phase_submission(
         if str(phrase) not in output_text:
             raise ProtocolViolation('REQUIRED_PHRASE_MISSING:' + str(phrase))
 
-    validate_ai_estimate(payload)
+    _mother_semantics(phase_id, payload, output_text)
 
     return {
         'status': 'COMPLETE',
@@ -171,6 +294,7 @@ def validate_phase_submission(
             'evidence_ids': len(unique_evidence),
             'documents_analyzed': sorted(docs),
             'required_phrases': len(phase.get('required_phrases', [])),
+            'mother_document_semantics': True,
         },
     }
 
