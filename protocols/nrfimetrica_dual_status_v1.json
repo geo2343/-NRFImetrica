@@ -1,0 +1,34 @@
+{
+  "extension_id": "NRFIMETRICA_DUAL_STATUS_V1",
+  "status": "ACTIVE_REQUIRED_EXTENSION",
+  "kernel_version": "NRFIM-KERNEL-0.8-DUAL-STATUS",
+  "parent_protocol": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+  "purpose": "Prevent technical certification blocks from being misreported as sports rejection.",
+  "principle": "SPORTS_JUDGMENT_AND_EXECUTION_AUTHORITY_ARE_SEPARATE_AXES",
+  "sports_axis": {
+    "SPORTS_CANDIDATE": "Audited NRFI_LEAN with ANALYSIS_COMPLETE + process PASS + Drive hash match.",
+    "NO_PLAY": "Sports rejection for the NRFI product; preserve underlying YRFI_LEAN/NO_PLAY/NEUTRAL verdict.",
+    "WATCHLIST": "Research incomplete or governing information not sufficient.",
+    "AUDIT_ONLY": "Game not eligible for pregame execution because it had already started or equivalent temporal condition."
+  },
+  "execution_axis": {
+    "EXECUTABLE": "A8 issued APOSTAR or SOLO_SI_CUOTA on verified market state.",
+    "TECHNICAL_BLOCK": "Sports candidate exists but A4/A6/A7 authority chain prevents real-money execution.",
+    "PENDING": "Sports candidate exists and execution chain has not yet resolved.",
+    "NOT_APPLICABLE": "No NRFI sports candidate exists.",
+    "WATCHLIST": "Research not complete enough to enter execution chain.",
+    "AUDIT_ONLY": "Pregame execution unavailable by timing/state."
+  },
+  "hard_rules": [
+    "A4_ENGINE_NOT_INTEGRATED_MAY_NOT_CHANGE_SPORTS_CANDIDATE_TO_NO_PLAY",
+    "A6_OR_A7_TECHNICAL_BLOCK_MAY_NOT_REWRITE_FROZEN_SPORTS_VERDICT",
+    "ELIGIBLE_COUNT_MEANS_EXECUTION_ELIGIBILITY_ONLY",
+    "FINAL_REPORT_MUST_SHOW_SPORTS_CANDIDATE_COUNT_SEPARATELY_FROM_EXECUTION_CANDIDATE_COUNT",
+    "FINAL_REPORT_MUST_LIST_EXACT_SPORTS_CANDIDATE_IDENTITIES",
+    "FINAL_REPORT_MUST_LIST_DUAL_STATUS_FOR_EVERY_REGISTERED_GAME",
+    "ZERO_EXECUTABLE_WITH_POSITIVE_SPORTS_CANDIDATES_MUST_REPORT_TECHNICAL_BLOCK_NOT_SPORTS_REJECTION"
+  ],
+  "physical_source": "public.nrfimetrica_game_dual_status",
+  "enforcement_function": "public.enforce_nrfimetrica_dual_status_reporting",
+  "migrations": [26, 27]
+}
