@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 SYSTEM_VERSION = "NRFIM MOTHER V3"
-KERNEL_VERSION = "NRFIM-KERNEL-0.9-CAUSAL-AUTHORITY"
+KERNEL_VERSION = "NRFIM-KERNEL-1.0-SELECTIVE-CONCLUSION"
 SYSTEM_SCOPE = "FIRST_INNING_UNDER__NRFI_SOVEREIGN"
 MOTHER_PROTOCOL_ID = "NRFIMETRICA_MOTHER_V3_AUTONOMOUS"
 MOTHER_DOCUMENT_SHA256 = "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3"
@@ -40,9 +40,18 @@ SOURCE_FAMILY_FLOORS_DECIDE_SPORTS_CANDIDACY = False
 A4_TECHNICAL_BLOCK_IS_SPORTS_REJECTION = False
 PROCESS_FAILURE_IS_SPORTS_REJECTION = False
 
+# Selective conclusion doctrine. The broad sports-candidate pool is not the
+# final recommendation. The causal analyst must compare the pool and reduce it
+# to exactly two primary candidates when at least two exist. A third is
+# optional and exceptional. The Kernel validates evidence/membership/accounting
+# but does not rank by metric score.
+SPORTS_SHORTLIST_REQUIRED = True
+SPORTS_SHORTLIST_PRIMARY_TARGET = 2
+SPORTS_SHORTLIST_MAX = 3
+SPORTS_SHORTLIST_OPTIONAL_THIRD = True
+SPORTS_SHORTLIST_METRIC_SCORING_FORBIDDEN = True
+
 # Zero sports candidates is not a default or process-generated outcome.
-# It is valid only when the sports layer has substantively rejected every
-# non-audit game with current-run evidence and explicit causal burden.
 ZERO_SPORTS_CANDIDATES_REQUIRES_DATA_BURDEN = True
 ZERO_SPORTS_CANDIDATES_MAY_BE_CAUSED_BY_PROCESS = False
 
