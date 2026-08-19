@@ -1,0 +1,33 @@
+name: NRFImetrica Kernel CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Unit tests
+        run: python -m unittest discover -s tests -v
+      - name: Live MLB provider probe
+        run: |
+          python - <<'PY'
+          import asyncio
+          from providers.mlb import fetch_schedule
+
+          result = asyncio.run(fetch_schedule('2026-08-19'))
+          assert result['provider'] == 'MLB_STATS_API'
+          assert len(result['games']) > 0, 'MLB returned empty slate for 2026-08-19'
+          assert result['universe_hash']
+          print('MLB_REAL_PROVIDER_OK', len(result['games']), result['universe_hash'])
+          PY
