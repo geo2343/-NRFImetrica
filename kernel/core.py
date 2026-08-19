@@ -89,3 +89,14 @@ def validate_decision(
 
     if decision == "NRFI_REJECTED" and len(what_would_change.strip()) < 8:
         raise ValueError("REJECTION_MUST_STATE_CONCRETE_REVERSAL_CONDITION")
+
+    if decision in {"RESEARCH_ONLY_DATA", "RESEARCH_ONLY_MODEL", "LOCAL_DATA_BLOCK"}:
+        missing_exit: list[str] = []
+        if len(decisive_factor.strip()) < 8:
+            missing_exit.append("specific_cause")
+        if len(materiality.strip()) < 8:
+            missing_exit.append("materiality")
+        if len(what_would_change.strip()) < 8:
+            missing_exit.append("concrete_reversal_condition")
+        if missing_exit:
+            raise ValueError("NONCOMPETITIVE_EXIT_MISSING:" + ",".join(missing_exit))
