@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from typing import Any
 
 SYSTEM_VERSION = "NRFIM MOTHER V3"
-KERNEL_VERSION = "NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY"
+KERNEL_VERSION = "NRFIM-KERNEL-0.7-CLEAN-ROOM"
 SYSTEM_SCOPE = "FIRST_INNING_UNDER__NRFI_SOVEREIGN"
 MOTHER_PROTOCOL_ID = "NRFIMETRICA_MOTHER_V3_AUTONOMOUS"
 MOTHER_DOCUMENT_SHA256 = "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3"
@@ -18,6 +18,14 @@ NRFI_PRENSA_BRIDGE_STATUS = "NO_VERIFIED_REAL_PACKET_BRIDGE"
 MODEL_STATUS = "NOT_CERTIFIED"
 CALIBRATION_STATUS = "NOT_CERTIFIED"
 REAL_MONEY_AUTHORITY = False
+
+# Clean-room doctrine: every new invocation is a new run with its own report
+# document. Prior-run reports/packets are historical/audit material only and
+# cannot be used as sports-analysis input for the current run.
+CLEAN_ROOM_EXECUTION_REQUIRED = True
+NEW_RUN_PER_INVOCATION_REQUIRED = True
+NEW_REPORT_DOCUMENT_PER_RUN_REQUIRED = True
+PRIOR_RUN_REPORTS_AS_SPORTS_INPUT_ALLOWED = False
 
 # Legacy decisions are retained only for historical compatibility. The active
 # mother-document runtime is A1->A8 through protocol_phase_state.
@@ -68,9 +76,6 @@ def validate_decision(
     if decision not in ALLOWED_DECISIONS:
         raise ValueError(f"INVALID_DECISION:{decision}")
 
-    # The old /decisions route is no longer an active route to a sports verdict.
-    # A mother-document decision must be produced by A1->A8. Keeping this guard
-    # prevents the legacy V2.1 schema from bypassing the constitutional flow.
     if decision != "AUDIT_ONLY":
         raise ValueError("LEGACY_DECISION_ENDPOINT_SUPERSEDED_BY_MOTHER_A1_A8")
 
