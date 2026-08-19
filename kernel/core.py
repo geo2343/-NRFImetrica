@@ -6,13 +6,15 @@ from datetime import datetime, timezone
 from typing import Any
 
 SYSTEM_VERSION = "NRFIM MOTHER V3"
-KERNEL_VERSION = "NRFIM-KERNEL-0.4-MOTHER-ALIGNED"
+KERNEL_VERSION = "NRFIM-KERNEL-0.5-MOTHER-ENFORCED"
 SYSTEM_SCOPE = "FIRST_INNING_UNDER__NRFI_SOVEREIGN"
 MOTHER_PROTOCOL_ID = "NRFIMETRICA_MOTHER_V3_AUTONOMOUS"
 MOTHER_DOCUMENT_SHA256 = "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3"
 SYSTEM_STATE = "TRADING_HALT_RESEARCH"
 AI_ANALYST_STATUS = "CHATGPT_CAUSAL_ANALYST"
-NUMERIC_ENGINE_STATUS = "NOT_INTEGRATED"
+NUMERIC_ENGINE_STATUS = "NO_ACTIVE_TRUSTED_ENGINE"
+INDEPENDENT_AUDITOR_STATUS = "NO_ACTIVE_TRUSTED_AUDITOR"
+NRFI_PRENSA_BRIDGE_STATUS = "NO_VERIFIED_REAL_PACKET_BRIDGE"
 MODEL_STATUS = "NOT_CERTIFIED"
 CALIBRATION_STATUS = "NOT_CERTIFIED"
 REAL_MONEY_AUTHORITY = False
@@ -68,7 +70,7 @@ def validate_decision(
 
     # The old /decisions route is no longer an active route to a sports verdict.
     # A mother-document decision must be produced by A1->A8. Keeping this guard
-    # prevents the legacy V2.1 schema from bypassing the new constitutional flow.
+    # prevents the legacy V2.1 schema from bypassing the constitutional flow.
     if decision != "AUDIT_ONLY":
         raise ValueError("LEGACY_DECISION_ENDPOINT_SUPERSEDED_BY_MOTHER_A1_A8")
 
