@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from typing import Any
 
 
@@ -28,7 +27,7 @@ def _nonempty(value: Any) -> bool:
 
 
 def _unique_source_calls(source_calls: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    seen: set[tuple[str, str]] = set()
+    seen_evidence: set[str] = set()
     unique: list[dict[str, Any]] = []
     for call in source_calls:
         source_ref = str(call.get('source_ref') or '').strip()
@@ -36,9 +35,8 @@ def _unique_source_calls(source_calls: list[dict[str, Any]]) -> list[dict[str, A
         retrieved_at = str(call.get('retrieved_at') or '').strip()
         if not source_ref or not evidence_id or not retrieved_at:
             raise ProtocolViolation('SOURCE_CALL_MISSING_REAL_TRACE_FIELDS')
-        key = (source_ref, evidence_id)
-        if key not in seen:
-            seen.add(key)
+        if evidence_id not in seen_evidence:
+            seen_evidence.add(evidence_id)
             unique.append(call)
     return unique
 
@@ -147,6 +145,16 @@ def validate_phase_submission(
     missing_docs = sorted(required_docs - docs)
     if missing_docs:
         raise ProtocolViolation('REQUIRED_DOCUMENTS_MISSING:' + ','.join(missing_docs))
+
+    if required_docs:
+        traced_docs = {
+            str(call.get('document') or call.get('document_id') or '').strip()
+            for call in unique_calls
+            if str(call.get('document') or call.get('document_id') or '').strip()
+        }
+        untraced_docs = sorted(required_docs - traced_docs)
+        if untraced_docs:
+            raise ProtocolViolation('REQUIRED_DOCUMENTS_WITHOUT_REAL_TRACE:' + ','.join(untraced_docs))
 
     for phrase in phase.get('required_phrases', []):
         if str(phrase) not in output_text:
