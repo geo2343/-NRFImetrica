@@ -1,0 +1,76 @@
+{
+  "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+  "kernel_version": "NRFIM-KERNEL-0.5-MOTHER-ENFORCED",
+  "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
+  "purpose": "Physical evidence contract. A field written by the LLM is never proof that an external component actually ran.",
+  "A4_NUMERIC_STATE_ENGINE": {
+    "required_registry": "numeric_engine_registry",
+    "required_execution_ledger": "numeric_engine_executions",
+    "controlled_real_authority": "ACTIVE_TRUSTED",
+    "required_binding": [
+      "execution_id",
+      "run_id",
+      "game_id",
+      "model_version",
+      "transition_version",
+      "input_freeze_id",
+      "executed_at",
+      "output_hash",
+      "output_payload"
+    ],
+    "phase_output_must_equal_physical_engine_output": true
+  },
+  "A6_INDEPENDENT_AUDIT": {
+    "required_registry": "independent_auditor_registry",
+    "required_execution_ledger": "independent_audit_executions",
+    "controlled_real_authority": "ACTIVE_TRUSTED",
+    "required_fields": ["independent_audit.audit_execution_id"],
+    "phase_audit_must_equal_physical_auditor_output": true
+  },
+  "A6_SRA": {
+    "required_ledger": "sra_packets",
+    "required_fields": ["sra.packet_id", "sra.packet_hash"],
+    "controlled_real_status": ["COMPLETE", "DATA_UNAVAILABLE"],
+    "phase_sra_status_must_match_packet": true
+  },
+  "A7_NRFIPRENSA": {
+    "required_ledger": "nrfiprensa_packets",
+    "controlled_real_status": "VERIFIED",
+    "packet_hash_required": true,
+    "packet_must_be_post_prepress_freeze": true,
+    "phase_press_data_must_equal_packet": true
+  },
+  "A7_CALIBRATION": {
+    "required_ledger": "calibration_certifications",
+    "required_fields": [
+      "contract_calibration.u0_5.certification_id",
+      "contract_calibration.u1_5.certification_id",
+      "contract_calibration.u2_5.certification_id"
+    ],
+    "controlled_real_authority": "ACTIVE_TRUSTED",
+    "diagnostic_authority": "DIAGNOSTIC_TRUSTED",
+    "contract_specific": true,
+    "no_cross_contract_inheritance_without_explicit_distributional_coverage": true
+  },
+  "A8_MARKET": {
+    "required_ledger": "market_offers",
+    "required_fields": ["market.offer_id"],
+    "controlled_real_status": "VERIFIED",
+    "must_match": ["sportsbook", "line_exact", "price_exact", "decimal_odds", "market.as_of"],
+    "break_even_must_equal_inverse_decimal_odds": true,
+    "physical_evidence_required": true
+  },
+  "A8_T5": {
+    "required_ledger": "t5_revalidations",
+    "required_fields": ["t5.revalidation_id", "t5.material_change", "t5.recompute_status"],
+    "controlled_real_status": "VERIFIED",
+    "material_change": "FULL_RECOMPUTE_REQUIRED",
+    "no_material_change_recompute_status": ["NOT_REQUIRED", "PASS"],
+    "starter_and_official_lineup_must_remain_verified": true
+  },
+  "RUN_CLOSE": {
+    "required_stages": ["A0_CONSTITUTION_SEALED", "A1_SLATE_ROUTED", "A7_SLATE_ELIGIBILITY", "A8_PORTFOLIO", "FINAL_REPORT"],
+    "zero_candidates_allowed": true,
+    "legacy_decisions_cannot_close_mother_run": true
+  }
+}
