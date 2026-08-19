@@ -49,6 +49,20 @@ async def sb(method: str, table: str, *, params: dict[str, str] | None = None, p
     return response.json() if response.content else None
 
 
+async def latest_trace_hash(run_id: str) -> str | None:
+    rows = await sb(
+        "GET",
+        "trace_events",
+        params={
+            "select": "event_hash,occurred_at",
+            "run_id": f"eq.{run_id}",
+            "order": "occurred_at.desc",
+            "limit": "1",
+        },
+    ) or []
+    return rows[0]["event_hash"] if rows else None
+
+
 class ProtocolRequest(BaseModel):
     action: str
     run_id: str | None = None
@@ -177,7 +191,8 @@ async def protocol_action(req: ProtocolRequest):
         prefer="resolution=merge-duplicates,return=representation",
     )
 
-    event = {
+    previous_hash = await latest_trace_hash(req.run_id)
+    event_base = {
         "event_id": f"EVT-{uuid4().hex}",
         "run_id": req.run_id,
         "game_id": req.game_id,
@@ -189,11 +204,11 @@ async def protocol_action(req: ProtocolRequest):
         "output_hash": stable_hash(result),
         "tool_name": "kernel.protocol",
         "evidence_ids": req.evidence_ids,
-        "prev_event_hash": None,
-        "event_hash": stable_hash({"run_id": req.run_id, "game_id": req.game_id, "phase_id": req.phase_id, "result": result, "payload": req.payload}),
+        "prev_event_hash": previous_hash,
         "details": {"protocol_id": MANIFEST["protocol_id"], "checks": result["checks"]},
     }
-    await sb("POST", "trace_events", payload=event, prefer="return=minimal")
+    event_base["event_hash"] = stable_hash(event_base)
+    await sb("POST", "trace_events", payload=event_base, prefer="return=minimal")
 
     return {
         "accepted": True,
@@ -201,4 +216,6 @@ async def protocol_action(req: ProtocolRequest):
         "status": result["status"],
         "checks": result["checks"],
         "saved": bool(saved),
+        "event_hash": event_base["event_hash"],
+        "prev_event_hash": previous_hash,
     }
