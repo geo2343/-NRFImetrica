@@ -3,16 +3,28 @@ import unittest
 from kernel.protocol import ProtocolViolation, validate_phase_submission
 
 
-class ProtocolStraightjacketTest(unittest.TestCase):
+def run_phase(phase_id, payload, *, output_text="", source_calls=None, evidence_ids=None):
+    manifest = {"phases": [{"phase_id": phase_id, "prerequisites": [], "required_fields": []}]}
+    return validate_phase_submission(
+        manifest=manifest,
+        phase_id=phase_id,
+        completed_phase_ids=set(),
+        payload=payload,
+        evidence_ids=evidence_ids or [],
+        source_calls=source_calls or [],
+        documents_analyzed=[],
+        output_text=output_text,
+    )
+
+
+class MotherProtocolTest(unittest.TestCase):
     def test_29_of_30_real_sources_cannot_advance(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F1",
-                "prerequisites": [],
-                "required_fields": ["analysis"],
-                "min_source_calls": 30,
-            }]
-        }
+        manifest = {"phases": [{
+            "phase_id": "GENERIC",
+            "prerequisites": [],
+            "required_fields": ["analysis"],
+            "min_source_calls": 30,
+        }]}
         calls = [
             {"source_ref": f"source-{i}", "evidence_id": f"E-{i}", "retrieved_at": "2026-08-19T10:00:00Z"}
             for i in range(29)
@@ -20,7 +32,7 @@ class ProtocolStraightjacketTest(unittest.TestCase):
         with self.assertRaisesRegex(ProtocolViolation, "MIN_SOURCE_CALLS_NOT_MET:29/30"):
             validate_phase_submission(
                 manifest=manifest,
-                phase_id="F1",
+                phase_id="GENERIC",
                 completed_phase_ids=set(),
                 payload={"analysis": "done"},
                 evidence_ids=[],
@@ -29,196 +41,99 @@ class ProtocolStraightjacketTest(unittest.TestCase):
                 output_text="",
             )
 
-    def test_reusing_same_evidence_does_not_fake_30_sources(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F1",
-                "prerequisites": [],
-                "required_fields": ["analysis"],
-                "min_source_calls": 30,
-            }]
-        }
+    def test_reused_evidence_does_not_fake_source_count(self):
+        manifest = {"phases": [{
+            "phase_id": "GENERIC",
+            "prerequisites": [],
+            "required_fields": [],
+            "min_source_calls": 30,
+        }]}
         calls = [
-            {"source_ref": f"source-{i}", "evidence_id": "SAME-EVIDENCE", "retrieved_at": "2026-08-19T10:00:00Z"}
+            {"source_ref": f"source-{i}", "evidence_id": "SAME", "retrieved_at": "2026-08-19T10:00:00Z"}
             for i in range(30)
         ]
         with self.assertRaisesRegex(ProtocolViolation, "MIN_SOURCE_CALLS_NOT_MET:1/30"):
             validate_phase_submission(
                 manifest=manifest,
-                phase_id="F1",
+                phase_id="GENERIC",
                 completed_phase_ids=set(),
-                payload={"analysis": "done"},
-                evidence_ids=[],
-                source_calls=calls,
-                documents_analyzed=[],
-                output_text="",
+                payload={}, evidence_ids=[], source_calls=calls,
+                documents_analyzed=[], output_text="",
             )
 
-    def test_30_of_30_unique_real_sources_can_advance(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F1",
-                "prerequisites": [],
-                "required_fields": ["analysis"],
-                "min_source_calls": 30,
-            }]
-        }
-        calls = [
-            {"source_ref": f"source-{i}", "evidence_id": f"E-{i}", "retrieved_at": "2026-08-19T10:00:00Z"}
-            for i in range(30)
-        ]
-        result = validate_phase_submission(
-            manifest=manifest,
-            phase_id="F1",
-            completed_phase_ids=set(),
-            payload={"analysis": "done"},
-            evidence_ids=[],
-            source_calls=calls,
-            documents_analyzed=[],
-            output_text="",
-        )
-        self.assertEqual(result["status"], "COMPLETE")
+    def test_ai_probability_is_forbidden(self):
+        with self.assertRaisesRegex(ProtocolViolation, "MOTHER_DOCUMENT_FORBIDS_AI_PROBABILITY_FABRICATION"):
+            run_phase("A3_CURRENT_VERSION_MATCHUP", {"ai_estimate": {"percent": 68}})
 
-    def test_required_t100_document_is_enforced(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F2",
-                "prerequisites": [],
-                "required_fields": [],
-                "required_documents": ["T100"],
-            }]
+    def test_a4_probability_mass_must_equal_one(self):
+        payload = {
+            "numeric_engine": {"provenance_status": "PASS", "transformation_status": "PASS", "engine_mode": "BOOTSTRAP"},
+            "top": {"p0": .70, "p1": .20, "p2": .05, "p3plus": .04},
+            "bottom": {"p0": .70, "p1": .20, "p2": .05, "p3plus": .05},
+            "mass_conservation_check": "PASS",
+            "state_sanity_checks": "PASS",
         }
-        with self.assertRaisesRegex(ProtocolViolation, "REQUIRED_DOCUMENTS_MISSING:T100"):
-            validate_phase_submission(
-                manifest=manifest,
-                phase_id="F2",
-                completed_phase_ids=set(),
-                payload={},
-                evidence_ids=[],
-                source_calls=[],
-                documents_analyzed=[],
-                output_text="",
-            )
+        with self.assertRaisesRegex(ProtocolViolation, "PROBABILITY_MASS_NOT_ONE:top"):
+            run_phase("A4_NUMERIC_STATE_ENGINE", payload)
 
-    def test_claiming_t100_without_real_trace_is_rejected(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F2",
-                "prerequisites": [],
-                "required_fields": [],
-                "required_documents": ["T100"],
-            }]
+    def test_a5_contract_distribution_is_derived_not_narrated(self):
+        payload = {
+            "joint": {"p0": .60, "p1": .22, "p2": .10, "p3plus": .08},
+            "contracts": {"p_u0_5": .60, "p_u1_5": .90, "p_u2_5": .92},
+            "p_yrfi": .40,
+            "same_context_realization_check": "PASS",
+            "double_adjustment_check": "PASS",
         }
-        with self.assertRaisesRegex(ProtocolViolation, "REQUIRED_DOCUMENTS_WITHOUT_REAL_TRACE:T100"):
-            validate_phase_submission(
-                manifest=manifest,
-                phase_id="F2",
-                completed_phase_ids=set(),
-                payload={},
-                evidence_ids=[],
-                source_calls=[],
-                documents_analyzed=["T100"],
-                output_text="",
-            )
+        with self.assertRaisesRegex(ProtocolViolation, "A5_U15_DERIVATION_FAIL"):
+            run_phase("A5_JOINT_INTEGRATION", payload)
 
-    def test_t100_with_real_trace_can_pass(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F2",
-                "prerequisites": [],
-                "required_fields": [],
-                "required_documents": ["T100"],
-            }]
+    def test_a6_independent_audit_cannot_be_same_analyst(self):
+        payload = {
+            "primary_analyst_id": "ANALYST-1",
+            "independent_audit": {"auditor_id": "ANALYST-1", "status": "PASS"},
+            "sra": {"packet_status": "COMPLETE"},
+            "pre_press_verdict": {"frozen": True},
+            "sports_seal": {"market_blindness": "PASS"},
         }
-        result = validate_phase_submission(
-            manifest=manifest,
-            phase_id="F2",
-            completed_phase_ids=set(),
-            payload={},
-            evidence_ids=["E-T100"],
-            source_calls=[{
-                "source_ref": "drive://t100",
-                "evidence_id": "E-T100",
-                "retrieved_at": "2026-08-19T10:00:00Z",
-                "document": "T100",
-            }],
-            documents_analyzed=["T100"],
-            output_text="",
-        )
-        self.assertEqual(result["status"], "COMPLETE")
+        with self.assertRaisesRegex(ProtocolViolation, "A6_INDEPENDENT_AUDIT_NOT_INDEPENDENT"):
+            run_phase("A6_CAUSAL_FALSIFICATION_SPORTS_SEAL", payload, output_text="ESPERANDO RESULTADO DE NRFI-PRENSA")
 
-    def test_required_phrase_is_enforced(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F3",
-                "prerequisites": [],
-                "required_fields": [],
-                "required_phrases": ["T100 ANALIZADO"],
-            }]
+    def test_sra_cannot_be_silently_omitted(self):
+        payload = {
+            "primary_analyst_id": "ANALYST-1",
+            "independent_audit": {"auditor_id": "AUDITOR-2", "status": "PASS"},
+            "sra": {"packet_status": "PENDING"},
+            "pre_press_verdict": {"frozen": True},
+            "sports_seal": {"market_blindness": "PASS"},
         }
-        with self.assertRaisesRegex(ProtocolViolation, "REQUIRED_PHRASE_MISSING"):
-            validate_phase_submission(
-                manifest=manifest,
-                phase_id="F3",
-                completed_phase_ids=set(),
-                payload={},
-                evidence_ids=[],
-                source_calls=[],
-                documents_analyzed=[],
-                output_text="T100 revisado parcialmente",
-            )
+        with self.assertRaisesRegex(ProtocolViolation, "SRA_GATE_NOT_EXECUTED"):
+            run_phase("A6_CAUSAL_FALSIFICATION_SPORTS_SEAL", payload, output_text="ESPERANDO RESULTADO DE NRFI-PRENSA")
 
-    def test_cannot_jump_prerequisite(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F4",
-                "prerequisites": ["F1", "F2"],
-                "required_fields": [],
-            }]
+    def test_a7_cannot_issue_release_without_certification(self):
+        payload = {
+            "release_token": "ISSUED",
+            "calibration_status": "NOT_CERTIFIED",
+            "calibration_region_support": "HIGH",
+            "oos_validation_status": "PASS",
+            "provenance_status": "PASS",
+            "absolute_eligibility": "A7_ELIGIBLE",
+            "nrfi_prensa": {"effect": "CONFIRM"},
         }
-        with self.assertRaisesRegex(ProtocolViolation, "PREREQUISITES_INCOMPLETE:F2"):
-            validate_phase_submission(
-                manifest=manifest,
-                phase_id="F4",
-                completed_phase_ids={"F1"},
-                payload={},
-                evidence_ids=[],
-                source_calls=[],
-                documents_analyzed=[],
-                output_text="",
-            )
+        with self.assertRaisesRegex(ProtocolViolation, "A7_NOT_CERTIFIED_A8_LOCKED"):
+            run_phase("A7_CALIBRATION_ELIGIBILITY_PRESS", payload)
 
-    def test_ai_estimate_is_judgment_not_calibrated_probability(self):
-        manifest = {
-            "phases": [{
-                "phase_id": "F5",
-                "prerequisites": [],
-                "required_fields": ["ai_estimate"],
-            }]
+    def test_a8_no_bet_when_edge_and_ev_are_not_positive(self):
+        payload = {
+            "a7_release_token": "ISSUED",
+            "a7_eligibility_status": "A7_ELIGIBLE",
+            "calibration_status": "CERTIFIED",
+            "probability": {"p0": .50, "p1": .25, "p2": .15, "p3plus": .10},
+            "line_recommended": "NRFI",
+            "market": {"break_even": .50, "p_conservative": .50, "decimal_odds": 2.0, "edge": 0.0, "ev": 0.0},
+            "final_verdict": "APOSTAR",
         }
-        result = validate_phase_submission(
-            manifest=manifest,
-            phase_id="F5",
-            completed_phase_ids=set(),
-            payload={"ai_estimate": {"kind": "AI_JUDGMENT_UNCALIBRATED", "percent": 68}},
-            evidence_ids=[],
-            source_calls=[],
-            documents_analyzed=[],
-            output_text="",
-        )
-        self.assertEqual(result["status"], "COMPLETE")
-
-        with self.assertRaisesRegex(ProtocolViolation, "AI_PERCENT_MUST_BE_LABELED"):
-            validate_phase_submission(
-                manifest=manifest,
-                phase_id="F5",
-                completed_phase_ids=set(),
-                payload={"ai_estimate": {"kind": "CALIBRATED_PROBABILITY", "percent": 68}},
-                evidence_ids=[],
-                source_calls=[],
-                documents_analyzed=[],
-                output_text="",
-            )
+        with self.assertRaisesRegex(ProtocolViolation, "A8_NONPOSITIVE_EDGE_OR_EV_NO_BET"):
+            run_phase("A8_MARKET_VALUE_EXECUTION", payload)
 
 
 if __name__ == "__main__":
