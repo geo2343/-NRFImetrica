@@ -5,7 +5,8 @@
   "read_only_target": true,
   "menu": [
     {"key": 1, "system_id": "@NRFiPrensa", "adapter": "ADAPTER-1.0"},
-    {"key": 2, "system_id": "@NRFImetrica", "adapter": "ADAPTER-1.0"}
+    {"key": 2, "system_id": "@NRFImetrica", "adapter": "ADAPTER-1.0"},
+    {"key": 3, "system_id": "@DepuracionMLB", "adapter": "ADAPTER-1.0"}
   ],
   "flow": [
     "P0_TARGET_LOCK",
@@ -49,5 +50,12 @@
   "adapter_extension_contract": {
     "required_fields": ["system_id","authority_sources","data_namespaces","phase_map","mandatory_checks","terminal_states","artifacts","known_failure_modes","closure_rule"],
     "core_rewrite_required": false
+  },
+  "depuracion_mlb_adapter": {
+    "authority": "DEP-MLB-V0.3 / DEP-MLB-AGENT-1.2 / DEP-MLB-KERNEL-0.4-AUTONOMOUS-REFACTOR",
+    "repository": "geo2343/depuracion-mlb-kernel",
+    "namespace": "dep_mlb_*",
+    "required_checks": 32,
+    "special_focus": ["fresh invocation/run","exclusive Drive report/readback","fresh same-run Web evidence","progressive F1-F10 targeting","semantic artifacts before PASS","F9 100% comparative Red Team","packet freeze after F9","database-derived process audit","F10 full delivery package","terminal immutability","no betting authority"]
   }
 }
