@@ -14,8 +14,6 @@ Agente técnico-estadístico y causal para primera entrada MLB, gobernado por el
 - `SYSTEM_STATE = TRADING_HALT_RESEARCH`
 - `REAL_MONEY_AUTHORITY = FALSE`
 
-V2.1/V1.x se conservan exclusivamente como histórico y no tienen autoridad runtime.
-
 ## Arquitectura
 
 - **Documento Madre = constitución.**
@@ -66,13 +64,26 @@ El error que Kernel 0.8 corrige es confundir una carencia técnica posterior con
 - `NOT_APPLICABLE` — no existe candidato deportivo NRFI.
 - `WATCHLIST` / `AUDIT_ONLY` — conservan su condición correspondiente.
 
-Regla clave:
-
-`SPORTS_CANDIDATE + TECHNICAL_BLOCK` es un estado válido.
-
-Un `A4_ENGINE_NOT_INTEGRATED` **no puede** reescribir un candidato deportivo como `NO_PLAY`.
+`SPORTS_CANDIDATE + TECHNICAL_BLOCK` es un estado válido. Un `A4_ENGINE_NOT_INTEGRATED` no puede reescribir un candidato deportivo como `NO_PLAY`.
 
 `eligible_count` en A7 significa únicamente **elegibilidad de ejecución**, nunca calidad deportiva.
+
+## Research fallback controlado — migración 028
+
+Un RUN `CONTROLLED_REAL` puede continuar investigación A4/A5/A6 utilizando componentes `DIAGNOSTIC_TRUSTED` solamente bajo estados explícitamente no ejecutivos:
+
+- A4: `A4_RESEARCH_READY_FULL`, `A4_RESEARCH_READY_REDUCED`, `A4_RESEARCH_READY_BOOTSTRAP` o `A4_RESEARCH_READY_HIGH_UNCERTAINTY`.
+- A6: auditoría `CONDITIONED`.
+
+Esto exige ejecuciones físicas reales y trazables; no autoriza simulación.
+
+La frontera real-money permanece cerrada:
+
+- A7 release exige A4 `A4_NUMERIC_PROVENANCE_PASS` y auditor independiente `PASS`;
+- calibración en `CONTROLLED_REAL` exige autoridad `ACTIVE_TRUSTED`;
+- A8 exige release A7, calibración certificada, mercado verificado, T5 y autoridad de ejecución.
+
+Por tanto, el fallback permite **seguir investigando**, pero no convierte `DIAGNOSTIC_TRUSTED` en autoridad de apuesta.
 
 ## Reporte final obligatorio
 
@@ -85,28 +96,19 @@ Todo reporte final nuevo debe separar físicamente:
 - `sports_audit_only_count`;
 - `technical_block_count`.
 
-Además debe listar:
-
-- las identidades exactas de `sports_candidates`;
-- `game_statuses` para todos los juegos del RUN con `sports_status`, `execution_status` y `sports_verdict`.
+Además debe listar las identidades exactas de `sports_candidates` y `game_statuses` para todos los juegos del RUN con `sports_status`, `execution_status` y `sports_verdict`.
 
 Supabase valida esas identidades contra `public.nrfimetrica_game_dual_status`; la IA no puede inventar el conteo ni sustituir un candidato real por otro juego.
 
-Si existen candidatos deportivos pero cero ejecutables, el reporte debe declarar:
-
-`TECHNICAL_BLOCK_NOT_SPORTS_REJECTION`.
-
-No puede presentar `0 elegibles` como si significara que la IA rechazó deportivamente toda la jornada.
+Si existen candidatos deportivos pero cero ejecutables, el reporte debe declarar `TECHNICAL_BLOCK_NOT_SPORTS_REJECTION`. No puede presentar `0 elegibles` como si significara que la IA rechazó deportivamente toda la jornada.
 
 ## Flujo de certificación
-
-La cadena contractual sigue intacta:
 
 `A0 -> SPORTS_REASONING_SLATE -> A1 -> A2 -> A3 -> A4 -> A5 -> A6 -> A7 -> A8 -> PORTFOLIO -> FINAL_REPORT -> DRIVE VERIFIED -> CLOSE`.
 
 A4 sigue siendo el dueño de la probabilidad RAW y no puede ser simulado. A5 integra `P0/P1/P2/P3+`. A6/A7/A8 siguen controlando auditoría independiente, calibración, prensa, mercado, edge/EV y ejecución.
 
-Kernel 0.8 **no baja los controles de dinero real**. Solo impide que esos controles borren el juicio deportivo ya demostrado.
+Kernel 0.8 no baja los controles de dinero real. Solo impide que esos controles borren el juicio deportivo ya demostrado y permite investigación condicionada cuando existe un componente diagnóstico físicamente trazable.
 
 ## Pruebas físicas de la reforma 0.8
 
@@ -123,18 +125,25 @@ Pruebas adversariales de Kernel 0.8:
 - intentar declarar `sports_candidate_count=0` cuando la base deriva 3 -> **BLOQUEADO**;
 - intentar insertar una identidad falsa dentro de `sports_candidates` -> **BLOQUEADO**.
 
+Auditoría de la frontera del fallback 028:
+
+- research-ready A4 no satisface el preflight de release A7 -> **PASS**;
+- calibración `CONTROLLED_REAL` continúa exigiendo `ACTIVE_TRUSTED` -> **PASS**;
+- A8 continúa exigiendo release A7 -> **PASS**.
+
 ## Estado real actual
 
 - Documento Madre: **ACTIVO**.
 - Agent 1.3 / Kernel 0.8: **ACTIVOS EN GITHUB Y SUPABASE**.
-- Migraciones: **001–027 aplicadas en Supabase**.
+- Migraciones: **001–028 aplicadas en Supabase y reflejadas en GitHub**.
 - Clean Room: **ACTIVO**.
 - Sports Reasoning chain: **ACTIVA**.
 - Dual sports/execution status: **ACTIVO**.
+- Research-only A4/A6 fallback: **ACTIVO**, sin autoridad real-money.
 - A4 `ACTIVE_TRUSTED`: **0**.
 - A6 independent auditor `ACTIVE_TRUSTED`: **0**.
 - A7 calibration `ACTIVE_TRUSTED`: **0**.
 - `SYSTEM_STATE = TRADING_HALT_RESEARCH`.
 - `REAL_MONEY_AUTHORITY = FALSE`.
 
-El sistema puede producir y preservar juicios deportivos auditados aunque la ejecución real-money quede bloqueada. No puede fabricar probabilidades, calibraciones, edge, EV ni autoridad de apuesta inexistentes.
+El sistema puede producir y preservar juicios deportivos auditados y continuar investigación condicionada aunque la ejecución real-money quede bloqueada. No puede fabricar probabilidades, calibraciones, edge, EV ni autoridad de apuesta inexistentes.
