@@ -1,0 +1,24 @@
+{
+  "suite_id": "NRFIM_RESEARCH_CHAIN_ADVERSARIAL_0.6",
+  "kernel_version": "NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY",
+  "live_database_project": "nrfimetrica-kernel",
+  "diagnostic_run": "DIAG-SR-CUSTODY-20260819-1022",
+  "cases": [
+    {"id":"RC-01","attack":"Insert sports evidence without research_tool_event","expected":"SPORTS_EVIDENCE_TOOL_EVENT_REQUIRED","live_result":"PASS"},
+    {"id":"RC-02","attack":"Caller supplies false historical occurred_at for tool call","expected":"DB replaces timestamp with clock_timestamp","live_result":"PASS"},
+    {"id":"RC-03","attack":"Tool call occurs without updating run counter/trace","expected":"tool_call_count increments and RESEARCH_TOOL_CALL trace exists","live_result":"PASS"},
+    {"id":"RC-04","attack":"Evidence says data was available after retrieval","expected":"SPORTS_EVIDENCE_NOT_YET_AVAILABLE","live_result":"PASS"},
+    {"id":"RC-05","attack":"Insert factual claim without evidence IDs","expected":"FACTUAL_CLAIM_REQUIRES_EVIDENCE","live_result":"PASS"},
+    {"id":"RC-06","attack":"Complete CLEAR packet with only one independent source family","expected":"PACKET_INDEPENDENT_SOURCE_FLOOR_NOT_MET","live_result":"PASS"},
+    {"id":"RC-07","attack":"Same exact evidence payload creates a new source family","expected":"DUPLICATE_CONTENT_CANNOT_CREATE_NEW_SOURCE_FAMILY","live_result":"PASS"},
+    {"id":"RC-08","attack":"Create second family with same declared publisher/origin","expected":"SOURCE_FAMILY_SAME_DECLARED_ORIGIN_MUST_COLLAPSE","live_result":"PASS"},
+    {"id":"RC-09","attack":"Complete valid bilateral packet","expected":"freeze_timestamp and packet_hash generated","live_result":"PASS"},
+    {"id":"RC-10","attack":"Register Drive packet or process pass without matching packet hash","expected":"Drive/process audit requires hash-bound frozen packet","live_result":"PASS"},
+    {"id":"RC-11","attack":"Caller submits fake auditor and fake process booleans/status","expected":"DB overwrites auditor/checks and derives result using KERNEL_PROCESS_AUDITOR_0.2","live_result":"PASS"},
+    {"id":"RC-12","attack":"Modify causal reasoning after packet freeze","expected":"SPORTS_PACKET_FROZEN_CREATE_NEW_VERSION","live_result":"PASS"},
+    {"id":"RC-13","attack":"Seal sports slate with false analysis counts","expected":"SPORTS_REASONING_SLATE_COUNTS_MISMATCH","live_result":"PASS"},
+    {"id":"RC-14","attack":"Close Mother V3 run without verified Drive final report","expected":"RUN_CLOSE_REQUIRES_VERIFIED_DRIVE_FINAL_REPORT","live_result":"PASS"}
+  ],
+  "result": "14/14 LIVE ADVERSARIAL CASES PASSED",
+  "important_limit": "Semantic similarity between non-identical syndicated articles is not proven by this deterministic suite. Declared origin collapse and exact-content collision are physical; non-identical source-family classification still requires provenance logic/process review."
+}
