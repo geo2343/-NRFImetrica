@@ -6,11 +6,13 @@ from datetime import datetime, timezone
 from typing import Any
 
 AGENT_ID = "@investigacionNRFI"
-AGENT_VERSION = "INVESTIGACION-NRFI-AGENT-1.1"
+AGENT_VERSION = "INVESTIGACION-NRFI-AGENT-1.2"
 SYSTEM_VERSION = "INVESTIGACION-NRFI-HISTORICAL-V1.0"
-KERNEL_VERSION = "INVESTIGACION-NRFI-KERNEL-0.2-SEMANTIC-COMPLETENESS"
+KERNEL_VERSION = "INVESTIGACION-NRFI-KERNEL-0.3-FULL-SLATE-DELIVERY"
 PROTOCOL_ID = "INVESTIGACION_NRFI_HISTORICAL_V1"
 MOTHER_DOCUMENT_SHA256 = "faaf79e94729a129ed790ee7cd9d90872c602cfdc3756769e5f6e415b25d89fd"
+SOVEREIGN_PATCH = "FULL-SLATE-DELIVERY-1.2"
+REPORT_CONTRACT_VERSION = "DAILY-SLATE-REPORT-V2"
 REAL_MONEY_AUTHORITY = False
 
 PHASE_ORDER = (
@@ -61,14 +63,17 @@ REQUIRED_PACKET_KEYS = {
     "COMPARABLE_COHORTS",
 }
 REQUIRED_REPORT_MARKERS = {
+    "DAILY_HEADER",
     "EXECUTION_SUMMARY",
-    "F1",
-    "F2",
-    "F3",
-    "F4",
-    "F5",
-    "DAILY_CLOSURE",
+    "SLATE_LEDGER",
+    "SLATE_STATISTICAL_SUMMARY",
+    "F1_F5_SYNTHESIS",
     "GAME_BLOCKS",
+    "CROSS_GAME_FINDINGS",
+    "DATA_GAPS_AND_LIMITATIONS",
+    "SOURCE_AND_EVIDENCE_LEDGER",
+    "AUDIT_TRAIL",
+    "DAILY_CLOSURE",
 }
 
 FORBIDDEN_OUTPUT_KEYS = {
@@ -88,6 +93,13 @@ TEMPORAL_LANES = {
     "NOT_APPLICABLE",
 }
 EPISTEMIC_LANES = {"OBSERVED", "DERIVED", "HUMAN_INFORMATION"}
+
+TERMINAL_NONPLAYED_STATUS_TOKENS = (
+    "postponed",
+    "cancelled",
+    "canceled",
+    "no contest",
+)
 
 
 class InvestigacionNRFIProtocolViolation(ValueError):
@@ -119,6 +131,28 @@ def forbid_decision_keys(payload: Any) -> None:
         raise InvestigacionNRFIProtocolViolation(
             "FORBIDDEN_PICK_OR_MARKET_OUTPUT:" + ",".join(found)
         )
+
+
+def is_terminal_nonplayed_status(status_text: str | None) -> bool:
+    value = str(status_text or "").strip().lower()
+    return any(token in value for token in TERMINAL_NONPLAYED_STATUS_TOKENS)
+
+
+def validate_full_slate_ledger(
+    *,
+    official_slate_count: int,
+    ledger_count: int,
+    pending_count: int,
+    nonfinal_unexcluded_count: int,
+) -> None:
+    if official_slate_count <= 0:
+        raise InvestigacionNRFIProtocolViolation("OFFICIAL_SLATE_EMPTY_OR_NOT_RESOLVED")
+    if ledger_count != official_slate_count:
+        raise InvestigacionNRFIProtocolViolation("OFFICIAL_SLATE_LEDGER_COUNT_MISMATCH")
+    if pending_count:
+        raise InvestigacionNRFIProtocolViolation("DAILY_SLATE_HAS_PENDING_GAMES")
+    if nonfinal_unexcluded_count:
+        raise InvestigacionNRFIProtocolViolation("NONFINAL_GAME_MUST_NOT_BE_PROCESSED")
 
 
 def validate_phase_order(completed_phase_ids: set[str], phase_id: str) -> None:
@@ -192,12 +226,24 @@ def validate_evidence_packet(packet: dict[str, Any]) -> None:
 
 
 def validate_semantic_snapshot(snapshot: dict[str, Any]) -> None:
-    required = ("f1_pass", "f2_pass", "f3_pass", "f4_pass", "f5_pass", "report_contract_pass", "pass")
+    required = (
+        "official_slate_count",
+        "slate_complete",
+        "f1_pass",
+        "f2_pass",
+        "f3_pass",
+        "f4_pass",
+        "f5_pass",
+        "report_contract_pass",
+        "pass",
+    )
     missing = [key for key in required if key not in snapshot]
     if missing:
         raise InvestigacionNRFIProtocolViolation(
             "SEMANTIC_SNAPSHOT_FIELDS_MISSING:" + ",".join(missing)
         )
+    if not bool(snapshot.get("slate_complete")):
+        raise InvestigacionNRFIProtocolViolation("FULL_SLATE_NOT_COMPLETE")
     if not bool(snapshot.get("pass")):
         raise InvestigacionNRFIProtocolViolation(
             "SEMANTIC_COMPLETENESS_FAIL:" + stable_hash(snapshot)
@@ -206,19 +252,30 @@ def validate_semantic_snapshot(snapshot: dict[str, Any]) -> None:
 
 def validate_report_contract(
     *,
+    official_slate_count: int,
     nonexcluded_games: int,
+    excluded_games: int,
+    slate_row_count: int,
+    excluded_game_summary_count: int,
     game_block_count: int,
     phase_section_count: int,
     daily_block_character_count: int,
     markers: dict[str, Any],
     report_contract_verified: bool,
+    delivery_contract_version: str,
 ) -> None:
-    min_chars = max(12_000, nonexcluded_games * 1_800)
+    min_chars = max(20_000, nonexcluded_games * 3_000)
     missing_markers = sorted(
         key for key in REQUIRED_REPORT_MARKERS if markers.get(key) is not True
     )
+    if delivery_contract_version != REPORT_CONTRACT_VERSION:
+        raise InvestigacionNRFIProtocolViolation("REPORT_CONTRACT_VERSION_MISMATCH")
     if not report_contract_verified:
         raise InvestigacionNRFIProtocolViolation("REPORT_CONTRACT_NOT_VERIFIED")
+    if slate_row_count != official_slate_count:
+        raise InvestigacionNRFIProtocolViolation("REPORT_SLATE_LEDGER_COUNT_MISMATCH")
+    if excluded_game_summary_count != excluded_games:
+        raise InvestigacionNRFIProtocolViolation("REPORT_EXCLUDED_GAME_SUMMARY_COUNT_MISMATCH")
     if game_block_count != nonexcluded_games:
         raise InvestigacionNRFIProtocolViolation("REPORT_GAME_BLOCK_COUNT_MISMATCH")
     if phase_section_count < 5:
@@ -243,9 +300,12 @@ def capacity_state(character_count: int) -> str:
 
 def validate_daily_close(
     *,
-    expected_finalized: int,
+    official_slate_count: int,
+    ledger_count: int,
     processed: int,
     excluded: int,
+    pending: int,
+    nonfinal_unexcluded: int,
     completed_phase_ids: set[str],
     drive_append_verified: bool,
     semantic_completeness_pass: bool,
@@ -256,7 +316,13 @@ def validate_daily_close(
         raise InvestigacionNRFIProtocolViolation(
             "MANDATORY_PHASES_NOT_RUN:" + ",".join(missing)
         )
-    if expected_finalized != processed + excluded:
+    validate_full_slate_ledger(
+        official_slate_count=official_slate_count,
+        ledger_count=ledger_count,
+        pending_count=pending,
+        nonfinal_unexcluded_count=nonfinal_unexcluded,
+    )
+    if official_slate_count != processed + excluded:
         raise InvestigacionNRFIProtocolViolation("DAILY_UNIVERSE_ACCOUNTING_FAIL")
     if not semantic_completeness_pass:
         raise InvestigacionNRFIProtocolViolation("SEMANTIC_COMPLETENESS_REQUIRED")
