@@ -15,6 +15,9 @@
     },
     "api/investigacion_nrfi.py": {
       "maxDuration": 60
+    },
+    "api/iainvestigadora.py": {
+      "maxDuration": 60
     }
   }
 }
