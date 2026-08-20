@@ -7,7 +7,7 @@
     "system_version": "NRFIM MOTHER V3",
     "kernel_version": "NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION",
     "mother_document_sha256": "391fbdfdf78965f9454307267f7e3d048abc7ccb4329e29870ad58aeabcb55f1",
-    "mother_export_lines": 21236,
+    "mother_export_lines": 21237,
     "calibration_separation_amendment_drive_id": "1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE",
     "precedence": "CALIBRATION_SEPARATION_AMENDMENT_OVER_LEGACY_A7_CALIBRATED_P_SEMANTICS"
   },
@@ -46,32 +46,32 @@
     ]
   },
   "system_reliability_audit": {
-    "metrics": ["BRIER_SCORE","LOG_LOSS","RELIABILITY_CURVE","CALIBRATION_SLOPE_INTERCEPT","WALK_FORWARD","SEALED_TEMPORAL_HOLDOUT","BASELINE_COMPARISON","ABLATION","DRIFT"],
-    "confidence_states": ["RELIABLE","OVERCONFIDENT","UNDERCONFIDENT","MIXED","INSUFFICIENT_SAMPLE","DRIFT_DETECTED","NOT_AVAILABLE"],
+    "metrics": ["BRIER_SCORE", "LOG_LOSS", "RELIABILITY_CURVE", "CALIBRATION_SLOPE_INTERCEPT", "WALK_FORWARD", "SEALED_TEMPORAL_HOLDOUT", "BASELINE_COMPARISON", "ABLATION", "DRIFT"],
+    "confidence_states": ["RELIABLE", "OVERCONFIDENT", "UNDERCONFIDENT", "MIXED", "INSUFFICIENT_SAMPLE", "DRIFT_DETECTED", "NOT_AVAILABLE"],
     "sports_effect": "NONE",
     "ranking_effect": "NONE",
     "probability_effect": "NONE",
-    "economic_effect": ["ALLOW","CONDITION","BLOCK"]
+    "economic_effect": ["ALLOW", "CONDITION", "BLOCK"]
   },
   "bilateral_conjunction": {
     "version": "BILATERAL-1.2",
     "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
     "independent_half_approval_required": true,
     "no_compensation_between_halves": true,
-    "half_verdicts": ["NRFI_HALF_PASS","NRFI_HALF_ACCEPTABLE","NRFI_HALF_UNCERTAIN","NRFI_HALF_FAIL"],
-    "nrfi_lean_requires": ["TOP=NRFI_HALF_PASS","BOTTOM=NRFI_HALF_PASS"],
+    "half_verdicts": ["NRFI_HALF_PASS", "NRFI_HALF_ACCEPTABLE", "NRFI_HALF_UNCERTAIN", "NRFI_HALF_FAIL"],
+    "nrfi_lean_requires": ["TOP=NRFI_HALF_PASS", "BOTTOM=NRFI_HALF_PASS"],
     "acceptable_is_pass": false,
     "uncertain_is_pass": false,
     "one_dominant_pitcher_may_compensate_other_half": false,
-    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","rationale","current_version_status","material_run_path_status","uncertainty_flags"],
+    "required_half_dimensions": ["pitcher", "opponent_top_order", "splits", "bb", "hr", "traffic", "first_inning", "current_form", "matchup", "material_run_path", "data_quality", "evidence_ids", "rationale", "current_version_status", "material_run_path_status", "uncertainty_flags"],
     "each_half_requires_own_current_run_evidence": true,
     "first_inning_specific_role": "DESCRIPTIVE_CHECK_WITHIN_CAUSAL_SET_NOT_SOLE_GATE",
     "single_metric_may_block_or_create_candidate": false,
     "half_pass_requires_data_quality": "SUFFICIENT",
     "current_version_status_for_pass": "STABLE",
-    "material_run_path_status_for_pass": ["LOW","CONTROLLED"],
-    "severe_uncertainty_forbidden": ["MLB_DEBUT","POST_LONG_IL","ROLE_UNSTABLE","OPENER_BULK_UNCERTAINTY","STARTER_IDENTITY_UNCERTAIN"],
-    "central_nrfi_case_requires": {"joint_condition":"TOP_AND_BOTTOM","no_compensation":true}
+    "material_run_path_status_for_pass": ["LOW", "CONTROLLED"],
+    "severe_uncertainty_forbidden": ["MLB_DEBUT", "POST_LONG_IL", "ROLE_UNSTABLE", "OPENER_BULK_UNCERTAINTY", "STARTER_IDENTITY_UNCERTAIN"],
+    "central_nrfi_case_requires": {"joint_condition": "TOP_AND_BOTTOM", "no_compensation": true}
   },
   "downstream_bilateral_gate": {
     "A6_nrfi_seal_requires_bilateral_1_2": true,
@@ -118,7 +118,7 @@
     "mother_hash_refresh": "PASS"
   },
   "runtime": {
-    "database_migrations_required_through": 57,
+    "database_migrations_required_through": 58,
     "game_status_view": "public.nrfimetrica_game_dual_status",
     "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
     "calibration_guard": "public.nrfim_enforce_calibration_separation_v15",
