@@ -1,0 +1,28 @@
+{
+  "protocol_id": "IAINVESTIGADORA_MLB_V14",
+  "agent_id": "@iainvestigadora",
+  "system_version": "IAINVESTIGADORA-MLB-V1.4",
+  "mode": "PREGAME_FACTUAL_RESEARCH",
+  "target_scope": "ONE_EXPLICIT_MLB_GAME_PER_RUN",
+  "phase_order": ["F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"],
+  "phases": {
+    "F1": {"name":"IDENTIDAD FACTUAL Y SNAPSHOT PREGAME","conditional":false,"requires":["game_identity","actors.starters","actors.lineups","actors.catchers","phase_execution_receipt"]},
+    "F2": {"name":"RADIOGRAFÍA DEL ABRIDOR","conditional":false,"requires":["starters.away","starters.home","current_version","phase_execution_receipt"]},
+    "F3": {"name":"HORIZONTE TEMPRANO DEL ABRIDOR","conditional":false,"requires":["early_horizon.away","early_horizon.home","phase_execution_receipt"]},
+    "F4": {"name":"IDENTIDAD OFENSIVA COLECTIVA","conditional":false,"requires":["offense.away","offense.home","phase_execution_receipt"]},
+    "F5": {"name":"INTERACCIÓN BATEADOR × ABRIDOR","conditional":false,"requires":["sentinel_coverage.away[1..9]","sentinel_coverage.home[1..9]","matchups","deep_dive_justification","phase_execution_receipt"]},
+    "F6": {"name":"COMPARABLES ESTRUCTURALES","conditional":true,"trigger":"trigger_material_evaluation.trigger_material","skip_requires":"trigger=false + why_not_applicable material"},
+    "F7": {"name":"BULLPEN REAL DE HOY","conditional":false,"requires":["bullpen.away","bullpen.home","availability_as_of","phase_execution_receipt"]},
+    "F8": {"name":"MECÁNICA DE CONVERSIÓN","conditional":true,"trigger":"trigger_material_evaluation.trigger_material","skip_requires":"trigger=false + why_not_applicable material"},
+    "F9": {"name":"ENTORNO REAL DEL PARTIDO","conditional":false,"requires":["environment.venue","environment.conditions","phase_execution_receipt"]},
+    "F10": {"name":"INFORMACIÓN HUMANA Y DELTAS","conditional":false,"requires":["human_information_state","deltas_state","quarantine_state","phase_execution_receipt"]},
+    "F11": {"name":"GENEALOGÍA DE PRODUCCIÓN","conditional":true,"trigger":"trigger_material_evaluation.trigger_material","skip_requires":"trigger=false + why_not_applicable material"},
+    "F12": {"name":"AUDITORÍA FINAL PREGAME Y HANDOFF","conditional":false,"requires":["phase_receipt_ledger","mandatory_phases_not_run=NONE","core_mission_complete=true","drive_report_complete=PASS","chat_report_complete=PASS","ready_for_handoff=true","final_sports_store","phase_execution_receipt"]}
+  },
+  "receipt_fields": ["PHASE_ID","STATUS","START_AS_OF","END_AS_OF","INPUT_OBJECTS","OPERATIONS_PERFORMED","OUTPUT_OBJECTS","SOURCES_OR_EVIDENCE","AUDITOR_RESULT","NEXT_PHASE","UNRESOLVED_GOVERNING_OBJECTS","REOPEN_TRIGGER"],
+  "temporal_rule": "GOVERNING_EVIDENCE_DATA_AVAILABLE_AT <= GAME_CUTOFF_AT",
+  "source_rule": "EVERY_PHASE_SOURCE_CALL_REFERENCES_PHYSICAL_EVIDENCE_IN_SAME_RUN_AND_GAME",
+  "drive_rule": "ONE_DOSSIER_PER_RUN_AND_FINAL_GOOGLE_DRIVE_READBACK_HASH_REQUIRED",
+  "handoff_destination": "@ianalista",
+  "forbidden": ["pick","stake","odds","ev","edge","bet_recommendation","sports_verdict","probability","real_money_authority"]
+}
