@@ -1,0 +1,98 @@
+{
+  "contract_id": "NRFIMETRICA_SEMANTIC_CUSTODY_V1",
+  "status": "ACTIVE_REQUIRED_EXTENSION",
+  "parent_protocol": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+  "agent_version": "MOTHER-V3-AGENT-1.9",
+  "kernel_version": "NRFIM-KERNEL-1.4-DETERMINISTIC-SEMANTIC-CUSTODY",
+  "custody_version": "SEMANTIC-CUSTODY-1.0",
+  "process_auditor": "KERNEL_PROCESS_AUDITOR_0.3",
+  "purpose": "Prevent semantic compliance from substituting for physically proven research.",
+  "boundary": {
+    "model_role": "REQUEST_QUERIES_AND_PERFORM_CAUSAL_INTERPRETATION",
+    "kernel_role": "FETCH_EXTRACT_HASH_TIMESTAMP_IDENTIFY_GROUP_AND_AUDIT",
+    "model_may_self_attest_research": false,
+    "model_may_generate_evidence_id": false,
+    "model_may_generate_tool_event_id": false,
+    "model_may_set_kernel_timestamps": false,
+    "model_may_select_source_family_id": false,
+    "kernel_may_vote_sports": false
+  },
+  "evidence_chain": [
+    "KERNEL_RESEARCH_QUERY",
+    "AUTHENTICATED_KERNEL_RETRIEVAL",
+    "KERNEL_GENERATED_RESEARCH_TOOL_EVENT",
+    "KERNEL_GENERATED_EVIDENCE_ID",
+    "IMMUTABLE_FACTUAL_EXTRACT_HASH",
+    "KERNEL_DERIVED_SOURCE_FAMILY",
+    "FACTUAL_CLAIM_WITH_EVIDENCE_ID",
+    "CAUSAL_REASONING",
+    "ADVERSARIAL_FALSIFICATION",
+    "PACKET_FREEZE",
+    "DRIVE_HASH_ATTESTATION",
+    "PROCESS_AUDIT"
+  ],
+  "attestation": {
+    "trusted_retrieval_modes": ["KERNEL_SERVER_FETCH", "KERNEL_PROVIDER_FETCH"],
+    "runtime_auth_context_required": true,
+    "required_request_role": "service_role",
+    "direct_sql_cannot_self_attest": true,
+    "discovery_only_cannot_support_factual_sports_claims": true,
+    "manual_evidence_endpoint_disabled": true,
+    "manual_source_family_endpoint_disabled": true
+  },
+  "source_independence": {
+    "owner": "KERNEL",
+    "same_declared_origin_collapses": true,
+    "exact_content_hash_collapses": true,
+    "semantic_overlap_collapses": true,
+    "semantic_overlap_threshold": 0.80,
+    "url_count_is_not_independent_source_count": true
+  },
+  "adaptive_research": {
+    "version": "ADAPTIVE-CONTRADICTION-1.0",
+    "fixed_3_5_7_floor_retired_for_new_packets": true,
+    "minimum_families_no_material_contradiction": 2,
+    "minimum_families_material_contradiction": 4,
+    "governing_open_contradiction_blocks_analysis_complete": true,
+    "analysis_complete_requires_saturation": true,
+    "saturation_requires_two_final_independent_families": true,
+    "source_counts_are_process_controls_not_sports_votes": true
+  },
+  "adversarial_falsifiability": {
+    "best_yrfi_rival_required": true,
+    "materialization_path_required": true,
+    "materialization_path_requires_half": true,
+    "materialization_path_requires_vulnerability_activator": true,
+    "materialization_path_requires_evidence_ids": true,
+    "materialization_path_requires_event_steps": true,
+    "one_swing_requires_batter_profile_and_pitch_or_zone_vulnerability": true,
+    "nrfi_and_yrfi_evidence_sets_required": true,
+    "equal_metric_count_not_required": true,
+    "parity_is_effort_and_evidence_not_hidden_score": true
+  },
+  "first_inning_materiality": {
+    "top_first_inning_factor_required": true,
+    "bottom_first_inning_factor_required": true,
+    "first_inning_metric_as_sole_gate_forbidden": true,
+    "full_game_data_allowed_as_modifier": true,
+    "full_game_modifier_requires_explicit_first_inning_link": true,
+    "full_game_only_dominant_factor_forbidden": true,
+    "token_frequency_scoring_forbidden": true
+  },
+  "lineup_state": {
+    "projected_analysis_separate_from_confirmed_analysis": true,
+    "projected_lineup_may_continue_research": true,
+    "projected_lineup_does_not_equal_certified_lineup": true
+  },
+  "refutability": {
+    "what_would_change_requires_observable": true,
+    "what_would_change_requires_deadline": true,
+    "metric_threshold_requires_metric_name_operator_threshold": true
+  },
+  "legacy": {
+    "pre_semantic_custody_packets_remain_legacy": true,
+    "historical_packets_are_not_rewritten": true,
+    "historical_runs_are_not_promoted_to_current_evidence": true
+  },
+  "database_migrations_required_through": 55
+}
