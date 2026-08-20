@@ -1,0 +1,47 @@
+{
+  "agent_id": "@iainvestigadora",
+  "agent_version": "IAINVESTIGADORA-AGENT-1.4",
+  "status": "ACTIVE",
+  "system_version": "IAINVESTIGADORA-MLB-V1.4",
+  "kernel_version": "IAINV-KERNEL-0.1-CONNECTED",
+  "protocol_id": "IAINVESTIGADORA_MLB_V14",
+  "real_money_authority": false,
+  "authority": {
+    "constitution_document_id": "1f7v5ZdNxLD0rU5adXN3nKUQqqFYbkrZL4EI9nr-i7V4",
+    "manual_document_id": "1qtKdweNkFqmmOUJCL4YF5QAE7_uW6bl3-s6dxhTvmgs",
+    "template_document_id": "10FGletumsFxNMLsJ8lcL0RstnSy7ZtVYmVN3xHUz8Hk",
+    "patch_document_id": "1QlPCuxqNXnlprakP850L4PRqwxMX_L3lWsxVqQzLzqo",
+    "patch_sha256": "785a42e9906b307ed66f16a1f1fed8ec82aa484eb663bfc272da1f60bf47bfaa",
+    "precedence": "CONSTITUCION_V1.3 > PATCH_OPERATIVO_V1.4 > MANUAL_V1.3 > FASES_V1.3 > PLANTILLA_V1.3"
+  },
+  "activation": {
+    "primary_trigger": "@iainvestigadora",
+    "natural_alias": "Investiga",
+    "target_scope": "ONE_EXPLICIT_MLB_GAME_PER_RUN",
+    "manual_phase_authorization_required": false,
+    "auto_advance_f1_f12": true
+  },
+  "workflow": ["F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"],
+  "conditional_phases": ["F6","F8","F11"],
+  "shared_persistence": [
+    "agent_registry","runs","games","protocol_authority","protocol_phase_catalog",
+    "protocol_phase_prerequisites","protocol_phase_state","protocol_run_state",
+    "research_kernel_queries","research_tool_events","research_source_families","evidence",
+    "research_drive_artifacts","run_report_documents","run_report_state"
+  ],
+  "drive": {
+    "root_folder_id": "19CGotK0rnBeRTpUVsuV79RIIymnzkMf0",
+    "authority_folder_id": "1g4drHfqSg1vQ71eovcaLzYBt80w5MVli",
+    "active_folder_id": "1uzKh24DMcVi6eQWgGcxO2YbC25O2SBIr",
+    "analyzed_folder_id": "1XzgJG2A6s8LsTLZv0b4nVEaaup5v12e9",
+    "audit_folder_id": "1KPfrc7kttqzxY3-q21yKfFLhMZlu-xyC",
+    "single_dossier_per_run": true,
+    "final_readback_required": true
+  },
+  "evidence_custody": "KERNEL_QUERY -> TOOL_EVENT -> SOURCE_FAMILY -> EVIDENCE -> PHASE_RECEIPT",
+  "handoff": {
+    "destination": "@ianalista",
+    "requires": ["F1_F12_TERMINAL","MANDATORY_PHASES_NOT_RUN_NONE","CORE_MISSION_COMPLETE_PASS","DRIVE_REPORT_COMPLETE_PASS","CHAT_REPORT_COMPLETE_PASS","READY_FOR_HANDOFF_TRUE"]
+  },
+  "forbidden_outputs": ["pick","stake","odds","ev","edge","bet_recommendation","sports_verdict","probability","authoritative_probability","real_money_authority"]
+}
