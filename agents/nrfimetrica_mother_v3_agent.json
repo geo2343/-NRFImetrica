@@ -1,54 +1,69 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.12",
+  "agent_version": "MOTHER-V3-AGENT-1.13",
   "status": "ACTIVE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.7-SELF-AUDIT-HARDENED",
+    "kernel_version": "NRFIM-KERNEL-1.8-FORENSIC-REPAIR",
     "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
     "mother_document_sha256": "799ccb5a483e7991f880ae7d49d2f191a98e292478ec64e76a55aa8250ec498b",
-    "precedence": "V17_SELF_AUDIT_HARDENING_PLUS_PREANALYSIS_PRESS_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
+    "a0_authority_resolution": "DYNAMIC_AGENT_REGISTRY_PLUS_PROTOCOL_AUTHORITY",
+    "precedence": "V18_FORENSIC_REPAIR_PLUS_V17_SELF_AUDIT_HARDENING_PLUS_PREANALYSIS_PRESS_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
     "real_money_authority": false
+  },
+  "runtime": {
+    "database_migrations_required_through": 73,
+    "github_migrations_through": 73,
+    "sports_reasoning_packet": "V2_SEMANTIC_CUSTODY",
+    "sports_reasoning_independent_of_certification_chain": true,
+    "a0p_allowed_without_a0_for_sports_preanalysis": true,
+    "a1_a8_require_valid_a0": true,
+    "game_artifact_manifest_table": "public.nrfimetrica_game_artifacts",
+    "report_snapshot_function": "public.nrfimetrica_build_report_snapshot_v18",
+    "sports_readiness_view": "public.nrfimetrica_sports_reasoning_readiness_v18",
+    "system_reliability_audit_table": "public.nrfimetrica_system_calibration_audits",
+    "kernel_test_table": "public.nrfimetrica_kernel_tests"
+  },
+  "sports_process": {
+    "packet_required_for_every_game_resolution": true,
+    "no_play_same_research_burden": true,
+    "top_bottom_independent": true,
+    "nrfi_lean_requires_two_half_passes": true,
+    "claim_evidence_map_required": true,
+    "best_supported_rival_required": true,
+    "second_pass_review_required": true,
+    "directional_bias_check_required": true,
+    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.3",
+    "process_auditor_sports_vote": "FORBIDDEN",
+    "shortlist_source": "PHYSICAL_SPORTS_CANDIDATE_POOL_ONLY"
+  },
+  "reporting": {
+    "source": "DB_DERIVED_ONLY",
+    "no_packet_state": "WATCHLIST_PROCESS_MISSING_DO_NOT_BET",
+    "manual_state_upgrade_forbidden": true,
+    "final_report_requires_physical_state_snapshot": true
+  },
+  "economic_firewall": {
+    "real_money_authority": false,
+    "active_trusted_game_specific_engine_required": true,
+    "active_trusted_independent_auditor_required": true,
+    "certified_system_reliability_audit_required": true,
+    "a7_release_required": true,
+    "a8_required": true,
+    "ai_probability_fabrication_forbidden": true
   },
   "scope": {
     "notion": "CONSULTATION_ONLY_NO_WRITE_AUTHORITY",
-    "nrfiprensa": "EXTERNAL_PRODUCER_NOT_MODIFIED_BY_THIS_REFORM",
+    "nrfiprensa": "EXTERNAL_INFORMATION_ONLY",
     "nrfiprensa_write_scope": "NONE",
     "receiver_side_only": true
   },
-  "runtime": {
-    "database_migrations_required_through": 72,
-    "github_migrations_through": 72,
-    "press_intake_table": "public.nrfimetrica_press_intakes",
-    "system_reliability_audit_table": "public.nrfimetrica_system_calibration_audits",
-    "kernel_test_table": "public.nrfimetrica_kernel_tests",
-    "a7_guard": "public.nrfimetrica_a7_press_integration_guard_v16",
-    "a8_guard": "public.nrfimetrica_a8_separation_guard_v16",
-    "a8_assertion": "public.nrfimetrica_assert_a8_lineage_v17",
-    "system_reliability_assertion": "public.nrfimetrica_assert_system_reliability_lineage_v17",
-    "no_ai_probability_guard": "public.nrfimetrica_no_ai_probability_v17"
-  },
-  "controls": {
-    "press_input_role": "INFORMATION_FOR_ANALYSIS_ONLY",
-    "press_authority_axes": "NONE",
-    "verified_press_provenance": "KERNEL_ATTESTED_RECEIVER_EVENT_REQUIRED",
-    "unresolved_press_behavior": "REANALYSIS_REQUIRED_AND_RELEASE_BLOCKED",
-    "calibration_role": "SYSTEM_AUDIT_ONLY_NO_GAME_OVERRIDE",
-    "system_reliability_no_audit_behavior": "NOT_AVAILABLE_BLOCK",
-    "economically_certified_target": "U0.5_ONLY_UNTIL_TARGET_SPECIFIC_CERTIFICATION",
-    "no_supported_rival_allowed_if_documented": true,
-    "ai_probability_fabrication_forbidden": true,
-    "user_action_fail_closed": true,
-    "client_dml_views": "READ_ONLY"
-  },
   "validation": {
-    "state": "PASS_20_OF_20_POST_071",
-    "post_fix_adversarial_suite": "12_OF_12_PASS",
-    "pre_fix_gap_confirmed": 2,
-    "pre_fix_gap_status": "PRESERVED_AS_FAILING_AUDIT_EVIDENCE",
-    "mother_external_hash_readback": "PASS",
-    "activation_migration": "072_nrfimetrica_v17_activate_after_terminal_audit.sql",
-    "activation_allowed": true
+    "forensic_source_verdict": "PROCESS_INVALID_CRITICAL",
+    "repair_suite": "V18_FORENSIC_PROCESS_REPAIR",
+    "repair_suite_result": "12_OF_12_PASS",
+    "failed_run_retroactive_repair": "FORBIDDEN",
+    "migration": "073_nrfimetrica_v18_forensic_process_repair.sql"
   }
 }
