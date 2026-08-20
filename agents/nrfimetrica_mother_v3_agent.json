@@ -1,20 +1,26 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.13",
+  "agent_version": "MOTHER-V3-AGENT-1.14",
   "status": "ACTIVE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.8-FORENSIC-REPAIR",
+    "kernel_version": "NRFIM-KERNEL-1.8.1-SUPABASE-EDGE-RUNTIME",
     "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
     "mother_document_sha256": "799ccb5a483e7991f880ae7d49d2f191a98e292478ec64e76a55aa8250ec498b",
     "a0_authority_resolution": "DYNAMIC_AGENT_REGISTRY_PLUS_PROTOCOL_AUTHORITY",
-    "precedence": "V18_FORENSIC_REPAIR_PLUS_V17_SELF_AUDIT_HARDENING_PLUS_PREANALYSIS_PRESS_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
+    "precedence": "V18_FORENSIC_REPAIR_PLUS_SUPABASE_EDGE_RUNTIME",
     "real_money_authority": false
   },
   "runtime": {
-    "database_migrations_required_through": 73,
-    "github_migrations_through": 73,
+    "platform": "SUPABASE_EDGE_FUNCTIONS",
+    "edge_function_slug": "nrfimetrica-research",
+    "edge_function_version": 1,
+    "edge_function_status": "ACTIVE",
+    "verify_jwt": true,
+    "vercel_dependency": "REMOVED",
+    "database_migrations_required_through": 74,
+    "github_migrations_through": 74,
     "sports_reasoning_packet": "V2_SEMANTIC_CUSTODY",
     "sports_reasoning_independent_of_certification_chain": true,
     "a0p_allowed_without_a0_for_sports_preanalysis": true,
@@ -63,7 +69,9 @@
     "forensic_source_verdict": "PROCESS_INVALID_CRITICAL",
     "repair_suite": "V18_FORENSIC_PROCESS_REPAIR",
     "repair_suite_result": "12_OF_12_PASS",
+    "edge_runtime_suite": "V18_SUPABASE_EDGE_RUNTIME",
+    "edge_runtime_suite_result": "6_OF_6_PASS",
     "failed_run_retroactive_repair": "FORBIDDEN",
-    "migration": "073_nrfimetrica_v18_forensic_process_repair.sql"
+    "migration": "074_nrfimetrica_v18_supabase_edge_runtime.sql"
   }
 }
