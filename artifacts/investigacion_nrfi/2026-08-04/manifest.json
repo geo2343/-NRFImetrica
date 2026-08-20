@@ -1,0 +1,68 @@
+{
+  "date": "2026-08-04",
+  "schedule_source": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=2026-08-04&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore",
+  "schedule_sha256": "e12d3eee9130f52268c2b28c9ec8cd30f05fb8f361b4d72669d70b969509f259",
+  "games": [
+    {
+      "game_pk": "824805",
+      "matchup": "LAA@BAL"
+    },
+    {
+      "game_pk": "824403",
+      "matchup": "NYM@CLE"
+    },
+    {
+      "game_pk": "824484",
+      "matchup": "ATH@CIN"
+    },
+    {
+      "game_pk": "823432",
+      "matchup": "WSH@PHI"
+    },
+    {
+      "game_pk": "823517",
+      "matchup": "STL@NYY"
+    },
+    {
+      "game_pk": "824731",
+      "matchup": "CWS@BOS"
+    },
+    {
+      "game_pk": "824888",
+      "matchup": "MIA@ATL"
+    },
+    {
+      "game_pk": "824084",
+      "matchup": "MIN@KC"
+    },
+    {
+      "game_pk": "823756",
+      "matchup": "PIT@MIL"
+    },
+    {
+      "game_pk": "824645",
+      "matchup": "LAD@CHC"
+    },
+    {
+      "game_pk": "822865",
+      "matchup": "SF@TEX"
+    },
+    {
+      "game_pk": "824161",
+      "matchup": "TOR@HOU"
+    },
+    {
+      "game_pk": "824321",
+      "matchup": "TB@COL"
+    },
+    {
+      "game_pk": "825054",
+      "matchup": "SD@AZ"
+    },
+    {
+      "game_pk": "823108",
+      "matchup": "DET@SEA"
+    }
+  ],
+  "count": 15
+}
