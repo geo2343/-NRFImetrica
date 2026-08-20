@@ -34,56 +34,27 @@
     "ambiguity_behavior": "ASK_USER_BEFORE_AUDIT",
     "last_analysis_behavior": "RESOLVE_CHAT_REFERENCE_THEN_PHYSICALLY_RECONCILE_RUN_GAME_REPORT",
     "agent_only_behavior": "LOCATE_MOST_RECENT_PHYSICAL_COMPATIBLE_RUN",
-    "required_identity_keys": [
-      "requested_reference",
-      "requested_agent",
-      "resolved_agent",
-      "target_run_id",
-      "target_scope",
-      "target_report_locator",
-      "target_match_basis"
-    ]
+    "required_identity_keys": ["requested_reference","requested_agent","resolved_agent","target_run_id","target_scope","target_report_locator","target_match_basis"]
   },
   "authority_resolution": {
     "rule": "RESOLVE_TARGET_TIME_CANONICAL_AUTHORITY",
     "adapter_metadata_is_locator_not_permanent_authority": true,
     "snapshot_required": true
   },
-  "audit_layers": [
-    "P0_TARGET_LOCK",
-    "P1_AUTHORITY_AUDIT",
-    "P2_CLEAN_ROOM_AUDIT",
-    "P3_UNIVERSE_AUDIT",
-    "P4_TOOL_EVIDENCE_AUDIT",
-    "P5_PHASE_AUDIT",
-    "P6_HARD_GATE_AUDIT",
-    "P7_STATE_IDENTITY_AUDIT",
-    "P8_ARTIFACT_HASH_AUDIT",
-    "P9_CROSS_SYSTEM_CONSISTENCY",
-    "P10_ADVERSARIAL_AUDIT",
-    "P11_CLOSURE_AUDIT",
-    "P12_VERDICT_AND_FORENSIC_CHAT_REPORT"
-  ],
+  "runtime_independence_audit": {
+    "policy_version": "RUNTIME-INDEPENDENCE-1.0",
+    "vercel_role": "OPTIONAL_HTTP_ADAPTER_NON_BLOCKING",
+    "vercel_required": false,
+    "vercel_failure_blocks_execution": false,
+    "required_check": "P1-RUNTIME-INDEPENDENCE",
+    "failure_mode": "RUNTIME_PROVIDER_COUPLING",
+    "rule": "A Vercel failure may block only an explicitly Vercel-specific operation. It may not by itself invalidate or stop a target run when the target agent canonical execution route remains available.",
+    "auditor_must_verify_target_time_canonical_route": true
+  },
+  "audit_layers": ["P0_TARGET_LOCK","P1_AUTHORITY_AUDIT","P2_CLEAN_ROOM_AUDIT","P3_UNIVERSE_AUDIT","P4_TOOL_EVIDENCE_AUDIT","P5_PHASE_AUDIT","P6_HARD_GATE_AUDIT","P7_STATE_IDENTITY_AUDIT","P8_ARTIFACT_HASH_AUDIT","P9_CROSS_SYSTEM_CONSISTENCY","P10_ADVERSARIAL_AUDIT","P11_CLOSURE_AUDIT","P12_VERDICT_AND_FORENSIC_CHAT_REPORT"],
   "traceability": {
     "total_execution_trace_required": true,
-    "chain": [
-      "USER_REQUEST",
-      "TARGET_IDENTITY",
-      "TARGET_TIME_AUTHORITY",
-      "RUN",
-      "UNIVERSE_OBJECTS",
-      "INPUTS",
-      "TOOLS_SOURCES",
-      "EVIDENCE",
-      "PHASES_OUTPUTS",
-      "DEPENDENCIES",
-      "GATES",
-      "STATES",
-      "FREEZE",
-      "CLOSURE",
-      "DRIVE_REPORT",
-      "CHAT_REPORT"
-    ],
+    "chain": ["USER_REQUEST","TARGET_IDENTITY","TARGET_TIME_AUTHORITY","RUN","UNIVERSE_OBJECTS","INPUTS","TOOLS_SOURCES","EVIDENCE","PHASES_OUTPUTS","DEPENDENCIES","GATES","STATES","FREEZE","CLOSURE","DRIVE_REPORT","CHAT_REPORT"],
     "root_failure_separated_from_downstream_effects": true
   },
   "forensic_replay": {
@@ -96,49 +67,14 @@
   "findings": {
     "must_reference_target_authority_rule": true,
     "corrections_are_compliance_only": true,
-    "required_for_major_or_critical": [
-      "AUTHORITY_RULE_REF",
-      "FAILURE_MODE",
-      "EVIDENCE",
-      "IMPACT",
-      "REQUIRED_CORRECTION",
-      "RETEST_REQUIREMENT"
-    ],
-    "failure_modes": [
-      "NOT_EXECUTED",
-      "PARTIALLY_EXECUTED",
-      "EXECUTED_INCORRECTLY",
-      "OUT_OF_ORDER",
-      "WRONG_INPUT",
-      "STALE_INPUT",
-      "WRONG_AUTHORITY",
-      "BYPASS",
-      "FALSE_COMPLIANCE",
-      "STATE_MISREPRESENTATION",
-      "CONTAMINATION",
-      "MISSING_ARTIFACT",
-      "CROSS_SYSTEM_INCONSISTENCY",
-      "AUTHORITY_CONFLICT",
-      "TARGET_MISMATCH"
-    ]
+    "required_for_major_or_critical": ["AUTHORITY_RULE_REF","FAILURE_MODE","EVIDENCE","IMPACT","REQUIRED_CORRECTION","RETEST_REQUIREMENT"],
+    "failure_modes": ["NOT_EXECUTED","PARTIALLY_EXECUTED","EXECUTED_INCORRECTLY","OUT_OF_ORDER","WRONG_INPUT","STALE_INPUT","WRONG_AUTHORITY","BYPASS","FALSE_COMPLIANCE","STATE_MISREPRESENTATION","CONTAMINATION","MISSING_ARTIFACT","CROSS_SYSTEM_INCONSISTENCY","AUTHORITY_CONFLICT","TARGET_MISMATCH","RUNTIME_PROVIDER_COUPLING"]
   },
   "forensic_chat_report": {
     "required_for_close": true,
     "human_readable": true,
     "copyable_to_responsible_ai": true,
-    "minimum_sections": [
-      "target_identification",
-      "authority_requirements",
-      "chronological_reconstruction",
-      "trace_matrix",
-      "correct_processes",
-      "root_failure",
-      "propagation_map",
-      "findings_explained",
-      "p0_p12_matrix",
-      "compliance_corrections",
-      "retest"
-    ]
+    "minimum_sections": ["target_identification","authority_requirements","chronological_reconstruction","trace_matrix","correct_processes","root_failure","propagation_map","findings_explained","p0_p12_matrix","compliance_corrections","retest"]
   },
   "independence": {
     "read_only_target": true,
@@ -156,16 +92,20 @@
       "constitution_document_id": "1vWW42-MlFqUCDTV4UKwBfi7v2eO_zTomO3M3641w3Ec",
       "panel_document_id": "1Pvc_oEKalglMjNx6JHmIRkeGi6a4DTMAfbkmIiV-EN0",
       "hard_gates_document_id": "1Jk-q51sh2aehZRyOtfvbDCDfEtN8AWNj99BrA_lYfQA",
-      "phase_map": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8_CONDITIONAL"],
+      "phase_map": ["A1","A2","A3","A4","A5","A6","A7","A8_CONDITIONAL"],
       "persistent_runtime_note": "No dedicated Supabase/GitHub target runtime was physically found during adapter registration; do not fabricate one. Resolve available target-time layers during each audit."
     }
   },
   "runtime": {
+    "policy_version": "RUNTIME-INDEPENDENCE-1.0",
     "supabase_project_id": "yejaollmavoudbxnbpll",
     "drive_root_folder_id": "1h7JtnEKxWx0aLOpeGJ5wSBEQgpT4VtoV",
     "drive_authority_folder_id": "10nvObjcQ-Kipwif9iF8LuJJy34ds26QP",
     "drive_audits_folder_id": "1v3lOUkPdtiX1PVQ9q3v9SqBSSwIuT0T6",
     "constitution_document_id": "103YAFM8k9o36F41UgiHl1W8HAd-38Id-0-dYvRpG9fY",
-    "mode_agent_document_id": "1LkvsesZmOVvQFSRF2xv5Gh6ykrEeuD9mAsM1BFjObqE"
+    "mode_agent_document_id": "1LkvsesZmOVvQFSRF2xv5Gh6ykrEeuD9mAsM1BFjObqE",
+    "vercel_role": "OPTIONAL_HTTP_ADAPTER_NON_BLOCKING",
+    "vercel_required": false,
+    "vercel_failure_blocks_execution": false
   }
 }
