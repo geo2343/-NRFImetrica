@@ -1,11 +1,11 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.8",
+  "agent_version": "MOTHER-V3-AGENT-1.9",
   "status": "ACTIVE_MANDATE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.3-BILATERAL-1.2-CAUSAL-GATE",
+    "kernel_version": "NRFIM-KERNEL-1.4-DETERMINISTIC-SEMANTIC-CUSTODY",
     "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
     "precedence": "LATEST_SOVEREIGN_PATCH_WINS"
   },
@@ -16,9 +16,31 @@
     "prior_run_analysis_reuse": false
   },
   "roles": {
-    "chatgpt": "CAUSAL_SPORTS_ANALYST_AND_ORCHESTRATOR",
-    "kernel": "PROCESS_AND_CONTRACT_ENFORCEMENT_NOT_METRIC_VOTER",
-    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2_NO_SPORTS_VOTE"
+    "chatgpt": "CAUSAL_SPORTS_ANALYST_AND_QUERY_REQUESTER",
+    "kernel": "DETERMINISTIC_EXTRACTION_CUSTODY_PROCESS_AND_CONTRACT_ENFORCEMENT_NOT_SPORTS_VOTER",
+    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.3_NO_SPORTS_VOTE"
+  },
+  "semantic_custody": {
+    "version": "SEMANTIC-CUSTODY-1.0",
+    "model_may_create_evidence_id": false,
+    "model_may_create_tool_event_id": false,
+    "kernel_query_required_before_research_event": true,
+    "sports_evidence_requires_kernel_attested_extraction": true,
+    "trusted_retrieval_modes": ["KERNEL_SERVER_FETCH", "KERNEL_PROVIDER_FETCH"],
+    "discovery_only_events_may_support_factual_claims": false,
+    "source_family_assignment_owner": "KERNEL",
+    "semantic_overlap_collapse_threshold": 0.80,
+    "timestamps_owner": "KERNEL",
+    "historical_packets_remain_legacy": true
+  },
+  "adaptive_research": {
+    "version": "ADAPTIVE-CONTRADICTION-1.0",
+    "fixed_3_5_7_floor_for_new_packets": false,
+    "minimum_independent_families_without_material_contradiction": 2,
+    "minimum_independent_families_with_material_contradiction": 4,
+    "governing_open_contradiction_may_close_analysis": false,
+    "analysis_complete_requires_saturation": true,
+    "kernel_records_last_two_independent_families": true
   },
   "bilateral_conjunction": {
     "version": "BILATERAL-1.2",
@@ -32,13 +54,39 @@
     "one_dominant_pitcher_may_compensate_other_half": false,
     "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","rationale","current_version_status","material_run_path_status","uncertainty_flags"],
     "each_half_requires_own_current_run_evidence": true,
-    "first_inning_specific_role": "DESCRIPTIVE_CHECK_WITHIN_CAUSAL_SET_NOT_SOLE_GATE",
+    "first_inning_specific_role": "REQUIRED_DIRECT_CAUSAL_LAYER_WITHIN_FULL_CAUSAL_SET_NOT_SOLE_METRIC_GATE",
     "single_metric_may_block_or_create_candidate": false,
     "half_pass_requires_data_quality": "SUFFICIENT",
     "current_version_status_for_pass": "STABLE",
     "material_run_path_status_for_pass": ["LOW","CONTROLLED"],
     "severe_uncertainty_forbidden": ["MLB_DEBUT","POST_LONG_IL","ROLE_UNSTABLE","OPENER_BULK_UNCERTAINTY","STARTER_IDENTITY_UNCERTAIN"],
     "central_nrfi_case_requires": {"joint_condition":"TOP_AND_BOTTOM","no_compensation":true}
+  },
+  "adversarial_falsifiability": {
+    "best_yrfi_rival_required": true,
+    "materialization_path_required": true,
+    "materialization_path_requires_specific_half": true,
+    "one_swing_path_requires_batter_profile_and_pitch_or_zone_vulnerability": true,
+    "nrfi_and_yrfi_evidence_sets_required": true,
+    "equal_metric_counts_required": false,
+    "sports_vote_by_kernel": false
+  },
+  "first_inning_materiality": {
+    "top_and_bottom_first_inning_factors_required": true,
+    "full_game_data_may_be_used": true,
+    "full_game_data_role": "MODIFIER_WITH_EXPLICIT_FIRST_INNING_LINK_ONLY",
+    "full_game_only_factor_may_be_dominant": false,
+    "token_frequency_scoring": "FORBIDDEN"
+  },
+  "lineup_state": {
+    "projected_and_confirmed_analysis_must_be_separate": true,
+    "projected_analysis_may_continue_research": true,
+    "missing_market_may_stop_sports_analysis": false
+  },
+  "refutability": {
+    "what_would_change_must_be_observable": true,
+    "what_would_change_must_be_time_bound": true,
+    "metric_threshold_requires_metric_operator_and_threshold": true
   },
   "downstream_bilateral_gate": {
     "A6_nrfi_seal_requires_bilateral_1_2": true,
@@ -69,16 +117,21 @@
     "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
     "NO_CROSS_HALF_COMPENSATION",
     "NO_NRFI_LEAN_UNLESS_BOTH_HALVES_PASS_INDEPENDENTLY",
-    "ACCEPTABLE_OR_UNCERTAIN_HALF_FORBIDS_NRFI_LEAN",
-    "FIRST_INNING_HISTORY_IS_DESCRIPTIVE_NOT_A_SOLE_GATE",
+    "NO_FACTUAL_SPORTS_CLAIM_WITHOUT_KERNEL_GENERATED_EVIDENCE",
+    "DISCOVERY_IS_NOT_EVIDENCE",
+    "SOURCE_FAMILY_IS_KERNEL_DERIVED",
+    "NO_BACKDATING_BY_MODEL",
+    "MATERIAL_CONTRADICTION_FORCES_DEEPER_RESEARCH",
+    "BEST_YRFI_RIVAL_REQUIRES_MATERIALIZATION_PATH",
+    "FULL_GAME_DATA_CANNOT_GOVERN_WITHOUT_FIRST_INNING_CAUSAL_LINK",
     "NO_SINGLE_METRIC_CREATES_OR_KILLS_A_CANDIDATE",
-    "EACH_HALF_REQUIRES_OWN_CURRENT_RUN_CAUSAL_EVIDENCE",
     "SPORTS_CANDIDATE_IS_NOT_BET",
     "BET_LABEL_REQUIRES_EXECUTABLE_AUTHORITY"
   ],
   "runtime": {
-    "database_migrations_required_through": 52,
+    "database_migrations_required_through": 54,
     "game_status_view": "public.nrfimetrica_game_dual_status",
-    "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid"
+    "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
+    "research_query_table": "public.research_kernel_queries"
   }
 }
