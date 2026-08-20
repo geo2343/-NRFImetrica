@@ -1,0 +1,127 @@
+{
+  "source": "MLB_STATS_API",
+  "source_url": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=2026-08-20&hydrate=probablePitcher,venue,team",
+  "source_sha256": "4a00f519cd6857dcc307ba9667018e449f983c3ebd550599e390c9f0076d7a97",
+  "game_pk": 824474,
+  "game_date": "2026-08-20T16:40:00Z",
+  "official_date": "2026-08-20",
+  "status": {
+    "abstractGameState": "Preview",
+    "codedGameState": "P",
+    "detailedState": "Pre-Game",
+    "statusCode": "P",
+    "startTimeTBD": false,
+    "abstractGameCode": "P"
+  },
+  "away": {
+    "springLeague": {
+      "id": 115,
+      "name": "Grapefruit League",
+      "link": "/api/v1/league/115",
+      "abbreviation": "GL"
+    },
+    "allStarStatus": "N",
+    "id": 138,
+    "name": "St. Louis Cardinals",
+    "link": "/api/v1/teams/138",
+    "season": 2026,
+    "venue": {
+      "id": 2889,
+      "name": "Busch Stadium",
+      "link": "/api/v1/venues/2889"
+    },
+    "springVenue": {
+      "id": 2520,
+      "link": "/api/v1/venues/2520"
+    },
+    "teamCode": "sln",
+    "fileCode": "stl",
+    "abbreviation": "STL",
+    "teamName": "Cardinals",
+    "locationName": "St. Louis",
+    "firstYearOfPlay": "1892",
+    "league": {
+      "id": 104,
+      "name": "National League",
+      "link": "/api/v1/league/104"
+    },
+    "division": {
+      "id": 205,
+      "name": "National League Central",
+      "link": "/api/v1/divisions/205"
+    },
+    "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "name": "Major League Baseball"
+    },
+    "shortName": "St. Louis",
+    "franchiseName": "St. Louis",
+    "clubName": "Cardinals",
+    "active": true
+  },
+  "home": {
+    "springLeague": {
+      "id": 114,
+      "name": "Cactus League",
+      "link": "/api/v1/league/114",
+      "abbreviation": "CL"
+    },
+    "allStarStatus": "N",
+    "id": 113,
+    "name": "Cincinnati Reds",
+    "link": "/api/v1/teams/113",
+    "season": 2026,
+    "venue": {
+      "id": 2602,
+      "name": "Great American Ball Park",
+      "link": "/api/v1/venues/2602"
+    },
+    "springVenue": {
+      "id": 3834,
+      "link": "/api/v1/venues/3834"
+    },
+    "teamCode": "cin",
+    "fileCode": "cin",
+    "abbreviation": "CIN",
+    "teamName": "Reds",
+    "locationName": "Cincinnati",
+    "firstYearOfPlay": "1882",
+    "league": {
+      "id": 104,
+      "name": "National League",
+      "link": "/api/v1/league/104"
+    },
+    "division": {
+      "id": 205,
+      "name": "National League Central",
+      "link": "/api/v1/divisions/205"
+    },
+    "sport": {
+      "id": 1,
+      "link": "/api/v1/sports/1",
+      "name": "Major League Baseball"
+    },
+    "shortName": "Cincinnati",
+    "franchiseName": "Cincinnati",
+    "clubName": "Reds",
+    "active": true
+  },
+  "away_probable_pitcher": {
+    "id": 700241,
+    "fullName": "Michael McGreevy",
+    "link": "/api/v1/people/700241"
+  },
+  "home_probable_pitcher": {
+    "id": 663903,
+    "fullName": "Brady Singer",
+    "link": "/api/v1/people/663903"
+  },
+  "venue": {
+    "id": 2602,
+    "name": "Great American Ball Park",
+    "link": "/api/v1/venues/2602",
+    "active": true,
+    "season": "2026"
+  }
+}
