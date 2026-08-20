@@ -1,83 +1,45 @@
 {
   "agent_id": "@NRFiPrensa",
-  "agent_version": "V0.2-AGENT-1.2",
+  "agent_version": "V0.2-AGENT-1.3",
   "protocol_id": "SO_MEDIA_NRFI_V02",
-  "kernel_version": "NRFIPRENSA-KERNEL-0.3-BILATERAL-1.1-HARD-GATE",
+  "kernel_version": "NRFIPRENSA-KERNEL-0.4-BILATERAL-1.2-CAUSAL-GATE",
   "document_sha256": "a6ed0be85ea66750dbea7e3deafe717675433a78d141f0656688421e15dacbac",
-  "document_lines": 1248,
   "status": "RESEARCH_ONLY_TRADING_HALT",
   "real_money_authority": false,
-  "market": "MLB_NRFI",
-  "activation": {
-    "trigger": "@NRFiPrensa",
-    "manual_phase_authorization_required": false,
-    "new_run_per_invocation": true,
-    "new_report_document_per_run": true,
-    "prior_run_analysis_as_current_input": false
-  },
-  "roles": {
-    "collector": "DISCOVER_VERIFY_FACTS_NO_SPORTS_INTERPRETATION",
-    "so_media_analyst": "CAUSAL_INTERPRETATION_OF_DEPURATED_FACTS",
-    "independent_clean_room": "FACTS_AND_TECHNICAL_DATA_ONLY_NO_PICKS_CONSENSUS_ODDS_JRC",
-    "kernel": "PROCESS_CUSTODY_HARD_GATES_NO_SPORTS_VOTING"
-  },
   "flow": ["F0","F1","F2","F3","F4","F5","F6","F7","F7-Q","F7-R","F8","F9","F10","POSTRESULT"],
   "bilateral_conjunction": {
-    "version": "BILATERAL-1.1",
-    "required": true,
+    "version": "BILATERAL-1.2",
     "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
     "independent_half_approval_required": true,
     "no_compensation_between_halves": true,
-    "half_verdicts": ["NRFI_HALF_PASS","NRFI_HALF_ACCEPTABLE","NRFI_HALF_UNCERTAIN","NRFI_HALF_FAIL"],
     "positive_nrfi_requires": ["TOP=NRFI_HALF_PASS","BOTTOM=NRFI_HALF_PASS"],
     "acceptable_is_pass": false,
     "uncertain_is_pass": false,
     "one_dominant_pitcher_may_compensate_other_half": false,
-    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","first_inning_evidence_ids","current_version_evidence_ids","current_version_status","material_run_path_status","uncertainty_flags","half_rationale"],
-    "direct_first_inning_evidence_per_half_required": true,
-    "current_version_direct_evidence_per_half_required": true,
-    "direct_evidence_quality_allowed": ["HIGH","MEDIUM"],
-    "half_pass_requires": ["F7Q_ALL_PASS","OFFICIAL_B1_B5","OSR_NOT_GOVERNING_OR_UNCERTAIN","DATA_QUALITY_SUFFICIENT","CURRENT_VERSION_STABLE","MATERIAL_RUN_PATH_NOT_MATERIAL_OR_HIGH","NO_SEVERE_UNCERTAINTY","OWN_FIRST_INNING_DIRECT_EVIDENCE","OWN_CURRENT_VERSION_DIRECT_EVIDENCE"],
-    "severe_uncertainty_veto": ["MLB_DEBUT","POST_LONG_IL","ROLE_UNSTABLE","OPENER_BULK_UNCERTAINTY","FIRST_INNING_SAMPLE_ABSENT","STARTER_IDENTITY_UNCERTAIN"],
+    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","current_version_status","material_run_path_status","uncertainty_flags","half_rationale"],
+    "first_inning_specific_role": "DESCRIPTIVE_CHECK_WITHIN_F7Q_NOT_SOLE_GATE",
+    "single_metric_may_block_or_create_positive_nrfi": false,
+    "half_pass_requires": ["F7Q_ALL_PASS","OFFICIAL_B1_B5","OSR_NOT_GOVERNING_OR_UNCERTAIN","DATA_QUALITY_SUFFICIENT","CURRENT_VERSION_STABLE","MATERIAL_RUN_PATH_NOT_MATERIAL_OR_HIGH","NO_SEVERE_UNCERTAINTY","OWN_CURRENT_RUN_TECHNICAL_EVIDENCE"],
     "f8_positive_requires_two_half_passes": true,
-    "final_pregame_seal_pass_requires_two_half_passes": true,
-    "legacy_positive_without_two_half_passes": "REQUIRES_BILATERAL_REEVALUATION"
+    "final_pregame_seal_pass_requires_two_half_passes": true
+  },
+  "f7q_universal": {
+    "required_for_every_half_aspiring_to_f8": true,
+    "official_b1_b5_required_for_final_pass": true,
+    "q1_q12_required": true,
+    "osr_required": true,
+    "no_walk_run_paths_required": true,
+    "red_team_required": true,
+    "contact_damage_cannot_be_hidden_by_good_control": true,
+    "current_roster_is_not_lineup": true
   },
   "firewalls": {
     "so_media_status_is_pick": false,
     "review_priority_is_pick": false,
     "transfer_is_pick": false,
     "hold_dynamic_is_no_bet": true,
-    "unresolved_pregame_is_no_bet": true,
-    "final_seal_not_pass_is_no_bet": true,
     "may_fabricate_probability": false,
     "may_emit_stake": false
-  },
-  "f8_independence": {
-    "must_freeze_before_jrc": true,
-    "strong_nrfi_operationally_enabled": false,
-    "positive_nrfi_requires_two_independent_bilateral_1_1_half_passes": true
-  },
-  "f10": {
-    "max_transfer_candidates": 3,
-    "minimum_candidates": 0,
-    "review_priority_requires_final_pregame_seal_pass": true,
-    "all_game_ids_require_disposition": true
-  },
-  "supabase": {
-    "project_id": "yejaollmavoudbxnbpll",
-    "namespace_prefix": "nrfiprensa_",
-    "shared_with_nrfimetrica_but_logically_separate": true,
-    "evidence_annotations_table": "public.nrfiprensa_evidence_annotations",
-    "bilateral_validation_function": "public.nrfiprensa_latest_bilateral_valid",
-    "bilateral_legacy_review_table": "public.nrfi_bilateral_legacy_review"
-  },
-  "drive": {
-    "root_folder_id": "1NFlh5PV7bTnG_wT_K_4sVmjZ_W0sWa_i",
-    "authority_folder_id": "1-LRHs0XzdtNjtkW2ybl5rh7ihA9mMUDb",
-    "executions_folder_id": "1trAFmf4bBzJbqQSiSAlMc273r6hpZKHg",
-    "sovereign_document_id": "1DahLE2LE04ZhfRv5mlLIwRqhdEOabjKACwlZm7X1Ack",
-    "mandate_document_id": "1Qbb17NCOhdWwgnUM6n2yrKnd8oXEpxHxBQLmg7Wsq7g"
   },
   "known_forensic_failures": [
     "HOLD_TO_PICK_VERBAL_OVERRIDE",
@@ -86,16 +48,17 @@
     "MISSING_OSR",
     "MISSING_NO_WALK_PATHS",
     "MISSING_RED_TEAM",
-    "ONE_STRONG_HALF_COMPENSATES_WEAK_HALF"
+    "ONE_STRONG_HALF_COMPENSATES_WEAK_HALF",
+    "SINGLE_FIRST_INNING_METRIC_USED_AS_HARD_GATE"
   ],
   "hard_truth_rules": [
     "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
     "NO_CROSS_HALF_COMPENSATION",
-    "NO_SO_MEDIA_POSITIVE_NRFI_UNLESS_BOTH_HALVES_PASS_BILATERAL_1_1_INDEPENDENTLY",
+    "NO_SO_MEDIA_POSITIVE_NRFI_UNLESS_BOTH_HALVES_PASS_INDEPENDENTLY",
     "ACCEPTABLE_OR_UNCERTAIN_HALF_FORBIDS_POSITIVE_NRFI",
-    "EACH_HALF_REQUIRES_DIRECT_FIRST_INNING_AND_CURRENT_VERSION_EVIDENCE",
-    "SEVERE_UNCERTAINTY_FORBIDS_HALF_PASS",
-    "LEGACY_POSITIVE_WITHOUT_TWO_HALF_PASSES_REQUIRES_REEVALUATION"
+    "FIRST_INNING_HISTORY_IS_DESCRIPTIVE_NOT_A_SOLE_GATE",
+    "NO_SINGLE_METRIC_CREATES_OR_KILLS_A_CANDIDATE",
+    "F7Q_OSR_RUN_PATHS_AND_RED_TEAM_REMAIN_MANDATORY"
   ],
-  "database_migrations_required_through": 51
+  "database_migrations_required_through": 52
 }
