@@ -7,6 +7,17 @@
   "document_lines": 1544,
   "status": "RESEARCH_ONLY_TRADING_HALT",
   "real_money_authority": false,
+  "runtime_independence": {
+    "policy_version": "RUNTIME-INDEPENDENCE-1.0",
+    "canonical_execution_route": "CONNECTED_AGENT_KERNEL_PLUS_SUPABASE_PERSISTENCE",
+    "canonical_state_backend": "SUPABASE",
+    "http_runtime_required": false,
+    "vercel_role": "OPTIONAL_HTTP_ADAPTER_NON_BLOCKING",
+    "vercel_required": false,
+    "vercel_failure_blocks_execution": false,
+    "vercel_unavailability_effect": "NON_BLOCKING",
+    "execution_status_source": "AGENT_AUTHORITY_AND_DOMAIN_GATES"
+  },
   "flow": ["F0","F1","F2","F3","F4","F5","F6","PACK-P CLEAN","F7","F7-Q","F7-R","F8","METRICA_FREEZE","PACK-P INTERPRETATION","F9","F10","POSTRESULT"],
   "press_metrica_handoff": {
     "contract_version": "PRESS_METRICA_DELTA-1.0",
@@ -91,7 +102,8 @@
     "ECHO_MISTAKEN_AS_CONFIRMATION",
     "TRUE_FACT_NOT_NRFI_MATERIAL",
     "TOP3_USED_AS_INFORMATION_FILTER",
-    "INTERPRETATION_LEAKED_BEFORE_METRICA_FREEZE"
+    "INTERPRETATION_LEAKED_BEFORE_METRICA_FREEZE",
+    "VERCEL_OPTIONAL_PROVIDER_USED_AS_CORE_BLOCKER"
   ],
   "database_migrations_required_through": 162
 }
