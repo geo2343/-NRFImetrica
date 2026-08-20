@@ -1,0 +1,48 @@
+name: investigacionNRFI compact repair bundle 2026-08-01
+
+on:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_compact_trigger_20260801.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build compact ingestion bundles
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-01/repair_a1')
+          out=root/'compact'; out.mkdir(exist_ok=True)
+          for path in sorted((root/'normalized').glob('*.json')):
+              g=json.loads(path.read_text())
+              def compact_pitch(p):
+                  return {k:p.get(k) for k in ('pa_id','pitch_number','half','pitcher_id','batter_id','batter_slot','balls_before','strikes_before','outs_before','score_before','pitch_type','release_speed','description','result','swing','whiff','contact','batted_ball_type','exit_velocity','launch_angle','event_time')}
+              def compact_pa(p):
+                  return {k:p.get(k) for k in ('pa_id','half','batter_id','batter_name','pitcher_id','pitcher_name','batter_slot','ordinal','outs_before','pitch_sequence','pitch_count','pa_result','reach_type','runs_scored','outs_after','transition')}
+              c={k:g.get(k) for k in ('game_pk','matchup','source_url','raw_sha256','scheduled_start_at','actual_first_pitch_at','venue_id','venue_name','away_team','home_team','away_starter_id','away_starter_name','home_starter_id','home_starter_name','away_catcher_id','home_catcher_id','away_lineup','home_lineup','weather','top_runs','bottom_runs','total_runs','halves','pitcher_process')}
+              c['plate_appearances']=[compact_pa(x) for x in g['plate_appearances']]
+              c['pitch_events']=[compact_pitch(x) for x in g['pitch_events']]
+              path2=out/f'{g["game_pk"]}.json'
+              text=json.dumps(c,ensure_ascii=False,separators=(',',':'))
+              if len(text)>45000: raise SystemExit(f'COMPACT_TOO_LARGE {g["game_pk"]} {len(text)}')
+              path2.write_text(text,encoding='utf-8')
+              print(g['game_pk'],len(text))
+          assert len(list(out.glob('*.json')))==15
+          PY
+      - name: Persist compact bundles
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-01/repair_a1/compact
+          git diff --cached --quiet || git commit -m 'Persist compact semantic bundles for investigacionNRFI repair A1'
+          git push
