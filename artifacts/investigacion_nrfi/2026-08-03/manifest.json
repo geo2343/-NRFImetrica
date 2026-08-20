@@ -1,0 +1,40 @@
+{
+  "date": "2026-08-03",
+  "schedule_source": "https://statsapi.mlb.com/api/v1/schedule?sportId=1&date=2026-08-03&hydrate=team%2Cvenue%2CprobablePitcher%2Clinescore",
+  "schedule_sha256": "13914aeb2f1f77b2c2e73dad4001518b9d8ebf0bb48c21e72eb9dec3bea47720",
+  "games": [
+    {
+      "game_pk": "823431",
+      "matchup": "WSH@PHI"
+    },
+    {
+      "game_pk": "823520",
+      "matchup": "STL@NYY"
+    },
+    {
+      "game_pk": "823757",
+      "matchup": "PIT@MIL"
+    },
+    {
+      "game_pk": "824647",
+      "matchup": "LAD@CHC"
+    },
+    {
+      "game_pk": "822867",
+      "matchup": "SF@TEX"
+    },
+    {
+      "game_pk": "824160",
+      "matchup": "TOR@HOU"
+    },
+    {
+      "game_pk": "824324",
+      "matchup": "TB@COL"
+    },
+    {
+      "game_pk": "825095",
+      "matchup": "SD@AZ"
+    }
+  ],
+  "count": 8
+}
