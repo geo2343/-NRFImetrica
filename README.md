@@ -9,9 +9,9 @@ Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 - `KERNEL_VERSION = NRFIM-KERNEL-1.7-SELF-AUDIT-HARDENED`
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
 - `MOTHER_DOCUMENT_SHA256 = 799ccb5a483e7991f880ae7d49d2f191a98e292478ec64e76a55aa8250ec498b`
-- `STATUS = DISABLED` mientras se ejecuta la auditoría terminal posterior a 070.
+- `STATUS = DISABLED` mientras se ejecuta la auditoría terminal posterior a 071.
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones requeridas hasta `070`.
+- migraciones requeridas hasta `071`.
 
 La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, evidencia, temporalidad y límites de autoridad; no suma métricas ni sustituye al analista.
 
@@ -65,8 +65,9 @@ Secuencia principal de la reforma vigente:
 - `068_nrfimetrica_v16_activate_after_post067_reaudit.sql`
 - `069_nrfimetrica_v17_self_audit_hardening.sql`
 - `070_nrfimetrica_v17_unresolved_reanalysis_assertion.sql`
+- `071_nrfimetrica_v17_lock_client_dml_views.sql`
 
-La auditoría post-activación detectó dos brechas ejecutables y las registró como `GAP_CONFIRMED`, no como PASS. Después de 069/070, la batería adversarial específica quedó `12/12 PASS`. La activación permanece bloqueada hasta completar la auditoría terminal de paridad, seguridad y runtime.
+La auditoría post-activación detectó dos brechas ejecutables y las registró como `GAP_CONFIRMED`, no como PASS. Después de 069/070, la batería adversarial específica quedó `12/12 PASS`. La auditoría terminal posterior a 071 permanece como requisito de activación.
 
 Notion sigue siendo consulta solamente. `@NRFIprensa` no fue modificado.
 
