@@ -1,0 +1,2268 @@
+{
+  "game_pk": "824483",
+  "matchup": "PIT@CIN",
+  "source_url": "https://statsapi.mlb.com/api/v1.1/game/824483/feed/live",
+  "raw_sha256": "0561e92e2a349d17462232851c82a75fc1ee855b246c68acb4870f265288652c",
+  "scheduled_start_at": "2026-08-02T17:40:00Z",
+  "actual_first_pitch_at": "2026-08-02T17:41:49.327Z",
+  "venue_id": "2602",
+  "venue_name": "Great American Ball Park",
+  "away_team": "Pittsburgh Pirates",
+  "home_team": "Cincinnati Reds",
+  "away_starter_id": "656605",
+  "away_starter_name": "Mitch Keller",
+  "home_starter_id": "695505",
+  "home_starter_name": "Chase Burns",
+  "away_catcher_id": "682848",
+  "home_catcher_id": "663886",
+  "away_lineup": [
+    {
+      "slot": 1,
+      "player_id": "663968",
+      "player_name": "Jake Mangum",
+      "handedness": "S",
+      "position": "CF"
+    },
+    {
+      "slot": 2,
+      "player_id": "669707",
+      "player_name": "Jared Triolo",
+      "handedness": "R",
+      "position": "SS"
+    },
+    {
+      "slot": 3,
+      "player_id": "668804",
+      "player_name": "Bryan Reynolds",
+      "handedness": "S",
+      "position": "LF"
+    },
+    {
+      "slot": 4,
+      "player_id": "699013",
+      "player_name": "Esmerlyn Valdez",
+      "handedness": "R",
+      "position": "RF"
+    },
+    {
+      "slot": 5,
+      "player_id": "687462",
+      "player_name": "Spencer Horwitz",
+      "handedness": "L",
+      "position": "1B"
+    },
+    {
+      "slot": 6,
+      "player_id": "693304",
+      "player_name": "Nick Gonzales",
+      "handedness": "R",
+      "position": "3B"
+    },
+    {
+      "slot": 7,
+      "player_id": "682848",
+      "player_name": "Endy Rodríguez",
+      "handedness": "S",
+      "position": "C"
+    },
+    {
+      "slot": 8,
+      "player_id": "694378",
+      "player_name": "Jacob Gonzalez",
+      "handedness": "L",
+      "position": "SS"
+    },
+    {
+      "slot": 9,
+      "player_id": "691373",
+      "player_name": "Jhostynxon Garcia",
+      "handedness": "R",
+      "position": "RF"
+    }
+  ],
+  "home_lineup": [
+    {
+      "slot": 1,
+      "player_id": "682829",
+      "player_name": "Elly De La Cruz",
+      "handedness": "S",
+      "position": "SS"
+    },
+    {
+      "slot": 2,
+      "player_id": "701398",
+      "player_name": "Sal Stewart",
+      "handedness": "R",
+      "position": "1B"
+    },
+    {
+      "slot": 3,
+      "player_id": "668709",
+      "player_name": "JJ Bleday",
+      "handedness": "L",
+      "position": "LF"
+    },
+    {
+      "slot": 4,
+      "player_id": "663886",
+      "player_name": "Tyler Stephenson",
+      "handedness": "R",
+      "position": "C"
+    },
+    {
+      "slot": 5,
+      "player_id": "663993",
+      "player_name": "Nathaniel Lowe",
+      "handedness": "L",
+      "position": "1B"
+    },
+    {
+      "slot": 6,
+      "player_id": "667472",
+      "player_name": "Dane Myers",
+      "handedness": "R",
+      "position": "CF"
+    },
+    {
+      "slot": 7,
+      "player_id": "682622",
+      "player_name": "Noelvi Marte",
+      "handedness": "R",
+      "position": "RF"
+    },
+    {
+      "slot": 8,
+      "player_id": "680574",
+      "player_name": "Matt McLain",
+      "handedness": "R",
+      "position": "2B"
+    },
+    {
+      "slot": 9,
+      "player_id": "663647",
+      "player_name": "Ke'Bryan Hayes",
+      "handedness": "R",
+      "position": "3B"
+    }
+  ],
+  "day_night": null,
+  "weather": {
+    "condition": "Partly Cloudy",
+    "temp": "74",
+    "wind": "5 mph, In From RF"
+  },
+  "status": {
+    "abstractGameState": "Final",
+    "codedGameState": "F",
+    "detailedState": "Final",
+    "statusCode": "F",
+    "startTimeTBD": false,
+    "abstractGameCode": "F"
+  },
+  "top_runs": 0,
+  "bottom_runs": 3,
+  "total_runs": 3,
+  "halves": {
+    "TOP": {
+      "bf": 3,
+      "pa": 3,
+      "pitches": 13,
+      "runs": 0,
+      "hits": 0,
+      "singles": 0,
+      "xbh": 0,
+      "doubles": 0,
+      "triples": 0,
+      "bb": 1,
+      "hbp": 0,
+      "roe": 0,
+      "k": 0,
+      "hr": 0,
+      "b4_exposed": false,
+      "b5_exposed": false,
+      "b6_exposed": false,
+      "leadoff_reach": true,
+      "run_after_leadoff_reach": false,
+      "two_out_extension": false,
+      "runners_before_first_out": 1,
+      "runners_before_second_out": 1,
+      "three_up_three_down": false,
+      "sequence": [
+        {
+          "pa": 1,
+          "batter": "Jake Mangum",
+          "pitcher": "Chase Burns",
+          "event": "walk",
+          "description": "Jake Mangum walks."
+        },
+        {
+          "pa": 2,
+          "batter": "Brandon Lowe",
+          "pitcher": "Chase Burns",
+          "event": "field_out",
+          "description": "Brandon Lowe lines out to center fielder Dane Myers."
+        },
+        {
+          "pa": 3,
+          "batter": "Bryan Reynolds",
+          "pitcher": "Chase Burns",
+          "event": "field_out",
+          "description": "Bryan Reynolds flies out to left fielder JJ Bleday."
+        }
+      ],
+      "batters": [
+        {
+          "id": "663968",
+          "name": "Jake Mangum",
+          "slot": 1
+        },
+        {
+          "id": "664040",
+          "name": "Brandon Lowe",
+          "slot": null
+        },
+        {
+          "id": "668804",
+          "name": "Bryan Reynolds",
+          "slot": 3
+        }
+      ],
+      "primary_path": "NO_RUN_PATH"
+    },
+    "BOTTOM": {
+      "bf": 7,
+      "pa": 7,
+      "pitches": 27,
+      "runs": 3,
+      "hits": 4,
+      "singles": 2,
+      "xbh": 2,
+      "doubles": 1,
+      "triples": 0,
+      "bb": 0,
+      "hbp": 0,
+      "roe": 0,
+      "k": 0,
+      "hr": 1,
+      "b4_exposed": true,
+      "b5_exposed": true,
+      "b6_exposed": true,
+      "leadoff_reach": false,
+      "run_after_leadoff_reach": false,
+      "two_out_extension": false,
+      "runners_before_first_out": 0,
+      "runners_before_second_out": 4,
+      "three_up_three_down": false,
+      "sequence": [
+        {
+          "pa": 1,
+          "batter": "Elly De La Cruz",
+          "pitcher": "Mitch Keller",
+          "event": "field_out",
+          "description": "Elly De La Cruz grounds out, first baseman Spencer Horwitz to pitcher Mitch Keller."
+        },
+        {
+          "pa": 2,
+          "batter": "Sal Stewart",
+          "pitcher": "Mitch Keller",
+          "event": "home_run",
+          "description": "Sal Stewart homers (24) on a fly ball to left field."
+        },
+        {
+          "pa": 3,
+          "batter": "JJ Bleday",
+          "pitcher": "Mitch Keller",
+          "event": "single",
+          "description": "JJ Bleday singles on a line drive to center fielder Jhostynxon Garcia."
+        },
+        {
+          "pa": 4,
+          "batter": "Tyler Stephenson",
+          "pitcher": "Mitch Keller",
+          "event": "double",
+          "description": "Tyler Stephenson doubles (16) on a fly ball to center fielder Jhostynxon Garcia. JJ Bleday scores."
+        },
+        {
+          "pa": 5,
+          "batter": "Nathaniel Lowe",
+          "pitcher": "Mitch Keller",
+          "event": "single",
+          "description": "Nathaniel Lowe singles on a sharp line drive to right fielder Esmerlyn Valdez. Tyler Stephenson scores."
+        },
+        {
+          "pa": 6,
+          "batter": "Dane Myers",
+          "pitcher": "Mitch Keller",
+          "event": "field_out",
+          "description": "Dane Myers grounds out, third baseman Nick Gonzales to first baseman Spencer Horwitz. Nathaniel Lowe to 2nd."
+        },
+        {
+          "pa": 7,
+          "batter": "Noelvi Marte",
+          "pitcher": "Mitch Keller",
+          "event": "field_out",
+          "description": "Noelvi Marte pops out to shortstop Jacob Gonzalez."
+        }
+      ],
+      "batters": [
+        {
+          "id": "682829",
+          "name": "Elly De La Cruz",
+          "slot": 1
+        },
+        {
+          "id": "701398",
+          "name": "Sal Stewart",
+          "slot": 2
+        },
+        {
+          "id": "668709",
+          "name": "JJ Bleday",
+          "slot": 3
+        },
+        {
+          "id": "663886",
+          "name": "Tyler Stephenson",
+          "slot": 4
+        },
+        {
+          "id": "663993",
+          "name": "Nathaniel Lowe",
+          "slot": 5
+        },
+        {
+          "id": "667472",
+          "name": "Dane Myers",
+          "slot": 6
+        },
+        {
+          "id": "682622",
+          "name": "Noelvi Marte",
+          "slot": 7
+        }
+      ],
+      "primary_path": "HR_INVOLVED_MULTI_MECHANISM"
+    }
+  },
+  "plate_appearances": [
+    {
+      "pa_id": "824483-TOP-01",
+      "half": "TOP",
+      "batter_id": "663968",
+      "batter_name": "Jake Mangum",
+      "pitcher_id": "695505",
+      "pitcher_name": "Chase Burns",
+      "batter_slot": 1,
+      "ordinal": 1,
+      "outs_before": 0,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 95.5,
+          "result": "Ball"
+        },
+        {
+          "n": 2,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 95.9,
+          "result": "Ball"
+        },
+        {
+          "n": 3,
+          "type": "FF",
+          "description": "Called Strike",
+          "velo": 95.7,
+          "result": "Called Strike"
+        },
+        {
+          "n": 4,
+          "type": "FF",
+          "description": "Foul",
+          "velo": 96.3,
+          "result": "Foul"
+        },
+        {
+          "n": 5,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 96.9,
+          "result": "Ball"
+        },
+        {
+          "n": 6,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 97.6,
+          "result": "Ball"
+        }
+      ],
+      "pitch_count": 6,
+      "pa_result": "walk",
+      "reach_type": "walk",
+      "runs_scored": 0,
+      "outs_after": 0,
+      "transition": {
+        "description": "Jake Mangum walks.",
+        "score_before": {
+          "away": 0,
+          "home": 0
+        },
+        "score_after": {
+          "away": 0,
+          "home": 0
+        }
+      }
+    },
+    {
+      "pa_id": "824483-TOP-02",
+      "half": "TOP",
+      "batter_id": "664040",
+      "batter_name": "Brandon Lowe",
+      "pitcher_id": "695505",
+      "pitcher_name": "Chase Burns",
+      "batter_slot": null,
+      "ordinal": 2,
+      "outs_before": 0,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "SL",
+          "description": "Swinging Strike (Blocked)",
+          "velo": 88.4,
+          "result": "Swinging Strike (Blocked)"
+        },
+        {
+          "n": 2,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 95.5,
+          "result": "Ball"
+        },
+        {
+          "n": 3,
+          "type": "SL",
+          "description": "Ball",
+          "velo": 89.6,
+          "result": "Ball"
+        },
+        {
+          "n": 4,
+          "type": "SL",
+          "description": "Ball",
+          "velo": 88.3,
+          "result": "Ball"
+        },
+        {
+          "n": 5,
+          "type": "FF",
+          "description": "In play, out(s)",
+          "velo": 96.5,
+          "result": "In play, out(s)"
+        }
+      ],
+      "pitch_count": 5,
+      "pa_result": "field_out",
+      "reach_type": null,
+      "runs_scored": 0,
+      "outs_after": 1,
+      "transition": {
+        "description": "Brandon Lowe lines out to center fielder Dane Myers.",
+        "score_before": {
+          "away": 0,
+          "home": 0
+        },
+        "score_after": {
+          "away": 0,
+          "home": 0
+        }
+      }
+    },
+    {
+      "pa_id": "824483-TOP-03",
+      "half": "TOP",
+      "batter_id": "668804",
+      "batter_name": "Bryan Reynolds",
+      "pitcher_id": "695505",
+      "pitcher_name": "Chase Burns",
+      "batter_slot": 3,
+      "ordinal": 3,
+      "outs_before": 1,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 95.4,
+          "result": "Ball"
+        },
+        {
+          "n": 2,
+          "type": "SL",
+          "description": "In play, out(s)",
+          "velo": 87.9,
+          "result": "In play, out(s)"
+        }
+      ],
+      "pitch_count": 2,
+      "pa_result": "field_out",
+      "reach_type": null,
+      "runs_scored": 0,
+      "outs_after": 3,
+      "transition": {
+        "description": "Bryan Reynolds flies out to left fielder JJ Bleday.",
+        "score_before": {
+          "away": 0,
+          "home": 0
+        },
+        "score_after": {
+          "away": 0,
+          "home": 0
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-01",
+      "half": "BOTTOM",
+      "batter_id": "682829",
+      "batter_name": "Elly De La Cruz",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 1,
+      "ordinal": 1,
+      "outs_before": 0,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 91.1,
+          "result": "Ball"
+        },
+        {
+          "n": 2,
+          "type": "FF",
+          "description": "Called Strike",
+          "velo": 91.7,
+          "result": "Called Strike"
+        },
+        {
+          "n": 3,
+          "type": "CH",
+          "description": "Foul",
+          "velo": 87.3,
+          "result": "Foul"
+        },
+        {
+          "n": 4,
+          "type": "ST",
+          "description": "In play, out(s)",
+          "velo": 81.5,
+          "result": "In play, out(s)"
+        }
+      ],
+      "pitch_count": 4,
+      "pa_result": "field_out",
+      "reach_type": null,
+      "runs_scored": 0,
+      "outs_after": 1,
+      "transition": {
+        "description": "Elly De La Cruz grounds out, first baseman Spencer Horwitz to pitcher Mitch Keller.",
+        "score_before": {
+          "away": 0,
+          "home": 0
+        },
+        "score_after": {
+          "away": 0,
+          "home": 0
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-02",
+      "half": "BOTTOM",
+      "batter_id": "701398",
+      "batter_name": "Sal Stewart",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 2,
+      "ordinal": 2,
+      "outs_before": 1,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "SI",
+          "description": "Foul",
+          "velo": 92.2,
+          "result": "Foul"
+        },
+        {
+          "n": 2,
+          "type": "SL",
+          "description": "Foul Tip",
+          "velo": 87.5,
+          "result": "Foul Tip"
+        },
+        {
+          "n": 3,
+          "type": "ST",
+          "description": "Ball",
+          "velo": 80.8,
+          "result": "Ball"
+        },
+        {
+          "n": 4,
+          "type": "ST",
+          "description": "In play, run(s)",
+          "velo": 80.9,
+          "result": "In play, run(s)"
+        }
+      ],
+      "pitch_count": 4,
+      "pa_result": "home_run",
+      "reach_type": "home_run",
+      "runs_scored": 1,
+      "outs_after": 1,
+      "transition": {
+        "description": "Sal Stewart homers (24) on a fly ball to left field.",
+        "score_before": {
+          "away": 0,
+          "home": 0
+        },
+        "score_after": {
+          "away": 0,
+          "home": 1
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-03",
+      "half": "BOTTOM",
+      "batter_id": "668709",
+      "batter_name": "JJ Bleday",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 3,
+      "ordinal": 3,
+      "outs_before": 1,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "ST",
+          "description": "Foul",
+          "velo": 80.0,
+          "result": "Foul"
+        },
+        {
+          "n": 2,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 92.8,
+          "result": "Ball"
+        },
+        {
+          "n": 3,
+          "type": "CH",
+          "description": "In play, no out",
+          "velo": 88.8,
+          "result": "In play, no out"
+        }
+      ],
+      "pitch_count": 3,
+      "pa_result": "single",
+      "reach_type": "single",
+      "runs_scored": 0,
+      "outs_after": 1,
+      "transition": {
+        "description": "JJ Bleday singles on a line drive to center fielder Jhostynxon Garcia.",
+        "score_before": {
+          "away": 0,
+          "home": 1
+        },
+        "score_after": {
+          "away": 0,
+          "home": 1
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-04",
+      "half": "BOTTOM",
+      "batter_id": "663886",
+      "batter_name": "Tyler Stephenson",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 4,
+      "ordinal": 4,
+      "outs_before": 1,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "ST",
+          "description": "Called Strike",
+          "velo": 79.2,
+          "result": "Called Strike"
+        },
+        {
+          "n": 2,
+          "type": "SI",
+          "description": "In play, run(s)",
+          "velo": 92.5,
+          "result": "In play, run(s)"
+        }
+      ],
+      "pitch_count": 2,
+      "pa_result": "double",
+      "reach_type": "double",
+      "runs_scored": 1,
+      "outs_after": 1,
+      "transition": {
+        "description": "Tyler Stephenson doubles (16) on a fly ball to center fielder Jhostynxon Garcia. JJ Bleday scores.",
+        "score_before": {
+          "away": 0,
+          "home": 1
+        },
+        "score_after": {
+          "away": 0,
+          "home": 2
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-05",
+      "half": "BOTTOM",
+      "batter_id": "663993",
+      "batter_name": "Nathaniel Lowe",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 5,
+      "ordinal": 5,
+      "outs_before": 1,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 93.0,
+          "result": "Ball"
+        },
+        {
+          "n": 2,
+          "type": "FF",
+          "description": "In play, run(s)",
+          "velo": 93.0,
+          "result": "In play, run(s)"
+        }
+      ],
+      "pitch_count": 2,
+      "pa_result": "single",
+      "reach_type": "single",
+      "runs_scored": 1,
+      "outs_after": 1,
+      "transition": {
+        "description": "Nathaniel Lowe singles on a sharp line drive to right fielder Esmerlyn Valdez. Tyler Stephenson scores.",
+        "score_before": {
+          "away": 0,
+          "home": 2
+        },
+        "score_after": {
+          "away": 0,
+          "home": 3
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-06",
+      "half": "BOTTOM",
+      "batter_id": "667472",
+      "batter_name": "Dane Myers",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 6,
+      "ordinal": 6,
+      "outs_before": 1,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 92.4,
+          "result": "Ball"
+        },
+        {
+          "n": 2,
+          "type": "FF",
+          "description": "Ball",
+          "velo": 91.9,
+          "result": "Ball"
+        },
+        {
+          "n": 3,
+          "type": "SL",
+          "description": "Ball",
+          "velo": 85.8,
+          "result": "Ball"
+        },
+        {
+          "n": 4,
+          "type": "FF",
+          "description": "Called Strike",
+          "velo": 92.3,
+          "result": "Called Strike"
+        },
+        {
+          "n": 5,
+          "type": "SL",
+          "description": "In play, out(s)",
+          "velo": 86.5,
+          "result": "In play, out(s)"
+        }
+      ],
+      "pitch_count": 5,
+      "pa_result": "field_out",
+      "reach_type": null,
+      "runs_scored": 0,
+      "outs_after": 2,
+      "transition": {
+        "description": "Dane Myers grounds out, third baseman Nick Gonzales to first baseman Spencer Horwitz. Nathaniel Lowe to 2nd.",
+        "score_before": {
+          "away": 0,
+          "home": 3
+        },
+        "score_after": {
+          "away": 0,
+          "home": 3
+        }
+      }
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "half": "BOTTOM",
+      "batter_id": "682622",
+      "batter_name": "Noelvi Marte",
+      "pitcher_id": "656605",
+      "pitcher_name": "Mitch Keller",
+      "batter_slot": 7,
+      "ordinal": 7,
+      "outs_before": 2,
+      "pitch_sequence": [
+        {
+          "n": 1,
+          "type": "SI",
+          "description": "Called Strike",
+          "velo": 92.6,
+          "result": "Called Strike"
+        },
+        {
+          "n": 2,
+          "type": "ST",
+          "description": "Swinging Strike",
+          "velo": 80.4,
+          "result": "Swinging Strike"
+        },
+        {
+          "n": 3,
+          "type": "ST",
+          "description": "Ball",
+          "velo": 81.8,
+          "result": "Ball"
+        },
+        {
+          "n": 4,
+          "type": "SL",
+          "description": "Ball In Dirt",
+          "velo": 87.5,
+          "result": "Ball In Dirt"
+        },
+        {
+          "n": 5,
+          "type": "SI",
+          "description": "Foul",
+          "velo": 92.4,
+          "result": "Foul"
+        },
+        {
+          "n": 6,
+          "type": "SL",
+          "description": "Ball",
+          "velo": 87.4,
+          "result": "Ball"
+        },
+        {
+          "n": 7,
+          "type": "ST",
+          "description": "In play, out(s)",
+          "velo": 82.1,
+          "result": "In play, out(s)"
+        }
+      ],
+      "pitch_count": 7,
+      "pa_result": "field_out",
+      "reach_type": null,
+      "runs_scored": 0,
+      "outs_after": 3,
+      "transition": {
+        "description": "Noelvi Marte pops out to shortstop Jacob Gonzalez.",
+        "score_before": {
+          "away": 0,
+          "home": 3
+        },
+        "score_after": {
+          "away": 0,
+          "home": 3
+        }
+      }
+    }
+  ],
+  "pitch_events": [
+    {
+      "pa_id": "824483-TOP-01",
+      "pitch_number": 1,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "663968",
+      "batter_slot": 1,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 95.5,
+      "extension": 6.3384703552553505,
+      "plate_x": -0.15148293212314265,
+      "plate_z": 3.6832566569081893,
+      "sz_top": 3.18,
+      "sz_bot": 1.605,
+      "pfx_x": 5.2,
+      "pfx_z": 20.4,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:41:49.327Z"
+    },
+    {
+      "pa_id": "824483-TOP-01",
+      "pitch_number": 2,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "663968",
+      "batter_slot": 1,
+      "balls_before": 1,
+      "strikes_before": 0,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 95.9,
+      "extension": 6.334361839162512,
+      "plate_x": -1.3667036376384443,
+      "plate_z": 2.541058262728254,
+      "sz_top": 3.18,
+      "sz_bot": 1.605,
+      "pfx_x": 6.0,
+      "pfx_z": 17.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:42:03.526Z"
+    },
+    {
+      "pa_id": "824483-TOP-01",
+      "pitch_number": 3,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "663968",
+      "batter_slot": 1,
+      "balls_before": 2,
+      "strikes_before": 0,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Called Strike",
+      "result": "Called Strike",
+      "release_speed": 95.7,
+      "extension": 6.2582273681138085,
+      "plate_x": 0.5082191915718607,
+      "plate_z": 3.224317422438037,
+      "sz_top": 3.18,
+      "sz_bot": 1.605,
+      "pfx_x": 4.3,
+      "pfx_z": 18.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:42:20.832Z"
+    },
+    {
+      "pa_id": "824483-TOP-01",
+      "pitch_number": 4,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "663968",
+      "batter_slot": 1,
+      "balls_before": 2,
+      "strikes_before": 1,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Foul",
+      "result": "Foul",
+      "release_speed": 96.3,
+      "extension": 6.327515485092623,
+      "plate_x": 0.2870731903485267,
+      "plate_z": 1.7431717873893362,
+      "sz_top": 3.18,
+      "sz_bot": 1.605,
+      "pfx_x": 4.7,
+      "pfx_z": 17.8,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:42:36.021Z"
+    },
+    {
+      "pa_id": "824483-TOP-01",
+      "pitch_number": 5,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "663968",
+      "batter_slot": 1,
+      "balls_before": 2,
+      "strikes_before": 2,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 96.9,
+      "extension": 6.270274416819306,
+      "plate_x": 0.04118225268097602,
+      "plate_z": 4.344808708338271,
+      "sz_top": 3.18,
+      "sz_bot": 1.605,
+      "pfx_x": 4.2,
+      "pfx_z": 19.3,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:43:10.838Z"
+    },
+    {
+      "pa_id": "824483-TOP-01",
+      "pitch_number": 6,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "663968",
+      "batter_slot": 1,
+      "balls_before": 3,
+      "strikes_before": 2,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 97.6,
+      "extension": 6.352605651334377,
+      "plate_x": 0.29816155184668514,
+      "plate_z": 1.319006216849017,
+      "sz_top": 3.18,
+      "sz_bot": 1.605,
+      "pfx_x": 5.3,
+      "pfx_z": 19.1,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:43:24.938Z"
+    },
+    {
+      "pa_id": "824483-TOP-02",
+      "pitch_number": 1,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "664040",
+      "batter_slot": null,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "SL",
+      "description": "Swinging Strike (Blocked)",
+      "result": "Swinging Strike (Blocked)",
+      "release_speed": 88.4,
+      "extension": 6.298714533436285,
+      "plate_x": 0.3935462534161298,
+      "plate_z": 0.9471798029165236,
+      "sz_top": 3.088,
+      "sz_bot": 1.559,
+      "pfx_x": -5.4,
+      "pfx_z": -0.1,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": true,
+      "contact": false,
+      "event_time": "2026-08-02T17:43:53.120Z"
+    },
+    {
+      "pa_id": "824483-TOP-02",
+      "pitch_number": 2,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "664040",
+      "batter_slot": null,
+      "balls_before": 0,
+      "strikes_before": 1,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 95.5,
+      "extension": 6.271833106944974,
+      "plate_x": -0.16897565238045792,
+      "plate_z": 3.9450135775366713,
+      "sz_top": 3.088,
+      "sz_bot": 1.559,
+      "pfx_x": 2.3,
+      "pfx_z": 16.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:44:14.618Z"
+    },
+    {
+      "pa_id": "824483-TOP-02",
+      "pitch_number": 3,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "664040",
+      "batter_slot": null,
+      "balls_before": 1,
+      "strikes_before": 1,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "SL",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 89.6,
+      "extension": 6.301114685278451,
+      "plate_x": 0.6733855985958431,
+      "plate_z": 1.6812668801766535,
+      "sz_top": 3.088,
+      "sz_bot": 1.559,
+      "pfx_x": -2.3,
+      "pfx_z": 2.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:44:33.185Z"
+    },
+    {
+      "pa_id": "824483-TOP-02",
+      "pitch_number": 4,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "664040",
+      "batter_slot": null,
+      "balls_before": 2,
+      "strikes_before": 1,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "SL",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 88.3,
+      "extension": 6.356590206747496,
+      "plate_x": 0.5863862241842551,
+      "plate_z": 1.0333200587068345,
+      "sz_top": 3.088,
+      "sz_bot": 1.559,
+      "pfx_x": -4.4,
+      "pfx_z": -1.1,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:44:53.705Z"
+    },
+    {
+      "pa_id": "824483-TOP-02",
+      "pitch_number": 5,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "664040",
+      "batter_slot": null,
+      "balls_before": 3,
+      "strikes_before": 1,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "In play, out(s)",
+      "result": "In play, out(s)",
+      "release_speed": 96.5,
+      "extension": 6.391914097605622,
+      "plate_x": 0.46202596211194635,
+      "plate_z": 2.1592721822506147,
+      "sz_top": 3.088,
+      "sz_bot": 1.559,
+      "pfx_x": 4.1,
+      "pfx_z": 18.5,
+      "batted_ball_type": "line_drive",
+      "exit_velocity": 100.0,
+      "launch_angle": 21.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:45:11.966Z"
+    },
+    {
+      "pa_id": "824483-TOP-03",
+      "pitch_number": 1,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "668804",
+      "batter_slot": 3,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 95.4,
+      "extension": 6.432550180753721,
+      "plate_x": 0.5780276255517024,
+      "plate_z": 1.561312432456642,
+      "sz_top": 3.284,
+      "sz_bot": 1.657,
+      "pfx_x": 3.2,
+      "pfx_z": 19.1,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:46:10.147Z"
+    },
+    {
+      "pa_id": "824483-TOP-03",
+      "pitch_number": 2,
+      "half": "TOP",
+      "pitcher_id": "695505",
+      "batter_id": "668804",
+      "batter_slot": 3,
+      "balls_before": 1,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "SL",
+      "description": "In play, out(s)",
+      "result": "In play, out(s)",
+      "release_speed": 87.9,
+      "extension": 6.23992222184352,
+      "plate_x": -0.4384957396726965,
+      "plate_z": 2.2856507972948923,
+      "sz_top": 3.284,
+      "sz_bot": 1.657,
+      "pfx_x": -2.9,
+      "pfx_z": -2.9,
+      "batted_ball_type": "fly_ball",
+      "exit_velocity": 96.4,
+      "launch_angle": 44.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:46:52.579Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-01",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682829",
+      "batter_slot": 1,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 91.1,
+      "extension": 6.479021054425744,
+      "plate_x": -1.1134186371557324,
+      "plate_z": 2.741222127621158,
+      "sz_top": 3.46,
+      "sz_bot": 1.746,
+      "pfx_x": 10.8,
+      "pfx_z": 14.5,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:49:10.199Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-01",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682829",
+      "batter_slot": 1,
+      "balls_before": 1,
+      "strikes_before": 0,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "FF",
+      "description": "Called Strike",
+      "result": "Called Strike",
+      "release_speed": 91.7,
+      "extension": 6.511935349325198,
+      "plate_x": -0.3393928305891813,
+      "plate_z": 2.331588736006617,
+      "sz_top": 3.46,
+      "sz_bot": 1.746,
+      "pfx_x": 10.0,
+      "pfx_z": 15.5,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:49:22.187Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-01",
+      "pitch_number": 3,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682829",
+      "batter_slot": 1,
+      "balls_before": 1,
+      "strikes_before": 1,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "CH",
+      "description": "Foul",
+      "result": "Foul",
+      "release_speed": 87.3,
+      "extension": 6.6387168741123865,
+      "plate_x": -0.8447702846736563,
+      "plate_z": 2.708784192776994,
+      "sz_top": 3.46,
+      "sz_bot": 1.746,
+      "pfx_x": 13.4,
+      "pfx_z": 4.1,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:49:34.508Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-01",
+      "pitch_number": 4,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682829",
+      "batter_slot": 1,
+      "balls_before": 1,
+      "strikes_before": 2,
+      "outs_before": 0,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "ST",
+      "description": "In play, out(s)",
+      "result": "In play, out(s)",
+      "release_speed": 81.5,
+      "extension": 6.446588121118318,
+      "plate_x": 0.1372531069107176,
+      "plate_z": 2.0261811705636563,
+      "sz_top": 3.46,
+      "sz_bot": 1.746,
+      "pfx_x": -15.5,
+      "pfx_z": 6.4,
+      "batted_ball_type": "ground_ball",
+      "exit_velocity": 93.0,
+      "launch_angle": -34.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:49:52.913Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-02",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "701398",
+      "batter_slot": 2,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "SI",
+      "description": "Foul",
+      "result": "Foul",
+      "release_speed": 92.2,
+      "extension": 6.602590982655021,
+      "plate_x": -0.40394923153464046,
+      "plate_z": 2.4737662151219557,
+      "sz_top": 3.239,
+      "sz_bot": 1.635,
+      "pfx_x": 16.9,
+      "pfx_z": 9.4,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:50:34.952Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-02",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "701398",
+      "batter_slot": 2,
+      "balls_before": 0,
+      "strikes_before": 1,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "SL",
+      "description": "Foul Tip",
+      "result": "Foul Tip",
+      "release_speed": 87.5,
+      "extension": 6.573085588873403,
+      "plate_x": 0.1513099460919627,
+      "plate_z": 2.14402792873148,
+      "sz_top": 3.239,
+      "sz_bot": 1.635,
+      "pfx_x": -4.4,
+      "pfx_z": 3.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:50:55.885Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-02",
+      "pitch_number": 3,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "701398",
+      "batter_slot": 2,
+      "balls_before": 0,
+      "strikes_before": 2,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "ST",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 80.8,
+      "extension": 6.659353832515916,
+      "plate_x": 1.5223907526177098,
+      "plate_z": 1.5877786903945688,
+      "sz_top": 3.239,
+      "sz_bot": 1.635,
+      "pfx_x": -21.1,
+      "pfx_z": -2.0,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:51:17.812Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-02",
+      "pitch_number": 4,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "701398",
+      "batter_slot": 2,
+      "balls_before": 1,
+      "strikes_before": 2,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 0
+      },
+      "pitch_type": "ST",
+      "description": "In play, run(s)",
+      "result": "In play, run(s)",
+      "release_speed": 80.9,
+      "extension": 6.456182964512049,
+      "plate_x": -0.028041323706131698,
+      "plate_z": 2.3041341499472106,
+      "sz_top": 3.239,
+      "sz_bot": 1.635,
+      "pfx_x": -22.2,
+      "pfx_z": -2.0,
+      "batted_ball_type": "fly_ball",
+      "exit_velocity": 104.8,
+      "launch_angle": 33.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:51:34.615Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-03",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "668709",
+      "batter_slot": 3,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 1
+      },
+      "pitch_type": "ST",
+      "description": "Foul",
+      "result": "Foul",
+      "release_speed": 80.0,
+      "extension": 6.6064751205603445,
+      "plate_x": 0.6226305732540982,
+      "plate_z": 1.8199211376895537,
+      "sz_top": 3.287,
+      "sz_bot": 1.659,
+      "pfx_x": -19.6,
+      "pfx_z": 1.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:52:24.599Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-03",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "668709",
+      "batter_slot": 3,
+      "balls_before": 0,
+      "strikes_before": 1,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 1
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 92.8,
+      "extension": 6.774074017158123,
+      "plate_x": 0.5825916175835872,
+      "plate_z": 1.4904062848120283,
+      "sz_top": 3.287,
+      "sz_bot": 1.659,
+      "pfx_x": 8.0,
+      "pfx_z": 14.9,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:52:41.995Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-03",
+      "pitch_number": 3,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "668709",
+      "batter_slot": 3,
+      "balls_before": 1,
+      "strikes_before": 1,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 1
+      },
+      "pitch_type": "CH",
+      "description": "In play, no out",
+      "result": "In play, no out",
+      "release_speed": 88.8,
+      "extension": 6.575872902621755,
+      "plate_x": -0.43501794240357683,
+      "plate_z": 1.408581869420936,
+      "sz_top": 3.287,
+      "sz_bot": 1.659,
+      "pfx_x": 13.6,
+      "pfx_z": 5.8,
+      "batted_ball_type": "line_drive",
+      "exit_velocity": 80.6,
+      "launch_angle": 18.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:52:56.167Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-04",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "663886",
+      "batter_slot": 4,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 1
+      },
+      "pitch_type": "ST",
+      "description": "Called Strike",
+      "result": "Called Strike",
+      "release_speed": 79.2,
+      "extension": 6.430592503008005,
+      "plate_x": 0.056705297880682626,
+      "plate_z": 1.8565858989536181,
+      "sz_top": 3.36,
+      "sz_bot": 1.695,
+      "pfx_x": -15.7,
+      "pfx_z": 1.1,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:53:33.749Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-04",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "663886",
+      "batter_slot": 4,
+      "balls_before": 0,
+      "strikes_before": 1,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 1
+      },
+      "pitch_type": "SI",
+      "description": "In play, run(s)",
+      "result": "In play, run(s)",
+      "release_speed": 92.5,
+      "extension": 6.46852702711919,
+      "plate_x": -0.16265471970753326,
+      "plate_z": 3.243684013229964,
+      "sz_top": 3.36,
+      "sz_bot": 1.695,
+      "pfx_x": 16.1,
+      "pfx_z": 9.1,
+      "batted_ball_type": "fly_ball",
+      "exit_velocity": 102.6,
+      "launch_angle": 25.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:53:54.434Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-05",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "663993",
+      "batter_slot": 5,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 2
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 93.0,
+      "extension": 6.6083781328806745,
+      "plate_x": 0.037385580504813325,
+      "plate_z": 1.5731123502271138,
+      "sz_top": 3.367,
+      "sz_bot": 1.699,
+      "pfx_x": 13.0,
+      "pfx_z": 14.6,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:54:53.053Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-05",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "663993",
+      "batter_slot": 5,
+      "balls_before": 1,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 2
+      },
+      "pitch_type": "FF",
+      "description": "In play, run(s)",
+      "result": "In play, run(s)",
+      "release_speed": 93.0,
+      "extension": 6.641094219459096,
+      "plate_x": 0.5141259093780725,
+      "plate_z": 3.1606023516227872,
+      "sz_top": 3.367,
+      "sz_bot": 1.699,
+      "pfx_x": 10.4,
+      "pfx_z": 15.4,
+      "batted_ball_type": "line_drive",
+      "exit_velocity": 101.3,
+      "launch_angle": 10.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:55:24.216Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-06",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "667472",
+      "batter_slot": 6,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 92.4,
+      "extension": 6.567219925673272,
+      "plate_x": -0.3238574524960297,
+      "plate_z": 3.9147955623974235,
+      "sz_top": 3.214,
+      "sz_bot": 1.622,
+      "pfx_x": 7.1,
+      "pfx_z": 16.0,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:56:12.136Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-06",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "667472",
+      "batter_slot": 6,
+      "balls_before": 1,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "FF",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 91.9,
+      "extension": 6.562469348554045,
+      "plate_x": 0.2554812092363382,
+      "plate_z": 1.5687687509675443,
+      "sz_top": 3.214,
+      "sz_bot": 1.622,
+      "pfx_x": 7.9,
+      "pfx_z": 16.3,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:56:31.424Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-06",
+      "pitch_number": 3,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "667472",
+      "batter_slot": 6,
+      "balls_before": 2,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "SL",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 85.8,
+      "extension": 6.626177721160298,
+      "plate_x": 0.6725369486016014,
+      "plate_z": 1.4577800788074948,
+      "sz_top": 3.214,
+      "sz_bot": 1.622,
+      "pfx_x": -3.8,
+      "pfx_z": -3.4,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:56:49.066Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-06",
+      "pitch_number": 4,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "667472",
+      "batter_slot": 6,
+      "balls_before": 3,
+      "strikes_before": 0,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "FF",
+      "description": "Called Strike",
+      "result": "Called Strike",
+      "release_speed": 92.3,
+      "extension": 6.507494816558987,
+      "plate_x": 0.2194761238714069,
+      "plate_z": 2.7305977124338088,
+      "sz_top": 3.214,
+      "sz_bot": 1.622,
+      "pfx_x": 7.3,
+      "pfx_z": 16.8,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:57:09.149Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-06",
+      "pitch_number": 5,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "667472",
+      "batter_slot": 6,
+      "balls_before": 3,
+      "strikes_before": 1,
+      "outs_before": 1,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "SL",
+      "description": "In play, out(s)",
+      "result": "In play, out(s)",
+      "release_speed": 86.5,
+      "extension": 6.7229887512701785,
+      "plate_x": 0.15047949270247662,
+      "plate_z": 1.8889849644862482,
+      "sz_top": 3.214,
+      "sz_bot": 1.622,
+      "pfx_x": -5.0,
+      "pfx_z": 1.9,
+      "batted_ball_type": "ground_ball",
+      "exit_velocity": 71.6,
+      "launch_angle": -55.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:57:26.838Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 1,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 0,
+      "strikes_before": 0,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "SI",
+      "description": "Called Strike",
+      "result": "Called Strike",
+      "release_speed": 92.6,
+      "extension": 6.704005342569336,
+      "plate_x": -0.312965395319837,
+      "plate_z": 1.7015744710570624,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": 18.0,
+      "pfx_z": 10.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:58:04.085Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 2,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 0,
+      "strikes_before": 1,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "ST",
+      "description": "Swinging Strike",
+      "result": "Swinging Strike",
+      "release_speed": 80.4,
+      "extension": 6.501503828606751,
+      "plate_x": 1.2426505031431638,
+      "plate_z": 2.6584248038153593,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": -15.6,
+      "pfx_z": 2.0,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": true,
+      "contact": false,
+      "event_time": "2026-08-02T17:58:21.475Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 3,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 0,
+      "strikes_before": 2,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "ST",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 81.8,
+      "extension": 6.657902589284313,
+      "plate_x": 1.9694977035875372,
+      "plate_z": 0.9152105480507177,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": -16.1,
+      "pfx_z": -1.2,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:58:48.712Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 4,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 1,
+      "strikes_before": 2,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "SL",
+      "description": "Ball In Dirt",
+      "result": "Ball In Dirt",
+      "release_speed": 87.5,
+      "extension": 6.642035364772587,
+      "plate_x": 1.4258352425773317,
+      "plate_z": -0.13389949891318012,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": -4.9,
+      "pfx_z": -1.7,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:59:10.508Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 5,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 2,
+      "strikes_before": 2,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "SI",
+      "description": "Foul",
+      "result": "Foul",
+      "release_speed": 92.4,
+      "extension": 6.704886437892337,
+      "plate_x": -0.3491220917031797,
+      "plate_z": 1.7410990557744792,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": 14.8,
+      "pfx_z": 6.8,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T17:59:37.023Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 6,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 2,
+      "strikes_before": 2,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "SL",
+      "description": "Ball",
+      "result": "Ball",
+      "release_speed": 87.4,
+      "extension": 6.56958133363855,
+      "plate_x": 2.637935889350318,
+      "plate_z": 1.2726596991132044,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": -9.8,
+      "pfx_z": 4.3,
+      "batted_ball_type": null,
+      "exit_velocity": null,
+      "launch_angle": null,
+      "swing": false,
+      "whiff": false,
+      "contact": false,
+      "event_time": "2026-08-02T17:59:59.881Z"
+    },
+    {
+      "pa_id": "824483-BOTTOM-07",
+      "pitch_number": 7,
+      "half": "BOTTOM",
+      "pitcher_id": "656605",
+      "batter_id": "682622",
+      "batter_slot": 7,
+      "balls_before": 3,
+      "strikes_before": 2,
+      "outs_before": 2,
+      "score_before": {
+        "away": 0,
+        "home": 3
+      },
+      "pitch_type": "ST",
+      "description": "In play, out(s)",
+      "result": "In play, out(s)",
+      "release_speed": 82.1,
+      "extension": 6.461239146595615,
+      "plate_x": 1.2327828050460132,
+      "plate_z": 2.273575055116265,
+      "sz_top": 3.298,
+      "sz_bot": 1.664,
+      "pfx_x": -17.4,
+      "pfx_z": -0.2,
+      "batted_ball_type": "popup",
+      "exit_velocity": 79.2,
+      "launch_angle": 58.0,
+      "swing": true,
+      "whiff": false,
+      "contact": true,
+      "event_time": "2026-08-02T18:00:21.589Z"
+    }
+  ],
+  "pitcher_process": {
+    "695505": {
+      "pitch_count_first_inning": 13,
+      "pitch_mix_first_inning": {
+        "FF": 9,
+        "SL": 4
+      },
+      "avg_release_speed_first_inning": 93.81,
+      "whiffs": 1,
+      "swings": 4,
+      "contacts": 3
+    },
+    "656605": {
+      "pitch_count_first_inning": 27,
+      "pitch_mix_first_inning": {
+        "FF": 8,
+        "CH": 2,
+        "ST": 8,
+        "SI": 4,
+        "SL": 5
+      },
+      "avg_release_speed_first_inning": 87.61,
+      "whiffs": 1,
+      "swings": 13,
+      "contacts": 12
+    }
+  }
+}
