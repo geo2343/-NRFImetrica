@@ -3,9 +3,9 @@ from __future__ import annotations
 from typing import Any
 
 AGENT_ID = "@AnalistaaNRFI"
-AGENT_VERSION = "ANALISTAANRFI-AGENT-2.1"
+AGENT_VERSION = "ANALISTAANRFI-AGENT-2.2"
 SYSTEM_VERSION = "MLB-SYSTEM-V2"
-KERNEL_VERSION = "MLB-V2-KERNEL-0.2-CONNECTED"
+KERNEL_VERSION = "MLB-V2-KERNEL-0.3-HARDENED"
 PROTOCOL_ID = "ANALISTAANRFI_MLB_V2"
 MOTHER_DOCUMENT_SHA256 = "c8511961eb94b90296163dc52056b4b217d2f8d6c459a1ebade5b80c5417f548"
 PHASE_ORDER = tuple(f"A{i}" for i in range(1, 10))
@@ -17,7 +17,16 @@ FORBIDDEN_A8_KEYS = {
     "opening_yrfi_price", "price_status", "market_movement", "market_direction",
     "betting_verdict", "edge", "ev", "fair_price", "fair_odds", "probability", "p_nrfi",
 }
-FORBIDDEN_A9_KEYS = {"probability", "p_nrfi", "edge", "ev", "fair_price", "fair_odds", "calibrated_probability", "sports_reanalysis"}
+FORBIDDEN_A9_KEYS = {
+    "probability", "p_nrfi", "edge", "ev", "fair_price", "fair_odds",
+    "calibrated_probability", "sports_reanalysis",
+}
+A9_MARKET_FIELDS = {
+    "game_id", "sportsbook", "market", "current_nrfi_price", "current_yrfi_price",
+    "snapshot_time", "market_movement", "market_direction", "price_status",
+    "data_freshness", "source",
+}
+
 
 class AnalistaaNRFIViolation(ValueError):
     pass
@@ -94,7 +103,10 @@ def validate_a4(output: dict[str, Any], run_id: str, game_id: str) -> None:
     _require_keys(seal, {"game_id", "run_id", "lineup_version", "starter_version", "evidence_as_of", "evidence_hash", "causal_packet_hash", "top_half_status", "material_route_open", "contradiction_open", "red_team_pass", "seal_state"}, "A4_SEAL_FIELDS_INCOMPLETE")
     if str(seal["run_id"]) != str(run_id) or str(seal["game_id"]) != str(game_id):
         raise AnalistaaNRFIViolation("A4_SEAL_IDENTITY_MISMATCH")
-    if seal["top_half_status"] == "TOP_HALF_PASS" and (bool(seal["material_route_open"]) or bool(seal["contradiction_open"]) or not bool(seal["red_team_pass"]) or seal["seal_state"] != "FINAL"):
+    if seal["top_half_status"] == "TOP_HALF_PASS" and (
+        bool(seal["material_route_open"]) or bool(seal["contradiction_open"])
+        or not bool(seal["red_team_pass"]) or seal["seal_state"] != "FINAL"
+    ):
         raise AnalistaaNRFIViolation("A4_PASS_ILLEGAL_OPEN_ROUTE_CONTRADICTION_OR_REDTEAM")
 
 
@@ -110,7 +122,10 @@ def validate_a5(output: dict[str, Any], run_id: str, game_id: str) -> None:
     _require_keys(seal, {"game_id", "run_id", "lineup_version", "starter_version", "evidence_as_of", "evidence_hash", "causal_packet_hash", "bottom_half_status", "material_route_open", "material_contradiction_open", "red_team_result", "seal_state"}, "A5_SEAL_FIELDS_INCOMPLETE")
     if str(seal["run_id"]) != str(run_id) or str(seal["game_id"]) != str(game_id):
         raise AnalistaaNRFIViolation("A5_SEAL_IDENTITY_MISMATCH")
-    if seal["bottom_half_status"] == "BOTTOM_HALF_PASS" and (bool(seal["material_route_open"]) or bool(seal["material_contradiction_open"]) or seal["red_team_result"] != "PASS" or seal["seal_state"] != "FINAL"):
+    if seal["bottom_half_status"] == "BOTTOM_HALF_PASS" and (
+        bool(seal["material_route_open"]) or bool(seal["material_contradiction_open"])
+        or seal["red_team_result"] != "PASS" or seal["seal_state"] != "FINAL"
+    ):
         raise AnalistaaNRFIViolation("A5_PASS_ILLEGAL_OPEN_ROUTE_CONTRADICTION_OR_REDTEAM")
 
 
@@ -152,6 +167,28 @@ def validate_a9_game_packet(packet: dict[str, Any], frozen_sports_state: str, fr
         raise AnalistaaNRFIViolation("A9_NOT_SUPPORTED_MUST_PASS_SPORTS")
     if frozen_sports_state == "CRITICAL_DATA_BLOCK" and packet["betting_verdict"] != "BLOCKED_DATA":
         raise AnalistaaNRFIViolation("A9_CRITICAL_BLOCK_MUST_BLOCK_DATA")
+    if frozen_sports_state in {"NRFI_STRONG", "NRFI_PLAYABLE"}:
+        _require_keys(packet, {"market_packet", "price_status"}, "A9_MARKET_PACKET_REQUIRED_FOR_PLAYABLE_SPORTS")
+        market = packet["market_packet"]
+        if not isinstance(market, dict):
+            raise AnalistaaNRFIViolation("A9_MARKET_PACKET_MINIMUM_FIELDS_INCOMPLETE")
+        _require_keys(market, A9_MARKET_FIELDS, "A9_MARKET_PACKET_MINIMUM_FIELDS_INCOMPLETE")
+        if str(market.get("game_id")) != str(packet.get("game_id")) or str(market.get("market", "")).upper() != "NRFI":
+            raise AnalistaaNRFIViolation("A9_MARKET_PACKET_IDENTITY_INVALID")
+        if packet["price_status"] != "PRICE_NOT_CERTIFIABLE":
+            _require_keys(packet, {"price_policy_id", "price_policy_version"}, "A9_PRICE_POLICY_REQUIRED_FOR_CERTIFIED_PRICE_STATUS")
+
+
+def validate_a9_outputs(*, game_packets: list[dict[str, Any]], eligible_count: int, qualified_bets_count: int, recommendations: list[Any]) -> None:
+    if len(game_packets) != eligible_count:
+        raise AnalistaaNRFIViolation("A9_GAME_PACKET_COVERAGE_MISMATCH")
+    recs = len(recommendations)
+    if qualified_bets_count >= 2 and recs < 2:
+        raise AnalistaaNRFIViolation("A9_MINIMUM_TWO_WHEN_AVAILABLE")
+    if qualified_bets_count == 1 and recs != 1:
+        raise AnalistaaNRFIViolation("A9_ONE_AVAILABLE_REPORT_ONE")
+    if qualified_bets_count == 0 and recs != 0:
+        raise AnalistaaNRFIViolation("A9_ZERO_AVAILABLE_NO_FABRICATION")
 
 
 def validate_finalization(*, master_report_readback: bool, a9_terminal: bool, drive_report_complete: bool, chat_report_complete: bool, report_verdict_hash: str, chat_verdict_hash: str, pending_games: int) -> None:
