@@ -1,0 +1,45 @@
+{
+  "agent_id": "@iainvestigadora",
+  "agent_version": "IAINVESTIGADORA-AGENT-1.4",
+  "kernel_version": "IAINV-KERNEL-0.1-CONNECTED",
+  "protocol_id": "IAINVESTIGADORA_MLB_V14",
+  "validation_type": "REAL_TARGET_SMOKE",
+  "production_research_claim": false,
+  "target": {
+    "game_pk": 824474,
+    "date": "2026-08-20",
+    "away": "St. Louis Cardinals",
+    "home": "Cincinnati Reds",
+    "scheduled_start": "2026-08-20T16:40:00Z",
+    "venue": "Great American Ball Park",
+    "away_probable_pitcher": "Michael McGreevy",
+    "home_probable_pitcher": "Brady Singer",
+    "source": "MLB_STATS_API",
+    "source_sha256": "4a00f519cd6857dcc307ba9667018e449f983c3ebd550599e390c9f0076d7a97"
+  },
+  "checks": {
+    "run_identity": "PASS",
+    "single_target": "PASS",
+    "clean_room": "PASS",
+    "kernel_query": "PASS",
+    "kernel_attested_tool_event": "PASS",
+    "semantic_custody_evidence": "PASS",
+    "pregame_temporal_integrity": "PASS",
+    "f1_e1_receipt": "PASS",
+    "f1_catalog_requirements": "PASS",
+    "forbidden_sports_decision_fields": "NOT_USED",
+    "production_handoff": "NOT_ATTEMPTED_BY_DESIGN"
+  },
+  "evidence_available_at": "2026-08-20T14:28:10.381026Z",
+  "pregame_cutoff": "2026-08-20T16:40:00Z",
+  "cleanup": {
+    "runs": 0,
+    "games": 0,
+    "phases": 0,
+    "queries": 0,
+    "tool_events": 0,
+    "evidence": 0
+  },
+  "result": "PASS",
+  "note": "This validates the real-target acquisition and F1 custody path only. It is intentionally not represented as a complete F1-F12 sports research run or handoff."
+}
