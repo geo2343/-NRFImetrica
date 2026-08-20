@@ -1,0 +1,60 @@
+name: IA Investigadora V1.4 CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'api/iainvestigadora.py'
+      - 'kernel/iainvestigadora.py'
+      - 'agents/iainvestigadora_agent.json'
+      - 'protocols/iainvestigadora_mlb_v14.json'
+      - 'tests/test_iainvestigadora_v14.py'
+      - 'supabase/migrations/120_iainvestigadora_v14_connected_kernel.sql'
+      - '.github/workflows/iainvestigadora_ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Compile connected agent
+        run: python -m py_compile api/iainvestigadora.py kernel/iainvestigadora.py
+      - name: Unit tests
+        run: python -m unittest tests.test_iainvestigadora_v14 -v
+      - name: Write CI evidence
+        run: |
+          mkdir -p validation
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          payload = {
+              'agent_id': '@iainvestigadora',
+              'agent_version': 'IAINVESTIGADORA-AGENT-1.4',
+              'kernel_version': 'IAINV-KERNEL-0.1-CONNECTED',
+              'protocol_id': 'IAINVESTIGADORA_MLB_V14',
+              'compile': 'PASS',
+              'unittest': 'PASS',
+              'github_sha': os.environ['GITHUB_SHA'],
+              'validated_at': datetime.now(timezone.utc).isoformat(),
+          }
+          with open('validation/iainvestigadora_v14_ci_latest.json','w',encoding='utf-8') as f:
+              json.dump(payload,f,ensure_ascii=False,indent=2)
+              f.write('\n')
+          PY
+      - name: Commit CI evidence
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add validation/iainvestigadora_v14_ci_latest.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'ci: certify @iainvestigadora V1.4'
+          git push
