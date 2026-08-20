@@ -1,9 +1,9 @@
 {
   "agent_id": "@AnalistaaNRFI",
-  "agent_version": "ANALISTAANRFI-AGENT-2.1",
-  "status": "KERNEL_CONNECTED_AUDIT_IN_PROGRESS",
+  "agent_version": "ANALISTAANRFI-AGENT-2.2",
+  "status": "KERNEL_CONNECTED_TECHNICAL_AUDIT_PASS",
   "system_version": "MLB-SYSTEM-V2",
-  "kernel_version": "MLB-V2-KERNEL-0.2-CONNECTED",
+  "kernel_version": "MLB-V2-KERNEL-0.3-HARDENED",
   "protocol_id": "ANALISTAANRFI_MLB_V2",
   "real_money_execution_authority": false,
   "sports_decision_authority": true,
@@ -40,7 +40,11 @@
     "canonical_state_backend": "SUPABASE",
     "canonical_execution_route": "SUPABASE_EDGE_FUNCTION_PLUS_POSTGRES_GUARDS",
     "edge_function_slug": "mlb-v2-kernel",
+    "edge_function_runtime_version": 2,
+    "edge_function_kernel_version": "MLB-V2-KERNEL-0.3-HARDENED",
+    "edge_function_sha256": "6d72cd0bd2d3882129177e252b8b0c50e47f6309090e260edd7db317cb4271d0",
     "edge_function_jwt_required": true,
+    "registry_aware_kernel_versioning": true,
     "vercel_required": false
   },
   "persistence": [
@@ -62,7 +66,8 @@
     "mlb_v2_mission_artifacts",
     "mlb_v2_mission_finalizations",
     "mlb_v2_artifacts",
-    "mlb_v2_run_events"
+    "mlb_v2_run_events",
+    "mlb_v2_kernel_test_results"
   ],
   "non_compensatory_invariants": {
     "metric_voting_forbidden": true,
@@ -75,6 +80,18 @@
     "ranking_before_a9_forbidden": true,
     "uncertified_probability_edge_ev_forbidden": true
   },
+  "state_hardening": {
+    "sports_frozen_status_supported": true,
+    "sports_freeze_requires_terminal_a8": true,
+    "sports_freeze_immutable": true,
+    "terminal_phase_receipts_immutable": true,
+    "terminal_mission_receipts_immutable": true,
+    "finalization_immutable": true,
+    "phase_cursor_is_derived": true,
+    "ready_for_analyst_requires_valid_handoff": true,
+    "analyst_child_run_cannot_self_complete": true,
+    "mission_kernel_version_guard": true
+  },
   "delivery": {
     "master_execution_report_required": true,
     "drive_readback_required": true,
@@ -82,14 +99,20 @@
     "direct_report_link_required": true
   },
   "certification": {
-    "state": "AUDIT_IN_PROGRESS",
+    "state": "TECHNICAL_AUDIT_PASS_PENDING_MAIN_CI_AND_DRIVE_FINAL_CERTIFICATE",
     "supabase_registry_verified": true,
     "edge_function_active_verified": true,
     "postgres_guards_verified_present": true,
     "github_kernel_module_present": true,
-    "adversarial_test_suite_executed": false,
-    "handoff_e2e_test_executed": false,
-    "state_machine_e2e_test_executed": false,
-    "cross_system_parity": "PENDING"
+    "positive_e2e_investigator_to_a8_freeze": "PASS",
+    "positive_e2e_a9_to_finalization": "PASS",
+    "adversarial_tests_persisted": 21,
+    "adversarial_tests_passed": 21,
+    "adversarial_tests_failed": 0,
+    "handoff_e2e_test": "PASS",
+    "state_machine_e2e_test": "PASS",
+    "a9_rewrite_attack": "BLOCKED",
+    "drive_chat_mismatch_attack": "BLOCKED",
+    "cross_system_parity": "PENDING_MAIN_MERGE_CI_AND_DRIVE_FINAL_READBACK"
   }
 }
