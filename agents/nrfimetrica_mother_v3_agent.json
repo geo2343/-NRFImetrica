@@ -1,14 +1,14 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.11",
-  "status": "ACTIVE",
+  "agent_version": "MOTHER-V3-AGENT-1.12",
+  "status": "DISABLED",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.6-PREANALYSIS-COGNITIVE-GUARD",
+    "kernel_version": "NRFIM-KERNEL-1.7-SELF-AUDIT-HARDENED",
     "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
-    "mother_document_sha256": "44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8",
-    "precedence": "PREANALYSIS_PRESS_INFORMATION_ONLY_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
+    "mother_document_sha256": "799ccb5a483e7991f880ae7d49d2f191a98e292478ec64e76a55aa8250ec498b",
+    "precedence": "V17_SELF_AUDIT_HARDENING_PLUS_PREANALYSIS_PRESS_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
     "real_money_authority": false
   },
   "scope": {
@@ -34,66 +34,59 @@
     "ranking_authority": "NONE",
     "market_authority": "NONE",
     "conclusion_authority": "NONE",
-    "material_delta_behavior": "SELECTIVE_CAUSAL_REANALYSIS_NOT_EXTERNAL_OVERRIDE"
+    "verified_provenance": "KERNEL_ATTESTED_RECEIVER_EVENT_REQUIRED",
+    "empty_packet_semantics": "PRODUCER_MAY_DECLARE_EMPTY_PACKET_NOT_MATERIALITY",
+    "unresolved_behavior": "REANALYSIS_REQUIRED_AND_RELEASE_BLOCKED"
   },
   "cognitive_contract": {
     "version": "COGNITIVE-1.0",
     "protocol_is_floor_not_ceiling": true,
     "provisional_representation_revisable": true,
-    "autonomous_questions_on_material_friction": true,
     "bilateral_independent_half_analysis": true,
     "causal_bottleneck_per_half": true,
     "epistemic_compression": true,
-    "best_supported_rival": true,
+    "best_supported_rival_search_required": true,
+    "no_supported_rival_allowed_if_documented": true,
+    "fabricated_rival_forbidden": true,
     "second_pass_review": true,
     "directional_bias_check": true,
-    "semantic_reclassification": true,
-    "possibility_not_materialization": true,
-    "importance_not_confidence": true
+    "semantic_reclassification": true
   },
   "calibration_separation": {
     "doctrine": "CALIBRATE_SYSTEM_NOT_GAME",
     "game_probability_source": "A5_GAME_CAUSAL_ONLY",
     "historical_calibration_role": "SYSTEM_AUDIT_ONLY",
+    "system_reliability_requires_physical_audit_lineage": true,
+    "no_audit_behavior": "NOT_AVAILABLE_BLOCK",
     "historical_calibration_game_override": false,
     "historical_calibration_sports_authority": false,
     "historical_calibration_ranking_authority": false,
     "historical_calibration_probability_effect": "NONE",
-    "system_reliability_economic_role": "SYSTEM_LEVEL_TRUST_GATE_ONLY",
     "conservative_probability_source": "GAME_SPECIFIC_STRESS_TEST_ONLY",
     "universal_game_equivalence_allowed": false
   },
-  "bilateral_conjunction": {
-    "version": "BILATERAL-1.2",
-    "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
-    "independent_half_approval_required": true,
-    "no_compensation_between_halves": true
+  "target_firewall": {
+    "economically_certified_targets": ["U0.5"],
+    "research_only_until_target_specific_certification": ["U1.5", "U2.5"],
+    "cross_target_authority_inheritance": false
   },
   "runtime": {
-    "database_migrations_required_through": 68,
+    "database_migrations_required_through": 70,
+    "github_migrations_through": 70,
     "press_intake_table": "public.nrfimetrica_press_intakes",
-    "press_item_table": "public.nrfimetrica_press_items",
-    "press_disposition_table": "public.nrfimetrica_press_item_dispositions",
-    "semantic_reclassification_table": "public.nrfimetrica_semantic_reclassification_events",
+    "system_reliability_audit_table": "public.nrfimetrica_system_calibration_audits",
     "kernel_test_table": "public.nrfimetrica_kernel_tests",
     "a7_guard": "public.nrfimetrica_a7_press_integration_guard_v16",
     "a8_guard": "public.nrfimetrica_a8_separation_guard_v16",
-    "a8_assertion": "public.nrfimetrica_assert_a8_game_specific_execution_v16",
-    "cognitive_guard": "public.nrfimetrica_cognitive_packet_guard_v16"
+    "a8_assertion": "public.nrfimetrica_assert_a8_lineage_v17",
+    "system_reliability_assertion": "public.nrfimetrica_assert_system_reliability_lineage_v17",
+    "no_ai_probability_guard": "public.nrfimetrica_no_ai_probability_v17"
   },
   "validation": {
-    "state": "PASS",
-    "terminal_audit": "POST_067_12_OF_12_PASS",
-    "pre_067_terminal_audit": "10_OF_10_PASS",
-    "production_a8_assertion": "4_OF_4_PASS",
-    "corrected_adversarial_suite": "5_OF_5_PASS",
-    "historical_harness_errors": 5,
-    "historical_harness_errors_status": "SUPERSEDED_BY_CORRECTED_PASS_TESTS",
-    "runtime_missing_assertion_bug": "DETECTED_FIXED_AND_RETESTED",
-    "migration_sequence_duplicate_062": "RESOLVED",
-    "security_definer_count": 0,
-    "missing_safe_search_path_count": 0,
-    "client_executable_function_count": 0,
-    "activation_allowed": true
+    "state": "PENDING_TERMINAL_AUDIT",
+    "post_fix_adversarial_suite": "12_OF_12_PASS",
+    "pre_fix_gap_confirmed": 2,
+    "pre_fix_gap_status": "PRESERVED_AS_FAILING_AUDIT_EVIDENCE",
+    "activation_allowed": false
   }
 }
