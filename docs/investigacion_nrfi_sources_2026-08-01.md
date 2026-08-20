@@ -1,7 +1,7 @@
 # @investigacionNRFI — fuentes oficiales GUMBO — 2026-08-01
 
 Run original bajo reparación: `INVNRFI-20260801-f709b44c`.
-Repair capture trigger: `SEMANTIC-AMENDMENT-CAPTURE-2026-08-20`.
+Repair capture trigger: `SEMANTIC-AMENDMENT-CAPTURE-2026-08-20-R2`.
 
 Estos enlaces son inputs oficiales de adquisición para el AMENDMENT semántico. No constituyen por sí solos evidencia persistida hasta registrar TOOL_EVENT/SOURCE_FAMILY/EVIDENCE_ID.
 
