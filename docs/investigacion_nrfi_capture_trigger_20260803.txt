@@ -1,0 +1,2 @@
+Trigger official @investigacionNRFI capture for the complete MLB slate of 2026-08-03.
+Created after Kernel V2 slate verification.
