@@ -1,0 +1,48 @@
+name: NRFImetrica Integrity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'api/**'
+      - 'kernel/**'
+      - 'agents/**'
+      - 'protocols/**'
+      - 'supabase/migrations/**'
+      - '.github/workflows/nrfimetrica-integrity.yml'
+  pull_request:
+    paths:
+      - 'api/**'
+      - 'kernel/**'
+      - 'agents/**'
+      - 'protocols/**'
+      - 'supabase/migrations/**'
+
+permissions:
+  contents: read
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Python runtime
+        run: python -m py_compile api/research.py kernel/core.py
+      - name: Validate canonical JSON manifests
+        run: |
+          python -m json.tool agents/nrfimetrica_mother_v3_agent.json >/dev/null
+          python -m json.tool protocols/nrfimetrica_mother_v3_autonomous.json >/dev/null
+          python -m json.tool protocols/sports_reasoning_packet_v2.json >/dev/null
+      - name: Reject stale constitutional hash in active enforcement source
+        run: |
+          ! grep -R "44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8" kernel api agents protocols README.md
+      - name: Assert active version parity
+        run: |
+          grep -q "NRFIM-KERNEL-1.8-FORENSIC-REPAIR" kernel/core.py
+          grep -q "MOTHER-V3-AGENT-1.13" agents/nrfimetrica_mother_v3_agent.json
+          grep -q "NRFIM-KERNEL-1.8-FORENSIC-REPAIR" protocols/nrfimetrica_mother_v3_autonomous.json
+          grep -q "SEMANTIC-CUSTODY-1.0" protocols/sports_reasoning_packet_v2.json
+          test -f supabase/migrations/073_nrfimetrica_v18_forensic_process_repair.sql
