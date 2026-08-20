@@ -14,7 +14,7 @@ Agente causal MLB de primera entrada gobernado por `MOTHER V3`.
 - `RESEARCH_RUNTIME = nrfimetrica-research:v1`
 - `VERCEL_DEPENDENCY = REMOVED`
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones requeridas hasta `074`.
+- migraciones requeridas hasta `075`.
 - `V18_FORENSIC_PROCESS_REPAIR = 12/12 PASS`.
 - `V18_SUPABASE_EDGE_RUNTIME = 6/6 PASS`.
 
@@ -22,9 +22,21 @@ La IA realiza el razonamiento causal deportivo. El Kernel valida autoridad, traz
 
 ## Runtime operativo
 
-El runtime canónico ya no es Vercel. La ejecución HTTP de investigación reside en Supabase Edge Functions mediante `nrfimetrica-research`, desplegada con JWT obligatorio.
+El runtime canónico de `@NRFImetrica` no es Vercel. La ejecución HTTP de investigación reside en Supabase Edge Functions mediante `nrfimetrica-research`, desplegada con JWT obligatorio.
 
 La Edge Function cubre la cadena física de investigación: `RESEARCH_KERNEL_QUERY -> KERNEL_SERVER_FETCH -> RESEARCH_TOOL_EVENT -> EVIDENCE -> SPORTS_REASONING_PACKET -> CLAIMS -> DRIVE ARTIFACTS -> PROCESS AUDIT -> SPORTS_REASONING_SLATE`.
+
+## Política transversal de independencia del runtime
+
+`RUNTIME-INDEPENDENCE-1.0` gobierna todos los agentes del ecosistema. Vercel es únicamente `OPTIONAL_HTTP_ADAPTER_NON_BLOCKING`.
+
+`VERCEL_REQUIRED = FALSE`
+
+`VERCEL_FAILURE_BLOCKS_EXECUTION = FALSE`
+
+Un límite de builds, ausencia de proyecto visible, fallo de deployment o caída de Vercel puede afectar una operación explícitamente Vercel-specific, pero no puede bloquear por sí solo el RUN del agente si su ruta canónica continúa disponible. `vercel.json` y los handlers `api/` se conservan como compatibilidad opcional y no constituyen autoridad de ejecución.
+
+La política física vive en `public.agent_runtime_policy` y se documenta en `docs/RUNTIME_INDEPENDENCE_POLICY_V1.md`.
 
 ## Autoridad A0
 
@@ -64,9 +76,10 @@ Está prohibido fabricar P(NRFI), edge, EV o calibrated_probability por IA.
 
 - `073_nrfimetrica_v18_forensic_process_repair.sql`
 - `074_nrfimetrica_v18_supabase_edge_runtime.sql`
+- `075_cross_agent_runtime_independence_v1.sql`
 
 La corrida `NRFIM-MOTHER-20260820-ead3b6f3` permanece intacta como evidencia histórica incompleta.
 
 Notion continúa como consulta solamente. `@NRFIprensa` no posee autoridad deportiva, probabilística, de ranking, de mercado ni de conclusión.
 
-**EL PARTIDO SE ANALIZA. EL SISTEMA SE CALIBRA. EL RUNTIME ES SUPABASE EDGE FUNCTIONS.**
+**EL PARTIDO SE ANALIZA. EL SISTEMA SE CALIBRA. VERCEL ES OPCIONAL. LA EJECUCIÓN NO DEPENDE DE UN PROVEEDOR HTTP ÚNICO.**
