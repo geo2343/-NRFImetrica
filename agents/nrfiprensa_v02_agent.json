@@ -1,8 +1,8 @@
 {
   "agent_id": "@NRFiPrensa",
-  "agent_version": "V0.2-AGENT-1.0",
+  "agent_version": "V0.2-AGENT-1.1",
   "protocol_id": "SO_MEDIA_NRFI_V02",
-  "kernel_version": "NRFIPRENSA-KERNEL-0.1-RESEARCH-CUSTODY",
+  "kernel_version": "NRFIPRENSA-KERNEL-0.2-BILATERAL-CONJUNCTION",
   "document_sha256": "a6ed0be85ea66750dbea7e3deafe717675433a78d141f0656688421e15dacbac",
   "document_lines": 1248,
   "status": "RESEARCH_ONLY_TRADING_HALT",
@@ -28,7 +28,23 @@
     "TECHNICAL_DATA": "metric verification"
   },
   "flow": ["F0","F1","F2","F3","F4","F5","F6","F7","F7-Q","F7-R","F8","F9","F10","POSTRESULT"],
-  "hard_gates": ["HG-01","HG-02","HG-03","HG-04","HG-05","HG-06","HG-07","HG-08","HG-09","HG-10","HG-11","HG-12","HG-13","HG-14"],
+  "hard_gates": ["HG-01","HG-02","HG-03","HG-04","HG-05","HG-06","HG-07","HG-08","HG-09","HG-10","HG-11","HG-12","HG-13","HG-14","HG-BILATERAL-01"],
+  "bilateral_conjunction": {
+    "required": true,
+    "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
+    "independent_half_approval_required": true,
+    "no_compensation_between_halves": true,
+    "half_verdicts": ["NRFI_HALF_PASS","NRFI_HALF_ACCEPTABLE","NRFI_HALF_UNCERTAIN","NRFI_HALF_FAIL"],
+    "positive_nrfi_requires": ["TOP=NRFI_HALF_PASS","BOTTOM=NRFI_HALF_PASS"],
+    "acceptable_is_pass": false,
+    "uncertain_is_pass": false,
+    "one_dominant_pitcher_may_compensate_other_half": false,
+    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids"],
+    "half_pass_requires": ["F7Q_ALL_PASS","OFFICIAL_B1_B5","OSR_NOT_GOVERNING_OR_UNCERTAIN","DATA_QUALITY_SUFFICIENT","OWN_TECHNICAL_EVIDENCE"],
+    "f8_positive_requires_two_half_passes": true,
+    "final_pregame_seal_pass_requires_two_half_passes": true,
+    "legacy_positive_without_two_half_passes": "REQUIRES_BILATERAL_REEVALUATION"
+  },
   "firewalls": {
     "so_media_status_is_pick": false,
     "review_priority_is_pick": false,
@@ -41,7 +57,8 @@
   },
   "f8_independence": {
     "must_freeze_before_jrc": true,
-    "strong_nrfi_operationally_enabled": false
+    "strong_nrfi_operationally_enabled": false,
+    "positive_nrfi_requires_two_independent_half_passes": true
   },
   "f10": {
     "max_transfer_candidates": 3,
@@ -52,7 +69,8 @@
   "supabase": {
     "project_id": "yejaollmavoudbxnbpll",
     "namespace_prefix": "nrfiprensa_",
-    "shared_with_nrfimetrica_but_logically_separate": true
+    "shared_with_nrfimetrica_but_logically_separate": true,
+    "bilateral_legacy_review_table": "public.nrfi_bilateral_legacy_review"
   },
   "drive": {
     "root_folder_id": "1NFlh5PV7bTnG_wT_K_4sVmjZ_W0sWa_i",
@@ -64,7 +82,14 @@
   "known_forensic_failure": {
     "case": "SEA-HOU-2026-08-14",
     "classification": "GOVERNANCE_BYPASS",
-    "do_not_repeat": ["HOLD_TO_PICK_VERBAL_OVERRIDE","CURRENT_ROSTER_AS_LINEUP","CONTROL_ONLY_RISK_MODEL","MISSING_OSR","MISSING_NO_WALK_PATHS","MISSING_RED_TEAM"]
+    "do_not_repeat": ["HOLD_TO_PICK_VERBAL_OVERRIDE","CURRENT_ROSTER_AS_LINEUP","CONTROL_ONLY_RISK_MODEL","MISSING_OSR","MISSING_NO_WALK_PATHS","MISSING_RED_TEAM","ONE_STRONG_HALF_COMPENSATES_WEAK_HALF"]
   },
-  "database_migrations_required_through": 37
+  "hard_truth_rules": [
+    "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
+    "NO_CROSS_HALF_COMPENSATION",
+    "NO_SO_MEDIA_POSITIVE_NRFI_UNLESS_BOTH_HALVES_PASS_INDEPENDENTLY",
+    "ACCEPTABLE_OR_UNCERTAIN_HALF_FORBIDS_POSITIVE_NRFI",
+    "LEGACY_POSITIVE_WITHOUT_TWO_HALF_PASSES_REQUIRES_REEVALUATION"
+  ],
+  "database_migrations_required_through": 46
 }
