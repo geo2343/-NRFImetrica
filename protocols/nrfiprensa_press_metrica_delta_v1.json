@@ -1,0 +1,46 @@
+{
+  "contract_id": "PRESS_METRICA_DELTA-1.0",
+  "producer": "@NRFiPrensa",
+  "consumer": "@NRFImetrica",
+  "state": "ACTIVE_RESEARCH_HANDOFF",
+  "principle": "PRESS_TRANSFERS_INFORMATION_DELTA_NOT_PICK_OR_SPORTS_ANSWER",
+  "sequence": [
+    "PRESS_F6_FACT_VERIFICATION",
+    "PACK_P_CLEAN_FREEZE",
+    "METRICA_INDEPENDENT_INGEST_AND_ANALYSIS",
+    "METRICA_SPORTS_PACKET_FREEZE",
+    "PACK_P_INTERPRETATION_RELEASE",
+    "CONFRONTATION"
+  ],
+  "pack_p_clean": {
+    "packet_type": "PACK_P_CLEAN",
+    "must_freeze_before_press_f8": true,
+    "authority": {"sports":"NONE","probability":"NONE","ranking":"NONE","market":"NONE","conclusion":"NONE"},
+    "required_item_fields": ["press_evidence_id","delta_class","object_name","half_affected","fact","source_original","source_family_id","as_of","fact_status","fact_confidence","current_version_relevance","freshness_status","source_url","new_state","changed_object","materiality_question"],
+    "forbidden_content": ["external_picks","consensus","odds","line_movement","review_priority","shortlist","jrc","so_media_status","f8_conclusion","p_nrfi","edge","ev","stake","materiality_answer"],
+    "lineup_delta_requires_lineup_version_id": true,
+    "contradictions_must_be_explicit": true,
+    "negative_evidence_must_not_be_suppressed": true
+  },
+  "pack_p_interpretation": {
+    "packet_type": "PACK_P_INTERPRETATION",
+    "requires_press_f8_frozen": true,
+    "requires_metrica_freeze_timestamp": true,
+    "requires_metrica_packet_hash": true,
+    "required_fields": ["so_media_view","best_press_nrfi_case","best_press_yrfi_case","press_vulnerable_half","press_breakpoints","external_analyst_arguments"],
+    "forbidden_content": ["odds","line_movement","stake","ev","bet_amount","review_priority","candidate_rank"]
+  },
+  "material_delta_accounting": {
+    "transfer_required_when": "F6 IN {CONFIRMADA, PARCIALMENTE_CONFIRMADA} AND F7 IN {GOVERNING_NRFI, MATERIAL_NRFI}",
+    "top3_is_review_priority_only": true,
+    "run_close_requires_all_material_deltas_accounted": true
+  },
+  "source_controls": {
+    "source_family_id_required": true,
+    "echo_is_not_independent_confirmation": true,
+    "press_silence_is_neutral": true,
+    "coverage_volume_is_not_sports_authority": true,
+    "object_specific_freshness": true
+  },
+  "consumer_dispositions": ["INTEGRATED_GOVERNING","INTEGRATED_MATERIAL","INTEGRATED_MODULATOR","CONTEXT_ONLY","DESCRIPTIVE_ONLY","REFUTED_BY_METRICS","STALE","DUPLICATE_EXISTING_INFORMATION","NOT_NRFI_RELEVANT","UNRESOLVED"]
+}
