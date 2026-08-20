@@ -32,6 +32,7 @@ TARGET_MENU = {
     "2": "@NRFImetrica",
     "3": "@DepuracionMLB",
     "4": "@investigacionNRFI",
+    "5": "@ianalista",
 }
 
 TARGET_ALIASES = {
@@ -41,6 +42,9 @@ TARGET_ALIASES = {
     "@mlbdepuracion": "@DepuracionMLB",
     "@mlbdepuración": "@DepuracionMLB",
     "@investigacionnrfi": "@investigacionNRFI",
+    "@ianalista": "@ianalista",
+    "@iaanalista": "@ianalista",
+    "@iaanalissta": "@ianalista",
 }
 
 AUDIT_LAYERS = (
@@ -164,7 +168,8 @@ def target_prompt() -> str:
         "1 — @NRFiPrensa\n"
         "2 — @NRFImetrica\n"
         "3 — @DepuracionMLB\n"
-        "4 — @investigacionNRFI"
+        "4 — @investigacionNRFI\n"
+        "5 — @ianalista"
     )
 
 
