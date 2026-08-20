@@ -1,0 +1,19 @@
+{
+  "characters": 71367,
+  "bytes": 72741,
+  "game_blocks": 15,
+  "slate_rows": 15,
+  "required_markers": {
+    "DAILY_HEADER": true,
+    "EXECUTION_SUMMARY": true,
+    "SLATE_LEDGER": true,
+    "SLATE_STATISTICAL_SUMMARY": true,
+    "F1_F5_SYNTHESIS": true,
+    "GAME_BLOCKS": true,
+    "CROSS_GAME_FINDINGS": true,
+    "DATA_GAPS_AND_LIMITATIONS": true,
+    "SOURCE_AND_EVIDENCE_LEDGER": true,
+    "AUDIT_TRAIL": true,
+    "DAILY_CLOSURE": true
+  }
+}
