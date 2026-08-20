@@ -1,47 +1,44 @@
 {
   "protocol_extension_id": "NRFI_BILATERAL_CONJUNCTION_V1",
-  "active_rule_version": "BILATERAL-1.1",
+  "active_rule_version": "BILATERAL-1.2",
   "applies_to": ["@NRFImetrica","@NRFiPrensa"],
   "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
   "no_compensation_between_halves": true,
   "half_verdicts": ["NRFI_HALF_PASS","NRFI_HALF_ACCEPTABLE","NRFI_HALF_UNCERTAIN","NRFI_HALF_FAIL"],
   "main_nrfi_candidate_requires": {"top_half":"NRFI_HALF_PASS","bottom_half":"NRFI_HALF_PASS"},
   "non_pass_semantics": {"NRFI_HALF_ACCEPTABLE":"NOT_PASS","NRFI_HALF_UNCERTAIN":"NOT_PASS","NRFI_HALF_FAIL":"NOT_PASS"},
-  "required_independent_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","rationale","first_inning_evidence_ids","current_version_evidence_ids","current_version_status","material_run_path_status","uncertainty_flags"],
-  "evidence_rule": "Each half requires its own current-run/current-game HIGH or MEDIUM FIRST_INNING_DIRECT and CURRENT_VERSION_DIRECT evidence. Evidence for the strong half cannot substitute evidence for the other half.",
+  "required_independent_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","rationale","current_version_status","material_run_path_status","uncertainty_flags"],
+  "evidence_rule": "Each half requires its own current-run/current-game evidence. Evidence from the strong half cannot substitute evidence for the opposite half.",
+  "first_inning_rule": "First-inning history is a descriptive check inside the causal set; it is not a sole mechanical gate and cannot by itself create or kill a candidate.",
   "half_pass_rule": {
     "data_quality": "SUFFICIENT",
     "current_version_status": "STABLE",
     "material_run_path_status_allowed": ["LOW","CONTROLLED"],
-    "severe_uncertainty_forbidden": ["MLB_DEBUT","POST_LONG_IL","ROLE_UNSTABLE","OPENER_BULK_UNCERTAINTY","FIRST_INNING_SAMPLE_ABSENT","STARTER_IDENTITY_UNCERTAIN"]
+    "serious_unresolved_risk_forbids_pass": true
   },
   "nrfimetrica": {
-    "agent_version": "MOTHER-V3-AGENT-1.7",
-    "kernel_version": "NRFIM-KERNEL-1.2-BILATERAL-1.1-HARD-GATE",
-    "nrfi_lean_requires_two_independent_half_passes": true,
-    "central_nrfi_case_requires": {"joint_condition":"TOP_AND_BOTTOM","no_compensation":true},
-    "sports_candidate_view_requires_bilateral_proof": true,
-    "A6_A7_A8_require_bilateral_1_1": true,
-    "shortlist_requires_bilateral_1_1": true,
-    "user_facing_bet_requires_execution_and_bilateral_1_1": true
+    "agent_version": "MOTHER-V3-AGENT-1.8",
+    "kernel_version": "NRFIM-KERNEL-1.3-BILATERAL-1.2-CAUSAL-GATE",
+    "A6_A7_A8_require_bilateral_1_2": true,
+    "shortlist_requires_bilateral_1_2": true
   },
   "nrfiprensa": {
-    "agent_version": "V0.2-AGENT-1.2",
-    "kernel_version": "NRFIPRENSA-KERNEL-0.3-BILATERAL-1.1-HARD-GATE",
-    "f7q_half_verdict_required": true,
-    "first_inning_direct_evidence_per_half_required": true,
-    "current_version_direct_evidence_per_half_required": true,
-    "so_media_positive_requires_two_bilateral_1_1_half_passes": true,
-    "final_pregame_seal_pass_requires_two_bilateral_1_1_half_passes": true
+    "agent_version": "V0.2-AGENT-1.3",
+    "kernel_version": "NRFIPRENSA-KERNEL-0.4-BILATERAL-1.2-CAUSAL-GATE",
+    "f7q_universal_per_half": true,
+    "official_b1_b5_for_final_pass": true,
+    "osr_required": true,
+    "no_walk_run_paths_required": true,
+    "red_team_required": true,
+    "so_media_positive_requires_two_half_passes": true,
+    "final_pregame_seal_pass_requires_two_half_passes": true
   },
   "legacy_policy": {
-    "table": "public.nrfi_bilateral_legacy_review",
     "status": "REQUIRES_BILATERAL_REEVALUATION",
     "historical_objects_are_not_rewritten": true,
-    "prior_confidence_is_withdrawn_until_fresh_bilateral_review": true,
     "explicit_cases": ["20260819-SEA-MIL","20260819-WSH-TEX"]
   },
   "auditor_checks": {"@NRFImetrica":"NM-P5-BILATERAL-NO-COMP","@NRFiPrensa":"PR-P5-BILATERAL-NO-COMP"},
-  "forbidden_reasoning_pattern": "One dominant pitcher or one excellent half may not compensate an acceptable, uncertain, materially risky, or failed opposite half.",
-  "supabase_bookkeeping_through": 51
+  "forbidden_reasoning_pattern": "One dominant pitcher, one excellent half, or one isolated favorable metric may not compensate an acceptable, uncertain, materially risky, or failed opposite half.",
+  "supabase_bookkeeping_through": 52
 }
