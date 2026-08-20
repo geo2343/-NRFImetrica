@@ -11,7 +11,7 @@ Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 - `MOTHER_DOCUMENT_SHA256 = 44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8`
 - `STATUS = ACTIVE`
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones requeridas hasta `066`.
+- migraciones requeridas hasta `068`.
 
 La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia, temporalidad y límites de autoridad; no suma métricas ni sustituye al analista.
 
@@ -75,10 +75,14 @@ Reforma versionada:
 - `064_nrfimetrica_a5_causal_language_alignment.sql`
 - `065_nrfimetrica_v16_runtime_reconcile_exact.sql`
 - `066_nrfimetrica_v16_activate_after_terminal_audit.sql`
+- `067_nrfimetrica_v16_canonicalize_hardening_and_disable_for_reaudit.sql`
+- `068_nrfimetrica_v16_activate_after_post067_reaudit.sql`
 
-Validación terminal: `10/10 PASS`. Seguridad: `SECURITY_DEFINER=0`, `MISSING_SAFE_SEARCH_PATH=0`, `CLIENT_EXECUTABLE_FUNCTIONS=0`; todas las tablas propias `nrfimetrica_%` tienen RLS y cero DML para `anon/authenticated`.
+La duplicidad accidental del prefijo `062` fue eliminada. El hardening que contenía quedó canonizado en `067`; la secuencia activa vuelve a tener un único `062`.
 
-Cinco resultados históricos `HARNESS_ERROR/22P02` se conservaron por trazabilidad; cada uno tiene su prueba corregida equivalente `PASS` y no representa un fallo del Kernel.
+Validación terminal vigente: `V16_POST_067_AUDIT = 12/12 PASS`. La prueba de la aserción A8 usada por producción quedó `4/4 PASS` y la batería adversarial corregida `5/5 PASS`. Seguridad: `SECURITY_DEFINER=0`, `MISSING_SAFE_SEARCH_PATH=0`, `CLIENT_EXECUTABLE_FUNCTIONS=0`; todas las tablas propias `nrfimetrica_%` tienen RLS y cero DML para `anon/authenticated`.
+
+Cinco resultados históricos `HARNESS_ERROR/22P02` se conservaron por trazabilidad; cada uno tiene su prueba corregida equivalente `PASS` y no representa un fallo del Kernel. Durante la auditoría también se detectó una referencia A8 a una aserción faltante; fue corregida y la ruta real de producción se volvió a probar `4/4 PASS` antes de la activación final.
 
 Notion se usa únicamente como fuente de consulta en esta reforma. `@NRFIprensa` no fue modificado: Métrica solo quedó preparada para recibir información futura sin heredar autoridad decisional.
 
