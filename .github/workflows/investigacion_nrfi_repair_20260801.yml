@@ -6,6 +6,9 @@ on:
     paths:
       - 'docs/investigacion_nrfi_sources_2026-08-01.md'
 
+permissions:
+  contents: write
+
 jobs:
   capture:
     runs-on: ubuntu-latest
@@ -27,8 +30,7 @@ jobs:
               '823920': 'BOS@LAD', '824000': 'MIL@LAA', '824972': 'DET@ATH',
           }
           out = pathlib.Path('artifacts/investigacion_nrfi/2026-08-01')
-          raw_dir = out / 'raw'
-          raw_dir.mkdir(parents=True, exist_ok=True)
+          out.mkdir(parents=True, exist_ok=True)
           extracts = []
           for game_pk, matchup in games.items():
               url = f'https://statsapi.mlb.com/api/v1.1/game/{game_pk}/feed/live'
@@ -36,7 +38,6 @@ jobs:
               with urllib.request.urlopen(req, timeout=60) as r:
                   body = r.read()
               payload = json.loads(body)
-              (raw_dir / f'{game_pk}.json').write_bytes(body)
               gd = payload.get('gameData', {})
               ld = payload.get('liveData', {})
               plays = [p for p in ld.get('plays', {}).get('allPlays', []) if p.get('about', {}).get('inning') == 1]
@@ -50,19 +51,26 @@ jobs:
                   'status': gd.get('status'),
                   'venue': gd.get('venue'),
                   'weather': gd.get('weather'),
+                  'game_info': gd.get('gameInfo'),
                   'teams': gd.get('teams'),
                   'probable_pitchers': gd.get('probablePitchers'),
-                  'official_scorer': gd.get('officialScorer'),
-                  'primary_datacaster': gd.get('primaryDatacaster'),
+                  'players': gd.get('players'),
                   'away_boxscore': box.get('away'),
                   'home_boxscore': box.get('home'),
                   'first_inning_plays': plays,
                   'linescore_first': (ld.get('linescore', {}).get('innings') or [{}])[0],
               })
-          (out / 'first_inning_extract.json').write_text(json.dumps(extracts, ensure_ascii=False, indent=2), encoding='utf-8')
+          (out / 'first_inning_extract.json').write_text(json.dumps(extracts, ensure_ascii=False, separators=(',',':')), encoding='utf-8')
           (out / 'manifest.json').write_text(json.dumps({'date':'2026-08-01','games':games,'count':len(games)}, indent=2), encoding='utf-8')
           print('CAPTURED', len(extracts), 'GAMES')
           PY
+      - name: Persist reproducible extract in repository
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-01/first_inning_extract.json artifacts/investigacion_nrfi/2026-08-01/manifest.json
+          git diff --cached --quiet || git commit -m 'Persist official MLB GUMBO extract for investigacionNRFI 2026-08-01 repair'
+          git push
       - name: Upload repair evidence artifact
         uses: actions/upload-artifact@v4
         with:
