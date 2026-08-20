@@ -17,14 +17,17 @@ from kernel.investigacion_nrfi import (
     PHASE_ORDER,
     PROTOCOL_ID,
     REAL_MONEY_AUTHORITY,
-    SYSTEM_VERSION,
+    REPORT_CONTRACT_VERSION,
+    SOVEREIGN_PATCH,
     InvestigacionNRFIProtocolViolation,
     capacity_state,
     forbid_decision_keys,
+    is_terminal_nonplayed_status,
     now_iso,
     stable_hash,
     validate_phase_order,
     validate_receipt,
+    validate_report_contract,
     validate_temporal_evidence,
 )
 from providers.mlb import fetch_schedule
@@ -32,7 +35,7 @@ from providers.mlb import fetch_schedule
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
 SUPABASE_SECRET_KEY = os.getenv("SUPABASE_SECRET_KEY", "") or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
-app = FastAPI(title="@investigacionNRFI Connected Kernel", version="0.2")
+app = FastAPI(title="@investigacionNRFI Connected Kernel", version="0.3")
 
 
 def _headers(prefer: str | None = None) -> dict[str, str]:
@@ -90,10 +93,47 @@ async def trace(daily_run_id: str, event_type: str, *, phase_id: str | None = No
     )
 
 
+def _status_text(game: dict[str, Any]) -> str:
+    return str(game.get("detailed_state") or game.get("abstract_game_state") or "UNKNOWN").strip()
+
+
 def _is_final(game: dict[str, Any]) -> bool:
     abstract = str(game.get("abstract_game_state") or "").strip().lower()
     detailed = str(game.get("detailed_state") or "").strip().lower()
     return abstract == "final" or any(x in detailed for x in ("final", "game over", "completed"))
+
+
+def _slate_row(daily_run_id: str, game: dict[str, Any]) -> dict[str, Any]:
+    final = _is_final(game)
+    status_text = _status_text(game)
+    terminal_nonplayed = (not final) and is_terminal_nonplayed_status(status_text)
+    if final:
+        research_status = "PENDING"
+        exclusion_reason = None
+        disposition = "FINAL_PROCESS_REQUIRED"
+    elif terminal_nonplayed:
+        research_status = "EXCLUDED"
+        exclusion_reason = f"OFFICIAL_SLATE_TERMINAL_NONPLAYED:{status_text}"
+        disposition = "TERMINAL_NONPLAYED_EXCLUDED"
+    else:
+        research_status = "PENDING"
+        exclusion_reason = None
+        disposition = "WAITING_FOR_FINAL"
+    return {
+        "daily_run_id": daily_run_id,
+        "game_pk": str(game.get("game_id")),
+        "away_team": game.get("away_team"),
+        "home_team": game.get("home_team"),
+        "first_pitch_at": game.get("scheduled_start"),
+        "scheduled_start_at": game.get("scheduled_start"),
+        "final_status_text": status_text or "UNKNOWN",
+        "finalized_verified": final,
+        "research_status": research_status,
+        "exclusion_reason": exclusion_reason,
+        "identity_payload": game,
+        "official_slate_member": True,
+        "slate_disposition": disposition,
+    }
 
 
 class DailyRunStart(BaseModel):
@@ -160,6 +200,14 @@ class DriveAppendCreate(BaseModel):
     readback_tool_event_id: str
     character_count_before: int | None = None
     character_count_after: int
+    slate_row_count: int
+    excluded_game_summary_count: int = 0
+    game_block_count: int
+    phase_section_count: int
+    daily_block_character_count: int
+    required_section_markers: dict[str, bool]
+    report_contract_verified: bool = True
+    delivery_contract_version: str = REPORT_CONTRACT_VERSION
 
 
 @app.get("/")
@@ -167,19 +215,21 @@ async def root():
     return {
         "agent_id": AGENT_ID,
         "agent_version": AGENT_VERSION,
-        "system_version": SYSTEM_VERSION,
         "kernel_version": KERNEL_VERSION,
         "protocol_id": PROTOCOL_ID,
         "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+        "sovereign_patch": SOVEREIGN_PATCH,
+        "report_contract_version": REPORT_CONTRACT_VERSION,
         "real_money_authority": REAL_MONEY_AUTHORITY,
         "workflow": list(PHASE_ORDER),
-        "kernel_role": "PROCESS_TEMPORAL_CUSTODY_AND_VOLUME_ENFORCEMENT_NOT_SPORTS_VOTER",
+        "activation_scope": "ONE_DATE_EQUALS_FULL_OFFICIAL_MLB_SLATE",
+        "kernel_role": "PROCESS_TEMPORAL_CUSTODY_FULL_SLATE_AND_SEMANTIC_COMPLETENESS_NOT_SPORTS_VOTER",
     }
 
 
 @app.get("/health")
 async def health():
-    agents = await sb("GET", "agent_registry", params={"select": "agent_id,agent_version,status,protocol_id,kernel_version", "agent_id": f"eq.{AGENT_ID}", "limit": "1"}) or []
+    agents = await sb("GET", "agent_registry", params={"select": "agent_id,agent_version,status,protocol_id,kernel_version,metadata", "agent_id": f"eq.{AGENT_ID}", "limit": "1"}) or []
     authority = await sb("GET", "protocol_authority", params={"select": "protocol_id,document_sha256,active", "protocol_id": f"eq.{PROTOCOL_ID}", "limit": "1"}) or []
     volumes = await sb("GET", "investigacion_nrfi_volumes", params={"select": "volume_id,status,drive_document_id,capacity_state,rollover_authorized", "status": "eq.OPEN", "limit": "2"}) or []
     ok = bool(agents and agents[0].get("status") == "ACTIVE" and authority and authority[0].get("active") and len(volumes) == 1)
@@ -205,25 +255,47 @@ async def start_daily_run(req: DailyRunStart):
         raise HTTPException(status_code=409, detail="ACTIVE_VOLUME_ROLLOVER_REQUIRED_USER_AUTHORIZATION_NEEDED")
 
     provider = await fetch_schedule(req.run_date)
-    finals = [g for g in provider.get("games", []) if _is_final(g)]
+    official_games = list(provider.get("games", []))
+    if not official_games:
+        raise HTTPException(status_code=409, detail="OFFICIAL_MLB_SLATE_EMPTY_OR_UNRESOLVED")
+
     run_id = f"INVNRFI-{req.run_date.replace('-', '')}-{uuid4().hex[:8]}"
     schedule_hash = provider.get("raw_payload_hash") or stable_hash(provider)
+    slate_rows = [_slate_row(run_id, g) for g in official_games]
+    finalized_count = sum(1 for g in slate_rows if g["finalized_verified"])
+    excluded_count = sum(1 for g in slate_rows if g["research_status"] == "EXCLUDED")
+    waiting_count = sum(1 for g in slate_rows if g["slate_disposition"] == "WAITING_FOR_FINAL")
+
     row = {
         "daily_run_id": run_id,
         "agent_id": AGENT_ID,
         "protocol_id": PROTOCOL_ID,
-        "system_version": SYSTEM_VERSION,
+        "system_version": "INVESTIGACION-NRFI-HISTORICAL-V1.0",
         "kernel_version": KERNEL_VERSION,
         "run_date": req.run_date,
         "run_type": req.run_type,
         "parent_run_id": req.parent_run_id,
         "volume_id": volume["volume_id"],
         "status": "OPEN",
+        "expected_finalized_count": len(slate_rows),
+        "official_slate_count": len(slate_rows),
+        "finalized_game_count": finalized_count,
+        "nonfinal_game_count": len(slate_rows) - finalized_count,
+        "slate_universe_hash": stable_hash([g["game_pk"] for g in slate_rows]),
+        "slate_complete": False,
+        "delivery_contract_version": REPORT_CONTRACT_VERSION,
         "metadata": {
             **req.metadata,
             "provider": provider.get("provider"),
             "schedule_payload_hash": schedule_hash,
             "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+            "sovereign_patch": SOVEREIGN_PATCH,
+            "activation_scope": "FULL_OFFICIAL_SLATE",
+            "official_slate_count": len(slate_rows),
+            "finalized_at_freeze": finalized_count,
+            "terminal_nonplayed_excluded_at_freeze": excluded_count,
+            "waiting_for_final_at_freeze": waiting_count,
+            "delivery_contract_version": REPORT_CONTRACT_VERSION,
         },
     }
     saved = await sb("POST", "investigacion_nrfi_runs", payload=row, prefer="return=representation")
@@ -238,28 +310,90 @@ async def start_daily_run(req: DailyRunStart):
         "completed_at": provider.get("retrieved_at") or now_iso(),
         "input_hash": stable_hash({"run_date": req.run_date}),
         "output_hash": schedule_hash,
-        "metadata": {"run_date": req.run_date, "finalized_count": len(finals)},
+        "metadata": {
+            "run_date": req.run_date,
+            "official_slate_count": len(slate_rows),
+            "finalized_at_freeze": finalized_count,
+            "waiting_for_final": waiting_count,
+            "terminal_nonplayed_excluded": excluded_count,
+        },
     }
     await sb("POST", "investigacion_nrfi_tool_events", payload=schedule_event, prefer="return=minimal")
+    await sb("POST", "investigacion_nrfi_games", payload=slate_rows, prefer="return=minimal")
+    accounting = await rpc("investigacion_nrfi_sync_run_accounting", {"p_daily_run_id": run_id})
+    await trace(
+        run_id,
+        "DAILY_RUN_STARTED_AND_OFFICIAL_SLATE_LEDGER_FROZEN",
+        input_payload=req.model_dump(),
+        output_payload={"official_game_pks": [g["game_pk"] for g in slate_rows]},
+        details={
+            "official_slate_count": len(slate_rows),
+            "finalized_at_freeze": finalized_count,
+            "waiting_for_final": waiting_count,
+            "terminal_nonplayed_excluded": excluded_count,
+            "schedule_tool_event_id": schedule_event_id,
+        },
+    )
+    return {
+        "run": (saved or [row])[0],
+        "official_slate_games": slate_rows,
+        "slate_summary": {
+            "official_slate_count": len(slate_rows),
+            "finalized_at_freeze": finalized_count,
+            "waiting_for_final": waiting_count,
+            "terminal_nonplayed_excluded": excluded_count,
+        },
+        "accounting": accounting,
+        "active_volume": volume,
+        "schedule_tool_event_id": schedule_event_id,
+    }
 
-    games = []
-    for game in finals:
-        games.append({
-            "daily_run_id": run_id,
-            "game_pk": str(game.get("game_id")),
-            "away_team": game.get("away_team"),
-            "home_team": game.get("home_team"),
-            "first_pitch_at": game.get("scheduled_start"),
-            "final_status_text": str(game.get("detailed_state") or game.get("abstract_game_state") or "FINAL"),
-            "finalized_verified": True,
-            "research_status": "PENDING",
-            "identity_payload": game,
-        })
-    if games:
-        await sb("POST", "investigacion_nrfi_games", payload=games, prefer="return=minimal")
-    await rpc("investigacion_nrfi_sync_run_accounting", {"p_daily_run_id": run_id})
-    await trace(run_id, "DAILY_RUN_STARTED_AND_FINAL_GAME_LEDGER_FROZEN", input_payload=req.model_dump(), output_payload={"finalized_game_pks": [g["game_pk"] for g in games]}, details={"expected_finalized": len(games), "schedule_tool_event_id": schedule_event_id})
-    return {"run": (saved or [row])[0], "finalized_games": games, "active_volume": volume, "schedule_tool_event_id": schedule_event_id}
+
+@app.post("/daily-runs/{daily_run_id}/slate/refresh")
+async def refresh_daily_slate(daily_run_id: str):
+    runs = await sb("GET", "investigacion_nrfi_runs", params={"select": "daily_run_id,run_date", "daily_run_id": f"eq.{daily_run_id}", "limit": "1"}) or []
+    if not runs:
+        raise HTTPException(status_code=404, detail="DAILY_RUN_NOT_FOUND")
+    run_date = str(runs[0]["run_date"])
+    provider = await fetch_schedule(run_date)
+    official_games = list(provider.get("games", []))
+    if not official_games:
+        raise HTTPException(status_code=409, detail="OFFICIAL_MLB_SLATE_EMPTY_OR_UNRESOLVED")
+
+    existing = await sb("GET", "investigacion_nrfi_games", params={"select": "game_pk,research_status", "daily_run_id": f"eq.{daily_run_id}"}) or []
+    existing_status = {str(r["game_pk"]): r["research_status"] for r in existing}
+    rows = [_slate_row(daily_run_id, g) for g in official_games]
+    for row in rows:
+        prior = existing_status.get(row["game_pk"])
+        if prior == "PROCESSED" and row["finalized_verified"]:
+            row["research_status"] = "PROCESSED"
+            row["slate_disposition"] = "PROCESSED_FINAL"
+        elif prior == "EXCLUDED" and row["finalized_verified"]:
+            row["research_status"] = "PENDING"
+            row["exclusion_reason"] = None
+            row["slate_disposition"] = "FINAL_PROCESS_REQUIRED"
+    await sb(
+        "POST",
+        "investigacion_nrfi_games",
+        params={"on_conflict": "daily_run_id,game_pk"},
+        payload=rows,
+        prefer="resolution=merge-duplicates,return=minimal",
+    )
+    await sb(
+        "PATCH",
+        "investigacion_nrfi_runs",
+        params={"daily_run_id": f"eq.{daily_run_id}"},
+        payload={
+            "official_slate_count": len(rows),
+            "expected_finalized_count": len(rows),
+            "slate_universe_hash": stable_hash([r["game_pk"] for r in rows]),
+            "delivery_contract_version": REPORT_CONTRACT_VERSION,
+        },
+        prefer="return=minimal",
+    )
+    accounting = await rpc("investigacion_nrfi_sync_run_accounting", {"p_daily_run_id": daily_run_id})
+    await trace(daily_run_id, "OFFICIAL_SLATE_REFRESHED", output_payload=accounting, details={"official_slate_count": len(rows)})
+    return {"official_slate_games": rows, "accounting": accounting}
 
 
 @app.patch("/daily-runs/{daily_run_id}/games/{game_pk}")
@@ -268,10 +402,19 @@ async def update_game_status(daily_run_id: str, game_pk: str, req: GameStatusUpd
         raise HTTPException(status_code=422, detail="GAME_STATUS_MUST_BE_PROCESSED_OR_EXCLUDED")
     if req.research_status == "EXCLUDED" and not (req.exclusion_reason or "").strip():
         raise HTTPException(status_code=422, detail="EXCLUSION_REASON_REQUIRED")
-    payload = {"research_status": req.research_status, "exclusion_reason": req.exclusion_reason, "updated_at": now_iso()}
+    current = await sb("GET", "investigacion_nrfi_games", params={"select": "game_pk,finalized_verified", "daily_run_id": f"eq.{daily_run_id}", "game_pk": f"eq.{game_pk}", "limit": "1"}) or []
+    if not current:
+        raise HTTPException(status_code=404, detail="GAME_NOT_FOUND_IN_OFFICIAL_SLATE_LEDGER")
+    if req.research_status == "PROCESSED" and not current[0].get("finalized_verified"):
+        raise HTTPException(status_code=409, detail="NONFINAL_GAME_CANNOT_BE_PROCESSED")
+    payload = {
+        "research_status": req.research_status,
+        "exclusion_reason": req.exclusion_reason,
+        "slate_disposition": "PROCESSED_FINAL" if req.research_status == "PROCESSED" else "EXCLUDED_WITH_REASON",
+        "updated_at": now_iso(),
+    }
     saved = await sb("PATCH", "investigacion_nrfi_games", params={"daily_run_id": f"eq.{daily_run_id}", "game_pk": f"eq.{game_pk}"}, payload=payload, prefer="return=representation")
-    if not saved:
-        raise HTTPException(status_code=404, detail="GAME_NOT_FOUND_IN_FINALIZED_LEDGER")
+    await rpc("investigacion_nrfi_sync_run_accounting", {"p_daily_run_id": daily_run_id})
     await trace(daily_run_id, "GAME_RESEARCH_STATUS_UPDATED", input_payload=req.model_dump(), output_payload=saved[0], details={"game_pk": game_pk})
     return saved[0]
 
@@ -321,7 +464,6 @@ async def create_evidence(req: EvidenceCreate):
         await sb("POST", "investigacion_nrfi_source_families", payload={"source_family_id": family_id, "canonical_origin": req.canonical_origin, "publisher": req.publisher, "family_hash": family_hash}, prefer="return=minimal")
 
     evidence_id = req.evidence_id or f"INVNRFI-EVID-{uuid4().hex}"
-    payload_hash = stable_hash(req.object_payload)
     row = {
         "evidence_id": evidence_id,
         "daily_run_id": req.daily_run_id,
@@ -336,7 +478,7 @@ async def create_evidence(req: EvidenceCreate):
         "available_at": req.available_at,
         "first_pitch_at": req.first_pitch_at,
         "event_time": req.event_time,
-        "payload_hash": payload_hash,
+        "payload_hash": stable_hash(req.object_payload),
         "snapshot_hash": stable_hash({"source_url": req.source_url, "payload": req.object_payload, "retrieved_at": req.retrieved_at}),
         "data_coverage_state": req.data_coverage_state,
         "object_payload": req.object_payload,
@@ -374,6 +516,27 @@ async def submit_phase(req: PhaseSubmit):
 
 @app.post("/drive-appends")
 async def record_drive_append(req: DriveAppendCreate):
+    runs = await sb("GET", "investigacion_nrfi_runs", params={"select": "official_slate_count,processed_count,excluded_count", "daily_run_id": f"eq.{req.daily_run_id}", "limit": "1"}) or []
+    if not runs:
+        raise HTTPException(status_code=404, detail="DAILY_RUN_NOT_FOUND")
+    run = runs[0]
+    try:
+        validate_report_contract(
+            official_slate_count=int(run.get("official_slate_count") or 0),
+            nonexcluded_games=int(run.get("processed_count") or 0),
+            excluded_games=int(run.get("excluded_count") or 0),
+            slate_row_count=req.slate_row_count,
+            excluded_game_summary_count=req.excluded_game_summary_count,
+            game_block_count=req.game_block_count,
+            phase_section_count=req.phase_section_count,
+            daily_block_character_count=req.daily_block_character_count,
+            markers=req.required_section_markers,
+            report_contract_verified=req.report_contract_verified,
+            delivery_contract_version=req.delivery_contract_version,
+        )
+    except InvestigacionNRFIProtocolViolation as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
     state = capacity_state(req.character_count_after)
     row = {
         "daily_run_id": req.daily_run_id,
@@ -387,11 +550,19 @@ async def record_drive_append(req: DriveAppendCreate):
         "character_count_before": req.character_count_before,
         "character_count_after": req.character_count_after,
         "verified": True,
+        "slate_row_count": req.slate_row_count,
+        "excluded_game_summary_count": req.excluded_game_summary_count,
+        "game_block_count": req.game_block_count,
+        "phase_section_count": req.phase_section_count,
+        "daily_block_character_count": req.daily_block_character_count,
+        "required_section_markers": req.required_section_markers,
+        "report_contract_verified": req.report_contract_verified,
+        "delivery_contract_version": req.delivery_contract_version,
     }
     saved = await sb("POST", "investigacion_nrfi_drive_appends", params={"on_conflict": "daily_run_id"}, payload=row, prefer="resolution=merge-duplicates,return=representation")
     await sb("PATCH", "investigacion_nrfi_volumes", params={"volume_id": f"eq.{req.volume_id}"}, payload={"character_count": req.character_count_after, "capacity_state": state}, prefer="return=minimal")
-    await sb("PATCH", "investigacion_nrfi_runs", params={"daily_run_id": f"eq.{req.daily_run_id}"}, payload={"drive_append_verified": True}, prefer="return=minimal")
-    await trace(req.daily_run_id, "DRIVE_APPEND_READBACK_VERIFIED", input_payload=req.model_dump(), output_payload={"verified": True, "capacity_state": state})
+    await sb("PATCH", "investigacion_nrfi_runs", params={"daily_run_id": f"eq.{req.daily_run_id}"}, payload={"drive_append_verified": True, "delivery_contract_version": REPORT_CONTRACT_VERSION}, prefer="return=minimal")
+    await trace(req.daily_run_id, "DRIVE_APPEND_READBACK_VERIFIED_V2", input_payload=req.model_dump(), output_payload={"verified": True, "capacity_state": state})
     return {"append": (saved or [row])[0], "capacity_state": state}
 
 
