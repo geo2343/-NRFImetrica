@@ -1,13 +1,14 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.8",
-  "status": "ACTIVE_MANDATE",
+  "agent_version": "MOTHER-V3-AGENT-1.10",
+  "status": "VALIDATION_PENDING",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.3-BILATERAL-1.2-CAUSAL-GATE",
+    "kernel_version": "NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION",
     "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
-    "precedence": "LATEST_SOVEREIGN_PATCH_WINS"
+    "calibration_separation_amendment_drive_id": "1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE",
+    "precedence": "CALIBRATION_SEPARATION_AMENDMENT_OVER_LEGACY_A7_CALIBRATED_P_SEMANTICS"
   },
   "activation": {
     "primary_trigger": "@NRFImetrica",
@@ -18,7 +19,38 @@
   "roles": {
     "chatgpt": "CAUSAL_SPORTS_ANALYST_AND_ORCHESTRATOR",
     "kernel": "PROCESS_AND_CONTRACT_ENFORCEMENT_NOT_METRIC_VOTER",
-    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2_NO_SPORTS_VOTE"
+    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2_NO_SPORTS_VOTE",
+    "historical_calibration": "SYSTEM_AUDIT_ONLY"
+  },
+  "calibration_separation": {
+    "doctrine": "CALIBRATE_SYSTEM_NOT_GAME",
+    "game_probability_source": "A5_GAME_CAUSAL_ONLY",
+    "eligibility_basis": "GAME_CAUSAL_ONLY",
+    "historical_calibration_game_override": false,
+    "historical_calibration_sports_authority": false,
+    "historical_calibration_ranking_authority": false,
+    "historical_calibration_probability_effect": "NONE",
+    "system_calibration_economic_role": "SYSTEM_LEVEL_TRUST_GATE_ONLY",
+    "conservative_probability_source": "GAME_SPECIFIC_STRESS_TEST_ONLY",
+    "universal_game_equivalence_allowed": false,
+    "hierarchical_contextual_system_audit": true,
+    "historical_calibration_used_in_game_uncertainty": false,
+    "hard_rules": [
+      "HISTORICAL_CALIBRATION_SHALL_NOT_OVERRIDE_GAME_SPECIFIC_CAUSAL_EVIDENCE",
+      "NO_TWO_GAMES_ARE_EQUIVALENT_ONLY_BY_PROBABILITY_SCORE_BAND_OR_STAT_PROFILE",
+      "CALIBRATION_CANNOT_CREATE_OR_REMOVE_SPORTS_CANDIDATE",
+      "CALIBRATION_CANNOT_CHANGE_SPORTS_RANKING",
+      "CALIBRATION_CANNOT_ADJUST_GAME_CAUSAL_P",
+      "P_CONSERVATIVE_MUST_COME_FROM_GAME_SPECIFIC_UNCERTAINTY"
+    ]
+  },
+  "system_reliability_audit": {
+    "metrics": ["BRIER_SCORE","LOG_LOSS","RELIABILITY_CURVE","CALIBRATION_SLOPE_INTERCEPT","WALK_FORWARD","SEALED_TEMPORAL_HOLDOUT","BASELINE_COMPARISON","ABLATION","DRIFT"],
+    "confidence_states": ["RELIABLE","OVERCONFIDENT","UNDERCONFIDENT","MIXED","INSUFFICIENT_SAMPLE","DRIFT_DETECTED","NOT_AVAILABLE"],
+    "sports_effect": "NONE",
+    "ranking_effect": "NONE",
+    "probability_effect": "NONE",
+    "economic_effect": ["ALLOW","CONDITION","BLOCK"]
   },
   "bilateral_conjunction": {
     "version": "BILATERAL-1.2",
@@ -59,12 +91,6 @@
     "watchlist_means": "INCOMPLETE_NOT_ZERO",
     "valid_zero_requires": "EVERY_NON_AUDIT_GAME_DATA_DRIVEN_NO_PLAY"
   },
-  "legacy_bilateral_review": {
-    "table": "public.nrfi_bilateral_legacy_review",
-    "unproven_legacy_nrfi_lean_status": "REQUIRES_BILATERAL_REEVALUATION",
-    "explicit_forensic_cases": ["20260819-SEA-MIL","20260819-WSH-TEX"],
-    "historical_packets_are_not_rewritten": true
-  },
   "hard_truth_rules": [
     "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
     "NO_CROSS_HALF_COMPENSATION",
@@ -74,11 +100,15 @@
     "NO_SINGLE_METRIC_CREATES_OR_KILLS_A_CANDIDATE",
     "EACH_HALF_REQUIRES_OWN_CURRENT_RUN_CAUSAL_EVIDENCE",
     "SPORTS_CANDIDATE_IS_NOT_BET",
-    "BET_LABEL_REQUIRES_EXECUTABLE_AUTHORITY"
+    "BET_LABEL_REQUIRES_EXECUTABLE_AUTHORITY",
+    "CALIBRATE_SYSTEM_NOT_GAME"
   ],
   "runtime": {
-    "database_migrations_required_through": 52,
+    "database_migrations_required_through": 55,
     "game_status_view": "public.nrfimetrica_game_dual_status",
-    "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid"
+    "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
+    "calibration_guard": "public.nrfim_enforce_calibration_separation_v15",
+    "system_calibration_table": "public.nrfimetrica_system_calibration_audits",
+    "calibration_observation_table": "public.nrfimetrica_calibration_observations"
   }
 }
