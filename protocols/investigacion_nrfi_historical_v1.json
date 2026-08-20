@@ -1,94 +1,51 @@
 {
   "protocol_id": "INVESTIGACION_NRFI_HISTORICAL_V1",
   "system_version": "INVESTIGACION-NRFI-HISTORICAL-V1.0",
-  "kernel_version": "INVESTIGACION-NRFI-KERNEL-0.1-CONNECTED",
+  "kernel_version": "INVESTIGACION-NRFI-KERNEL-0.2-SEMANTIC-COMPLETENESS",
   "agent_id": "@investigacionNRFI",
   "scope": "HISTORICAL_MLB_FIRST_INNING_EVIDENCE_PLATFORM",
   "execution_evidence_standard": "E1",
+  "semantic_completeness_patch": "SEMANTIC-COMPLETENESS-1.1",
   "phases": [
     {
       "phase_id": "F1_FORENSIC_CAPTURE",
       "prerequisites": [],
-      "required_fields": [
-        "universe.expected_finalized_game_count",
-        "universe.accounted_game_count",
-        "identity_integrity",
-        "temporal_lane_integrity"
-      ],
+      "required_physical_objects": ["GAME_IDENTITY","LINEUP_ENTRIES_OR_BOUNDED_GAP","CATCHERS_OR_BOUNDED_GAP","ACTUAL_FIRST_PITCH_VERIFIED"],
       "required_receipt": true
     },
     {
       "phase_id": "F2_DEEP_RECONSTRUCTION",
       "prerequisites": ["F1_FORENSIC_CAPTURE"],
-      "required_fields": [
-        "reconstruction.processed_game_count",
-        "reconstruction.first_inning_integrity",
-        "reconstruction.exact_event_sequence_preserved"
-      ],
+      "required_physical_objects": ["FIRST_INNING_GAME","TOP_HALF_INNING","BOTTOM_HALF_INNING","PLATE_APPEARANCES","PITCH_EVENTS_OR_BOUNDED_GAP","TWO_STARTER_CONTEXTS"],
       "required_receipt": true
     },
     {
       "phase_id": "F3_FEATURE_FACTORY",
       "prerequisites": ["F1_FORENSIC_CAPTURE", "F2_DEEP_RECONSTRUCTION"],
-      "required_fields": [
-        "feature_registry.version",
-        "feature_registry.lineage_status",
-        "feature_registry.coverage_state_status"
-      ],
+      "required_physical_objects": ["FEATURE_VALUES"],
+      "required_feature_families": ["RESULTS","SEQUENCE","EXPOSURE","OUT_CREATION","TRAFFIC","DAMAGE","PITCHER_PROCESS","TOP_ORDER","CONTEXT"],
+      "required_sequence_windows": ["L3","L5","L10","L15","L20","SEASON","CAREER"],
       "required_receipt": true
     },
     {
       "phase_id": "F4_HISTORICAL_PRESS_RELIABILITY",
       "prerequisites": ["F1_FORENSIC_CAPTURE", "F2_DEEP_RECONSTRUCTION", "F3_FEATURE_FACTORY"],
-      "required_fields": [
-        "reliability.status",
-        "human_information_lane_status",
-        "mechanism_sequence_integrity"
-      ],
+      "required_physical_objects": ["RUN_MECHANISMS","PRESS_HUMAN_INFORMATION_COVERAGE","COHORT_COVERAGE","RELIABILITY_STATES"],
       "required_receipt": true
     },
     {
       "phase_id": "F5_QUERYABLE_INTELLIGENCE",
       "prerequisites": ["F1_FORENSIC_CAPTURE", "F2_DEEP_RECONSTRUCTION", "F3_FEATURE_FACTORY", "F4_HISTORICAL_PRESS_RELIABILITY"],
-      "required_fields": [
-        "query_engine.status",
-        "query_engine.as_of_future_game_count",
-        "evidence_packet.status"
-      ],
+      "required_physical_objects": ["EVIDENCE_PACKET"],
+      "required_packet_keys": ["PITCHER_HISTORY","TEAM_HISTORY","TOP_ORDER_HISTORY","PROCESS_HISTORY","EVENT_PATHS","CONTEXT","PRESS_HISTORY_PREGAME","POSTGAME_EXPLANATORY_SEPARATE","SAMPLE_RELIABILITY","DATA_COVERAGE","SOURCE_LINEAGE","UNCERTAINTY","COMPARABLE_COHORTS"],
       "required_receipt": true
     }
   ],
-  "receipt_required_fields": [
-    "PHASE_ID",
-    "START_AS_OF",
-    "END_AS_OF",
-    "INPUT_OBJECTS",
-    "OPERATIONS_PERFORMED",
-    "OUTPUT_OBJECTS",
-    "SOURCES_OR_EVIDENCE",
-    "AUDITOR_RESULT",
-    "NEXT_PHASE"
-  ],
-  "temporal_lanes": [
-    "PREGAME_EVIDENCE",
-    "POSTGAME_EXPLANATORY_EVIDENCE",
-    "NOT_APPLICABLE"
-  ],
-  "epistemic_lanes": [
-    "OBSERVED",
-    "DERIVED",
-    "HUMAN_INFORMATION"
-  ],
-  "forbidden_output_keys": [
-    "pick",
-    "stake",
-    "ev",
-    "sportsbook",
-    "odds",
-    "bet_recommendation",
-    "authoritative_nrfi_probability",
-    "metric_score_decision"
-  ],
+  "receipt_required_fields": ["PHASE_ID","START_AS_OF","END_AS_OF","INPUT_OBJECTS","OPERATIONS_PERFORMED","OUTPUT_OBJECTS","SOURCES_OR_EVIDENCE","AUDITOR_RESULT","NEXT_PHASE"],
+  "temporal_lanes": ["PREGAME_EVIDENCE","POSTGAME_EXPLANATORY_EVIDENCE","NOT_APPLICABLE"],
+  "epistemic_lanes": ["OBSERVED","DERIVED","HUMAN_INFORMATION"],
+  "forbidden_output_keys": ["pick","stake","ev","sportsbook","odds","bet_recommendation","authoritative_nrfi_probability","metric_score_decision"],
+  "game_processed_requires": ["F1_GAME_SEMANTIC_PASS","F2_GAME_SEMANTIC_PASS","F3_GAME_SEMANTIC_PASS","F4_GAME_SEMANTIC_PASS"],
   "daily_close_requires": [
     "F1_FORENSIC_CAPTURE",
     "F2_DEEP_RECONSTRUCTION",
@@ -99,8 +56,17 @@
     "DAILY_UNIVERSE_ACCOUNTING_PASS",
     "TEMPORAL_INTEGRITY_PASS",
     "EVIDENCE_TRACE_PASS",
+    "SEMANTIC_COMPLETENESS_PASS",
+    "REPORT_CONTRACT_PASS",
     "DRIVE_APPEND_VERIFIED"
   ],
+  "drive_report_contract": {
+    "game_block_count_must_equal_nonexcluded_games": true,
+    "phase_section_count_minimum": 5,
+    "required_markers": ["EXECUTION_SUMMARY","F1","F2","F3","F4","F5","DAILY_CLOSURE","GAME_BLOCKS"],
+    "minimum_character_floor_formula": "max(12000, nonexcluded_games * 1800)",
+    "character_floor_is_anti_empty_guard_not_quality_substitute": true
+  },
   "volume_policy": {
     "single_open_volume": true,
     "single_living_google_doc_per_volume": true,
