@@ -4,6 +4,7 @@
   "game_count": 8,
   "capture_commit": "78f2440c24a168ed562a943d155c37a3a8af664c",
   "captured_at": "2026-08-20T14:42:42Z",
+  "lineup_integrity": "PASS_16_OF_16_SLOT1_OBSERVED",
   "games": [
     {
       "game_pk": "823431",
@@ -19,8 +20,8 @@
       "home_starter": "Aaron Nola",
       "first_pitch": "2026-08-03T22:41:23.388Z",
       "venue": "Citizens Bank Park",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "James Wood",
+      "home_slot1": "Trea Turner"
     },
     {
       "game_pk": "823520",
@@ -36,8 +37,8 @@
       "home_starter": "Cam Schlittler",
       "first_pitch": "2026-08-03T23:10:56.846Z",
       "venue": "Yankee Stadium",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "JJ Wetherholt",
+      "home_slot1": "Trent Grisham"
     },
     {
       "game_pk": "823757",
@@ -53,8 +54,8 @@
       "home_starter": "Brandon Sproat",
       "first_pitch": "2026-08-03T23:40:34.801Z",
       "venue": "American Family Field",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "Jake Mangum",
+      "home_slot1": "Brice Turang"
     },
     {
       "game_pk": "824647",
@@ -70,8 +71,8 @@
       "home_starter": "Matthew Boyd",
       "first_pitch": "2026-08-04T00:05:16.243Z",
       "venue": "Wrigley Field",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "Shohei Ohtani",
+      "home_slot1": "Pete Crow-Armstrong"
     },
     {
       "game_pk": "822867",
@@ -87,8 +88,8 @@
       "home_starter": "Cal Quantrill",
       "first_pitch": "2026-08-04T00:10:29.760Z",
       "venue": "Globe Life Field",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "Nate Furman",
+      "home_slot1": "Joc Pederson"
     },
     {
       "game_pk": "824160",
@@ -104,8 +105,8 @@
       "home_starter": "Cristian Javier",
       "first_pitch": "2026-08-04T00:10:58.787Z",
       "venue": "Daikin Park",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "Nathan Lukes",
+      "home_slot1": "Jeremy Peña"
     },
     {
       "game_pk": "824324",
@@ -121,8 +122,8 @@
       "home_starter": "Michael Lorenzen",
       "first_pitch": "2026-08-04T00:40:45.653Z",
       "venue": "Coors Field",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "Yandy Díaz",
+      "home_slot1": "Jake McCarthy"
     },
     {
       "game_pk": "825095",
@@ -138,8 +139,8 @@
       "home_starter": "Brandon Pfaadt",
       "first_pitch": "2026-08-04T01:41:08.513Z",
       "venue": "Chase Field",
-      "away_lineup_count": 9,
-      "home_lineup_count": 9
+      "away_slot1": "Fernando Tatis Jr.",
+      "home_slot1": "Corbin Carroll"
     }
   ]
 }
