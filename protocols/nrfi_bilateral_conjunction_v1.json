@@ -1,0 +1,59 @@
+{
+  "protocol_extension_id": "NRFI_BILATERAL_CONJUNCTION_V1",
+  "applies_to": ["@NRFImetrica", "@NRFiPrensa"],
+  "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
+  "no_compensation_between_halves": true,
+  "half_verdicts": ["NRFI_HALF_PASS","NRFI_HALF_ACCEPTABLE","NRFI_HALF_UNCERTAIN","NRFI_HALF_FAIL"],
+  "main_nrfi_candidate_requires": {
+    "top_half": "NRFI_HALF_PASS",
+    "bottom_half": "NRFI_HALF_PASS"
+  },
+  "non_pass_semantics": {
+    "NRFI_HALF_ACCEPTABLE": "NOT_PASS",
+    "NRFI_HALF_UNCERTAIN": "NOT_PASS",
+    "NRFI_HALF_FAIL": "NOT_PASS"
+  },
+  "required_independent_half_dimensions": [
+    "pitcher",
+    "opponent_top_order",
+    "splits",
+    "bb",
+    "hr",
+    "traffic",
+    "first_inning",
+    "current_form",
+    "matchup",
+    "material_run_path",
+    "data_quality",
+    "evidence_ids",
+    "rationale"
+  ],
+  "evidence_rule": "Each half requires its own current-run/current-game evidence. Evidence for the strong half cannot substitute evidence for the other half.",
+  "nrfimetrica": {
+    "agent_version": "MOTHER-V3-AGENT-1.6",
+    "kernel_version": "NRFIM-KERNEL-1.1-BILATERAL-CONJUNCTION",
+    "nrfi_lean_requires_two_independent_half_passes": true,
+    "central_nrfi_case_requires": {"joint_condition":"TOP_AND_BOTTOM","no_compensation":true},
+    "sports_candidate_view_requires_bilateral_proof": true
+  },
+  "nrfiprensa": {
+    "agent_version": "V0.2-AGENT-1.1",
+    "kernel_version": "NRFIPRENSA-KERNEL-0.2-BILATERAL-CONJUNCTION",
+    "f7q_half_verdict_required": true,
+    "so_media_positive_requires_two_half_passes": true,
+    "final_pregame_seal_pass_requires_two_half_passes": true
+  },
+  "legacy_policy": {
+    "table": "public.nrfi_bilateral_legacy_review",
+    "status": "REQUIRES_BILATERAL_REEVALUATION",
+    "historical_objects_are_not_rewritten": true,
+    "prior_confidence_is_withdrawn_until_fresh_bilateral_review": true,
+    "explicit_cases": ["20260819-SEA-MIL","20260819-WSH-TEX"]
+  },
+  "auditor_checks": {
+    "@NRFImetrica": "NM-P5-BILATERAL-NO-COMP",
+    "@NRFiPrensa": "PR-P5-BILATERAL-NO-COMP"
+  },
+  "forbidden_reasoning_pattern": "One dominant pitcher or one excellent half may not compensate an acceptable, uncertain, or failed opposite half.",
+  "supabase_migrations": [44,45,46]
+}
