@@ -1,18 +1,19 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.5",
+  "agent_version": "MOTHER-V3-AGENT-1.6",
   "status": "ACTIVE_MANDATE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.0-SELECTIVE-CONCLUSION",
+    "kernel_version": "NRFIM-KERNEL-1.1-BILATERAL-CONJUNCTION",
     "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
     "precedence": "LATEST_SOVEREIGN_PATCH_WINS",
     "active_extensions": [
       "NRFIMETRICA_SPORTS_REASONING_PACKET_V2",
       "NRFIMETRICA_CLEAN_ROOM_V07",
       "NRFIMETRICA_CAUSAL_AUTHORITY_V09",
-      "NRFIMETRICA_SELECTIVE_CONCLUSION_V10"
+      "NRFIMETRICA_SELECTIVE_CONCLUSION_V10",
+      "NRFIMETRICA_BILATERAL_CONJUNCTION_V11"
     ]
   },
   "activation": {
@@ -53,12 +54,44 @@
     "source_family_floors_role": "PROCESS_QUALITY_ONLY",
     "arbitrary_text_length_rules_decide_sports_candidate": false
   },
+  "bilateral_conjunction": {
+    "required": true,
+    "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
+    "independent_half_approval_required": true,
+    "no_compensation_between_halves": true,
+    "half_verdicts": ["NRFI_HALF_PASS","NRFI_HALF_ACCEPTABLE","NRFI_HALF_UNCERTAIN","NRFI_HALF_FAIL"],
+    "nrfi_lean_requires": ["TOP=NRFI_HALF_PASS","BOTTOM=NRFI_HALF_PASS"],
+    "acceptable_is_pass": false,
+    "uncertain_is_pass": false,
+    "one_dominant_pitcher_may_compensate_other_half": false,
+    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","rationale"],
+    "each_half_requires_own_current_run_evidence": true,
+    "half_pass_requires_data_quality": "SUFFICIENT",
+    "central_nrfi_case_requires": {"joint_condition":"TOP_AND_BOTTOM","no_compensation":true},
+    "legacy_nrfi_lean_without_two_half_passes": "REQUIRES_BILATERAL_REEVALUATION"
+  },
   "sports_status": {
-    "values": ["SPORTS_CANDIDATE", "NO_PLAY", "WATCHLIST", "AUDIT_ONLY"],
-    "sports_candidate": "NRFI_LEAN_WITH_CURRENT_RUN_GAME_DATA",
+    "values": ["SPORTS_CANDIDATE","NO_PLAY","WATCHLIST","AUDIT_ONLY"],
+    "sports_candidate": "NRFI_LEAN_WITH_CURRENT_RUN_GAME_DATA_AND_TWO_INDEPENDENT_HALF_PASSES",
     "no_play": "SPORTS_REJECTION_OR_YRFI_LEAN_WITH_CURRENT_RUN_GAME_DATA",
-    "watchlist": "NO_FINAL_DATA_SUPPORTED_SPORTS_VERDICT_YET",
+    "watchlist": "NO_FINAL_DATA_SUPPORTED_SPORTS_VERDICT_OR_BILATERAL_PROOF_NOT_COMPLETE",
     "audit_only": "PREGAME_WINDOW_NOT_AVAILABLE"
+  },
+  "sports_reasoning": {
+    "bilateral_first_inning_required": true,
+    "bilateral_independent_approval_required": true,
+    "central_nrfi_case_required": true,
+    "central_nrfi_case_joint_condition": "TOP_AND_BOTTOM",
+    "central_nrfi_case_no_compensation": true,
+    "best_yrfi_rival_required": true,
+    "strongest_counterevidence_required": true,
+    "causal_clusters_required": true,
+    "dominant_factor_required": true,
+    "falsification_required_against": ["NRFI","YRFI"],
+    "what_would_change_required": true,
+    "current_run_game_data_required": true,
+    "no_metric_voting": true,
+    "no_score_sum_as_sports_decision": true
   },
   "selective_conclusion": {
     "required": true,
@@ -74,57 +107,22 @@
     "ranking_owner": "CHATGPT_CAUSAL_ANALYST",
     "kernel_may_rank_by_metric_score": false,
     "metric_scoring_as_shortlist_decision": "FORBIDDEN",
-    "required_primary_fields": [
-      "rank",
-      "game_id",
-      "central_argument",
-      "dominant_suppression_mechanism",
-      "strongest_risk",
-      "why_it_survives_risk",
-      "why_above_next_best",
-      "current_run_evidence_ids"
-    ],
-    "required_optional_third_fields": [
-      "rank_3",
-      "game_id",
-      "central_argument",
-      "why_third_is_worth_including",
-      "why_not_primary_two",
-      "current_run_evidence_ids"
-    ],
-    "every_unselected_sports_candidate_requires": [
-      "why_not_top_two",
-      "material_weakness_vs_selected"
-    ],
+    "required_primary_fields": ["rank","game_id","central_argument","dominant_suppression_mechanism","strongest_risk","why_it_survives_risk","why_above_next_best","current_run_evidence_ids"],
+    "required_optional_third_fields": ["rank_3","game_id","central_argument","why_third_is_worth_including","why_not_primary_two","current_run_evidence_ids"],
+    "every_unselected_sports_candidate_requires": ["why_not_top_two","material_weakness_vs_selected"],
     "comparative_conclusion_required": true,
-    "report_must_distinguish": [
-      "sports_candidate_pool_count",
-      "sports_shortlist_count",
-      "execution_candidate_count"
-    ]
+    "report_must_distinguish": ["sports_candidate_pool_count","sports_shortlist_count","execution_candidate_count"]
   },
   "process_status": {
-    "values": ["VERIFIED", "FAIL", "REVIEW", "UNVERIFIED", "INCOMPLETE", "MISSING", "PENDING", "NOT_APPLICABLE"],
+    "values": ["VERIFIED","FAIL","REVIEW","UNVERIFIED","INCOMPLETE","MISSING","PENDING","NOT_APPLICABLE"],
     "may_block_execution": true,
     "may_change_sports_verdict": false
   },
   "execution_status": {
-    "values": ["EXECUTABLE", "TECHNICAL_BLOCK", "PROCESS_BLOCK", "PENDING", "NOT_APPLICABLE", "WATCHLIST", "AUDIT_ONLY"],
+    "values": ["EXECUTABLE","TECHNICAL_BLOCK","PROCESS_BLOCK","PENDING","NOT_APPLICABLE","WATCHLIST","AUDIT_ONLY"],
     "executable_requires_real_authority": true,
-    "technical_or_process_block_is_not_sports_rejection": true
-  },
-  "sports_reasoning": {
-    "bilateral_first_inning_required": true,
-    "central_nrfi_case_required": true,
-    "best_yrfi_rival_required": true,
-    "strongest_counterevidence_required": true,
-    "causal_clusters_required": true,
-    "dominant_factor_required": true,
-    "falsification_required_against": ["NRFI", "YRFI"],
-    "what_would_change_required": true,
-    "current_run_game_data_required": true,
-    "no_metric_voting": true,
-    "no_score_sum_as_sports_decision": true
+    "technical_or_process_block_is_not_sports_rejection": true,
+    "bilateral_proof_required_before_execution": true
   },
   "zero_candidate_rule": {
     "zero_sports_candidates_as_process_outcome": "FORBIDDEN",
@@ -132,19 +130,20 @@
     "zero_sports_candidates_with_unresolved_watchlist": "INCOMPLETE_NOT_ZERO",
     "zero_sports_candidates_valid_only_when": "EVERY_NON_AUDIT_GAME_IS_DATA_DRIVEN_SPORTS_NO_PLAY",
     "required_final_status": "ZERO_SPORTS_CANDIDATES_BY_DATA",
-    "required_burden_per_rejected_game": [
-      "data_reason",
-      "nrfi_case_rejected_because",
-      "yrfi_or_no_play_mechanism",
-      "what_would_reverse",
-      "current_run_evidence_ids"
-    ]
+    "required_burden_per_rejected_game": ["data_reason","nrfi_case_rejected_because","yrfi_or_no_play_mechanism","what_would_reverse","current_run_evidence_ids"]
   },
   "research_fallback": {
     "diagnostic_trusted_may_support_research_only_a4_a6": true,
     "may_issue_a7_release": false,
     "may_execute_a8": false,
     "real_money_still_requires_active_trusted_and_certified_components": true
+  },
+  "legacy_bilateral_review": {
+    "table": "public.nrfi_bilateral_legacy_review",
+    "unproven_legacy_nrfi_lean_status": "REQUIRES_BILATERAL_REEVALUATION",
+    "game_status_view_behavior": "WATCHLIST_UNTIL_REEVALUATED",
+    "explicit_forensic_cases": ["20260819-SEA-MIL","20260819-WSH-TEX"],
+    "historical_packets_are_not_rewritten": true
   },
   "hard_truth_rules": [
     "NEW_INVOCATION_NEW_RUN",
@@ -160,13 +159,19 @@
     "THIRD_SPORTS_CANDIDATE_MUST_BE_EXCEPTIONALLY_JUSTIFIED",
     "EVERY_EXCLUDED_SPORTS_CANDIDATE_REQUIRES_RELATIVE_CAUSAL_REASON",
     "NO_METRIC_SCORE_AS_SHORTLIST_SELECTOR",
+    "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
+    "NO_CROSS_HALF_COMPENSATION",
+    "NO_NRFI_LEAN_UNLESS_BOTH_HALVES_PASS_INDEPENDENTLY",
+    "ACCEPTABLE_OR_UNCERTAIN_HALF_FORBIDS_NRFI_LEAN",
+    "LEGACY_NRFI_WITHOUT_TWO_HALF_PASSES_REQUIRES_REEVALUATION",
     "NO_MARKET_BEFORE_A8",
     "NO_REAL_MONEY_WITHOUT_REAL_AUTHORITY"
   ],
   "runtime": {
-    "database_migrations_required_through": 32,
+    "database_migrations_required_through": 46,
     "game_status_view": "public.nrfimetrica_game_dual_status",
     "sports_shortlist_table": "public.nrfimetrica_sports_shortlists",
+    "bilateral_legacy_review_table": "public.nrfi_bilateral_legacy_review",
     "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2",
     "run_api": "api/index.py",
     "research_chain_api": "api/research.py",
