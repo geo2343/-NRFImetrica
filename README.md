@@ -2,7 +2,7 @@
 
 Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 
-## Autoridad vigente en validación
+## Autoridad activa
 
 - `SYSTEM_VERSION = NRFIM MOTHER V3`
 - `AGENT_VERSION = MOTHER-V3-AGENT-1.10`
@@ -10,11 +10,11 @@ Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
 - `MOTHER_DOCUMENT_SHA256 = d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3`
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones de repositorio requeridas hasta `055`
+- migraciones de repositorio requeridas hasta `056`
 
 La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia y límites de autoridad; no suma métricas ni sustituye al analista.
 
-## Principio nuevo: calibrar el sistema != calibrar el partido
+## Principio soberano: calibrar el sistema != calibrar el partido
 
 La probabilidad deportiva de un juego pertenece al juego actual:
 
@@ -40,15 +40,13 @@ Drive ID: `1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE`
 
 ## Orden de análisis
 
-La arquitectura queda:
-
 `razonamiento causal individual → análisis bilateral → matchup secuencial → falsación adversarial → incertidumbre específica del partido → GAME_CAUSAL_P / Sports Seal → auditoría histórica externa del sistema`
 
 La historia audita a `@NRFImetrica`; no obliga al juego de hoy a parecerse al promedio de ayer.
 
 ## Incertidumbre y robust edge
 
-Se conserva el campo `p_conservative` por compatibilidad de contrato, pero su significado cambia de forma soberana:
+Se conserva `p_conservative` por compatibilidad de contrato, pero su significado es ahora exclusivamente:
 
 `p_conservative = límite inferior de incertidumbre específica del partido`
 
@@ -56,45 +54,30 @@ Fuente obligatoria:
 
 `GAME_SPECIFIC_STRESS_TEST_ONLY`
 
-No puede proceder de calibración histórica. Puede reflejar perturbaciones plausibles del juego actual: lineup, scratches, velocidad/comando/release del abridor, estado físico, compatibilidad bateador-arsenal, BB/HBP, viento, roof, clima y otros cambios causalmente propios del encuentro.
-
-Por tanto:
+No puede proceder de calibración histórica. Puede reflejar lineup, scratches, velocidad/comando/release del abridor, estado físico, compatibilidad bateador-arsenal, BB/HBP, viento, roof, clima y otras perturbaciones causalmente propias del encuentro.
 
 `ROBUST_EDGE = GAME_SPECIFIC_LOWER_BOUND - MARKET_BREAK_EVEN`
 
-La historia no participa en ese límite.
+La historia no participa en ese lower bound.
 
 ## Auditoría histórica del sistema
 
-Objetos físicos nuevos:
+Objetos físicos:
 
 - `public.nrfimetrica_system_calibration_audits`
 - `public.nrfimetrica_calibration_observations`
 
-La auditoría puede utilizar, fuera del núcleo deportivo individual:
-
-- Brier Score;
-- Log Loss;
-- reliability curve;
-- calibration slope/intercept;
-- walk-forward validation;
-- sealed temporal holdout;
-- baseline comparison;
-- ablation;
-- drift;
-- diagnóstico de overconfidence / underconfidence.
+Puede utilizar Brier Score, Log Loss, reliability curve, calibration slope/intercept, walk-forward validation, sealed temporal holdout, baseline comparison, ablation, drift y diagnóstico de overconfidence/underconfidence. Son auditoría del sistema, no votos del partido.
 
 La calibración debe ser jerárquica/contextual cuando la muestra lo permita. No existe calibración universal con derecho a homologar partidos heterogéneos.
 
 ## Bilateralidad NRFI
 
-NRFI continúa siendo una conjunción:
+NRFI continúa siendo:
 
 `TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`
 
-No existe compensación entre medias entradas. Un abridor dominante no puede borrar una ruta material de carrera en la otra mitad.
-
-La primera entrada se estudia como secuencia causal: abridor actual, arsenal/command, top order, B1-B4, platoon y matchup, tráfico, poder, parque/entorno y rutas concretas de materialización.
+No existe compensación entre medias entradas. La primera entrada se estudia como secuencia causal: abridor actual, arsenal/command, top order, B1-B4, platoon/matchup, tráfico, poder, parque/entorno y rutas concretas de materialización.
 
 ## SPORTS_STATUS
 
@@ -107,13 +90,7 @@ Un problema de proceso, calibración o ejecución puede bloquear dinero real, pe
 
 ## Shortlist
 
-El pool bruto no es la conclusión final. El sistema discrimina causalmente hasta:
-
-1. candidato principal #1;
-2. candidato principal #2;
-3. tercero opcional únicamente si existe justificación excepcional.
-
-No se usa score aditivo para decidir la shortlist.
+El pool bruto no es la conclusión final. El sistema discrimina causalmente hasta dos candidatos principales y un tercero opcional excepcional. No se usa score aditivo para decidir la shortlist.
 
 ## Clean Room
 
@@ -123,43 +100,38 @@ Cada invocación nueva exige:
 
 No se reutilizan conclusiones deportivas previas como evidencia del juego actual.
 
-## Enforcement de calibración
+## Enforcement
 
-Función activa:
+A7 está gobernado por:
 
 `public.nrfim_enforce_calibration_separation_v15()`
 
-A7 exige:
+Exige `game_probability_source=A5_GAME_CAUSAL_ONLY`, `eligibility_basis=GAME_CAUSAL_ONLY`, `calibration_role=SYSTEM_AUDIT_ONLY`, cero autoridad deportiva/ranking/probabilidad de la calibración, `historical_calibration_used=false` y lower bounds del `GAME_SPECIFIC_STRESS_TEST`.
 
-- `game_probability_source=A5_GAME_CAUSAL_ONLY`;
-- `eligibility_basis=GAME_CAUSAL_ONLY`;
-- `calibration_role=SYSTEM_AUDIT_ONLY`;
-- cero autoridad deportiva/ranking/probabilidad de la calibración;
-- `historical_calibration_used=false` en incertidumbre del juego;
-- límites conservadores derivados de `GAME_SPECIFIC_STRESS_TEST`.
+A8 tiene además una segunda barrera independiente:
 
-A8 exige:
+`public.nrfim_assert_game_specific_conservative_probability()`
 
-- `market.p_conservative_source=GAME_SPECIFIC_UNCERTAINTY_ONLY`;
-- igualdad exacta con el lower bound específico del juego generado en A7;
-- robust edge/EV derivados de ese lower bound;
-- bloqueo explícito de `calibrated_p` o `historical_adjusted_p` como probabilidad del partido.
+Exige `market.p_conservative_source=GAME_SPECIFIC_UNCERTAINTY_ONLY`, igualdad exacta con el lower bound del juego y bloquea cualquier `historical_adjusted_p` o equivalente.
 
 ## Pruebas adversariales ejecutadas
 
-- A7 limpio con calibración `SYSTEM_AUDIT_ONLY` → `ACCEPTED`.
-- introducir `contract_calibration.u0_5.calibrated_p` → `A7_HISTORICAL_GAME_PROBABILITY_OVERRIDE_FORBIDDEN`.
-- intentar otorgar `sports_authority=true` a una certificación → `NRFIM_CALIBRATION_MUST_BE_SYSTEM_AUDIT_ONLY`.
-- intentar que una auditoría histórica produzca efecto deportivo → bloqueado por constraint de base de datos.
+- A7 limpio `SYSTEM_AUDIT_ONLY` → `ACCEPTED`.
+- `contract_calibration.u0_5.calibrated_p` → bloqueado con `A7_HISTORICAL_GAME_PROBABILITY_OVERRIDE_FORBIDDEN`.
+- certificación con `sports_authority=true` → bloqueada con `NRFIM_CALIBRATION_MUST_BE_SYSTEM_AUDIT_ONLY`.
+- auditoría histórica intentando efecto deportivo → bloqueada por constraint.
+- A8 lower bound actual + fuente actual → `ACCEPTED`.
+- A8 fuente `HISTORICAL_CALIBRATION` → bloqueada con `A8_P_CONSERVATIVE_SOURCE_MUST_BE_GAME_SPECIFIC`.
+- A8 valor distinto al stress-test lower bound → bloqueado con `A8_P_CONSERVATIVE_NOT_FROM_GAME_SPECIFIC_UNCERTAINTY`.
+- A8 `historical_adjusted_p` → bloqueado con `A8_HISTORICAL_GAME_PROBABILITY_OVERRIDE_FORBIDDEN`.
 
-No existía ningún A7 histórico con `release_token=ISSUED`, por lo que la prueba de A8 se mantiene separada de cualquier falsa afirmación de una certificación económica histórica inexistente.
+No existía ningún A7 histórico con `release_token=ISSUED`; por eso la validación de la regla A8 se hizo sobre la función de aserción que ejecuta el trigger real, sin fabricar una corrida económica histórica inexistente.
 
 ## Migraciones recientes
 
-- `053_reconcile_deployed_semantic_custody_runtime.sql`: marcador fail-fast para eliminar la divergencia histórica GitHub/Supabase sin fingir que reconstruye statements que no estaban versionados.
-- `054_calibrate_system_not_game.sql`: separación física entre análisis del partido y auditoría histórica del sistema.
-- `055_fix_calibration_separation_digest_search_path.sql`: corrección del search path de `digest` descubierta por prueba adversarial.
-
-La doctrina final es simple:
+- `053_reconcile_deployed_semantic_custody_runtime.sql`: marcador fail-fast de la divergencia histórica GitHub/Supabase.
+- `054_calibrate_system_not_game.sql`: separación física entre partido y auditoría histórica.
+- `055_fix_calibration_separation_digest_search_path.sql`: corrección del search path descubierta adversarialmente.
+- `056_enforce_a8_game_specific_uncertainty_only.sql`: aserción independiente de que A8 usa exclusivamente incertidumbre del juego actual.
 
 **El partido se analiza. El sistema se calibra.**
