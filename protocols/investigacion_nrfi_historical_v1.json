@@ -1,0 +1,110 @@
+{
+  "protocol_id": "INVESTIGACION_NRFI_HISTORICAL_V1",
+  "system_version": "INVESTIGACION-NRFI-HISTORICAL-V1.0",
+  "kernel_version": "INVESTIGACION-NRFI-KERNEL-0.1-CONNECTED",
+  "agent_id": "@investigacionNRFI",
+  "scope": "HISTORICAL_MLB_FIRST_INNING_EVIDENCE_PLATFORM",
+  "execution_evidence_standard": "E1",
+  "phases": [
+    {
+      "phase_id": "F1_FORENSIC_CAPTURE",
+      "prerequisites": [],
+      "required_fields": [
+        "universe.expected_finalized_game_count",
+        "universe.accounted_game_count",
+        "identity_integrity",
+        "temporal_lane_integrity"
+      ],
+      "required_receipt": true
+    },
+    {
+      "phase_id": "F2_DEEP_RECONSTRUCTION",
+      "prerequisites": ["F1_FORENSIC_CAPTURE"],
+      "required_fields": [
+        "reconstruction.processed_game_count",
+        "reconstruction.first_inning_integrity",
+        "reconstruction.exact_event_sequence_preserved"
+      ],
+      "required_receipt": true
+    },
+    {
+      "phase_id": "F3_FEATURE_FACTORY",
+      "prerequisites": ["F1_FORENSIC_CAPTURE", "F2_DEEP_RECONSTRUCTION"],
+      "required_fields": [
+        "feature_registry.version",
+        "feature_registry.lineage_status",
+        "feature_registry.coverage_state_status"
+      ],
+      "required_receipt": true
+    },
+    {
+      "phase_id": "F4_HISTORICAL_PRESS_RELIABILITY",
+      "prerequisites": ["F1_FORENSIC_CAPTURE", "F2_DEEP_RECONSTRUCTION", "F3_FEATURE_FACTORY"],
+      "required_fields": [
+        "reliability.status",
+        "human_information_lane_status",
+        "mechanism_sequence_integrity"
+      ],
+      "required_receipt": true
+    },
+    {
+      "phase_id": "F5_QUERYABLE_INTELLIGENCE",
+      "prerequisites": ["F1_FORENSIC_CAPTURE", "F2_DEEP_RECONSTRUCTION", "F3_FEATURE_FACTORY", "F4_HISTORICAL_PRESS_RELIABILITY"],
+      "required_fields": [
+        "query_engine.status",
+        "query_engine.as_of_future_game_count",
+        "evidence_packet.status"
+      ],
+      "required_receipt": true
+    }
+  ],
+  "receipt_required_fields": [
+    "PHASE_ID",
+    "START_AS_OF",
+    "END_AS_OF",
+    "INPUT_OBJECTS",
+    "OPERATIONS_PERFORMED",
+    "OUTPUT_OBJECTS",
+    "SOURCES_OR_EVIDENCE",
+    "AUDITOR_RESULT",
+    "NEXT_PHASE"
+  ],
+  "temporal_lanes": [
+    "PREGAME_EVIDENCE",
+    "POSTGAME_EXPLANATORY_EVIDENCE",
+    "NOT_APPLICABLE"
+  ],
+  "epistemic_lanes": [
+    "OBSERVED",
+    "DERIVED",
+    "HUMAN_INFORMATION"
+  ],
+  "forbidden_output_keys": [
+    "pick",
+    "stake",
+    "ev",
+    "sportsbook",
+    "odds",
+    "bet_recommendation",
+    "authoritative_nrfi_probability",
+    "metric_score_decision"
+  ],
+  "daily_close_requires": [
+    "F1_FORENSIC_CAPTURE",
+    "F2_DEEP_RECONSTRUCTION",
+    "F3_FEATURE_FACTORY",
+    "F4_HISTORICAL_PRESS_RELIABILITY",
+    "F5_QUERYABLE_INTELLIGENCE",
+    "MANDATORY_PHASES_NOT_RUN_NONE",
+    "DAILY_UNIVERSE_ACCOUNTING_PASS",
+    "TEMPORAL_INTEGRITY_PASS",
+    "EVIDENCE_TRACE_PASS",
+    "DRIVE_APPEND_VERIFIED"
+  ],
+  "volume_policy": {
+    "single_open_volume": true,
+    "single_living_google_doc_per_volume": true,
+    "rollover_requires_user_authorization": true,
+    "closed_volume_normal_append_forbidden": true
+  }
+}
