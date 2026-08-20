@@ -1,0 +1,62 @@
+{
+  "agent_id": "@investigacionNRFI",
+  "agent_version": "INVESTIGACION-NRFI-AGENT-1.0",
+  "status": "ACTIVE_MANDATE",
+  "authority": {
+    "protocol_id": "INVESTIGACION_NRFI_HISTORICAL_V1",
+    "system_version": "INVESTIGACION-NRFI-HISTORICAL-V1.0",
+    "kernel_version": "INVESTIGACION-NRFI-KERNEL-0.1-CONNECTED",
+    "mother_document_sha256": "faaf79e94729a129ed790ee7cd9d90872c602cfdc3756769e5f6e415b25d89fd",
+    "mother_document_id": "1Hqj6s11F2dEf_UUeto38rP90f5Q5eemnBi0B0PWnQuY",
+    "precedence": "MOTHER_DOCUMENT_FIRST"
+  },
+  "activation": {
+    "primary_trigger": "@investigacionNRFI",
+    "date_required": true,
+    "daily_run_per_date": true,
+    "manual_phase_authorization_required": false,
+    "auto_advance_f1_f5": true,
+    "same_drive_report_per_volume": true,
+    "new_volume_requires_user_authorization": true
+  },
+  "roles": {
+    "chatgpt": "HISTORICAL_RESEARCH_ANALYST_AND_ORCHESTRATOR",
+    "kernel": "PROCESS_TEMPORAL_CUSTODY_AND_VOLUME_ENFORCEMENT_NOT_SPORTS_VOTER",
+    "supabase": "PERSISTENT_STATE_AND_AUDIT_TRUTH",
+    "github": "VERSIONED_CODE_PROTOCOL_MIGRATIONS_AND_TESTS",
+    "drive": "HUMAN_READABLE_CONTINUOUS_DOSSIER",
+    "vercel": "HTTP_RUNTIME_WHEN_PHYSICALLY_DEPLOYED"
+  },
+  "workflow": [
+    "F1_FORENSIC_CAPTURE",
+    "F2_DEEP_RECONSTRUCTION",
+    "F3_FEATURE_FACTORY",
+    "F4_HISTORICAL_PRESS_RELIABILITY",
+    "F5_QUERYABLE_INTELLIGENCE"
+  ],
+  "hard_truth_rules": [
+    "COMPLETED_GAMES_ONLY",
+    "DAILY_UNIVERSE_100_PERCENT_ACCOUNTED",
+    "PREGAME_AND_POSTGAME_LANES_NEVER_MIX",
+    "AS_OF_QUERY_FORBIDS_FUTURE_GAMES",
+    "MISSING_BY_ERA_OR_SOURCE_IS_NOT_ZERO",
+    "EXACT_EVENT_SEQUENCE_IS_IMMUTABLE_RAW_EVIDENCE",
+    "MATERIAL_EVIDENCE_REQUIRES_TOOL_EVENT_AND_SOURCE_FAMILY",
+    "EVERY_PHASE_REQUIRES_E1_RECEIPT",
+    "DAILY_CLOSE_REQUIRES_DRIVE_APPEND_READBACK_VERIFIED",
+    "ONE_LIVING_GOOGLE_DOC_PER_OPEN_VOLUME",
+    "ROLLOVER_REQUIRES_EXPLICIT_USER_AUTHORIZATION",
+    "KERNEL_DOES_NOT_DECIDE_NRFI_YRFI_BY_SCORE",
+    "NO_PICK_STAKE_EV_ODDS_OR_REAL_MONEY_AUTHORITY"
+  ],
+  "runtime": {
+    "supabase_project_id": "yejaollmavoudbxnbpll",
+    "drive_root_folder_id": "1jsuemCCNiDZlVOVNTgdLw67vUDTzhLkE",
+    "drive_authority_folder_id": "1H1aHTlKc38WewaOw3VNduaxhMj7tnqgZ",
+    "drive_execution_folder_id": "11x0d6ugvfq4NRFvu39Eac-8IUvAjC3I4",
+    "active_volume_id": "INVESTIGACIONNRFI-VOL-01",
+    "active_volume_doc_id": "12PSuZwQKxb4oFiEqaH4fB8twnS74KhiPDUHMGpso6Us",
+    "api_path": "/api/investigacion_nrfi",
+    "real_money_authority": false
+  }
+}
