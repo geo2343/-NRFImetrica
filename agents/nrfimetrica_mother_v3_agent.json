@@ -6,7 +6,8 @@
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
     "kernel_version": "NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION",
-    "mother_document_sha256": "d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3",
+    "mother_document_sha256": "391fbdfdf78965f9454307267f7e3d048abc7ccb4329e29870ad58aeabcb55f1",
+    "mother_export_lines": 21236,
     "calibration_separation_amendment_drive_id": "1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE",
     "precedence": "CALIBRATION_SEPARATION_AMENDMENT_OVER_LEGACY_A7_CALIBRATED_P_SEMANTICS"
   },
@@ -113,10 +114,11 @@
     "a8_historical_source": "BLOCKED_AS_REQUIRED",
     "a8_wrong_bound": "BLOCKED_AS_REQUIRED",
     "a8_historical_adjustment": "BLOCKED_AS_REQUIRED",
-    "active_calibration_certifications": 0
+    "active_calibration_certifications": 0,
+    "mother_hash_refresh": "PASS"
   },
   "runtime": {
-    "database_migrations_required_through": 56,
+    "database_migrations_required_through": 57,
     "game_status_view": "public.nrfimetrica_game_dual_status",
     "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
     "calibration_guard": "public.nrfim_enforce_calibration_separation_v15",
