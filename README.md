@@ -2,20 +2,20 @@
 
 Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 
-## Autoridad en validación
+## Autoridad vigente
 
 - `SYSTEM_VERSION = NRFIM MOTHER V3`
 - `AGENT_VERSION = MOTHER-V3-AGENT-1.11`
 - `KERNEL_VERSION = NRFIM-KERNEL-1.6-PREANALYSIS-COGNITIVE-GUARD`
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
 - `MOTHER_DOCUMENT_SHA256 = 44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8`
-- `STATUS = DISABLED` hasta cerrar la regresión y auditoría final.
+- `STATUS = ACTIVE`
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones de repositorio requeridas hasta `061` antes de la activación final.
+- migraciones requeridas hasta `066`.
 
 La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia, temporalidad y límites de autoridad; no suma métricas ni sustituye al analista.
 
-## A0P — reporte externo antes del análisis
+## A0P — información externa antes del análisis
 
 `A0 → A0P_PRESS_INFORMATION_INTAKE → A1 → A2 → A3 → A4 → A5 → A6 → A7 → A8`
 
@@ -29,66 +29,57 @@ Si existe un paquete limpio de Prensa, entra únicamente como `INFORMATION_FOR_A
 - `MARKET_AUTHORITY = NONE`
 - `CONCLUSION_AUTHORITY = NONE`
 
-Si no existe paquete, A0P puede cerrar `SKIPPED_NOT_TRIGGERED` y Métrica continúa autónomamente.
-
-Picks, odds, consenso, ranking, probabilidad externa, edge/EV, recomendaciones y veredictos externos quedan fuera del intake limpio. Cada item debe formular una `MATERIALITY_QUESTION` y terminar con una disposición explícita de Métrica. Un delta material obliga a reconstrucción causal desde la fase propietaria; nunca permite override externo del Sports Verdict.
+Si no existe paquete, A0P puede cerrar `SKIPPED_NOT_TRIGGERED` y Métrica continúa autónomamente. Cada item recibido necesita `MATERIALITY_QUESTION` y disposición explícita de Métrica. Un delta material obliga a reconstrucción causal desde la fase propietaria; nunca permite override externo del Sports Verdict.
 
 ## Constitución cognitiva
 
 `THE PROTOCOL DEFINES THE FLOOR OF COVERAGE, NOT THE CEILING OF ANALYSIS.`
 
-El contrato `COGNITIVE-1.0` exige:
-
-- representación provisional y revisable;
-- preguntas autónomas ante fricción material;
-- TOP 1ST y BOTTOM 1ST analizados independientemente;
-- causal bottleneck por media entrada;
-- compresión epistemológica de métricas correlacionadas;
-- mejor rival YRFI respaldado, no colección ilimitada de miedos;
-- second-pass review;
-- directional-bias check sin fabricar balance artificial;
-- semantic reclassification cuando cambia el significado de evidencia anterior;
-- posibilidad != materialización;
-- importancia != confianza.
+`COGNITIVE-1.0` exige representación provisional revisable, preguntas autónomas ante fricción material, análisis bilateral independiente, causal bottleneck por media entrada, compresión epistemológica, mejor rival respaldado, second-pass review, directional-bias check y semantic reclassification. Posibilidad no equivale a materialización e importancia no equivale a confianza.
 
 ## Calibrar el sistema != calibrar el partido
 
 `GAME_CAUSAL_P = A5_GAME_CAUSAL_ONLY`.
 
-La historia no reemplaza la probabilidad del juego. `SYSTEM_RELIABILITY_AUDIT` puede detectar `RELIABLE`, `OVERCONFIDENT`, `UNDERCONFIDENT`, `MIXED`, `INSUFFICIENT_SAMPLE`, `DRIFT_DETECTED` o `NOT_AVAILABLE`, pero siempre mantiene:
+`SYSTEM_RELIABILITY_AUDIT` puede detectar `RELIABLE`, `OVERCONFIDENT`, `UNDERCONFIDENT`, `MIXED`, `INSUFFICIENT_SAMPLE`, `DRIFT_DETECTED` o `NOT_AVAILABLE`, pero siempre mantiene:
 
 - `SPORTS_EFFECT = NONE`
 - `RANKING_EFFECT = NONE`
 - `PROBABILITY_EFFECT = NONE`
 
-Su único efecto permitido sobre ejecución es `ALLOW / CONDITION / BLOCK` a nivel de confiabilidad del sistema.
-
-`p_conservative` significa el límite inferior de incertidumbre específica del juego y su fuente obligatoria es `GAME_SPECIFIC_STRESS_TEST_ONLY`. Dos juegos no se consideran equivalentes por compartir probabilidad, score, banda o perfil estadístico.
+La historia puede limitar autoridad económica del sistema mediante `ALLOW / CONDITION / BLOCK`; nunca cambia la probabilidad causal del juego. `p_conservative` procede únicamente de incertidumbre específica del partido mediante `GAME_SPECIFIC_STRESS_TEST`.
 
 ## A7 y A8
 
-A7 es ahora `SYSTEM RELIABILITY AUDIT + PRESS INTEGRATION AUDIT + ABSOLUTE ELIGIBILITY`.
+A7 = `SYSTEM RELIABILITY AUDIT + PRESS INTEGRATION AUDIT + ABSOLUTE ELIGIBILITY`.
 
-A7 no ve precio y no reformula el Sports Verdict. `REANALYSIS_REQUIRED=TRUE` bloquea `RELEASE_TOKEN=ISSUED` hasta una nueva versión causal del análisis.
+A7 no reformula el Sports Verdict. `REANALYSIS_REQUIRED=TRUE` bloquea `RELEASE_TOKEN=ISSUED` hasta una nueva versión causal.
 
-A8 abre el mercado por primera vez y utiliza `GAME_SPECIFIC_LOWER_BOUND` para robust edge. La fuente histórica está prohibida como probabilidad del partido.
+A8 abre mercado y valor por primera vez. La fuente histórica está prohibida como probabilidad del partido y el lower bound debe conservar linaje exacto desde `game_uncertainty`.
 
 ## Bilateralidad
 
-NRFI continúa siendo:
+`NRFI = TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`.
 
-`TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`
+No hay compensación entre medias entradas.
 
-No hay compensación entre medias entradas. Una mitad excelente nunca compensa una mitad que no pasa su análisis causal.
+## Reproducibilidad y validación
 
-## Reproducibilidad
-
-Migraciones nuevas:
+Reforma versionada:
 
 - `059_nrfimetrica_preanalysis_press_intake_v16.sql`
 - `060_nrfimetrica_cognitive_press_integration_v16.sql`
 - `061_nrfimetrica_agent_1_11_kernel_1_6_authority_reconcile.sql`
+- `062_nrfimetrica_a8_shared_assertion_layer.sql`
+- `063_nrfimetrica_security_and_guard_dedup.sql`
+- `064_nrfimetrica_a5_causal_language_alignment.sql`
+- `065_nrfimetrica_v16_runtime_reconcile_exact.sql`
+- `066_nrfimetrica_v16_activate_after_terminal_audit.sql`
 
-El Documento Madre, Supabase y GitHub deben compartir exactamente la identidad 1.11/1.6 y SHA-256 antes de activación. Notion se usa únicamente como fuente de consulta y no forma parte de las superficies autorizadas de escritura de esta reforma.
+Validación terminal: `10/10 PASS`. Seguridad: `SECURITY_DEFINER=0`, `MISSING_SAFE_SEARCH_PATH=0`, `CLIENT_EXECUTABLE_FUNCTIONS=0`; todas las tablas propias `nrfimetrica_%` tienen RLS y cero DML para `anon/authenticated`.
+
+Cinco resultados históricos `HARNESS_ERROR/22P02` se conservaron por trazabilidad; cada uno tiene su prueba corregida equivalente `PASS` y no representa un fallo del Kernel.
+
+Notion se usa únicamente como fuente de consulta en esta reforma. `@NRFIprensa` no fue modificado: Métrica solo quedó preparada para recibir información futura sin heredar autoridad decisional.
 
 **El partido se analiza. El sistema se calibra.**
