@@ -17,48 +17,56 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Adapt proven semantic builder to original run 2026-08-03
+      - name: Normalize complete slate with proven first-inning parser
         run: |
           python - <<'PY'
-          from pathlib import Path
-          src=Path('scripts/build_investigacion_nrfi_repair_20260801.py').read_text()
-          src=src.replace('INVNRFI-20260801-AMEND-A1','INVNRFI-20260803-ORIGINAL-A1')
-          src=src.replace('INVNRFI-20260801-f709b44c','NONE')
-          src=src.replace('2026-08-01','2026-08-03')
-          src=src.replace('20260801','20260803')
-          src=src.replace('CAPTURE_COMMIT = "a63b60ac9caec558a76fab5dd826172c0b15120b"','CAPTURE_COMMIT = "78f2440c24a168ed562a943d155c37a3a8af664c"')
-          src=src.replace('CAPTURED_AT = "2026-08-20T11:53:37Z"','CAPTURED_AT = "2026-08-20T14:42:42Z"')
-          src=src.replace('OUT = ROOT / "repair_a1"','OUT = ROOT / "original_a1"')
-          src=src.replace('if len(text) < 45000:','if len(text) < 0:')
-          Path('/tmp/build_investigacion_nrfi_20260803.py').write_text(src)
-          PY
-          python /tmp/build_investigacion_nrfi_20260803.py
-      - name: Build compact ingestion bundles and dynamic summary
-        run: |
-          python - <<'PY'
-          import json, pathlib
-          root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-03/original_a1')
-          raw=json.loads(pathlib.Path('artifacts/investigacion_nrfi/2026-08-03/first_inning_extract.json').read_text())
-          rawmap={str(x['game_pk']):x for x in raw}
-          manifest=json.loads(pathlib.Path('artifacts/investigacion_nrfi/2026-08-03/manifest.json').read_text())
-          out=root/'compact'; out.mkdir(exist_ok=True)
+          import importlib.util, json, pathlib
+          spec=importlib.util.spec_from_file_location('builder','scripts/build_investigacion_nrfi_repair_20260801.py')
+          b=importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
+          date='2026-08-03'
+          base=pathlib.Path('artifacts/investigacion_nrfi')/date
+          root=base/'original_a1'; norm=root/'normalized'; compact=root/'compact'
+          norm.mkdir(parents=True,exist_ok=True); compact.mkdir(parents=True,exist_ok=True)
+          raw=json.loads((base/'first_inning_extract.json').read_text())
+          manifest=json.loads((base/'manifest.json').read_text())
+          if len(raw)!=manifest['count']: raise SystemExit(f'RAW_COUNT_MISMATCH {len(raw)} {manifest["count"]}')
           rows=[]
-          for path in sorted((root/'normalized').glob('*.json')):
-              g=json.loads(path.read_text()); pk=str(g['game_pk']); rg=rawmap[pk]
+          def rotate_to_observed(lineup, observed_id):
+              if not lineup or not observed_id: return lineup
+              ids=[str(x.get('player_id')) for x in lineup]
+              if ids and ids[0]==str(observed_id): return lineup
+              if str(observed_id) in ids:
+                  i=ids.index(str(observed_id)); lineup=lineup[i:]+lineup[:i]
+                  for j,x in enumerate(lineup,1): x['slot']=j
+              return lineup
+          for rg in raw:
+              g=b.normalized_game(rg); pk=str(g['game_pk'])
+              top_pas=[x for x in g.get('plate_appearances',[]) if x.get('half')=='TOP']
+              bot_pas=[x for x in g.get('plate_appearances',[]) if x.get('half')=='BOTTOM']
+              if top_pas: g['away_lineup']=rotate_to_observed(g.get('away_lineup') or [], top_pas[0].get('batter_id'))
+              if bot_pas: g['home_lineup']=rotate_to_observed(g.get('home_lineup') or [], bot_pas[0].get('batter_id'))
+              # remap batter slots after adversarial lineup normalization
+              amap={str(x.get('player_id')):x.get('slot') for x in g.get('away_lineup',[])}
+              hmap={str(x.get('player_id')):x.get('slot') for x in g.get('home_lineup',[])}
+              for pa in g.get('plate_appearances',[]): pa['batter_slot']=(amap if pa.get('half')=='TOP' else hmap).get(str(pa.get('batter_id')))
+              for pe in g.get('pitch_events',[]): pe['batter_slot']=(amap if pe.get('half')=='TOP' else hmap).get(str(pe.get('batter_id')))
+              for half,key in [('TOP','away_lineup'),('BOTTOM','home_lineup')]:
+                  smap=amap if half=='TOP' else hmap
+                  for bat in (g.get('halves',{}).get(half,{}).get('batters') or []): bat['slot']=smap.get(str(bat.get('id')))
               fl=rg.get('final_linescore') or {}; teams=fl.get('teams') or {}
               g['final_score_away']=((teams.get('away') or {}).get('runs'))
               g['final_score_home']=((teams.get('home') or {}).get('runs'))
               g['final_status_text']=((rg.get('status') or {}).get('detailedState') or (rg.get('status') or {}).get('abstractGameState') or 'Final')
-              path.write_text(json.dumps(g,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+              (norm/f'{pk}.json').write_text(json.dumps(g,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
               def cp(p): return {k:p.get(k) for k in ('pa_id','pitch_number','half','pitcher_id','batter_id','batter_slot','balls_before','strikes_before','outs_before','score_before','pitch_type','release_speed','description','result','swing','whiff','contact','batted_ball_type','exit_velocity','launch_angle','event_time')}
               def ca(p): return {k:p.get(k) for k in ('pa_id','half','batter_id','batter_name','pitcher_id','pitcher_name','batter_slot','ordinal','outs_before','pitch_sequence','pitch_count','pa_result','reach_type','runs_scored','outs_after','transition')}
               keys=('game_pk','matchup','source_url','raw_sha256','scheduled_start_at','actual_first_pitch_at','venue_id','venue_name','away_team','home_team','away_starter_id','away_starter_name','home_starter_id','home_starter_name','away_catcher_id','home_catcher_id','away_lineup','home_lineup','weather','top_runs','bottom_runs','total_runs','halves','pitcher_process','final_score_away','final_score_home','final_status_text')
-              c={k:g.get(k) for k in keys}; c['plate_appearances']=[ca(x) for x in g['plate_appearances']]; c['pitch_events']=[cp(x) for x in g['pitch_events']]
+              c={k:g.get(k) for k in keys}; c['plate_appearances']=[ca(x) for x in g.get('plate_appearances',[])]; c['pitch_events']=[cp(x) for x in g.get('pitch_events',[])]
               text=json.dumps(c,ensure_ascii=False,separators=(',',':'))
               if len(text)>50000: raise SystemExit(f'COMPACT_TOO_LARGE {pk} {len(text)}')
-              (out/f'{pk}.json').write_text(text,encoding='utf-8')
-              rows.append({'game_pk':pk,'matchup':g.get('matchup'),'top_runs':g.get('top_runs'),'bottom_runs':g.get('bottom_runs'),'total_runs':g.get('total_runs'),'final_score_away':g.get('final_score_away'),'final_score_home':g.get('final_score_home'),'pa_count':len(g.get('plate_appearances') or []),'pitch_count':len(g.get('pitch_events') or []),'away_starter':g.get('away_starter_name'),'home_starter':g.get('home_starter_name')})
-          if len(rows)!=manifest['count']: raise SystemExit(f'GAME_COUNT_MISMATCH {len(rows)} {manifest["count"]}')
+              (compact/f'{pk}.json').write_text(text,encoding='utf-8')
+              rows.append({'game_pk':pk,'matchup':g.get('matchup'),'top_runs':g.get('top_runs'),'bottom_runs':g.get('bottom_runs'),'total_runs':g.get('total_runs'),'final_score_away':g.get('final_score_away'),'final_score_home':g.get('final_score_home'),'pa_count':len(g.get('plate_appearances') or []),'pitch_count':len(g.get('pitch_events') or []),'away_starter':g.get('away_starter_name'),'home_starter':g.get('home_starter_name'),'first_pitch':g.get('actual_first_pitch_at'),'venue':g.get('venue_name'),'away_lineup_count':len(g.get('away_lineup') or []),'home_lineup_count':len(g.get('home_lineup') or [])})
+          if len(rows)!=manifest['count']: raise SystemExit('NORMALIZED_COUNT_MISMATCH')
           summary={'run_id':'INVNRFI-20260803-ORIGINAL-A1','run_type':'ORIGINAL','game_count':len(rows),'capture_commit':'78f2440c24a168ed562a943d155c37a3a8af664c','captured_at':'2026-08-20T14:42:42Z','games':rows}
           (root/'summary_dynamic.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
           print(json.dumps(summary,ensure_ascii=False))
