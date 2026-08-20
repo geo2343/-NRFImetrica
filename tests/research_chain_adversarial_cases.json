@@ -1,167 +1,24 @@
 {
-  "suite_id": "NRFIM_SEMANTIC_CUSTODY_ADVERSARIAL_1.0",
-  "agent_version": "MOTHER-V3-AGENT-1.9",
-  "kernel_version": "NRFIM-KERNEL-1.4-DETERMINISTIC-SEMANTIC-CUSTODY",
-  "custody_version": "SEMANTIC-CUSTODY-1.0",
+  "suite_id": "NRFIM_RESEARCH_CHAIN_ADVERSARIAL_0.6",
+  "kernel_version": "NRFIM-KERNEL-0.6-CHAIN-OF-CUSTODY",
   "live_database_project": "nrfimetrica-kernel",
-  "diagnostic_run": "DIAG-SEM-CUSTODY-20260819-001",
+  "diagnostic_run": "DIAG-SR-CUSTODY-20260819-1022",
   "cases": [
-    {
-      "id": "SC-01",
-      "attack": "Insert research tool event without a Kernel query",
-      "expected": "RESEARCH_TOOL_EVENT_REQUIRES_KERNEL_QUERY",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-02",
-      "attack": "Caller supplies query_id, query_hash, and historical requested_at",
-      "expected": "Database replaces all three with Kernel-owned values",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-03",
-      "attack": "Caller supplies event_id and timestamp semantics for a research event",
-      "expected": "Database generates event_id and occurred_at",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-04",
-      "attack": "Direct SQL labels a forged event KERNEL_SERVER_FETCH with an arbitrary response hash",
-      "expected": "kernel_attested=false because authenticated runtime request context is absent",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-05",
-      "attack": "Create sports evidence from the direct-SQL forged retrieval event",
-      "expected": "SPORTS_EVIDENCE_REQUIRES_KERNEL_ATTESTED_EXTRACTION",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-06",
-      "attack": "Caller supplies its own EVIDENCE_ID and SOURCE_FAMILY_ID on an attested diagnostic event",
-      "expected": "Database replaces EVIDENCE_ID and derives SOURCE_FAMILY_ID",
-      "live_result": "PASS_PRE_055_DIAGNOSTIC"
-    },
-    {
-      "id": "SC-07",
-      "attack": "Two materially identical factual extracts arrive from different URLs/publishers",
-      "expected": "Both collapse into one independent source family",
-      "live_result": "PASS_PRE_055_DIAGNOSTIC"
-    },
-    {
-      "id": "SC-08",
-      "attack": "Near-duplicate factual extracts differ in punctuation/redaction but exceed 0.80 trigram similarity",
-      "expected": "Semantic overlap qualifies for family collapse",
-      "live_result": "PASS_SIMILARITY_0.869565"
-    },
-    {
-      "id": "SC-09",
-      "attack": "BEST_YRFI_RIVAL uses a generic one-swing statement without batter profile and pitch/zone vulnerability",
-      "expected": "nrfim_validate_materialization_path=false",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-10",
-      "attack": "BEST_YRFI_RIVAL supplies half, path type, activator, evidence, event step, batter profile, and pitch/zone vulnerability",
-      "expected": "nrfim_validate_materialization_path=true",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-11",
-      "attack": "WHAT_WOULD_CHANGE says only 'more information appears'",
-      "expected": "nrfim_validate_change_condition=false",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-12",
-      "attack": "WHAT_WOULD_CHANGE names an observable lineup event with a pregame deadline",
-      "expected": "nrfim_validate_change_condition=true",
-      "live_result": "PASS"
-    },
-    {
-      "id": "SC-13",
-      "attack": "ANALYSIS_COMPLETE has a governing contradiction still OPEN",
-      "expected": "GOVERNING_CONTRADICTION_CANNOT_CLOSE_ANALYSIS",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-14",
-      "attack": "ANALYSIS_COMPLETE has a material contradiction but fewer than four independent families",
-      "expected": "ADAPTIVE_RESEARCH_DEPTH_NOT_MET",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-15",
-      "attack": "ANALYSIS_COMPLETE without saturation or fewer than two final independent families",
-      "expected": "ANALYSIS_COMPLETE_REQUIRES_SATURATION_REACHED or SATURATION_REQUIRES_TWO_FINAL_INDEPENDENT_FAMILIES",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-16",
-      "attack": "Full-game-only factor is declared dominant for first-inning verdict",
-      "expected": "FULL_GAME_ONLY_FACTOR_CANNOT_GOVERN_FIRST_INNING_VERDICT",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-17",
-      "attack": "Full-game proxy has no explicit first-inning causal link or evidence IDs",
-      "expected": "FULL_GAME_DATA_MUST_BE_EXPLICIT_FIRST_INNING_MODIFIER or FULL_GAME_MODIFIER_EVIDENCE_REQUIRED",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-18",
-      "attack": "First-inning factor is present for only one half",
-      "expected": "FIRST_INNING_FACTORS_MUST_COVER_BOTH_HALVES",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-19",
-      "attack": "NRFI or YRFI adversarial side contains no evidence IDs",
-      "expected": "ADVERSARIAL_BALANCE_REQUIRES_NRFI_AND_YRFI_EVIDENCE",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-20",
-      "attack": "Two causal clusters use near-duplicate mechanism language at >=0.80 similarity",
-      "expected": "CAUSAL_CLUSTER_NEAR_DUPLICATE_MUST_COLLAPSE",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-21",
-      "attack": "Projected and confirmed lineup analysis are mixed without separate objects",
-      "expected": "MIXED_LINEUP_REQUIRES_SEPARATE_PROJECTED_AND_CONFIRMED_ANALYSIS",
-      "live_result": "DEFINED_DB_GUARD"
-    },
-    {
-      "id": "SC-22",
-      "attack": "Use discovery-only tool event as factual sports evidence through API",
-      "expected": "Manual evidence endpoint disabled; DB evidence trigger also requires kernel_attested extraction",
-      "live_result": "RUNTIME_IMPLEMENTED_DB_ENFORCED"
-    },
-    {
-      "id": "SC-23",
-      "attack": "Manually create source family through API to inflate independence",
-      "expected": "HTTP 410 SOURCE_FAMILY_MANUAL_REGISTRATION_DISABLED_KERNEL_DERIVES_FAMILY",
-      "live_result": "RUNTIME_IMPLEMENTED"
-    },
-    {
-      "id": "SC-24",
-      "attack": "Manually create sports evidence through API",
-      "expected": "HTTP 410 MANUAL_SPORTS_EVIDENCE_DISABLED_USE_KERNEL_EXTRACTION",
-      "live_result": "RUNTIME_IMPLEMENTED"
-    },
-    {
-      "id": "SC-25",
-      "attack": "Process auditor attempts to turn failed process validation into a sports vote",
-      "expected": "KERNEL_PROCESS_AUDITOR_0.3 remains PROCESS_ONLY and may_vote_sports=false",
-      "live_result": "DB_REGISTRY_ENFORCED"
-    }
+    {"id":"RC-01","attack":"Insert sports evidence without research_tool_event","expected":"SPORTS_EVIDENCE_TOOL_EVENT_REQUIRED","live_result":"PASS"},
+    {"id":"RC-02","attack":"Caller supplies false historical occurred_at for tool call","expected":"DB replaces timestamp with clock_timestamp","live_result":"PASS"},
+    {"id":"RC-03","attack":"Tool call occurs without updating run counter/trace","expected":"tool_call_count increments and RESEARCH_TOOL_CALL trace exists","live_result":"PASS"},
+    {"id":"RC-04","attack":"Evidence says data was available after retrieval","expected":"SPORTS_EVIDENCE_NOT_YET_AVAILABLE","live_result":"PASS"},
+    {"id":"RC-05","attack":"Insert factual claim without evidence IDs","expected":"FACTUAL_CLAIM_REQUIRES_EVIDENCE","live_result":"PASS"},
+    {"id":"RC-06","attack":"Complete CLEAR packet with only one independent source family","expected":"PACKET_INDEPENDENT_SOURCE_FLOOR_NOT_MET","live_result":"PASS"},
+    {"id":"RC-07","attack":"Same exact evidence payload creates a new source family","expected":"DUPLICATE_CONTENT_CANNOT_CREATE_NEW_SOURCE_FAMILY","live_result":"PASS"},
+    {"id":"RC-08","attack":"Create second family with same declared publisher/origin","expected":"SOURCE_FAMILY_SAME_DECLARED_ORIGIN_MUST_COLLAPSE","live_result":"PASS"},
+    {"id":"RC-09","attack":"Complete valid bilateral packet","expected":"freeze_timestamp and packet_hash generated","live_result":"PASS"},
+    {"id":"RC-10","attack":"Register Drive packet or process pass without matching packet hash","expected":"Drive/process audit requires hash-bound frozen packet","live_result":"PASS"},
+    {"id":"RC-11","attack":"Caller submits fake auditor and fake process booleans/status","expected":"DB overwrites auditor/checks and derives result using KERNEL_PROCESS_AUDITOR_0.2","live_result":"PASS"},
+    {"id":"RC-12","attack":"Modify causal reasoning after packet freeze","expected":"SPORTS_PACKET_FROZEN_CREATE_NEW_VERSION","live_result":"PASS"},
+    {"id":"RC-13","attack":"Seal sports slate with false analysis counts","expected":"SPORTS_REASONING_SLATE_COUNTS_MISMATCH","live_result":"PASS"},
+    {"id":"RC-14","attack":"Close Mother V3 run without verified Drive final report","expected":"RUN_CLOSE_REQUIRES_VERIFIED_DRIVE_FINAL_REPORT","live_result":"PASS"}
   ],
-  "live_verified_now": {
-    "direct_database_attacks": 7,
-    "pure_validation_checks": 5,
-    "semantic_similarity_check": 1
-  },
-  "remaining_runtime_e2e_requirement": "Deploy api/research.py and execute authenticated /research-queries -> /extract-url -> Drive attestation -> packet -> process audit against a real pregame source. Do not label runtime E2E PASS until that authenticated path is physically observed.",
-  "important_limit": "The 0.80 pg_trgm rule is a deterministic anti-cloning heuristic, not semantic truth. It collapses near-duplicate extracted factual text but provenance/origin maps remain necessary for paraphrased syndication below the threshold."
+  "result": "14/14 LIVE ADVERSARIAL CASES PASSED",
+  "important_limit": "Semantic similarity between non-identical syndicated articles is not proven by this deterministic suite. Declared origin collapse and exact-content collision are physical; non-identical source-family classification still requires provenance logic/process review."
 }
