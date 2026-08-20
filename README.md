@@ -2,125 +2,164 @@
 
 Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 
-## Autoridad activa
+## Autoridad vigente en validación
 
 - `SYSTEM_VERSION = NRFIM MOTHER V3`
-- `AGENT_VERSION = MOTHER-V3-AGENT-1.5`
-- `KERNEL_VERSION = NRFIM-KERNEL-1.0-SELECTIVE-CONCLUSION`
+- `AGENT_VERSION = MOTHER-V3-AGENT-1.10`
+- `KERNEL_VERSION = NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION`
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
 - `MOTHER_DOCUMENT_SHA256 = d16896eba602af272117a5c83b56245aa201979d394301781d424e705b3642d3`
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones activas requeridas hasta `032`
+- migraciones de repositorio requeridas hasta `055`
 
-## Regla central
+La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia y límites de autoridad; no suma métricas ni sustituye al analista.
 
-La IA decide deportivamente mediante razonamiento causal, no mediante suma de métricas ni conteos. El sistema separa `SPORTS_STATUS`, `PROCESS_STATUS` y `EXECUTION_STATUS`; un fallo de proceso o de autoridad puede bloquear ejecución, pero no puede borrar ni modificar el juicio deportivo.
+## Principio nuevo: calibrar el sistema != calibrar el partido
+
+La probabilidad deportiva de un juego pertenece al juego actual:
+
+`GAME_CAUSAL_P = A5_GAME_CAUSAL_ONLY`
+
+No puede ser reemplazada por una frecuencia histórica, bin, score, banda, perfil estadístico ni grupo de partidos supuestamente equivalentes.
+
+Reglas soberanas:
+
+- `HISTORICAL_CALIBRATION SHALL NOT OVERRIDE GAME-SPECIFIC CAUSAL EVIDENCE`.
+- Dos juegos no son equivalentes solo por compartir probabilidad, score, banda o perfil estadístico.
+- La calibración histórica tiene `SPORTS_EFFECT=NONE`, `RANKING_EFFECT=NONE` y `PROBABILITY_EFFECT=NONE`.
+- La calibración no crea ni elimina `SPORTS_CANDIDATE`.
+- La calibración no modifica el ranking deportivo.
+- La calibración no ajusta `GAME_CAUSAL_P`.
+- Puede únicamente auditar la fiabilidad estructural del sistema y, si corresponde, `ALLOW / CONDITION / BLOCK` autoridad económica a nivel de sistema.
+
+Documento soberano de la reforma en Drive:
+
+`00A — ENMIENDA SOBERANA — CALIBRAR EL SISTEMA ≠ CALIBRAR EL PARTIDO — @NRFImetrica`
+
+Drive ID: `1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE`
+
+## Orden de análisis
+
+La arquitectura queda:
+
+`razonamiento causal individual → análisis bilateral → matchup secuencial → falsación adversarial → incertidumbre específica del partido → GAME_CAUSAL_P / Sports Seal → auditoría histórica externa del sistema`
+
+La historia audita a `@NRFImetrica`; no obliga al juego de hoy a parecerse al promedio de ayer.
+
+## Incertidumbre y robust edge
+
+Se conserva el campo `p_conservative` por compatibilidad de contrato, pero su significado cambia de forma soberana:
+
+`p_conservative = límite inferior de incertidumbre específica del partido`
+
+Fuente obligatoria:
+
+`GAME_SPECIFIC_STRESS_TEST_ONLY`
+
+No puede proceder de calibración histórica. Puede reflejar perturbaciones plausibles del juego actual: lineup, scratches, velocidad/comando/release del abridor, estado físico, compatibilidad bateador-arsenal, BB/HBP, viento, roof, clima y otros cambios causalmente propios del encuentro.
+
+Por tanto:
+
+`ROBUST_EDGE = GAME_SPECIFIC_LOWER_BOUND - MARKET_BREAK_EVEN`
+
+La historia no participa en ese límite.
+
+## Auditoría histórica del sistema
+
+Objetos físicos nuevos:
+
+- `public.nrfimetrica_system_calibration_audits`
+- `public.nrfimetrica_calibration_observations`
+
+La auditoría puede utilizar, fuera del núcleo deportivo individual:
+
+- Brier Score;
+- Log Loss;
+- reliability curve;
+- calibration slope/intercept;
+- walk-forward validation;
+- sealed temporal holdout;
+- baseline comparison;
+- ablation;
+- drift;
+- diagnóstico de overconfidence / underconfidence.
+
+La calibración debe ser jerárquica/contextual cuando la muestra lo permita. No existe calibración universal con derecho a homologar partidos heterogéneos.
+
+## Bilateralidad NRFI
+
+NRFI continúa siendo una conjunción:
+
+`TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`
+
+No existe compensación entre medias entradas. Un abridor dominante no puede borrar una ruta material de carrera en la otra mitad.
+
+La primera entrada se estudia como secuencia causal: abridor actual, arsenal/command, top order, B1-B4, platoon y matchup, tráfico, poder, parque/entorno y rutas concretas de materialización.
 
 ## SPORTS_STATUS
 
-- `SPORTS_CANDIDATE`: `NRFI_LEAN` sustentado por datos reales del mismo RUN/GAME.
-- `NO_PLAY`: rechazo deportivo NRFI o mejor tesis `YRFI_LEAN` sustentada por datos.
-- `WATCHLIST`: todavía no existe una conclusión deportiva suficientemente sustentada.
-- `AUDIT_ONLY`: no existió ventana pregame válida.
+- `SPORTS_CANDIDATE`
+- `NO_PLAY`
+- `WATCHLIST`
+- `AUDIT_ONLY`
 
-`SPORTS_CANDIDATE` no requiere `PROCESS_AUDIT=PASS` ni Drive hash match. Esos controles pertenecen al proceso y a la ejecución.
+Un problema de proceso, calibración o ejecución puede bloquear dinero real, pero no puede fabricar ni borrar retrospectivamente el juicio deportivo.
 
-## PROCESS_STATUS
+## Shortlist
 
-`VERIFIED`, `FAIL`, `REVIEW`, `UNVERIFIED`, `INCOMPLETE`, `MISSING`, `PENDING`, `NOT_APPLICABLE`.
+El pool bruto no es la conclusión final. El sistema discrimina causalmente hasta:
 
-El auditor `KERNEL_PROCESS_AUDITOR_0.2` verifica cadena de custodia y calidad del proceso. Tiene prohibido votar NRFI/YRFI. Los pisos `CLEAR=3 / NORMAL=5 / DEEP=7` son señal de calidad de proceso, no selector deportivo.
+1. candidato principal #1;
+2. candidato principal #2;
+3. tercero opcional únicamente si existe justificación excepcional.
 
-## EXECUTION_STATUS
-
-`EXECUTABLE`, `TECHNICAL_BLOCK`, `PROCESS_BLOCK`, `PENDING`, `NOT_APPLICABLE`, `WATCHLIST`, `AUDIT_ONLY`.
-
-A4/A6/A7 pueden bloquear dinero real sin convertir un candidato en `NO_PLAY`.
-
-## Kernel 1.0 — conclusión selectiva
-
-El pool bruto de `SPORTS_CANDIDATE` no es la conclusión final.
-
-Si existen al menos dos candidatos deportivos, la IA debe producir exactamente:
-
-1. **Candidato principal #1**.
-2. **Candidato principal #2**.
-3. **Tercero opcional**, solamente si tiene una justificación excepcional para acompañar a los dos primeros.
-
-La salida final nunca puede contener cuatro o más candidatos deportivos.
-
-El Kernel no escoge mediante score. La IA debe comparar causalmente todo el pool. Para cada uno de los dos principales debe documentar:
-
-- argumento central;
-- mecanismo dominante de supresión de carrera;
-- riesgo contrario más fuerte;
-- por qué la tesis sobrevive ese riesgo;
-- por qué queda por encima del siguiente candidato;
-- `EVIDENCE_ID` del mismo RUN/GAME.
-
-El tercero, si existe, debe explicar adicionalmente:
-
-- por qué merece entrar;
-- por qué no desplaza a ninguno de los dos principales.
-
-Todo `SPORTS_CANDIDATE` que quede fuera debe registrar:
-
-- `why_not_top_two`;
-- `material_weakness_vs_selected`.
-
-Así, tener cinco candidatos en la fase de investigación puede ser correcto; entregar cinco como conclusión no lo es.
-
-Si el pool tiene un solo candidato, el sistema devuelve uno y marca `INSUFFICIENT_POTABLE_SHORTLIST`; no fabrica un segundo débil. Si no existe ninguno, aplica la regla estricta `ZERO_SPORTS_CANDIDATES_BY_DATA`.
-
-Objeto físico: `public.nrfimetrica_sports_shortlists`.
-
-## Carga causal mínima del análisis deportivo
-
-Todo juicio completo debe estudiar Top 1st y Bottom 1st, versión actual de ambos abridores, top order y matchup, caso central NRFI, mejor rival YRFI, contraevidencia más fuerte, clusters causales, factor dominante, falsificación de NRFI y YRFI y qué dato o cambio revertiría el juicio.
-
-Lógica prohibida:
-
-`métrica A + métrica B + métrica C = pick/no pick`
-
-Lógica esperada:
-
-`datos -> mecanismos -> rutas de anotación/supresión -> contradicciones -> falsificación -> juicio -> comparación relativa -> shortlist final`
-
-## Regla de cero candidatos
-
-Cero candidatos deportivos por proceso está prohibido. Un hash faltante, auditoría fallida, conteo de fuentes, A4 ausente, A6 ausente, A7 bloqueado o cualquier otro problema técnico no puede producir `0 SPORTS_CANDIDATE` como conclusión deportiva.
-
-Si quedan partidos sin resolución deportiva, el reporte debe declarar `INCOMPLETE_NOT_ZERO`. Solo se permite `ZERO_SPORTS_CANDIDATES_BY_DATA` cuando todos los juegos no-auditados son `NO_PLAY` deportivos con carga causal y evidencia del RUN actual.
+No se usa score aditivo para decidir la shortlist.
 
 ## Clean Room
 
-Cada invocación nueva requiere:
+Cada invocación nueva exige:
 
-`RUN nuevo + INVOCATION_ID nuevo + documento Drive nuevo + fuentes nuevas + evidencia nueva + razonamiento nuevo`.
+`RUN nuevo + INVOCATION_ID nuevo + documento Drive nuevo + fuentes nuevas + evidencia nueva + razonamiento nuevo`
 
-No se reutilizan reportes, packets ni conclusiones de corridas anteriores como evidencia deportiva.
+No se reutilizan conclusiones deportivas previas como evidencia del juego actual.
 
-## Research fallback
+## Enforcement de calibración
 
-Los componentes `DIAGNOSTIC_TRUSTED` pueden apoyar investigación condicionada A4/A6 cuando exista ejecución física real. Eso no autoriza release A7 ni A8. Dinero real sigue exigiendo los componentes y certificaciones `ACTIVE_TRUSTED` correspondientes.
+Función activa:
 
-## Pruebas físicas de Kernel 1.0
+`public.nrfim_enforce_calibration_separation_v15()`
 
-Sobre el pool histórico de cinco `SPORTS_CANDIDATE`:
+A7 exige:
 
-- intentar persistir cuatro candidatos finales -> `SHORTLIST_REQUIRES_EXACTLY_TWO_PRIMARY_CANDIDATES` -> BLOQUEADO;
-- estructura `2 principales + 1 tercero opcional` con evidencia, comparación causal y razones para excluir los dos restantes -> ACEPTADA en transacción de prueba y revertida, sin alterar la corrida histórica.
+- `game_probability_source=A5_GAME_CAUSAL_ONLY`;
+- `eligibility_basis=GAME_CAUSAL_ONLY`;
+- `calibration_role=SYSTEM_AUDIT_ONLY`;
+- cero autoridad deportiva/ranking/probabilidad de la calibración;
+- `historical_calibration_used=false` en incertidumbre del juego;
+- límites conservadores derivados de `GAME_SPECIFIC_STRESS_TEST`.
 
-Durante la primera prueba válida se detectó una ambigüedad SQL en la variable `evidence_id`; la transacción fue rechazada íntegra. La migración 032 corrigió el defecto y la prueba se repitió satisfactoriamente.
+A8 exige:
 
-## Archivos de la reforma
+- `market.p_conservative_source=GAME_SPECIFIC_UNCERTAINTY_ONLY`;
+- igualdad exacta con el lower bound específico del juego generado en A7;
+- robust edge/EV derivados de ese lower bound;
+- bloqueo explícito de `calibrated_p` o `historical_adjusted_p` como probabilidad del partido.
 
-- `supabase/migrations/029_separate_sports_judgment_process_validation_and_execution.sql`
-- `supabase/migrations/030_demetricize_sports_judgment_and_move_process_gates_to_audit.sql`
-- `supabase/migrations/031_enforce_two_primary_sports_shortlist_with_optional_third.sql`
-- `supabase/migrations/032_fix_sports_shortlist_evidence_variable_ambiguity.sql`
-- `protocols/nrfimetrica_causal_authority_v09.json`
-- `agents/nrfimetrica_mother_v3_agent.json`
-- `kernel/core.py`
+## Pruebas adversariales ejecutadas
 
-Objetivo de Kernel 1.0: **la IA puede encontrar varios candidatos durante el análisis, pero debe terminar discriminando de verdad: dos principales potables y, como máximo, un tercero excepcional, todos defendidos con argumentos deportivos comparativos.**
+- A7 limpio con calibración `SYSTEM_AUDIT_ONLY` → `ACCEPTED`.
+- introducir `contract_calibration.u0_5.calibrated_p` → `A7_HISTORICAL_GAME_PROBABILITY_OVERRIDE_FORBIDDEN`.
+- intentar otorgar `sports_authority=true` a una certificación → `NRFIM_CALIBRATION_MUST_BE_SYSTEM_AUDIT_ONLY`.
+- intentar que una auditoría histórica produzca efecto deportivo → bloqueado por constraint de base de datos.
+
+No existía ningún A7 histórico con `release_token=ISSUED`, por lo que la prueba de A8 se mantiene separada de cualquier falsa afirmación de una certificación económica histórica inexistente.
+
+## Migraciones recientes
+
+- `053_reconcile_deployed_semantic_custody_runtime.sql`: marcador fail-fast para eliminar la divergencia histórica GitHub/Supabase sin fingir que reconstruye statements que no estaban versionados.
+- `054_calibrate_system_not_game.sql`: separación física entre análisis del partido y auditoría histórica del sistema.
+- `055_fix_calibration_separation_digest_search_path.sql`: corrección del search path de `digest` descubierta por prueba adversarial.
+
+La doctrina final es simple:
+
+**El partido se analiza. El sistema se calibra.**
