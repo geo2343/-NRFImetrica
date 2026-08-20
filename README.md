@@ -10,7 +10,7 @@ Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
 - `MOTHER_DOCUMENT_SHA256 = 391fbdfdf78965f9454307267f7e3d048abc7ccb4329e29870ad58aeabcb55f1`
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones de repositorio requeridas hasta `057`
+- migraciones de repositorio requeridas hasta `058`
 
 La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia y límites de autoridad; no suma métricas ni sustituye al analista.
 
@@ -100,7 +100,8 @@ NRFI continúa siendo `TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`, sin compensación 
 - `055_fix_calibration_separation_digest_search_path.sql`
 - `056_enforce_a8_game_specific_uncertainty_only.sql`
 - `057_refresh_mother_authority_hash_after_calibration_amendment.sql`
+- `058_seal_mother_hash_refresh_and_reactivate.sql`
 
-La migración 057 actualiza únicamente autoridades vivas. Los hashes de RUNs y evidencias históricos permanecen intactos.
+La 057 desactiva de forma preventiva mientras el nuevo Documento Madre espera readback externo. La 058, ejecutada después del readback SHA-256, actualiza guards/autoridades vivas y reactiva el agente. Los hashes de RUNs y evidencias históricos permanecen intactos.
 
 **El partido se analiza. El sistema se calibra.**
