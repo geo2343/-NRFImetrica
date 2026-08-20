@@ -1,0 +1,42 @@
+rrent-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=4/4; pitch count top/bottom=15/20; first-inning score reconciliation=0+0=0. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 823109 — Minnesota Twins @ Seattle Mariners
+
+**Identity.** GAME_PK 823109; venue T-Mobile Park; scheduled 2026-08-01T20:10:00Z; first pitch observed 2026-08-01T20:12:12.618Z; starters Connor Prielipp (away) / Logan Gilbert (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/823109/feed/live`; capture SHA-256 `beca09305bcf77c4dc9d0202eec324901170afe8db2bcf0235ce4fc04e760139`.
+
+**First-inning outcome.** Top 0, bottom 2, total 2; descriptive outcome **YRFI**. Top path `NO_RUN_PATH`; bottom path `XBH_DAMAGE`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=16; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Trevor Larnach vs Logan Gilbert: strikeout; outs 0→1; runs=0; pitches=4. Sequence: 1:SL Ball 87.8 mph; 2:FF Swinging Strike 97.9 mph; 3:SL Swinging Strike 89.1 mph; 4:FS Swinging Strike 85.6 mph. Description: Trevor Larnach strikes out swinging.
+- PA 2 — Ryan Jeffers vs Logan Gilbert: field_out; outs 1→2; runs=0; pitches=4. Sequence: 1:FF Called Strike 98.6 mph; 2:FF Foul 99.2 mph; 3:SL Ball 89.1 mph; 4:FS In play, out(s) 85.1 mph. Description: Ryan Jeffers flies out to left fielder Randy Arozarena.
+- PA 3 — Kody Clemens vs Logan Gilbert: field_out; outs 2→3; runs=0; pitches=8. Sequence: 1:SL Swinging Strike 87.8 mph; 2:SL Swinging Strike 88.4 mph; 3:SL Ball 89.7 mph; 4:FS Ball 85.7 mph; 5:FS Foul 85.8 mph; 6:FF Foul 98.9 mph; 7:SL Ball 88.4 mph; 8:SL In play, out(s) 88.8 mph. Description: Kody Clemens grounds out, first baseman Josh Naylor to pitcher Logan Gilbert.
+
+### Bottom 1st — Half-Inning Card
+
+BF=8; pitches=35; runs=2; hits=2; singles=1; XBH=1; BB=3; HBP=0; K=3; HR=0; B4/B5/B6 exposed=True/True/True; leadoff reach=True; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Cole Young vs Connor Prielipp: double; outs 0→0; runs=0; pitches=1. Sequence: 1:FF In play, no out 95.4 mph. Description: Cole Young doubles (15) on a sharp line drive to right fielder Austin Martin.
+- PA 2 — Randy Arozarena vs Connor Prielipp: walk; outs 0→0; runs=0; pitches=4. Sequence: 1:FF Ball 95.2 mph; 2:FF Ball 94.5 mph; 3:SL Ball 88.7 mph; 4:FF Ball 94.8 mph. Description: Randy Arozarena walks.
+- PA 3 — Dominic Canzone vs Connor Prielipp: walk; outs 0→0; runs=0; pitches=6. Sequence: 1:SL Called Strike 88.8 mph; 2:SL Ball 88.8 mph; 3:CU Ball 83.2 mph; 4:FF Ball 96.0 mph; 5:SL Called Strike 88.2 mph; 6:SL Ball 88.8 mph. Description: Dominic Canzone walks. Cole Young to 3rd. Randy Arozarena to 2nd.
+- PA 4 — Julio Rodríguez vs Connor Prielipp: single; outs 0→0; runs=1; pitches=1. Sequence: 1:SL In play, run(s) 90.7 mph. Description: Julio Rodríguez singles on a ground ball to shortstop Ryan Kreidler. Cole Young scores. Randy Arozarena to 3rd. Dominic Canzone to 2nd.
+- PA 5 — Cal Raleigh vs Connor Prielipp: strikeout; outs 0→1; runs=0; pitches=4. Sequence: 1:SI Called Strike 96.8 mph; 2:FF Foul 97.7 mph; 3:FF Foul 96.8 mph; 4:SL Swinging Strike 89.2 mph. Description: Cal Raleigh strikes out swinging.
+- PA 6 — Josh Naylor vs Connor Prielipp: strikeout; outs 1→2; runs=0; pitches=4. Sequence: 1:SI Called Strike 96.8 mph; 2:SI Ball 96.8 mph; 3:SL Foul 88.8 mph; 4:CU Swinging Strike 84.1 mph. Description: Josh Naylor strikes out swinging.
+- PA 7 — Mitch Garver vs Connor Prielipp: walk; outs 2→2; runs=1; pitches=11. Sequence: 1:SI Foul 95.3 mph; 2:SI Swinging Strike 97.4 mph; 3:FF Ball 97.7 mph; 4:SL Foul 89.9 mph; 5:FF Foul 97.3 mph; 6:CU Foul 86.5 mph; 7:CU Ball 84.7 mph; 8:FF Foul 97.0 mph; 9:FF Foul 98.4 mph; 10:SL Ball 91.1 mph; 11:SL Ball 91.6 mph. Description: Mitch Garver walks. Randy Arozarena scores. Dominic Canzone to 3rd. Julio Rodríguez to 2nd.
+- PA 8 — Weston Wilson vs Connor Prielipp: strikeout; outs 2→3; runs=0; pitches=4. Sequence: 1:SL Swinging Strike 91.5 mph; 2:CH Swinging Strike 88.4 mph; 3:SL Foul 90.8 mph; 4:CH Swinging Strike 88.3 mph. Description: Weston Wilson strikes out swinging.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"669302":{"pitch_count_first_inning":16,"pitch_mix_first_inning":{"SL":8,"FF":4,"FS":4},"avg_release_speed_first_inning":90.37,"whiffs":5,"swings":10,"contacts":5},"687570":{"pitch_count_first_inning":35,"pitch_mix_first_inning":{"FF":11,"SL":13,"CU":4,"SI":5,"CH":2},"avg_release_speed_first_inning":92.17,"whiffs":6,"swings":18,"contacts":12}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+##

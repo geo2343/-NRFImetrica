@@ -1,0 +1,45 @@
+verted to zero.
+
+## GAME BLOCK 824405 — Arizona Diamondbacks @ Cleveland Guardians
+
+**Identity.** GAME_PK 824405; venue Progressive Field; scheduled 2026-08-01T23:15:00Z; first pitch observed 2026-08-01T23:15:50.709Z; starters Kohl Drake (away) / Parker Messick (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824405/feed/live`; capture SHA-256 `fa28568465e5c14e3cff3bdc2b16b1061ce624334b872d5ad0d9f76529e594a3`.
+
+**First-inning outcome.** Top 0, bottom 2, total 2; descriptive outcome **YRFI**. Top path `NO_RUN_PATH`; bottom path `HR_INVOLVED_MULTI_MECHANISM`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=5; pitches=22; runs=0; hits=1; singles=1; XBH=0; BB=1; HBP=0; K=2; HR=0; B4/B5/B6 exposed=True/True/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Corbin Carroll vs Parker Messick: walk; outs 0→0; runs=0; pitches=4. Sequence: 1:FF Ball 93.3 mph; 2:FF Ball 93.4 mph; 3:FF Ball 93.2 mph; 4:FF Ball 93.5 mph. Description: Corbin Carroll walks.
+- PA 2 — Geraldo Perdomo vs Parker Messick: single; outs 0→0; runs=0; pitches=6. Sequence: 1:SI Called Strike 92.9 mph; 2:SL Ball 87.0 mph; 3:SI Ball 92.4 mph; 4:FF Ball 94.2 mph; 5:FF Called Strike 94.4 mph; 6:FF In play, no out 94.8 mph. Description: Geraldo Perdomo singles on a ground ball to right fielder Angel Martínez. Corbin Carroll to 2nd.
+- PA 3 — Gabriel Moreno vs Parker Messick: strikeout; outs 0→1; runs=0; pitches=5. Sequence: 1:CU Ball In Dirt 80.7 mph; 2:FF Ball 94.3 mph; 3:SI Called Strike 93.6 mph; 4:FF Foul 94.1 mph; 5:FF Swinging Strike 95.3 mph. Description: Gabriel Moreno strikes out swinging.
+- PA 4 — Ketel Marte vs Parker Messick: strikeout; outs 1→2; runs=0; pitches=5. Sequence: 1:CH Swinging Strike 87.4 mph; 2:FF Swinging Strike 95.9 mph; 3:FF Ball 95.5 mph; 4:FF Foul 95.9 mph; 5:CH Swinging Strike 87.0 mph. Description: Ketel Marte strikes out swinging.
+- PA 5 — Nolan Arenado vs Parker Messick: force_out; outs 2→3; runs=0; pitches=2. Sequence: 1:SI Called Strike 94.7 mph; 2:CH In play, out(s) 87.5 mph. Description: Nolan Arenado grounds into a force out, shortstop Brayan Rocchio to second baseman Travis Bazzana. Geraldo Perdomo out at 2nd.
+
+### Bottom 1st — Half-Inning Card
+
+BF=5; pitches=24; runs=2; hits=2; singles=1; XBH=1; BB=0; HBP=0; K=1; HR=1; B4/B5/B6 exposed=True/True/False; leadoff reach=True; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Steven Kwan vs Kohl Drake: single; outs 0→0; runs=0; pitches=5. Sequence: 1:FF Called Strike 90.4 mph; 2:FF Ball 91.3 mph; 3:FF Ball 91.8 mph; 4:FF Foul 91.8 mph; 5:FF In play, no out 92.5 mph. Description: Steven Kwan singles on a ground ball to center fielder Tim Tawa.
+- PA 2 — José Ramírez vs Kohl Drake: field_out; outs 0→1; runs=0; pitches=7. Sequence: 1:FC Called Strike 86.2 mph; 2:CH Ball 82.3 mph; 3:CH Foul 81.6 mph; 4:FF Ball 92.1 mph; 5:FF Foul 92.0 mph; 6:FC Ball 86.8 mph; 7:FF In play, out(s) 92.3 mph. Description: José Ramírez flies out to left fielder Ryan Waldschmidt.
+- PA 3 — Chase DeLauter vs Kohl Drake: force_out; outs 1→2; runs=0; pitches=3. Sequence: 1:FC Called Strike 88.0 mph; 2:CH Foul 82.1 mph; 3:SL In play, out(s) 82.5 mph. Description: Chase DeLauter grounds into a force out, fielded by second baseman Ketel Marte. Steven Kwan out at 2nd. Chase DeLauter to 1st.
+- PA 4 — Rhys Hoskins vs Kohl Drake: home_run; outs 2→2; runs=2; pitches=3. Sequence: 1:CU Ball In Dirt 79.8 mph; 2:FF Called Strike 92.5 mph; 3:FF In play, run(s) 92.8 mph. Description: Rhys Hoskins homers (12) on a fly ball to center field. Chase DeLauter scores.
+- PA 5 — Angel Martínez vs Kohl Drake: strikeout; outs 2→3; runs=0; pitches=6. Sequence: 1:FF Ball 91.9 mph; 2:FC Foul 85.7 mph; 3:FF Swinging Strike 92.5 mph; 4:FF Ball 92.0 mph; 5:CU Ball 77.6 mph; 6:FF Foul Tip 92.4 mph. Description: Angel Martínez strikes out on a foul tip.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"800048":{"pitch_count_first_inning":22,"pitch_mix_first_inning":{"FF":13,"SI":4,"SL":1,"CU":1,"CH":3},"avg_release_speed_first_inning":92.32,"whiffs":4,"swings":8,"contacts":4},"684442":{"pitch_count_first_inning":24,"pitch_mix_first_inning":{"FF":14,"FC":4,"CH":3,"SL":1,"CU":2},"avg_release_speed_first_inning":88.37,"whiffs":1,"swings":11,"contacts":10}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=5/5; pitch count top/bottom=22/24; first-inning score reconciliation=0+2=2. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824890 — Washington Nationals @ Atlanta Braves
+
+**Identity.** GAME_PK 824890; venue Truist Park; scheduled 2026-08-01T23:15:00Z; first pitch observed 2026-08-01T23:17:45.962Z; starters Miles Mikolas (away) / Martín Pérez (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824890/feed/live`; capture SHA-256 `12eb15d3366008d45b1147bda2fedd1ebe7c372c2b4a56512482a2ed2889e788`.
+
+**First-inning outcome.** Top 0, botto

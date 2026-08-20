@@ -1,0 +1,46 @@
+ sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=3/4; pitch count top/bottom=10/14; first-inning score reconciliation=0+0=0. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824162 — Texas Rangers @ Houston Astros
+
+**Identity.** GAME_PK 824162; venue Daikin Park; scheduled 2026-08-01T23:10:00Z; first pitch observed 2026-08-01T23:11:05.365Z; starters Jacob deGrom (away) / Ronel Blanco (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824162/feed/live`; capture SHA-256 `2d3e8b0420e74a1cba27244e55d450ab7402fd5b1b8ac8f071d82f915935c3bf`.
+
+**First-inning outcome.** Top 0, bottom 0, total 0; descriptive outcome **NRFI**. Top path `NO_RUN_PATH`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=5; pitches=18; runs=0; hits=2; singles=2; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=True/True/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Joc Pederson vs Ronel Blanco: single; outs 0→0; runs=0; pitches=3. Sequence: 1:FF Ball 93.6 mph; 2:FF Ball 93.8 mph; 3:FF In play, no out 94.9 mph. Description: Joc Pederson singles on a ground ball to third baseman Isaac Paredes.
+- PA 2 — Wyatt Langford vs Ronel Blanco: strikeout; outs 0→1; runs=0; pitches=7. Sequence: 1:SL Foul 87.3 mph; 2:FF Ball 93.3 mph; 3:FF Ball 93.1 mph; 4:SL Foul 87.1 mph; 5:CH Ball 84.9 mph; 6:CH Foul 84.0 mph; 7:FF Called Strike 93.5 mph. Description: Wyatt Langford called out on strikes.
+- PA 3 — Corey Seager vs Ronel Blanco: single; outs 1→1; runs=0; pitches=4. Sequence: 1:FF Foul Tip 93.7 mph; 2:FF Ball 94.4 mph; 3:CH Ball 86.5 mph; 4:FF In play, no out 93.9 mph. Description: Corey Seager singles on a ground ball to right fielder Cam Smith. Joc Pederson to 2nd.
+- PA 4 — Brandon Nimmo vs Ronel Blanco: field_out; outs 1→2; runs=0; pitches=1. Sequence: 1:FF In play, out(s) 93.3 mph. Description: Brandon Nimmo flies out to left fielder LaMonte Wade Jr.
+- PA 5 — Evan Carter vs Ronel Blanco: field_out; outs 2→3; runs=0; pitches=3. Sequence: 1:CU Called Strike 80.8 mph; 2:CH Called Strike 85.6 mph; 3:CH In play, out(s) 85.4 mph. Description: Evan Carter flies out to shortstop Jeremy Peña.
+
+### Bottom 1st — Half-Inning Card
+
+BF=4; pitches=22; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Jeremy Peña vs Jacob deGrom: strikeout; outs 0→1; runs=0; pitches=7. Sequence: 1:SL Ball 92.3 mph; 2:SL Swinging Strike 91.9 mph; 3:CU Ball 84.0 mph; 4:SL Swinging Strike 92.6 mph; 5:SL Ball 93.2 mph; 6:FF Foul 98.6 mph; 7:SL Swinging Strike 93.0 mph. Description: Jeremy Peña strikes out swinging.
+- PA 2 — Yordan Alvarez vs Jacob deGrom: field_out; outs 1→2; runs=0; pitches=4. Sequence: 1:FF Called Strike 99.2 mph; 2:FF Ball 98.4 mph; 3:CH Ball 91.1 mph; 4:FF In play, out(s) 99.1 mph. Description: Yordan Alvarez grounds out, pitcher Jacob deGrom to first baseman Joc Pederson.
+- PA 3 — Isaac Paredes vs Jacob deGrom: single; outs 2→2; runs=0; pitches=7. Sequence: 1:FF Called Strike 99.1 mph; 2:FF Foul 98.4 mph; 3:SL Ball 92.8 mph; 4:FF Foul 99.0 mph; 5:SL Ball 92.7 mph; 6:FF Foul 99.0 mph; 7:FF In play, no out 98.8 mph. Description: Isaac Paredes singles on a line drive to center fielder Evan Carter.
+- PA 4 — Christian Walker vs Jacob deGrom: field_out; outs 2→3; runs=0; pitches=4. Sequence: 1:SL Swinging Strike 92.3 mph; 2:SL Ball 93.1 mph; 3:SI Foul Tip 98.7 mph; 4:SL In play, out(s) 92.0 mph. Description: Christian Walker grounds out, second baseman Nicky Lopez to first baseman Joc Pederson.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"669854":{"pitch_count_first_inning":18,"pitch_mix_first_inning":{"FF":10,"SL":2,"CH":5,"CU":1},"avg_release_speed_first_inning":89.95,"whiffs":0,"swings":8,"contacts":8},"594798":{"pitch_count_first_inning":22,"pitch_mix_first_inning":{"SL":10,"CU":1,"FF":9,"CH":1,"SI":1},"avg_release_speed_first_inning":94.97,"whiffs":4,"swings":12,"contacts":8}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=5/4; pitch count top/bottom=18/22; first-inning score reconciliation=0+0=0. Exact event arrays and raw source hash are persisted. No missing historical window is con

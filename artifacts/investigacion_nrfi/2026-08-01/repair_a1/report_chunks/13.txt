@@ -1,0 +1,51 @@
+0; runs=0; pitches=2. Sequence: 1:ST Swinging Strike 86.0 mph; 2:ST In play, no out 86.1 mph. Description: Dillon Dingler singles on a line drive to left fielder Tyler Soderstrom. Gleyber Torres to 2nd.
+- PA 4 — Riley Greene vs Jack Perkins: field_out; outs 0→1; runs=0; pitches=1. Sequence: 1:CH In play, out(s) 88.0 mph. Description: Riley Greene flies out to left fielder Tyler Soderstrom.
+- PA 5 — Colt Keith vs Jack Perkins: single; outs 1→1; runs=1; pitches=3. Sequence: 1:FC Ball 92.1 mph; 2:CH Called Strike 89.1 mph; 3:FC In play, run(s) 91.9 mph. Description: Colt Keith singles on a ground ball to right fielder Lawrence Butler. Gleyber Torres scores. Dillon Dingler to 3rd.
+- PA 6 — Spencer Torkelson vs Jack Perkins: strikeout; outs 1→2; runs=0; pitches=4. Sequence: 1:FC Ball 91.8 mph; 2:SI Swinging Strike 94.5 mph; 3:FC Swinging Strike 91.6 mph; 4:ST Swinging Strike 85.8 mph. Description: Spencer Torkelson strikes out swinging.
+- PA 7 — Max Clark vs Jack Perkins: strikeout; outs 2→3; runs=0; pitches=6. Sequence: 1:FC Foul 92.7 mph; 2:CH Called Strike 88.8 mph; 3:FF Ball 96.1 mph; 4:ST Foul 86.3 mph; 5:ST Foul 85.8 mph; 6:FF Swinging Strike 95.5 mph. Description: Max Clark strikes out swinging.
+
+### Bottom 1st — Half-Inning Card
+
+BF=5; pitches=16; runs=0; hits=2; singles=2; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=True/True/False; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Jacob Wilson vs Framber Valdez: field_out; outs 0→1; runs=0; pitches=5. Sequence: 1:SI Ball 94.0 mph; 2:SI Ball 95.0 mph; 3:SI Called Strike 93.3 mph; 4:CU Foul 77.7 mph; 5:SI In play, out(s) 93.9 mph. Description: Jacob Wilson grounds out to first baseman Spencer Torkelson.
+- PA 2 — Jonah Heim vs Framber Valdez: strikeout; outs 1→2; runs=0; pitches=5. Sequence: 1:CU Called Strike 77.4 mph; 2:FF Swinging Strike 94.7 mph; 3:FF Foul 94.6 mph; 4:CU Ball 78.5 mph; 5:CU Swinging Strike 79.2 mph. Description: Jonah Heim strikes out swinging.
+- PA 3 — Tyler Soderstrom vs Framber Valdez: single; outs 2→2; runs=0; pitches=2. Sequence: 1:SL Called Strike 84.3 mph; 2:SI In play, no out 95.3 mph. Description: Tyler Soderstrom singles on a ground ball to left fielder Riley Greene.
+- PA 4 — Tommy White vs Framber Valdez: single; outs 2→2; runs=0; pitches=3. Sequence: 1:SI Called Strike 93.4 mph; 2:CH Foul 87.5 mph; 3:FF In play, no out 94.6 mph. Description: Tommy White singles on a line drive to right fielder Zach McKinstry. Tyler Soderstrom to 3rd.
+- PA 5 — Lawrence Butler vs Framber Valdez: field_out; outs 2→3; runs=0; pitches=1. Sequence: 1:SI In play, out(s) 94.6 mph. Description: Lawrence Butler grounds out to first baseman Spencer Torkelson.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"678022":{"pitch_count_first_inning":20,"pitch_mix_first_inning":{"FF":5,"CH":4,"ST":5,"FC":5,"SI":1},"avg_release_speed_first_inning":90.61,"whiffs":5,"swings":13,"contacts":8},"664285":{"pitch_count_first_inning":16,"pitch_mix_first_inning":{"SI":7,"CU":4,"FF":3,"SL":1,"CH":1},"avg_release_speed_first_inning":89.25,"whiffs":2,"swings":9,"contacts":7}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=7/5; pitch count top/bottom=20/16; first-inning score reconciliation=2+0=2. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+
+## F3 — FEATURE FACTORY
+
+
+For each GAME_PK the structured store receives all nine mandatory feature families. RESULTS/EXPOSURE/OUT_CREATION/TRAFFIC/DAMAGE/PITCHER_PROCESS/TOP_ORDER/CONTEXT are derived from the captured game and carry source lineage. SEQUENCE contains the required L3/L5/L10/L15/L20/SEASON/CAREER keys, but where the repair artifact does not contain prior-start first-inning history the value is explicitly `BOUNDED_GAP` with LOW_COVERAGE, N=0 and a written reason. Presence of the key therefore does not masquerade as availability of the statistic.
+
+
+## F4 — HISTORICAL PRESS / RELIABILITY / MECHANISMS / COHORTS
+
+
+Exact first-inning event sequences are preserved as raw arrays before mechanism classification. Primary paths are derived descriptors and never replace the raw sequence. Same-day mechanism cohorts are created only as retrospective descriptive comparisons and are explicitly non-causal. GUMBO does not contain timestamp-certified pregame press; therefore no postgame narrative is promoted to PREGAME_EVIDENCE. PRESS_HUMAN_INFORMATION remains an explicit bounded gap unless external publication timing is independently recovered.
+
+
+## F5 — QUERYABLE INTELLIGENCE
+
+
+The amendment creates one daily Evidence Packet after all 15 structured games are loaded. Its queryable dimensions include identity, pitcher/first-inning history, top-order composition, pitch process, mechanism, context, coverage/reliability and cohorts. FUTURE_GAME_COUNT=0 and POSTGAME_LEAK_COUNT=0 are enforced. No pick, stake, EV, odds or invented NRFI probability is emitted.
+
+
+## DAILY_CLOSURE
+
+
+Closure is not inferred from this prose. Supabase must independently report all 15 games F1/F2/F3/F4 semantic-ready, 

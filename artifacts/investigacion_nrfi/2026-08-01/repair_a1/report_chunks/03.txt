@@ -1,0 +1,51 @@
+# Reconstruction check
+
+PA count top/bottom=3/8; pitch count top/bottom=16/35; first-inning score reconciliation=0+2=2. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 822944 — Chicago White Sox @ Tampa Bay Rays
+
+**Identity.** GAME_PK 822944; venue Tropicana Field; scheduled 2026-08-01T20:10:00Z; first pitch observed 2026-08-01T20:10:28.072Z; starters Jordan Hicks (away) / Drew Rasmussen (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/822944/feed/live`; capture SHA-256 `58ae7d9fc03d29ac97247cc854db64c24e52141aa7f4abc4f5756bca0b19c190`.
+
+**First-inning outcome.** Top 0, bottom 0, total 0; descriptive outcome **NRFI**. Top path `NO_RUN_PATH`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=14; runs=0; hits=0; singles=0; XBH=0; BB=1; HBP=0; K=2; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Sam Antonacci vs Drew Rasmussen: walk; outs 0→0; runs=0; pitches=5. Sequence: 1:FF Ball 94.8 mph; 2:FF Called Strike 94.1 mph; 3:FC Ball 88.9 mph; 4:SI Ball 94.6 mph; 5:FF Ball 94.6 mph. Description: Sam Antonacci walks.
+- PA 2 — Munetaka Murakami vs Drew Rasmussen: strikeout; outs 0→2; runs=0; pitches=5. Sequence: 1:FF Ball 95.8 mph; 2:FF Called Strike 95.4 mph; 3:SI Called Strike 96.1 mph; 4:FC Ball 89.8 mph; 5:FF Swinging Strike 96.0 mph. Description: Munetaka Murakami strikes out swinging.
+- PA 3 — Miguel Vargas vs Drew Rasmussen: strikeout; outs 2→3; runs=0; pitches=4. Sequence: 1:FC Called Strike 90.0 mph; 2:FF Swinging Strike 96.5 mph; 3:FC Ball 90.6 mph; 4:FF Swinging Strike 96.3 mph. Description: Miguel Vargas strikes out swinging.
+
+### Bottom 1st — Half-Inning Card
+
+BF=3; pitches=8; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Yandy Díaz vs Jordan Hicks: field_out; outs 0→1; runs=0; pitches=1. Sequence: 1:SI In play, out(s) 98.3 mph. Description: Yandy Díaz lines out sharply to right fielder Braden Montgomery.
+- PA 2 — Chandler Simpson vs Jordan Hicks: field_out; outs 1→2; runs=0; pitches=3. Sequence: 1:SI Called Strike 99.0 mph; 2:FF Foul 96.9 mph; 3:FF In play, out(s) 98.1 mph. Description: Chandler Simpson lines out to left fielder Sam Antonacci.
+- PA 3 — Junior Caminero vs Jordan Hicks: strikeout; outs 2→3; runs=0; pitches=4. Sequence: 1:SI Called Strike 99.3 mph; 2:ST Called Strike 84.1 mph; 3:ST Ball 85.4 mph; 4:ST Swinging Strike 85.3 mph. Description: Junior Caminero strikes out swinging.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"656876":{"pitch_count_first_inning":14,"pitch_mix_first_inning":{"FF":8,"FC":4,"SI":2},"avg_release_speed_first_inning":93.82,"whiffs":3,"swings":3,"contacts":0},"663855":{"pitch_count_first_inning":8,"pitch_mix_first_inning":{"SI":3,"FF":2,"ST":3},"avg_release_speed_first_inning":93.3,"whiffs":1,"swings":4,"contacts":3}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=3/3; pitch count top/bottom=14/8; first-inning score reconciliation=0+0=0. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 823594 — Miami Marlins @ New York Mets
+
+**Identity.** GAME_PK 823594; venue Citi Field; scheduled 2026-08-01T20:10:00Z; first pitch observed 2026-08-01T20:30:30.270Z; starters Tyler Phillips (away) / Zac Thornton (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/823594/feed/live`; capture SHA-256 `3a406fa73d61ee67897a44464bb22efa1744a1ae6d097c0f709a9011238255bd`.
+
+**First-inning outcome.** Top 1, bottom 0, total 1; descriptive outcome **YRFI**. Top path `HIT_CONTACT_CHAIN`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=5; pitches=24; runs=1; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=0; HR=0; B4/B5/B6 exposed=True/True/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Otto Lopez vs Zac Thornton: field_error; outs 0→0; runs=0; pitches=6. Sequence: 1:FF Called Strike 90.2 mph; 2:SI Foul 91.3 mph; 3:CU Ball 76.4 mph; 4:SL Ball 86.1 mph; 5:SI Ball 92.0 mph; 6:FC In play, no out 88.1 mph. Description: Otto Lopez reaches on a fielding error by shortstop Francisco Lindor.
+- PA 2 — Heriberto Hernández vs Zac Thornton: field_out; outs 0→1; runs=0; pitches=7. Sequence: 1:FC Swinging Strike 88.9 mph; 2:FC Ball 88.2 mph; 3:FC Swinging Strike 88.4 mph; 4:FC Foul 90.3 mph; 5:ST Foul 79.7 mph; 6:CH Ball 82.3 mph; 7:SI In play, out(s) 93.9 mph. Description: Heriberto Hernández grounds out, shortstop Francisco Lindor to second baseman Marcus Semien to first baseman Jared Young. Otto Lopez to 2nd.
+- PA 3 — Liam Hicks vs Zac Thornton: single; outs 1→1; runs=1; pitches=6. Sequence: 1:FC B

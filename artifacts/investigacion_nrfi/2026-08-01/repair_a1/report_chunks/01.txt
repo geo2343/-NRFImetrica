@@ -1,0 +1,61 @@
+# AMENDMENT SEMÁNTICO — @investigacionNRFI — 2026-08-01
+
+RUN_ID: `INVNRFI-20260801-AMEND-A1`  
+
+PARENT_RUN_ID: `INVNRFI-20260801-f709b44c`  
+
+RUN_TYPE: `AMENDMENT`  
+
+SYSTEM_VERSION: `INVESTIGACION-NRFI-HISTORICAL-V1.0`  
+
+KERNEL_VERSION: `INVESTIGACION-NRFI-KERNEL-0.2-SEMANTIC-COMPLETENESS`
+
+
+## EXECUTION_SUMMARY
+
+
+Official finalized universe: 15 games. Official GUMBO captured for 15/15 games in GitHub commit `a63b60ac9caec558a76fab5dd826172c0b15120b`. The original shallow certification is withdrawn. This amendment reconstructs the first inning from play/pitch objects and persists semantic objects required by F1–F5. Historical descriptive outcomes in the captured universe: NRFI=6; YRFI=9; total first-inning runs=14; 0-run games=6; 1-run=4; 2-run=5; 3+-run=0. These are retrospective counts only.
+
+
+## F1 — CAPTURA FORENSE
+
+
+Every GAME_PK is tied to the official MLB GUMBO endpoint and raw SHA-256. The amendment stores scheduled/actual first pitch, venue, starters, lineup/catcher when recovered from the official boxscore, source lineage and a postgame evidence lane. Any lineup/catcher parsing limitation is preserved as an explicit bounded gap rather than silently omitted.
+
+
+## F2 — RECONSTRUCCIÓN PROFUNDA
+
+
+The following 15 GAME BLOCKS contain both half innings, every first-inning plate appearance retained in GUMBO, pitch sequences, run mechanism, exposure and starter first-inning process. This is the material reconstruction that the withdrawn original lacked.
+
+## GAME BLOCK 822781 — St. Louis Cardinals @ Toronto Blue Jays
+
+**Identity.** GAME_PK 822781; venue Rogers Centre; scheduled 2026-08-01T19:07:00Z; first pitch observed 2026-08-01T19:07:56.592Z; starters Quinn Mathews (away) / Kevin Gausman (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/822781/feed/live`; capture SHA-256 `455dbaedf3b9cc71918ef756aebbe0ad7fe096409f8e35ecb0ea770077810d2a`.
+
+**First-inning outcome.** Top 0, bottom 0, total 0; descriptive outcome **NRFI**. Top path `NO_RUN_PATH`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=4; pitches=15; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — JJ Wetherholt vs Kevin Gausman: field_out; outs 0→1; runs=0; pitches=6. Sequence: 1:FF Called Strike 93.0 mph; 2:FF Ball 93.9 mph; 3:FF Ball 94.6 mph; 4:FS Called Strike 84.9 mph; 5:FS Foul 84.8 mph; 6:FF In play, out(s) 94.7 mph. Description: JJ Wetherholt grounds out, shortstop Ernie Clement to first baseman Vladimir Guerrero Jr.
+- PA 2 — Jordan Walker vs Kevin Gausman: strikeout; outs 1→2; runs=0; pitches=4. Sequence: 1:FF Foul 94.7 mph; 2:FS Swinging Strike 85.0 mph; 3:FS Ball 86.4 mph; 4:FF Swinging Strike 95.8 mph. Description: Jordan Walker strikes out swinging.
+- PA 3 — Alec Burleson vs Kevin Gausman: single; outs 2→2; runs=0; pitches=3. Sequence: 1:FS Swinging Strike 84.3 mph; 2:FF Ball 94.7 mph; 3:FS In play, no out 85.6 mph. Description: Alec Burleson singles on a fly ball to left fielder Davis Schneider.
+- PA 4 — Iván Herrera vs Kevin Gausman: force_out; outs 2→3; runs=0; pitches=2. Sequence: 1:FF Called Strike 93.9 mph; 2:FF In play, out(s) 93.9 mph. Description: Iván Herrera grounds into a force out, third baseman Kazuma Okamoto to second baseman Luis Urías. Alec Burleson out at 2nd.
+
+### Bottom 1st — Half-Inning Card
+
+BF=4; pitches=20; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Luis Urías vs Quinn Mathews: single; outs 0→0; runs=0; pitches=5. Sequence: 1:FF Called Strike 94.6 mph; 2:SL Called Strike 86.6 mph; 3:SL Ball 87.2 mph; 4:FF Ball 94.8 mph; 5:CH In play, no out 83.3 mph. Description: Luis Urías singles on a fly ball to left fielder Lars Nootbaar.
+- PA 2 — Vladimir Guerrero Jr. vs Quinn Mathews: force_out; outs 0→1; runs=0; pitches=4. Sequence: 1:CU Foul 76.2 mph; 2:FF Foul 95.1 mph; 3:SL Ball 87.4 mph; 4:CH In play, out(s) 83.0 mph. Description: Vladimir Guerrero Jr. grounds into a force out, third baseman Blaze Jordan to second baseman JJ Wetherholt. Luis Urías out at 2nd. Vladimir Guerrero Jr. to 1st.
+- PA 3 — Kazuma Okamoto vs Quinn Mathews: strikeout; outs 1→2; runs=0; pitches=4. Sequence: 1:SL Called Strike 87.7 mph; 2:CH Swinging Strike 83.7 mph; 3:FF Ball 94.5 mph; 4:FF Swinging Strike 96.0 mph. Description: Kazuma Okamoto strikes out swinging.
+- PA 4 — George Springer vs Quinn Mathews: field_out; outs 2→3; runs=0; pitches=7. Sequence: 1:CH Ball 85.0 mph; 2:FF Called Strike 94.0 mph; 3:CH Swinging Strike 85.1 mph; 4:CU Foul 79.2 mph; 5:FF Ball 95.6 mph; 6:SL Ball In Dirt 87.3 mph; 7:FF In play, out(s) 94.4 mph. Description: George Springer grounds out, third baseman Blaze Jordan to first baseman Alec Burleson.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"592332":{"pitch_count_first_inning":15,"pitch_mix_first_inning":{"FF":9,"FS":6},"avg_release_speed_first_inning":90.68,"whiffs":3,"swings":8,"contacts":5},"687273":{"pitch_count_first_inning":20,"pitch_mix_first_inning":{"FF":8,"SL":5,"CH":5,"CU":2},"avg_release_speed_first_inning":88.53,"whiffs":3,"swings":9,"contacts":6}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed cu

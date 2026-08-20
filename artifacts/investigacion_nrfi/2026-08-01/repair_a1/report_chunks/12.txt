@@ -1,0 +1,47 @@
+1/game/824000/feed/live`; capture SHA-256 `cc413fc730696caf574373f5d901c99a21b71adbf9cadf7cb2edf38a46263170`.
+
+**First-inning outcome.** Top 0, bottom 1, total 1; descriptive outcome **YRFI**. Top path `NO_RUN_PATH`; bottom path `XBH_DAMAGE`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=12; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=0; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Jackson Chourio vs Brent Suter: field_out; outs 0→1; runs=0; pitches=4. Sequence: 1:SI Ball 90.2 mph; 2:FF Ball 88.8 mph; 3:FF Called Strike 88.0 mph; 4:SI In play, out(s) 89.9 mph. Description: Jackson Chourio lines out sharply to right fielder Jo Adell.
+- PA 2 — Brice Turang vs Brent Suter: field_out; outs 1→2; runs=0; pitches=5. Sequence: 1:FF Ball 89.1 mph; 2:SL Called Strike 77.2 mph; 3:SL Called Strike 78.3 mph; 4:FF Foul 90.1 mph; 5:SI In play, out(s) 90.5 mph. Description: Brice Turang flies out to left fielder Jose Siri.
+- PA 3 — William Contreras vs Brent Suter: field_out; outs 2→3; runs=0; pitches=3. Sequence: 1:SI Ball 90.8 mph; 2:SI Swinging Strike 90.6 mph; 3:CH In play, out(s) 80.7 mph. Description: William Contreras grounds out, second baseman Vaughn Grissom to first baseman Nolan Schanuel.
+
+### Bottom 1st — Half-Inning Card
+
+BF=5; pitches=22; runs=1; hits=2; singles=1; XBH=1; BB=0; HBP=0; K=2; HR=0; B4/B5/B6 exposed=True/True/False; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Zach Neto vs Robert Gasser: strikeout; outs 0→1; runs=0; pitches=4. Sequence: 1:FF Foul 91.3 mph; 2:FF Swinging Strike 92.3 mph; 3:ST Ball 80.1 mph; 4:ST Swinging Strike 80.1 mph. Description: Zach Neto strikes out swinging.
+- PA 2 — Mike Trout vs Robert Gasser: single; outs 1→1; runs=0; pitches=4. Sequence: 1:FF Called Strike 92.3 mph; 2:CH Foul 88.2 mph; 3:FF Foul 93.8 mph; 4:ST In play, no out 80.9 mph. Description: Mike Trout singles on a line drive to left fielder Jackson Chourio.
+- PA 3 — Nolan Schanuel vs Robert Gasser: strikeout; outs 1→2; runs=0; pitches=9. Sequence: 1:SI Ball 92.8 mph; 2:SI Called Strike 93.0 mph; 3:SI Called Strike 93.3 mph; 4:FF Ball 94.5 mph; 5:ST Foul 82.5 mph; 6:FF Foul 94.1 mph; 7:SI Foul 93.5 mph; 8:ST Ball 82.0 mph; 9:SI Called Strike 92.4 mph. Description: Nolan Schanuel challenged (pitch result), call on the field was confirmed: Nolan Schanuel called out on strikes.
+- PA 4 — Jorge Soler vs Robert Gasser: double; outs 2→2; runs=1; pitches=2. Sequence: 1:FC Foul 88.8 mph; 2:FF In play, run(s) 93.5 mph. Description: Jorge Soler doubles (16) on a line drive to left fielder Jackson Chourio. Mike Trout scores.
+- PA 5 — Vaughn Grissom vs Robert Gasser: field_out; outs 2→3; runs=0; pitches=3. Sequence: 1:SI Ball 92.9 mph; 2:ST Swinging Strike 81.0 mph; 3:ST In play, out(s) 80.8 mph. Description: Vaughn Grissom grounds out, third baseman Joey Ortiz to first baseman Andrew Vaughn.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"608718":{"pitch_count_first_inning":12,"pitch_mix_first_inning":{"SI":5,"FF":4,"SL":2,"CH":1},"avg_release_speed_first_inning":87.02,"whiffs":1,"swings":5,"contacts":4},"688107":{"pitch_count_first_inning":22,"pitch_mix_first_inning":{"FF":7,"ST":7,"CH":1,"SI":6,"FC":1},"avg_release_speed_first_inning":88.82,"whiffs":3,"swings":13,"contacts":10}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=3/5; pitch count top/bottom=12/22; first-inning score reconciliation=0+1=1. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824972 — Detroit Tigers @ Athletics
+
+**Identity.** GAME_PK 824972; venue Sutter Health Park; scheduled 2026-08-02T01:40:00Z; first pitch observed 2026-08-02T01:40:40.706Z; starters Framber Valdez (away) / Jack Perkins (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824972/feed/live`; capture SHA-256 `9634a1784093130fcaa93cc93176ebf7eb951ca72ae8a664b67b407bc477cc2b`.
+
+**First-inning outcome.** Top 2, bottom 0, total 2; descriptive outcome **YRFI**. Top path `HR_INVOLVED_MULTI_MECHANISM`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=7; pitches=20; runs=2; hits=4; singles=3; XBH=1; BB=0; HBP=0; K=2; HR=1; B4/B5/B6 exposed=True/True/True; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Kevin McGonigle vs Jack Perkins: home_run; outs 0→0; runs=1; pitches=3. Sequence: 1:FF Ball 95.2 mph; 2:CH Called Strike 85.7 mph; 3:FF In play, run(s) 94.4 mph. Description: Kevin McGonigle homers (11) on a fly ball to left field.
+- PA 2 — Gleyber Torres vs Jack Perkins: single; outs 0→0; runs=0; pitches=1. Sequence: 1:FF In play, no out 94.9 mph. Description: Gleyber Torres singles on a ground ball to left fielder Tyler Soderstrom.
+- PA 3 — Dillon Dingler vs Jack Perkins: single; outs 0→

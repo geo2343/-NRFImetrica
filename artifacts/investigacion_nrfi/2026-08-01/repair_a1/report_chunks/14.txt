@@ -1,0 +1,7 @@
+all games PROCESSED, F1–F5 receipts COMPLETE, Evidence Packet present, report contract verified, Drive append/readback verified and final audit PASS. Until those physical gates pass, this amendment remains IN_PROGRESS.
+
+
+## GAME_BLOCKS
+
+
+GAME_BLOCK_COUNT=15. The detailed blocks above are the human-readable projection of the structured semantic store; Supabase remains the process/audit source of truth and the official GUMBO hashes remain the source-lineage anchors.

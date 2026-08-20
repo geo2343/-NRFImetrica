@@ -1,0 +1,43 @@
+8 mph; 2:CH Swinging Strike 89.8 mph; 3:FF In play, out(s) 97.3 mph. Description: TJ Rumfield grounds out to first baseman Jac Caglianone.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"663372":{"pitch_count_first_inning":16,"pitch_mix_first_inning":{"FF":5,"CH":2,"SL":6,"SI":1,"ST":2},"avg_release_speed_first_inning":90.71,"whiffs":0,"swings":5,"contacts":5},"679883":{"pitch_count_first_inning":12,"pitch_mix_first_inning":{"FF":4,"CU":1,"SL":4,"SI":2,"CH":1},"avg_release_speed_first_inning":91.73,"whiffs":3,"swings":8,"contacts":5}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=4/3; pitch count top/bottom=16/12; first-inning score reconciliation=0+0=0. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 823269 — San Francisco Giants @ San Diego Padres
+
+**Identity.** GAME_PK 823269; venue Petco Park; scheduled 2026-08-02T00:40:00Z; first pitch observed 2026-08-02T00:41:03.651Z; starters Tyler Mahle (away) / Walker Buehler (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/823269/feed/live`; capture SHA-256 `c0f178fc8cbc359826d509cdb0f3ca9717b6a93f1056ee78986a8acc8ad1d7bf`.
+
+**First-inning outcome.** Top 0, bottom 2, total 2; descriptive outcome **YRFI**. Top path `NO_RUN_PATH`; bottom path `XBH_DAMAGE`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=17; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Bryce Eldridge vs Walker Buehler: single; outs 0→0; runs=0; pitches=4. Sequence: 1:FF Foul 93.7 mph; 2:SI Ball 94.8 mph; 3:FC Ball 91.2 mph; 4:SI In play, no out 95.4 mph. Description: Bryce Eldridge singles on a fly ball to left fielder Jase Bowen.
+- PA 2 — Jung Hoo Lee vs Walker Buehler: force_out; outs 0→1; runs=0; pitches=9. Sequence: 1:FF Ball 95.0 mph; 2:FF Ball 94.8 mph; 3:SI Foul 95.4 mph; 4:SI Ball 94.7 mph; 5:FF Called Strike 95.0 mph; 6:FC Foul 91.6 mph; 7:CH Foul 90.6 mph; 8:FC Foul 92.2 mph; 9:FF In play, out(s) 96.1 mph. Description: Jung Hoo Lee grounds into a force out, first baseman Ty France to shortstop Xander Bogaerts. Bryce Eldridge out at 2nd. Jung Hoo Lee to 1st.
+- PA 3 — Heliot Ramos vs Walker Buehler: strikeout; outs 1→3; runs=0; pitches=4. Sequence: 1:FC Ball 89.8 mph; 2:FC Swinging Strike 92.4 mph; 3:SI Called Strike 96.0 mph; 4:ST Swinging Strike 82.6 mph. Description: Heliot Ramos strikes out swinging.
+
+### Bottom 1st — Half-Inning Card
+
+BF=7; pitches=33; runs=2; hits=2; singles=1; XBH=1; BB=1; HBP=1; K=2; HR=0; B4/B5/B6 exposed=True/True/True; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Fernando Tatis Jr. vs Tyler Mahle: strikeout; outs 0→1; runs=0; pitches=5. Sequence: 1:FF Called Strike 93.0 mph; 2:FS Called Strike 85.6 mph; 3:FF Ball 92.2 mph; 4:FF Ball 93.0 mph; 5:FS Swinging Strike 86.4 mph. Description: Fernando Tatis Jr. strikes out swinging.
+- PA 2 — Jake Cronenworth vs Tyler Mahle: strikeout; outs 1→2; runs=0; pitches=5. Sequence: 1:FF Foul 93.4 mph; 2:FF Ball 94.0 mph; 3:FS Foul 87.4 mph; 4:FF Ball 94.9 mph; 5:FS Foul Tip 85.4 mph. Description: Jake Cronenworth strikes out on a foul tip.
+- PA 3 — Manny Machado vs Tyler Mahle: walk; outs 2→2; runs=0; pitches=4. Sequence: 1:FF Ball 94.0 mph; 2:FC Ball 88.6 mph; 3:FC Ball 88.5 mph; 4:FF Ball 94.6 mph. Description: Manny Machado walks.
+- PA 4 — Ty France vs Tyler Mahle: single; outs 2→2; runs=0; pitches=7. Sequence: 1:FF Called Strike 93.5 mph; 2:FS Foul 86.8 mph; 3:FF Ball 93.9 mph; 4:FC Ball In Dirt 88.5 mph; 5:FS Foul 87.3 mph; 6:FF Ball 94.2 mph; 7:FS In play, no out 87.5 mph. Description: Ty France singles on a ground ball to left fielder Heliot Ramos. Manny Machado to 2nd.
+- PA 5 — Jackson Merrill vs Tyler Mahle: double; outs 2→2; runs=2; pitches=4. Sequence: 1:FS Ball In Dirt 87.8 mph; 2:FS Swinging Strike 87.7 mph; 3:FF Ball 93.6 mph; 4:FC In play, run(s) 88.8 mph. Description: Jackson Merrill doubles (18) on a line drive to left fielder Heliot Ramos. Manny Machado scores. Ty France scores.
+- PA 6 — Luis Rengifo vs Tyler Mahle: hit_by_pitch; outs 2→2; runs=0; pitches=4. Sequence: 1:FF Ball 94.0 mph; 2:FF Called Strike 94.6 mph; 3:FS Foul 86.9 mph; 4:FF Hit By Pitch 94.2 mph. Description: Luis Rengifo hit by pitch.
+- PA 7 — Xander Bogaerts vs Tyler Mahle: field_out; outs 2→3; runs=0; pitches=4. Sequence: 1:FS Swinging Strike 86.2 mph; 2:FC Ball 86.8 mph; 3:FS Ball 86.5 mph; 4:FF In play, out(s) 93.9 mph. Description: Xander Bogaerts grounds out, second baseman Osleivis Basabe to first baseman Rafael Devers.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"621111":{"pitch_count_first_inning":17,"pitch_mix_first_inning":{"FF":5,"SI":5,"FC":5,"CH":1,"ST":1},"avg_release_speed_first_inning":93.02,"whiffs":2,"swings":9,"contacts":7},"641816":{"pitch_count_first_inning":33,"pitch_mix_first_

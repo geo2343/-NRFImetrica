@@ -1,0 +1,44 @@
+all 89.6 mph; 2:FC Foul 88.9 mph; 3:CU Called Strike 72.0 mph; 4:FF Foul 93.4 mph; 5:CU Ball In Dirt 76.9 mph; 6:FC In play, run(s) 87.9 mph. Description: Liam Hicks singles on a ground ball to left fielder Tyrone Taylor. Otto Lopez scores. Liam Hicks to 2nd.
+- PA 4 — Xavier Edwards vs Zac Thornton: field_out; outs 1→2; runs=0; pitches=3. Sequence: 1:FF Ball 91.6 mph; 2:SI Ball 91.6 mph; 3:FC In play, out(s) 88.6 mph. Description: Xavier Edwards pops out to shortstop Francisco Lindor.
+- PA 5 — Leo Jiménez vs Zac Thornton: field_out; outs 2→3; runs=0; pitches=2. Sequence: 1:FC Called Strike 88.2 mph; 2:FC In play, out(s) 89.2 mph. Description: Leo Jiménez grounds out, first baseman Jared Young to pitcher Zac Thornton.
+
+### Bottom 1st — Half-Inning Card
+
+BF=5; pitches=13; runs=0; hits=2; singles=2; XBH=0; BB=0; HBP=0; K=0; HR=0; B4/B5/B6 exposed=True/True/False; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — A.J. Ewing vs Tyler Phillips: field_out; outs 0→1; runs=0; pitches=2. Sequence: 1:CU Ball 82.0 mph; 2:SI In play, out(s) 94.4 mph. Description: A.J. Ewing flies out to right fielder Javier Sanoja.
+- PA 2 — Francisco Lindor vs Tyler Phillips: single; outs 1→1; runs=0; pitches=3. Sequence: 1:FF Ball 95.8 mph; 2:SL Called Strike 87.7 mph; 3:CU In play, no out 84.3 mph. Description: Francisco Lindor singles on a sharp line drive to right fielder Javier Sanoja.
+- PA 3 — Bo Bichette vs Tyler Phillips: force_out; outs 1→2; runs=0; pitches=3. Sequence: 1:ST Called Strike 82.6 mph; 2:FS Swinging Strike 87.1 mph; 3:SI In play, out(s) 95.1 mph. Description: Bo Bichette grounds into a force out, shortstop Otto Lopez to second baseman Xavier Edwards. Francisco Lindor out at 2nd. Bo Bichette to 1st.
+- PA 4 — Carson Benge vs Tyler Phillips: single; outs 2→2; runs=0; pitches=2. Sequence: 1:FF Ball 95.6 mph; 2:CU In play, no out 82.7 mph. Description: Carson Benge singles on a sharp line drive to center fielder Esteury Ruiz. Bo Bichette to 3rd.
+- PA 5 — Jared Young vs Tyler Phillips: force_out; outs 2→3; runs=0; pitches=3. Sequence: 1:ST Foul 84.8 mph; 2:FS Ball 86.0 mph; 3:SI In play, out(s) 94.8 mph. Description: Jared Young grounds into a force out, fielded by shortstop Otto Lopez. Carson Benge out at 2nd.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"804267":{"pitch_count_first_inning":24,"pitch_mix_first_inning":{"FF":3,"SI":4,"CU":3,"SL":1,"FC":11,"ST":1,"CH":1},"avg_release_speed_first_inning":87.24,"whiffs":2,"swings":12,"contacts":10},"663969":{"pitch_count_first_inning":13,"pitch_mix_first_inning":{"CU":3,"SI":3,"FF":2,"SL":1,"ST":2,"FS":2},"avg_release_speed_first_inning":88.68,"whiffs":1,"swings":7,"contacts":6}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=5/5; pitch count top/bottom=24/13; first-inning score reconciliation=1+0=1. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824485 — Pittsburgh Pirates @ Cincinnati Reds
+
+**Identity.** GAME_PK 824485; venue Great American Ball Park; scheduled 2026-08-01T22:40:00Z; first pitch observed 2026-08-01T22:41:12.649Z; starters Braxton Ashcraft (away) / Andrew Abbott (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824485/feed/live`; capture SHA-256 `1f92dea0807a4e29038c6d1155073033f2e93419893b805e9536b7e826abf6e2`.
+
+**First-inning outcome.** Top 0, bottom 0, total 0; descriptive outcome **NRFI**. Top path `NO_RUN_PATH`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=4; pitches=15; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=0; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Jake Mangum vs Andrew Abbott: single; outs 0→0; runs=0; pitches=7. Sequence: 1:FF Ball 90.4 mph; 2:FF Ball 91.7 mph; 3:FF Called Strike 91.5 mph; 4:FF Swinging Strike 92.3 mph; 5:FF Foul 93.1 mph; 6:FF Ball 92.4 mph; 7:FF In play, no out 93.2 mph. Description: Jake Mangum singles on a ground ball to right fielder Noelvi Marte.
+- PA 2 — Brandon Lowe vs Andrew Abbott: force_out; outs 0→1; runs=0; pitches=4. Sequence: 1:FF Foul 92.3 mph; 2:CU Ball In Dirt 82.4 mph; 3:FF Ball 92.8 mph; 4:ST In play, out(s) 83.1 mph. Description: Brandon Lowe grounds into a force out, third baseman Eugenio Suárez to shortstop Elly De La Cruz. Jake Mangum out at 2nd. Brandon Lowe to 1st.
+- PA 3 — Bryan Reynolds vs Andrew Abbott: field_out; outs 1→2; runs=0; pitches=2. Sequence: 1:FF Foul 92.1 mph; 2:FF In play, out(s) 92.4 mph. Description: Bryan Reynolds flies out sharply to center fielder TJ Friedl.
+- PA 4 — Esmerlyn Valdez vs Andrew Abbott: field_out; outs 2→3; runs=0; pitches=2. Sequence: 1:CH Ball 85.7 mph; 2:CH In play, out(s) 85.3 mph. Description: Esmerlyn Valdez flies out to left fielder JJ Bleday.
+
+### Bottom 1st — Half-Inning Card
+
+BF=3; pitches=12; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=False

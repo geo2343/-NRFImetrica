@@ -1,0 +1,45 @@
+:FF Ball 92.9 mph; 6:SI Foul 93.7 mph; 7:SI Foul 92.4 mph; 8:CH Foul Tip 85.3 mph. Description: Amed Rosario strikes out on a foul tip.
+
+### Bottom 1st — Half-Inning Card
+
+BF=4; pitches=23; runs=1; hits=0; singles=0; XBH=0; BB=1; HBP=0; K=1; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Pete Crow-Armstrong vs Max Fried: walk; outs 0→0; runs=0; pitches=8. Sequence: 1:FF Called Strike 94.9 mph; 2:ST Ball 81.7 mph; 3:FF Foul Tip 95.8 mph; 4:FF Ball 96.9 mph; 5:SI Ball 94.8 mph; 6:FF Foul 97.6 mph; 7:FF Foul 96.9 mph; 8:SI Ball 94.3 mph. Description: Pete Crow-Armstrong walks.
+- PA 2 — Seiya Suzuki vs Max Fried: field_out; outs 0→1; runs=0; pitches=6. Sequence: 1:CU Ball 73.6 mph; 2:SI Called Strike 94.3 mph; 3:FF Foul Tip 95.2 mph; 4:CU Ball 77.4 mph; 5:FC Ball 92.9 mph; 6:FC In play, out(s) 93.8 mph. Description: Seiya Suzuki grounds out, second baseman Jazz Chisholm Jr. to first baseman Paul Goldschmidt. Pete Crow-Armstrong to 3rd.
+- PA 3 — Alex Bregman vs Max Fried: field_out; outs 1→2; runs=1; pitches=3. Sequence: 1:ST Ball 81.4 mph; 2:FF Ball 95.6 mph; 3:FF In play, out(s) 94.9 mph. Description: Alex Bregman flies out to center fielder Spencer Jones.
+- PA 4 — Carson Kelly vs Max Fried: strikeout; outs 2→3; runs=0; pitches=6. Sequence: 1:ST Called Strike 81.2 mph; 2:FF Ball 95.1 mph; 3:FC Foul 93.3 mph; 4:FF Foul 96.1 mph; 5:ST Ball 82.6 mph; 6:CU Swinging Strike 74.6 mph. Description: Carson Kelly strikes out swinging.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"656849":{"pitch_count_first_inning":21,"pitch_mix_first_inning":{"SI":10,"CH":6,"FF":5},"avg_release_speed_first_inning":91.33,"whiffs":1,"swings":8,"contacts":7},"608331":{"pitch_count_first_inning":23,"pitch_mix_first_inning":{"FF":10,"ST":4,"SI":3,"CU":3,"FC":3},"avg_release_speed_first_inning":90.21,"whiffs":1,"swings":9,"contacts":8}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=3/4; pitch count top/bottom=21/23; first-inning score reconciliation=0+1=1. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824326 — Kansas City Royals @ Colorado Rockies
+
+**Identity.** GAME_PK 824326; venue Coors Field; scheduled 2026-08-02T00:10:00Z; first pitch observed 2026-08-02T00:12:06.713Z; starters Luinder Avila (away) / Ryan Feltner (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824326/feed/live`; capture SHA-256 `c65cbe2f4da568debcbd7e6ab3e4b0b5a9208792227609dab9e3910f740c76a5`.
+
+**First-inning outcome.** Top 0, bottom 0, total 0; descriptive outcome **NRFI**. Top path `NO_RUN_PATH`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=4; pitches=16; runs=0; hits=1; singles=1; XBH=0; BB=1; HBP=0; K=0; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Carter Jensen vs Ryan Feltner: walk; outs 0→0; runs=0; pitches=5. Sequence: 1:FF Ball 94.4 mph; 2:FF Called Strike 94.4 mph; 3:CH Ball 85.1 mph; 4:SL Ball 91.5 mph; 5:SL Ball 91.0 mph. Description: Carter Jensen walks.
+- PA 2 — Lane Thomas vs Ryan Feltner: single; outs 0→0; runs=0; pitches=6. Sequence: 1:SL Called Strike 90.1 mph; 2:SI Ball 94.3 mph; 3:SL Foul 89.3 mph; 4:FF Ball 95.8 mph; 5:ST Ball 83.0 mph; 6:FF In play, no out 94.7 mph. Description: Lane Thomas singles on a line drive to left fielder Jake McCarthy. Carter Jensen to 2nd.
+- PA 3 — Jac Caglianone vs Ryan Feltner: grounded_into_double_play; outs 0→2; runs=0; pitches=1. Sequence: 1:FF In play, out(s) 96.3 mph. Description: Jac Caglianone grounds into a double play, shortstop Cole Carrigg to first baseman TJ Rumfield. Carter Jensen to 3rd. Lane Thomas out at 2nd. Jac Caglianone out at 1st.
+- PA 4 — Salvador Perez vs Ryan Feltner: field_out; outs 2→3; runs=0; pitches=4. Sequence: 1:SL Called Strike 89.9 mph; 2:SL Foul 90.4 mph; 3:ST Ball In Dirt 85.2 mph; 4:CH In play, out(s) 85.9 mph. Description: Salvador Perez grounds out, third baseman Kyle Karros to first baseman TJ Rumfield.
+
+### Bottom 1st — Half-Inning Card
+
+BF=3; pitches=12; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Jake McCarthy vs Luinder Avila: field_out; outs 0→1; runs=0; pitches=4. Sequence: 1:FF Called Strike 93.8 mph; 2:CU Swinging Strike 82.9 mph; 3:SL Ball 86.2 mph; 4:FF In play, out(s) 96.5 mph. Description: Jake McCarthy lines out sharply to left fielder Isaac Collins.
+- PA 2 — Kyle Karros vs Luinder Avila: strikeout; outs 1→2; runs=0; pitches=5. Sequence: 1:FF Foul 94.9 mph; 2:SI Foul 96.3 mph; 3:SL Ball 88.5 mph; 4:SL Foul 88.0 mph; 5:SL Swinging Strike 88.8 mph. Description: Kyle Karros strikes out swinging.
+- PA 3 — TJ Rumfield vs Luinder Avila: field_out; outs 2→3; runs=0; pitches=3. Sequence: 1:SI Ball 97.

@@ -1,0 +1,48 @@
+inning":{"FF":16,"FS":12,"FC":5},"avg_release_speed_first_inning":90.42,"whiffs":3,"swings":12,"contacts":9}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=3/7; pitch count top/bottom=17/33; first-inning score reconciliation=0+2=2. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 823920 — Boston Red Sox @ Los Angeles Dodgers
+
+**Identity.** GAME_PK 823920; venue UNIQLO Field at Dodger Stadium; scheduled 2026-08-02T01:10:00Z; first pitch observed 2026-08-02T01:11:35.381Z; starters Payton Tolle (away) / Yoshinobu Yamamoto (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/823920/feed/live`; capture SHA-256 `d8e904cc9487094f4e79e4e05ab89d63aa3032b070947626b370d0cfc82d899c`.
+
+**First-inning outcome.** Top 1, bottom 0, total 1; descriptive outcome **YRFI**. Top path `SOLO_HR`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=4; pitches=9; runs=1; hits=1; singles=0; XBH=1; BB=0; HBP=0; K=0; HR=1; B4/B5/B6 exposed=True/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Anthony Seigler vs Yoshinobu Yamamoto: field_out; outs 0→1; runs=0; pitches=2. Sequence: 1:CU Called Strike 77.1 mph; 2:FC In play, out(s) 94.2 mph. Description: Anthony Seigler grounds out softly, second baseman Tommy Edman to first baseman Freddie Freeman.
+- PA 2 — Ceddanne Rafaela vs Yoshinobu Yamamoto: home_run; outs 1→1; runs=1; pitches=1. Sequence: 1:FS In play, run(s) 90.5 mph. Description: Ceddanne Rafaela homers (13) on a fly ball to left center field.
+- PA 3 — Wilyer Abreu vs Yoshinobu Yamamoto: field_out; outs 1→2; runs=0; pitches=2. Sequence: 1:FF Called Strike 97.3 mph; 2:FS In play, out(s) 91.6 mph. Description: Wilyer Abreu grounds out, second baseman Tommy Edman to first baseman Freddie Freeman.
+- PA 4 — Caleb Durbin vs Yoshinobu Yamamoto: field_out; outs 2→3; runs=0; pitches=4. Sequence: 1:FF Swinging Strike 96.3 mph; 2:CU Called Strike 78.4 mph; 3:SI Ball 96.6 mph; 4:FS In play, out(s) 92.2 mph. Description: Caleb Durbin grounds out, third baseman Max Muncy to first baseman Freddie Freeman.
+
+### Bottom 1st — Half-Inning Card
+
+BF=3; pitches=8; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=1; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=True; two-out extension=False; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Shohei Ohtani vs Payton Tolle: single; outs 0→0; runs=0; pitches=3. Sequence: 1:FF Ball 95.8 mph; 2:FC Called Strike 89.1 mph; 3:FF In play, no out 96.4 mph. Description: Shohei Ohtani singles on a sharp ground ball to center fielder Ceddanne Rafaela.
+- PA 2 — Andy Pages vs Payton Tolle: double_play; outs 0→2; runs=0; pitches=1. Sequence: 1:SI In play, out(s) 94.1 mph. Description: Andy Pages lines into a double play, right fielder Wilyer Abreu to shortstop Andruw Monasterio. Shohei Ohtani out at 2nd.
+- PA 3 — Tommy Edman vs Payton Tolle: strikeout; outs 2→3; runs=0; pitches=4. Sequence: 1:FF Swinging Strike 96.1 mph; 2:FF Foul 97.7 mph; 3:CU Ball 83.1 mph; 4:CU Swinging Strike 82.1 mph. Description: Tommy Edman strikes out swinging.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"808967":{"pitch_count_first_inning":9,"pitch_mix_first_inning":{"CU":2,"FC":1,"FS":3,"FF":2,"SI":1},"avg_release_speed_first_inning":90.47,"whiffs":1,"swings":5,"contacts":4},"801139":{"pitch_count_first_inning":8,"pitch_mix_first_inning":{"FF":4,"FC":1,"SI":1,"CU":2},"avg_release_speed_first_inning":91.8,"whiffs":2,"swings":5,"contacts":3}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=4/3; pitch count top/bottom=9/8; first-inning score reconciliation=1+0=1. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824000 — Milwaukee Brewers @ Los Angeles Angels
+
+**Identity.** GAME_PK 824000; venue Angel Stadium; scheduled 2026-08-02T01:38:00Z; first pitch observed 2026-08-02T01:38:35.235Z; starters Robert Gasser (away) / Brent Suter (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.

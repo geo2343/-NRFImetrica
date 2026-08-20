@@ -1,0 +1,44 @@
+/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Elly De La Cruz vs Braxton Ashcraft: field_out; outs 0→1; runs=0; pitches=1. Sequence: 1:FF In play, out(s) 98.0 mph. Description: Elly De La Cruz grounds out, second baseman Brandon Lowe to first baseman Rafael Flores Jr.
+- PA 2 — Sal Stewart vs Braxton Ashcraft: strikeout; outs 1→2; runs=0; pitches=8. Sequence: 1:SI Called Strike 98.2 mph; 2:SL Ball 92.3 mph; 3:SL Foul 91.9 mph; 4:CU Foul 86.7 mph; 5:SL Foul 93.7 mph; 6:SI Foul 98.9 mph; 7:CU Ball 86.7 mph; 8:FF Swinging Strike 99.2 mph. Description: Sal Stewart strikes out swinging.
+- PA 3 — JJ Bleday vs Braxton Ashcraft: field_out; outs 2→3; runs=0; pitches=3. Sequence: 1:CU Ball 87.1 mph; 2:SL Foul 92.7 mph; 3:SL In play, out(s) 92.9 mph. Description: JJ Bleday grounds out, second baseman Brandon Lowe to first baseman Rafael Flores Jr.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"671096":{"pitch_count_first_inning":15,"pitch_mix_first_inning":{"FF":11,"CU":1,"ST":1,"CH":2},"avg_release_speed_first_inning":90.05,"whiffs":1,"swings":8,"contacts":7},"677952":{"pitch_count_first_inning":12,"pitch_mix_first_inning":{"FF":2,"SI":2,"SL":5,"CU":3},"avg_release_speed_first_inning":93.19,"whiffs":1,"swings":8,"contacts":7}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=4/3; pitch count top/bottom=15/12; first-inning score reconciliation=0+0=0. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824808 — Philadelphia Phillies @ Baltimore Orioles
+
+**Identity.** GAME_PK 824808; venue Oriole Park at Camden Yards; scheduled 2026-08-01T23:05:00Z; first pitch observed 2026-08-01T23:08:41.840Z; starters Cristopher Sánchez (away) / Shane Baz (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824808/feed/live`; capture SHA-256 `8b60662b3c0c305e4e68fc44e8699fc3cd35ad59f15aaabe2fdda6b3db56f5eb`.
+
+**First-inning outcome.** Top 0, bottom 0, total 0; descriptive outcome **NRFI**. Top path `NO_RUN_PATH`; bottom path `NO_RUN_PATH`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=10; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=0; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Trea Turner vs Shane Baz: field_out; outs 0→1; runs=0; pitches=6. Sequence: 1:SI Called Strike 94.4 mph; 2:SI Called Strike 96.1 mph; 3:KC Ball 87.7 mph; 4:FC Ball 91.3 mph; 5:KC Foul 87.1 mph; 6:SI In play, out(s) 97.5 mph. Description: Trea Turner lines out to right fielder Tyler O'Neill.
+- PA 2 — Kyle Schwarber vs Shane Baz: field_out; outs 1→2; runs=0; pitches=2. Sequence: 1:KC Ball 83.8 mph; 2:SI In play, out(s) 95.4 mph. Description: Kyle Schwarber lines out sharply to center fielder Leody Taveras.
+- PA 3 — Bryce Harper vs Shane Baz: field_out; outs 2→3; runs=0; pitches=2. Sequence: 1:FF Ball 96.0 mph; 2:FF In play, out(s) 95.5 mph. Description: Bryce Harper grounds out, second baseman Jackson Holliday to first baseman Pete Alonso.
+
+### Bottom 1st — Half-Inning Card
+
+BF=4; pitches=14; runs=0; hits=1; singles=1; XBH=0; BB=0; HBP=0; K=2; HR=0; B4/B5/B6 exposed=True/False/False; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Coby Mayo vs Cristopher Sánchez: strikeout; outs 0→1; runs=0; pitches=3. Sequence: 1:SI Swinging Strike 94.8 mph; 2:CH Swinging Strike 87.3 mph; 3:CH Swinging Strike 88.3 mph. Description: Coby Mayo strikes out swinging.
+- PA 2 — Taylor Ward vs Cristopher Sánchez: field_out; outs 1→2; runs=0; pitches=3. Sequence: 1:SI Ball 94.8 mph; 2:SI Ball 95.1 mph; 3:SI In play, out(s) 94.8 mph. Description: Taylor Ward grounds out, second baseman Bryson Stott to first baseman Bryce Harper.
+- PA 3 — Gunnar Henderson vs Cristopher Sánchez: single; outs 2→2; runs=0; pitches=2. Sequence: 1:SI Ball 94.3 mph; 2:SI In play, no out 94.7 mph. Description: Gunnar Henderson singles on a line drive to right fielder Bryan De La Cruz.
+- PA 4 — Pete Alonso vs Cristopher Sánchez: strikeout; outs 2→3; runs=0; pitches=6. Sequence: 1:CH Ball 86.1 mph; 2:SI Called Strike 95.3 mph; 3:SI Ball 94.4 mph; 4:SL Ball 87.8 mph; 5:SI Foul 95.6 mph; 6:SI Called Strike 94.5 mph. Description: Pete Alonso called out on strikes.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"669358":{"pitch_count_first_inning":10,"pitch_mix_first_inning":{"SI":4,"KC":3,"FC":1,"FF":2},"avg_release_speed_first_inning":92.48,"whiffs":0,"swings":4,"contacts":4},"650911":{"pitch_count_first_inning":14,"pitch_mix_first_inning":{"SI":10,"CH":3,"SL":1},"avg_release_speed_first_inning":92.7,"whiffs":3,"swings":6,"contacts":3}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning

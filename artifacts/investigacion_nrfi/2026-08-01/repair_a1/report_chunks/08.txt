@@ -1,0 +1,46 @@
+m 2, total 2; descriptive outcome **YRFI**. Top path `NO_RUN_PATH`; bottom path `MULTI_HR`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=7; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=0; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — James Wood vs Martín Pérez: field_out; outs 0→1; runs=0; pitches=4. Sequence: 1:SI Ball 89.1 mph; 2:SI Ball 89.2 mph; 3:SI Called Strike 88.7 mph; 4:CH In play, out(s) 81.1 mph. Description: James Wood pops out to third baseman Austin Riley in foul territory.
+- PA 2 — Andrés Chaparro vs Martín Pérez: field_out; outs 1→2; runs=0; pitches=2. Sequence: 1:SI Swinging Strike 89.3 mph; 2:SI In play, out(s) 90.1 mph. Description: Andrés Chaparro grounds out softly, second baseman Ozzie Albies to first baseman Matt Olson.
+- PA 3 — Dylan Crews vs Martín Pérez: field_out; outs 2→3; runs=0; pitches=1. Sequence: 1:SI In play, out(s) 90.4 mph. Description: Dylan Crews lines out to left fielder Mike Yastrzemski.
+
+### Bottom 1st — Half-Inning Card
+
+BF=6; pitches=13; runs=2; hits=3; singles=1; XBH=2; BB=0; HBP=0; K=1; HR=2; B4/B5/B6 exposed=True/True/True; leadoff reach=False; two-out extension=True; 3-up-3-down=False. Exact PA-level sequence follows.
+
+- PA 1 — Drake Baldwin vs Miles Mikolas: field_out; outs 0→1; runs=0; pitches=1. Sequence: 1:FF In play, out(s) 92.1 mph. Description: Drake Baldwin flies out to left fielder Dylan Crews.
+- PA 2 — Ronald Acuña Jr. vs Miles Mikolas: home_run; outs 1→1; runs=1; pitches=2. Sequence: 1:SL Ball 87.0 mph; 2:SI In play, run(s) 91.6 mph. Description: Ronald Acuña Jr. homers (9) on a fly ball to center field.
+- PA 3 — Matt Olson vs Miles Mikolas: home_run; outs 1→1; runs=1; pitches=2. Sequence: 1:FF Swinging Strike 92.3 mph; 2:SL In play, run(s) 88.4 mph. Description: Matt Olson homers (30) on a fly ball to right field.
+- PA 4 — Michael Harris II vs Miles Mikolas: strikeout; outs 1→2; runs=0; pitches=3. Sequence: 1:SI Called Strike 92.7 mph; 2:SI Foul 92.7 mph; 3:CU Swinging Strike (Blocked) 78.1 mph. Description: Michael Harris II strikes out swinging.
+- PA 5 — Ozzie Albies vs Miles Mikolas: single; outs 2→2; runs=0; pitches=2. Sequence: 1:CU Ball 76.8 mph; 2:SI In play, no out 92.5 mph. Description: Ozzie Albies singles on a sharp line drive to right fielder James Wood.
+- PA 6 — Dominic Smith vs Miles Mikolas: field_out; outs 2→3; runs=0; pitches=3. Sequence: 1:SI Called Strike 91.7 mph; 2:SI Ball 92.2 mph; 3:CU In play, out(s) 76.4 mph. Description: Dominic Smith grounds out, second baseman Nasim Nuñez to first baseman Luis García Jr.
+
+### Pitch-level process and starter context
+
+First-inning process objects: `{"527048":{"pitch_count_first_inning":7,"pitch_mix_first_inning":{"SI":6,"CH":1},"avg_release_speed_first_inning":88.27,"whiffs":1,"swings":4,"contacts":3},"571945":{"pitch_count_first_inning":13,"pitch_mix_first_inning":{"FF":2,"SL":2,"SI":6,"CU":3},"avg_release_speed_first_inning":88.04,"whiffs":2,"swings":8,"contacts":6}}`. These are calculated from the pitch events retained in the official first-inning GUMBO. Full-start boxscore context is retained separately in `STARTER_CONTEXT`; prior-start L3/L5/L10/L15/L20, season and career first-inning sequences are explicitly `BOUNDED_GAP` in this repair rather than fabricated. The gap does not alter the observed first-inning reconstruction.
+
+### Feature and reliability interpretation
+
+The game contributes all nine registry families at the GAME level: RESULTS, SEQUENCE, EXPOSURE, OUT_CREATION, TRAFFIC, DAMAGE, PITCHER_PROCESS, TOP_ORDER and CONTEXT. The observed current-game families carry high contextual support from GUMBO; historical sequence windows are low-coverage bounded objects. Press/HUMAN_INFORMATION is kept outside the pregame lane unless a publication/availability timestamp can be certified. Mechanism cohorting is retrospective and descriptive only.
+
+### Reconstruction check
+
+PA count top/bottom=3/6; pitch count top/bottom=7/13; first-inning score reconciliation=0+2=2. Exact event arrays and raw source hash are persisted. No missing historical window is converted to zero.
+
+## GAME BLOCK 824649 — New York Yankees @ Chicago Cubs
+
+**Identity.** GAME_PK 824649; venue Wrigley Field; scheduled 2026-08-01T23:15:00Z; first pitch observed 2026-08-01T23:15:09.166Z; starters Max Fried (away) / David Peterson (home). Source: official MLB GUMBO `https://statsapi.mlb.com/api/v1.1/game/824649/feed/live`; capture SHA-256 `344bda5abf4e151f00ea95a5c7cb1042ea23d7268c3fa26ccf1581434b2a2d5b`.
+
+**First-inning outcome.** Top 0, bottom 1, total 1; descriptive outcome **YRFI**. Top path `NO_RUN_PATH`; bottom path `FREE_TRAFFIC_CHAIN`. This is a historical observation, not a forecast or betting probability.
+
+### Top 1st — Half-Inning Card
+
+BF=3; pitches=21; runs=0; hits=0; singles=0; XBH=0; BB=0; HBP=0; K=2; HR=0; B4/B5/B6 exposed=False/False/False; leadoff reach=False; two-out extension=False; 3-up-3-down=True. Exact PA-level sequence follows.
+
+- PA 1 — Max Schuemann vs David Peterson: strikeout; outs 0→1; runs=0; pitches=6. Sequence: 1:SI Swinging Strike 92.9 mph; 2:SI Ball 91.9 mph; 3:CH Foul 85.8 mph; 4:CH Ball 85.1 mph; 5:SI Ball 94.1 mph; 6:SI Called Strike 95.2 mph. Description: Max Schuemann challenged (pitch result), call on the field was confirmed: Max Schuemann called out on strikes.
+- PA 2 — Paul Goldschmidt vs David Peterson: field_out; outs 1→2; runs=0; pitches=7. Sequence: 1:SI Ball 93.6 mph; 2:CH Called Strike 87.8 mph; 3:SI Ball 93.7 mph; 4:CH Called Strike 86.5 mph; 5:CH Foul 87.9 mph; 6:FF Ball 93.3 mph; 7:FF In play, out(s) 93.2 mph. Description: Paul Goldschmidt lines out softly to second baseman Nico Hoerner.
+- PA 3 — Amed Rosario vs David Peterson: strikeout; outs 2→3; runs=0; pitches=8. Sequence: 1:FF Ball 93.0 mph; 2:SI Called Strike 92.3 mph; 3:SI Called Strike 93.6 mph; 4:FF Foul 93.7 mph; 5
