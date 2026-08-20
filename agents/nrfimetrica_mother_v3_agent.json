@@ -1,15 +1,20 @@
 {
   "agent_id": "@NRFImetrica",
-  "agent_version": "MOTHER-V3-AGENT-1.10",
-  "status": "ACTIVE",
+  "agent_version": "MOTHER-V3-AGENT-1.11",
+  "status": "DISABLED",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
-    "kernel_version": "NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION",
-    "mother_document_sha256": "391fbdfdf78965f9454307267f7e3d048abc7ccb4329e29870ad58aeabcb55f1",
-    "mother_export_lines": 21237,
-    "calibration_separation_amendment_drive_id": "1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE",
-    "precedence": "CALIBRATION_SEPARATION_AMENDMENT_OVER_LEGACY_A7_CALIBRATED_P_SEMANTICS"
+    "kernel_version": "NRFIM-KERNEL-1.6-PREANALYSIS-COGNITIVE-GUARD",
+    "mother_document_sha256": "44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8",
+    "mother_export_lines": 18563,
+    "precedence": "PREANALYSIS_PRESS_INFORMATION_ONLY_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
+    "real_money_authority": false
+  },
+  "scope": {
+    "notion": "CONSULTATION_ONLY_NO_WRITE_AUTHORITY",
+    "nrfiprensa": "EXTERNAL_PRODUCER_NOT_MODIFIED_BY_THIS_AGENT",
+    "receiver_side_only": true
   },
   "activation": {
     "primary_trigger": "@NRFImetrica",
@@ -17,113 +22,72 @@
     "every_activation_requires_new_report_document": true,
     "prior_run_analysis_reuse": false
   },
-  "roles": {
-    "chatgpt": "CAUSAL_SPORTS_ANALYST_AND_ORCHESTRATOR",
-    "kernel": "PROCESS_AND_CONTRACT_ENFORCEMENT_NOT_METRIC_VOTER",
-    "process_auditor": "KERNEL_PROCESS_AUDITOR_0.2_NO_SPORTS_VOTE",
-    "historical_calibration": "SYSTEM_AUDIT_ONLY"
+  "press_intake": {
+    "phase": "A0P_PRESS_INFORMATION_INTAKE",
+    "position": "BEFORE_A1",
+    "optional": true,
+    "absent_behavior": "SKIPPED_NOT_TRIGGERED_AND_CONTINUE_AUTONOMOUSLY",
+    "information_role": "INFORMATION_FOR_ANALYSIS",
+    "sports_authority": "NONE",
+    "probability_authority": "NONE",
+    "ranking_authority": "NONE",
+    "market_authority": "NONE",
+    "conclusion_authority": "NONE",
+    "material_delta_behavior": "SELECTIVE_CAUSAL_REANALYSIS_NOT_EXTERNAL_OVERRIDE"
+  },
+  "cognitive_contract": {
+    "version": "COGNITIVE-1.0",
+    "protocol_is_floor_not_ceiling": true,
+    "provisional_representation_revisable": true,
+    "autonomous_questions_on_material_friction": true,
+    "bilateral_independent_half_analysis": true,
+    "causal_bottleneck_per_half": true,
+    "epistemic_compression": true,
+    "best_supported_rival": true,
+    "second_pass_review": true,
+    "directional_bias_check": true,
+    "semantic_reclassification": true,
+    "possibility_not_materialization": true,
+    "importance_not_confidence": true
   },
   "calibration_separation": {
     "doctrine": "CALIBRATE_SYSTEM_NOT_GAME",
     "game_probability_source": "A5_GAME_CAUSAL_ONLY",
-    "eligibility_basis": "GAME_CAUSAL_ONLY",
+    "historical_calibration_role": "SYSTEM_AUDIT_ONLY",
     "historical_calibration_game_override": false,
     "historical_calibration_sports_authority": false,
     "historical_calibration_ranking_authority": false,
     "historical_calibration_probability_effect": "NONE",
-    "system_calibration_economic_role": "SYSTEM_LEVEL_TRUST_GATE_ONLY",
+    "system_reliability_economic_role": "SYSTEM_LEVEL_TRUST_GATE_ONLY",
     "conservative_probability_source": "GAME_SPECIFIC_STRESS_TEST_ONLY",
-    "universal_game_equivalence_allowed": false,
-    "hierarchical_contextual_system_audit": true,
-    "historical_calibration_used_in_game_uncertainty": false,
-    "hard_rules": [
-      "HISTORICAL_CALIBRATION_SHALL_NOT_OVERRIDE_GAME_SPECIFIC_CAUSAL_EVIDENCE",
-      "NO_TWO_GAMES_ARE_EQUIVALENT_ONLY_BY_PROBABILITY_SCORE_BAND_OR_STAT_PROFILE",
-      "CALIBRATION_CANNOT_CREATE_OR_REMOVE_SPORTS_CANDIDATE",
-      "CALIBRATION_CANNOT_CHANGE_SPORTS_RANKING",
-      "CALIBRATION_CANNOT_ADJUST_GAME_CAUSAL_P",
-      "P_CONSERVATIVE_MUST_COME_FROM_GAME_SPECIFIC_UNCERTAINTY"
-    ]
-  },
-  "system_reliability_audit": {
-    "metrics": ["BRIER_SCORE", "LOG_LOSS", "RELIABILITY_CURVE", "CALIBRATION_SLOPE_INTERCEPT", "WALK_FORWARD", "SEALED_TEMPORAL_HOLDOUT", "BASELINE_COMPARISON", "ABLATION", "DRIFT"],
-    "confidence_states": ["RELIABLE", "OVERCONFIDENT", "UNDERCONFIDENT", "MIXED", "INSUFFICIENT_SAMPLE", "DRIFT_DETECTED", "NOT_AVAILABLE"],
-    "sports_effect": "NONE",
-    "ranking_effect": "NONE",
-    "probability_effect": "NONE",
-    "economic_effect": ["ALLOW", "CONDITION", "BLOCK"]
+    "universal_game_equivalence_allowed": false
   },
   "bilateral_conjunction": {
     "version": "BILATERAL-1.2",
     "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
     "independent_half_approval_required": true,
-    "no_compensation_between_halves": true,
-    "half_verdicts": ["NRFI_HALF_PASS", "NRFI_HALF_ACCEPTABLE", "NRFI_HALF_UNCERTAIN", "NRFI_HALF_FAIL"],
-    "nrfi_lean_requires": ["TOP=NRFI_HALF_PASS", "BOTTOM=NRFI_HALF_PASS"],
-    "acceptable_is_pass": false,
-    "uncertain_is_pass": false,
-    "one_dominant_pitcher_may_compensate_other_half": false,
-    "required_half_dimensions": ["pitcher", "opponent_top_order", "splits", "bb", "hr", "traffic", "first_inning", "current_form", "matchup", "material_run_path", "data_quality", "evidence_ids", "rationale", "current_version_status", "material_run_path_status", "uncertainty_flags"],
-    "each_half_requires_own_current_run_evidence": true,
-    "first_inning_specific_role": "DESCRIPTIVE_CHECK_WITHIN_CAUSAL_SET_NOT_SOLE_GATE",
-    "single_metric_may_block_or_create_candidate": false,
-    "half_pass_requires_data_quality": "SUFFICIENT",
-    "current_version_status_for_pass": "STABLE",
-    "material_run_path_status_for_pass": ["LOW", "CONTROLLED"],
-    "severe_uncertainty_forbidden": ["MLB_DEBUT", "POST_LONG_IL", "ROLE_UNSTABLE", "OPENER_BULK_UNCERTAINTY", "STARTER_IDENTITY_UNCERTAIN"],
-    "central_nrfi_case_requires": {"joint_condition": "TOP_AND_BOTTOM", "no_compensation": true}
-  },
-  "downstream_bilateral_gate": {
-    "A6_nrfi_seal_requires_bilateral_1_2": true,
-    "A7_nrfi_lean_requires_bilateral_1_2": true,
-    "A8_execution_requires_bilateral_1_2": true,
-    "shortlist_requires_bilateral_1_2": true,
-    "user_facing_bet_requires_execution_authority": true
+    "no_compensation_between_halves": true
   },
   "selective_conclusion": {
-    "candidate_pool_is_not_final_shortlist": true,
     "primary_candidate_target": 2,
     "optional_third_allowed": true,
     "maximum_final_sports_shortlist": 3,
     "metric_scoring_as_shortlist_decision": "FORBIDDEN"
   },
-  "zero_candidate_rule": {
-    "zero_from_process_or_technical_block": "FORBIDDEN",
-    "watchlist_means": "INCOMPLETE_NOT_ZERO",
-    "valid_zero_requires": "EVERY_NON_AUDIT_GAME_DATA_DRIVEN_NO_PLAY"
-  },
-  "hard_truth_rules": [
-    "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
-    "NO_CROSS_HALF_COMPENSATION",
-    "NO_NRFI_LEAN_UNLESS_BOTH_HALVES_PASS_INDEPENDENTLY",
-    "ACCEPTABLE_OR_UNCERTAIN_HALF_FORBIDS_NRFI_LEAN",
-    "FIRST_INNING_HISTORY_IS_DESCRIPTIVE_NOT_A_SOLE_GATE",
-    "NO_SINGLE_METRIC_CREATES_OR_KILLS_A_CANDIDATE",
-    "EACH_HALF_REQUIRES_OWN_CURRENT_RUN_CAUSAL_EVIDENCE",
-    "SPORTS_CANDIDATE_IS_NOT_BET",
-    "BET_LABEL_REQUIRES_EXECUTABLE_AUTHORITY",
-    "CALIBRATE_SYSTEM_NOT_GAME"
-  ],
-  "validation": {
-    "calibration_separation": "PASS",
-    "a7_clean_system_audit_only": "PASS",
-    "a7_historical_probability_override": "BLOCKED_AS_REQUIRED",
-    "calibration_sports_authority": "BLOCKED_AS_REQUIRED",
-    "system_audit_sports_effect": "BLOCKED_AS_REQUIRED",
-    "a8_clean_game_specific_bound": "PASS",
-    "a8_historical_source": "BLOCKED_AS_REQUIRED",
-    "a8_wrong_bound": "BLOCKED_AS_REQUIRED",
-    "a8_historical_adjustment": "BLOCKED_AS_REQUIRED",
-    "active_calibration_certifications": 0,
-    "mother_hash_refresh": "PASS"
-  },
   "runtime": {
-    "database_migrations_required_through": 58,
-    "game_status_view": "public.nrfimetrica_game_dual_status",
-    "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
-    "calibration_guard": "public.nrfim_enforce_calibration_separation_v15",
-    "a8_game_uncertainty_assertion": "public.nrfim_assert_game_specific_conservative_probability",
-    "system_calibration_table": "public.nrfimetrica_system_calibration_audits",
-    "calibration_observation_table": "public.nrfimetrica_calibration_observations"
+    "database_migrations_required_through": 61,
+    "press_intake_table": "public.nrfimetrica_press_intakes",
+    "press_item_table": "public.nrfimetrica_press_items",
+    "press_disposition_table": "public.nrfimetrica_press_item_dispositions",
+    "semantic_reclassification_table": "public.nrfimetrica_semantic_reclassification_events",
+    "kernel_test_table": "public.nrfimetrica_kernel_tests",
+    "a7_guard": "public.nrfimetrica_a7_press_integration_guard_v16",
+    "a8_guard": "public.nrfimetrica_a8_separation_guard_v16",
+    "cognitive_guard": "public.nrfimetrica_cognitive_packet_guard_v16"
+  },
+  "validation": {
+    "state": "FINAL_REGRESSION_AND_SECURITY_AUDIT_PENDING",
+    "previous_v16_adversarial_tests": "17_OF_17_PASS",
+    "activation_allowed": false
   }
 }
