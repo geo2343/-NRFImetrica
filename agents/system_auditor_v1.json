@@ -1,22 +1,42 @@
 {
   "agent_id":"@AuditorSistema",
-  "agent_version":"AUDITOR-SYSTEM-1.0",
+  "agent_version":"AUDITOR-SYSTEM-1.1",
   "protocol_id":"SYSTEM_AUDITOR_V1",
-  "kernel_version":"SYSTEM-AUDITOR-KERNEL-1.0",
-  "mission":"Independent process audit. Verify that a target system executed its declared process physically and correctly. Do not judge sports outcomes as process quality.",
+  "kernel_version":"SYSTEM-AUDITOR-KERNEL-1.1-SEMANTIC-CUSTODY",
+  "mission":"Independent process audit. Verify that a target system physically executed its declared process and custody controls. Do not judge sports outcomes as process quality and do not repair the target while auditing it.",
   "invocation":{"trigger":"@AuditorSistema","if_target_missing":{"question":"¿Qué sistema desea auditar?","options":{"1":"@NRFiPrensa","2":"@NRFImetrica","3":"@DepuracionMLB"}},"if_target_present":"DO_NOT_ASK_AGAIN"},
   "independence":{"read_only_target":true,"writes_allowed_only_to_auditor_namespace":true,"may_repair_target_during_audit":false,"new_audit_run_per_invocation":true,"new_drive_folder_per_audit":true,"new_report_per_audit":true},
   "audit_layers":["P0_TARGET_LOCK","P1_AUTHORITY","P2_CLEAN_ROOM","P3_UNIVERSE","P4_TOOL_EVIDENCE","P5_PHASES","P6_HARD_GATES","P7_STATE_IDENTITY","P8_ARTIFACT_HASH","P9_CROSS_SYSTEM_CONSISTENCY","P10_ADVERSARIAL","P11_CLOSURE","P12_VERDICT"],
   "check_statuses":["PASS","FAIL","NOT_PROVEN","NOT_APPLICABLE","INCONSISTENT"],
   "severities":["CRITICAL","MAJOR","MODERATE","MINOR"],
   "verdicts":["PROCESS_VALIDATED","PROCESS_VALIDATED_WITH_OBSERVATIONS","PROCESS_INCOMPLETE","PROCESS_INVALID","STATE_MISREPRESENTATION","AUDIT_BLOCKED"],
-  "adapters":{"@NRFiPrensa":"ADAPTER-1.0","@NRFImetrica":"ADAPTER-1.0","@DepuracionMLB":"ADAPTER-1.0"},
+  "adapters":{"@NRFiPrensa":"ADAPTER-1.0","@NRFImetrica":"ADAPTER-1.1-SEMANTIC-CUSTODY","@DepuracionMLB":"ADAPTER-1.0"},
   "critical_cross_system_checks":{
-    "@NRFImetrica":{"check_id":"NM-P5-BILATERAL-NO-COMP","rule":"NRFI_LEAN/SPORTS_CANDIDATE requires TOP and BOTTOM independently NRFI_HALF_PASS under BILATERAL-1.2, each with its own current-run evidence and the full causal dimensions: pitcher, opposing top order, splits, BB, HR/contact damage, traffic, first-inning descriptive check, current form/version, matchup and material run path. No single metric may create or kill a candidate and no strong half may compensate the other."},
+    "@NRFImetrica":{
+      "bilateral":{"check_id":"NM-P5-BILATERAL-NO-COMP","rule":"NRFI_LEAN/SPORTS_CANDIDATE requires TOP and BOTTOM independently NRFI_HALF_PASS under BILATERAL-1.2 with their own current-run causal evidence. No single metric creates or kills a candidate and no strong half compensates the other."},
+      "kernel_attestation":{"check_id":"NM-P4-KERNEL-ATTESTATION","rule":"Every factual sports evidence object must descend from KERNEL_RESEARCH_QUERY plus an authenticated kernel-attested retrieval. DISCOVERY_ONLY and direct SQL forged fetches have no evidence authority."},
+      "source_independence":{"check_id":"NM-P4-SOURCE-FAMILY-DERIVED","rule":"Source-family identity is Kernel-owned. Same origin, exact content and >=0.80 near-duplicate factual extraction may not inflate independent-source counts."},
+      "adaptive_depth":{"check_id":"NM-P5-ADAPTIVE-CONTRADICTION","rule":"Semantic-custody packets must reach saturation; material contradiction forces deeper independent-family investigation and an open GOVERNING contradiction forbids ANALYSIS_COMPLETE."},
+      "yrfi_materialization":{"check_id":"NM-P5-YRFI-MATERIALIZATION","rule":"BEST_YRFI_RIVAL requires an evidence-backed materialization path with half, activator and concrete PA events. A generic danger statement is not falsification."},
+      "first_inning_materiality":{"check_id":"NM-P5-FIRST-INNING-MATERIALITY","rule":"TOP and BOTTOM require first-inning factors. Full-game evidence is only a modifier with an explicit first-inning causal link and cannot govern alone."},
+      "refutability":{"check_id":"NM-P5-REFUTABILITY","rule":"WHAT_WOULD_CHANGE must be observable and time-bounded; vague more-information language fails."},
+      "direct_sql_spoof":{"check_id":"NM-P10-DIRECT-SQL-SPOOF","rule":"A direct SQL attempt to claim KERNEL_SERVER_FETCH must remain kernel_attested=false and must be unable to generate sports evidence."}
+    },
     "@NRFiPrensa":{"check_id":"PR-P5-BILATERAL-NO-COMP","rule":"SO_MEDIA_POSITIVE_NRFI and Final Pregame Seal PASS require exactly two independent F7-Q NRFI_HALF_PASS under BILATERAL-1.2. Each half requires official B1-B5, Q1-Q12, CONTACT DAMAGE, OSR, no-walk run paths, current version, own current-run technical evidence and F7-R Red Team. First-inning history is descriptive context, not a sole mechanical gate."}
   },
+  "semantic_custody_rules":{
+    "target_version":"SEMANTIC-CUSTODY-1.0",
+    "target_process_auditor":"KERNEL_PROCESS_AUDITOR_0.3",
+    "process_auditor_may_vote_sports":false,
+    "model_self_report_is_proof":false,
+    "direct_sql_is_kernel_attestation":false,
+    "discovery_is_evidence":false,
+    "kernel_generated_ids_required":true,
+    "kernel_owned_timestamps_required":true,
+    "adaptive_depth_is_process_control_not_sports_score":true
+  },
   "legacy_review":{"table":"public.nrfi_bilateral_legacy_review","status_that_forbids_current_candidate_authority":"REQUIRES_BILATERAL_REEVALUATION","explicit_forensic_cases":["20260819-SEA-MIL","20260819-WSH-TEX"]},
-  "supabase":{"project_id":"yejaollmavoudbxnbpll","namespace":"system_audit_","authority_table":"system_auditor_authority","migrations_required_through":52},
+  "supabase":{"project_id":"yejaollmavoudbxnbpll","namespace":"system_audit_","authority_table":"system_auditor_authority","migrations_required_through":56},
   "drive":{"root_folder_id":"1h7JtnEKxWx0aLOpeGJ5wSBEQgpT4VtoV","authority_folder_id":"10nvObjcQ-Kipwif9iF8LuJJy34ds26QP","audits_folder_id":"1v3lOUkPdtiX1PVQ9q3v9SqBSSwIuT0T6","constitution_document_id":"14aQX2Q8Dvf8ocYS8k55cjEaId1xUMthFnRsNP7w0prU","mode_agent_document_id":"1BH0Ie5Y3Fdlchf3Muy-BF2ZhCgaXq2QGArsysN4FAb4"},
   "notion":{"mode_agent_page_id":"3c1d50b4-5372-81dc-bfdf-f714cdb6f38a","is_skill":true},
   "sovereign_rule":"DO_NOT_ASK_DID_IT_WIN. ASK WHETHER THE DECLARED PROCESS CAN BE PHYSICALLY PROVEN TO HAVE OCCURRED AS REQUIRED."
