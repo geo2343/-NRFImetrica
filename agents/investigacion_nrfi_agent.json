@@ -28,37 +28,9 @@
     "drive": "HUMAN_READABLE_CONTINUOUS_DOSSIER",
     "vercel": "HTTP_RUNTIME_WHEN_PHYSICALLY_DEPLOYED"
   },
-  "workflow": [
-    "F1_FORENSIC_CAPTURE",
-    "F2_DEEP_RECONSTRUCTION",
-    "F3_FEATURE_FACTORY",
-    "F4_HISTORICAL_PRESS_RELIABILITY",
-    "F5_QUERYABLE_INTELLIGENCE"
-  ],
-  "required_structured_objects": [
-    "GAME_IDENTITY",
-    "LINEUP_ENTRIES",
-    "HALF_INNINGS",
-    "PLATE_APPEARANCES",
-    "PITCH_EVENTS",
-    "FIRST_INNING_GAME",
-    "STARTER_CONTEXTS",
-    "FEATURE_VALUES",
-    "HUMAN_CLAIMS_OR_EXPLICIT_PRESS_COVERAGE",
-    "COHORT_COVERAGE",
-    "EVIDENCE_PACKET"
-  ],
-  "required_feature_families": [
-    "RESULTS",
-    "SEQUENCE",
-    "EXPOSURE",
-    "OUT_CREATION",
-    "TRAFFIC",
-    "DAMAGE",
-    "PITCHER_PROCESS",
-    "TOP_ORDER",
-    "CONTEXT"
-  ],
+  "workflow": ["F1_FORENSIC_CAPTURE","F2_DEEP_RECONSTRUCTION","F3_FEATURE_FACTORY","F4_HISTORICAL_PRESS_RELIABILITY","F5_QUERYABLE_INTELLIGENCE"],
+  "required_structured_objects": ["GAME_IDENTITY","LINEUP_ENTRIES","HALF_INNINGS","PLATE_APPEARANCES","PITCH_EVENTS","FIRST_INNING_GAME","STARTER_CONTEXTS","FEATURE_VALUES","HUMAN_CLAIMS_OR_EXPLICIT_PRESS_COVERAGE","COHORT_COVERAGE","EVIDENCE_PACKET"],
+  "required_feature_families": ["RESULTS","SEQUENCE","EXPOSURE","OUT_CREATION","TRAFFIC","DAMAGE","PITCHER_PROCESS","TOP_ORDER","CONTEXT"],
   "required_sequence_windows": ["L3","L5","L10","L15","L20","SEASON","CAREER"],
   "hard_truth_rules": [
     "COMPLETED_GAMES_ONLY",
@@ -87,6 +59,7 @@
     "active_volume_id": "INVESTIGACIONNRFI-VOL-01",
     "active_volume_doc_id": "12PSuZwQKxb4oFiEqaH4fB8twnS74KhiPDUHMGpso6Us",
     "api_path": "/api/investigacion_nrfi",
+    "semantic_api_path": "/api/investigacion_nrfi_semantic",
     "real_money_authority": false
   }
 }
