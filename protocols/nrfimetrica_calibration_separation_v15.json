@@ -1,0 +1,65 @@
+{
+  "agent_id": "@NRFImetrica",
+  "agent_version": "MOTHER-V3-AGENT-1.10",
+  "kernel_version": "NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION",
+  "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+  "doctrine": "CALIBRATE_SYSTEM_NOT_GAME",
+  "game_analysis": {
+    "authority": "AI_CAUSAL_REASONER",
+    "probability_source": "A5_GAME_CAUSAL_ONLY",
+    "order": [
+      "INDIVIDUAL_CAUSAL_REASONING",
+      "BILATERAL_ANALYSIS",
+      "SEQUENTIAL_MATCHUP",
+      "ADVERSARIAL_FALSIFICATION",
+      "GAME_SPECIFIC_UNCERTAINTY",
+      "GAME_CAUSAL_P",
+      "SPORTS_SEAL"
+    ]
+  },
+  "historical_calibration": {
+    "role": "SYSTEM_AUDIT_ONLY",
+    "sports_effect": "NONE",
+    "ranking_effect": "NONE",
+    "probability_effect": "NONE",
+    "game_probability_override_allowed": false,
+    "universal_game_equivalence_allowed": false,
+    "hierarchical_contextual_when_sample_supports": true,
+    "allowed_system_diagnostics": [
+      "BRIER_SCORE",
+      "LOG_LOSS",
+      "RELIABILITY_CURVE",
+      "CALIBRATION_SLOPE_INTERCEPT",
+      "WALK_FORWARD",
+      "SEALED_TEMPORAL_HOLDOUT",
+      "BASELINE_COMPARISON",
+      "ABLATION",
+      "DRIFT",
+      "OVERCONFIDENCE_UNDERCONFIDENCE"
+    ],
+    "economic_role": "SYSTEM_LEVEL_TRUST_GATE_ONLY"
+  },
+  "game_uncertainty": {
+    "conservative_probability_source": "GAME_SPECIFIC_STRESS_TEST_ONLY",
+    "historical_calibration_used": false,
+    "examples": [
+      "LINEUP_DELTA",
+      "VELOCITY_COMMAND_RELEASE_CHANGE",
+      "PITCHER_HEALTH_OR_RESTRICTION",
+      "BATTER_ARSENAL_COMPATIBILITY",
+      "WIND_ROOF_WEATHER",
+      "BB_HBP_PERTURBATION",
+      "SCRATCHES"
+    ]
+  },
+  "hard_prohibitions": [
+    "HISTORICAL_CALIBRATION_SHALL_NOT_OVERRIDE_GAME_SPECIFIC_CAUSAL_EVIDENCE",
+    "NO_GAME_EQUIVALENCE_BY_SHARED_PROBABILITY_SCORE_BAND_OR_STAT_PROFILE",
+    "CALIBRATION_CANNOT_CREATE_OR_REMOVE_SPORTS_CANDIDATE",
+    "CALIBRATION_CANNOT_CHANGE_SPORTS_RANKING",
+    "CALIBRATION_CANNOT_ADJUST_GAME_CAUSAL_P",
+    "HISTORICAL_BINS_CANNOT_PRODUCE_MARKET_P_CONSERVATIVE"
+  ],
+  "drive_amendment_id": "1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE",
+  "database_migrations_required_through": 55
+}
