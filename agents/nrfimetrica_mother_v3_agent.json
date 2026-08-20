@@ -1,19 +1,20 @@
 {
   "agent_id": "@NRFImetrica",
   "agent_version": "MOTHER-V3-AGENT-1.11",
-  "status": "DISABLED",
+  "status": "ACTIVE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
     "kernel_version": "NRFIM-KERNEL-1.6-PREANALYSIS-COGNITIVE-GUARD",
+    "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
     "mother_document_sha256": "44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8",
-    "mother_export_lines": 18563,
     "precedence": "PREANALYSIS_PRESS_INFORMATION_ONLY_PLUS_CALIBRATE_SYSTEM_NOT_GAME",
     "real_money_authority": false
   },
   "scope": {
     "notion": "CONSULTATION_ONLY_NO_WRITE_AUTHORITY",
-    "nrfiprensa": "EXTERNAL_PRODUCER_NOT_MODIFIED_BY_THIS_AGENT",
+    "nrfiprensa": "EXTERNAL_PRODUCER_NOT_MODIFIED_BY_THIS_REFORM",
+    "nrfiprensa_write_scope": "NONE",
     "receiver_side_only": true
   },
   "activation": {
@@ -68,14 +69,8 @@
     "independent_half_approval_required": true,
     "no_compensation_between_halves": true
   },
-  "selective_conclusion": {
-    "primary_candidate_target": 2,
-    "optional_third_allowed": true,
-    "maximum_final_sports_shortlist": 3,
-    "metric_scoring_as_shortlist_decision": "FORBIDDEN"
-  },
   "runtime": {
-    "database_migrations_required_through": 61,
+    "database_migrations_required_through": 66,
     "press_intake_table": "public.nrfimetrica_press_intakes",
     "press_item_table": "public.nrfimetrica_press_items",
     "press_disposition_table": "public.nrfimetrica_press_item_dispositions",
@@ -83,11 +78,19 @@
     "kernel_test_table": "public.nrfimetrica_kernel_tests",
     "a7_guard": "public.nrfimetrica_a7_press_integration_guard_v16",
     "a8_guard": "public.nrfimetrica_a8_separation_guard_v16",
+    "a8_assertion": "public.nrfimetrica_assert_a8_game_specific_execution_v16",
     "cognitive_guard": "public.nrfimetrica_cognitive_packet_guard_v16"
   },
   "validation": {
-    "state": "FINAL_REGRESSION_AND_SECURITY_AUDIT_PENDING",
-    "previous_v16_adversarial_tests": "17_OF_17_PASS",
-    "activation_allowed": false
+    "state": "PASS",
+    "terminal_audit": "10_OF_10_PASS",
+    "shared_assertions": "12_OF_12_PASS",
+    "earlier_adversarial_suites": "PASS",
+    "historical_harness_errors": 5,
+    "historical_harness_errors_status": "SUPERSEDED_BY_CORRECTED_PASS_TESTS",
+    "security_definer_count": 0,
+    "missing_safe_search_path_count": 0,
+    "client_executable_function_count": 0,
+    "activation_allowed": true
   }
 }
