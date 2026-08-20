@@ -1,7 +1,7 @@
 {
   "agent_id": "@NRFImetrica",
   "agent_version": "MOTHER-V3-AGENT-1.10",
-  "status": "VALIDATION_PENDING",
+  "status": "ACTIVE",
   "authority": {
     "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
     "system_version": "NRFIM MOTHER V3",
@@ -103,11 +103,24 @@
     "BET_LABEL_REQUIRES_EXECUTABLE_AUTHORITY",
     "CALIBRATE_SYSTEM_NOT_GAME"
   ],
+  "validation": {
+    "calibration_separation": "PASS",
+    "a7_clean_system_audit_only": "PASS",
+    "a7_historical_probability_override": "BLOCKED_AS_REQUIRED",
+    "calibration_sports_authority": "BLOCKED_AS_REQUIRED",
+    "system_audit_sports_effect": "BLOCKED_AS_REQUIRED",
+    "a8_clean_game_specific_bound": "PASS",
+    "a8_historical_source": "BLOCKED_AS_REQUIRED",
+    "a8_wrong_bound": "BLOCKED_AS_REQUIRED",
+    "a8_historical_adjustment": "BLOCKED_AS_REQUIRED",
+    "active_calibration_certifications": 0
+  },
   "runtime": {
-    "database_migrations_required_through": 55,
+    "database_migrations_required_through": 56,
     "game_status_view": "public.nrfimetrica_game_dual_status",
     "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
     "calibration_guard": "public.nrfim_enforce_calibration_separation_v15",
+    "a8_game_uncertainty_assertion": "public.nrfim_assert_game_specific_conservative_probability",
     "system_calibration_table": "public.nrfimetrica_system_calibration_audits",
     "calibration_observation_table": "public.nrfimetrica_calibration_observations"
   }
