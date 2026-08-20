@@ -1,0 +1,40 @@
+name: investigacionNRFI build semantic repair 2026-08-01
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_repair_trigger_20260801.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build normalized semantic objects, SQL and substantive report
+        run: python scripts/build_investigacion_nrfi_repair_20260801.py
+      - name: Validate outputs
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-01/repair_a1')
+          s=json.loads((root/'summary.json').read_text())
+          assert s['game_count']==15
+          assert s['report_characters']>=45000
+          assert len(list((root/'sql').glob('*.sql')))==15
+          assert len(list((root/'normalized').glob('*.json')))==15
+          print('SEMANTIC_REPAIR_BUILD_PASS', s)
+          PY
+      - name: Persist generated repair package
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-01/repair_a1
+          git diff --cached --quiet || git commit -m 'Build semantic repair package for investigacionNRFI 2026-08-01'
+          git push
