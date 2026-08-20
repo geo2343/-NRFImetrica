@@ -3,6 +3,7 @@
   "agent_version": "MOTHER-V3-AGENT-1.10",
   "kernel_version": "NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION",
   "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
+  "mother_document_sha256": "391fbdfdf78965f9454307267f7e3d048abc7ccb4329e29870ad58aeabcb55f1",
   "doctrine": "CALIBRATE_SYSTEM_NOT_GAME",
   "game_analysis": {
     "authority": "AI_CAUSAL_REASONER",
@@ -35,5 +36,5 @@
     "HISTORICAL_BINS_CANNOT_PRODUCE_MARKET_P_CONSERVATIVE"
   ],
   "drive_amendment_id": "1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE",
-  "database_migrations_required_through": 56
+  "database_migrations_required_through": 57
 }
