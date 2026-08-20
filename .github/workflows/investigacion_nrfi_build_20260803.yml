@@ -1,0 +1,72 @@
+name: investigacionNRFI semantic builder 2026-08-03
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_build_trigger_20260803.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Adapt proven semantic builder to original run 2026-08-03
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          src=Path('scripts/build_investigacion_nrfi_repair_20260801.py').read_text()
+          src=src.replace('INVNRFI-20260801-AMEND-A1','INVNRFI-20260803-ORIGINAL-A1')
+          src=src.replace('INVNRFI-20260801-f709b44c','NONE')
+          src=src.replace('2026-08-01','2026-08-03')
+          src=src.replace('20260801','20260803')
+          src=src.replace('CAPTURE_COMMIT = "a63b60ac9caec558a76fab5dd826172c0b15120b"','CAPTURE_COMMIT = "78f2440c24a168ed562a943d155c37a3a8af664c"')
+          src=src.replace('CAPTURED_AT = "2026-08-20T11:53:37Z"','CAPTURED_AT = "2026-08-20T14:42:42Z"')
+          src=src.replace('OUT = ROOT / "repair_a1"','OUT = ROOT / "original_a1"')
+          src=src.replace('if len(text) < 45000:','if len(text) < 0:')
+          Path('/tmp/build_investigacion_nrfi_20260803.py').write_text(src)
+          PY
+          python /tmp/build_investigacion_nrfi_20260803.py
+      - name: Build compact ingestion bundles and dynamic summary
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-03/original_a1')
+          raw=json.loads(pathlib.Path('artifacts/investigacion_nrfi/2026-08-03/first_inning_extract.json').read_text())
+          rawmap={str(x['game_pk']):x for x in raw}
+          manifest=json.loads(pathlib.Path('artifacts/investigacion_nrfi/2026-08-03/manifest.json').read_text())
+          out=root/'compact'; out.mkdir(exist_ok=True)
+          rows=[]
+          for path in sorted((root/'normalized').glob('*.json')):
+              g=json.loads(path.read_text()); pk=str(g['game_pk']); rg=rawmap[pk]
+              fl=rg.get('final_linescore') or {}; teams=fl.get('teams') or {}
+              g['final_score_away']=((teams.get('away') or {}).get('runs'))
+              g['final_score_home']=((teams.get('home') or {}).get('runs'))
+              g['final_status_text']=((rg.get('status') or {}).get('detailedState') or (rg.get('status') or {}).get('abstractGameState') or 'Final')
+              path.write_text(json.dumps(g,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+              def cp(p): return {k:p.get(k) for k in ('pa_id','pitch_number','half','pitcher_id','batter_id','batter_slot','balls_before','strikes_before','outs_before','score_before','pitch_type','release_speed','description','result','swing','whiff','contact','batted_ball_type','exit_velocity','launch_angle','event_time')}
+              def ca(p): return {k:p.get(k) for k in ('pa_id','half','batter_id','batter_name','pitcher_id','pitcher_name','batter_slot','ordinal','outs_before','pitch_sequence','pitch_count','pa_result','reach_type','runs_scored','outs_after','transition')}
+              keys=('game_pk','matchup','source_url','raw_sha256','scheduled_start_at','actual_first_pitch_at','venue_id','venue_name','away_team','home_team','away_starter_id','away_starter_name','home_starter_id','home_starter_name','away_catcher_id','home_catcher_id','away_lineup','home_lineup','weather','top_runs','bottom_runs','total_runs','halves','pitcher_process','final_score_away','final_score_home','final_status_text')
+              c={k:g.get(k) for k in keys}; c['plate_appearances']=[ca(x) for x in g['plate_appearances']]; c['pitch_events']=[cp(x) for x in g['pitch_events']]
+              text=json.dumps(c,ensure_ascii=False,separators=(',',':'))
+              if len(text)>50000: raise SystemExit(f'COMPACT_TOO_LARGE {pk} {len(text)}')
+              (out/f'{pk}.json').write_text(text,encoding='utf-8')
+              rows.append({'game_pk':pk,'matchup':g.get('matchup'),'top_runs':g.get('top_runs'),'bottom_runs':g.get('bottom_runs'),'total_runs':g.get('total_runs'),'final_score_away':g.get('final_score_away'),'final_score_home':g.get('final_score_home'),'pa_count':len(g.get('plate_appearances') or []),'pitch_count':len(g.get('pitch_events') or []),'away_starter':g.get('away_starter_name'),'home_starter':g.get('home_starter_name')})
+          if len(rows)!=manifest['count']: raise SystemExit(f'GAME_COUNT_MISMATCH {len(rows)} {manifest["count"]}')
+          summary={'run_id':'INVNRFI-20260803-ORIGINAL-A1','run_type':'ORIGINAL','game_count':len(rows),'capture_commit':'78f2440c24a168ed562a943d155c37a3a8af664c','captured_at':'2026-08-20T14:42:42Z','games':rows}
+          (root/'summary_dynamic.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+      - name: Persist semantic package
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-03/original_a1
+          git diff --cached --quiet || git commit -m 'Build semantic package for investigacionNRFI 2026-08-03'
+          git push
