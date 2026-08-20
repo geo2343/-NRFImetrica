@@ -17,28 +17,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Split report at paragraph boundaries
+      - name: Split report exactly by character count
         run: |
           python - <<'PY'
-          import json, pathlib
+          import hashlib, json, pathlib
           root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-01/repair_a1')
           text=(root/'daily_report.md').read_text(encoding='utf-8')
-          parts=text.split('\n\n')
-          chunks=[]; cur=''
-          for p in parts:
-              piece=p+'\n\n'
-              if cur and len(cur)+len(piece)>7000:
-                  chunks.append(cur); cur=''
-              cur+=piece
-          if cur: chunks.append(cur)
+          size=6000
+          chunks=[text[i:i+size] for i in range(0,len(text),size)]
           out=root/'report_chunks'; out.mkdir(exist_ok=True)
           for old in out.glob('*.txt'): old.unlink()
           for i,c in enumerate(chunks,1):
               (out/f'{i:02d}.txt').write_text(c,encoding='utf-8')
-          manifest={'count':len(chunks),'total_characters':sum(len(x) for x in chunks),'source_characters':len(text),'sha256':__import__('hashlib').sha256(text.encode()).hexdigest()}
+          manifest={'count':len(chunks),'total_characters':sum(len(x) for x in chunks),'source_characters':len(text),'sha256':hashlib.sha256(text.encode()).hexdigest(),'chunk_size':size}
           (out/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+          assert ''.join(chunks)==text
           assert manifest['total_characters']==manifest['source_characters']
-          assert max(map(len,chunks))<=7000
+          assert max(map(len,chunks))<=size
           print(manifest)
           PY
       - name: Persist chunks
