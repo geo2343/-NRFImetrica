@@ -5,6 +5,6 @@
   "protocol_id": "IAINVESTIGADORA_MLB_V14",
   "compile": "PASS",
   "unittest": "PASS",
-  "github_sha": "6f840ceafb0e886cc1aa0c1c6bcc5c799c93bf51",
-  "validated_at": "2026-08-20T14:35:30.771530+00:00"
+  "github_sha": "b7e32fe05cdc031638de68f8ad70b31d2e8a627a",
+  "validated_at": "2026-08-20T16:40:22.600654+00:00"
 }
