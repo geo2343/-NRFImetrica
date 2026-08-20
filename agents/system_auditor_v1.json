@@ -8,11 +8,7 @@
     "trigger": "@AuditorSistema",
     "if_target_missing": {
       "question": "¿Qué sistema desea auditar?",
-      "options": {
-        "1": "@NRFiPrensa",
-        "2": "@NRFImetrica",
-        "3": "@DepuracionMLB"
-      }
+      "options": {"1":"@NRFiPrensa","2":"@NRFImetrica","3":"@DepuracionMLB"}
     },
     "if_target_present": "DO_NOT_ASK_AGAIN"
   },
@@ -41,22 +37,26 @@
     "@NRFImetrica": "ADAPTER-1.0",
     "@DepuracionMLB": "ADAPTER-1.0"
   },
-  "adapter_authority": {
-    "@DepuracionMLB": {
-      "system_version": "DEP-MLB-V0.3",
-      "agent_version": "DEP-MLB-AGENT-1.2",
-      "kernel_version": "DEP-MLB-KERNEL-0.4-AUTONOMOUS-REFACTOR",
-      "protocol_id": "DEPURACION_MLB_V0_3_PROGRESSIVE",
-      "repository": "geo2343/depuracion-mlb-kernel",
-      "drive_root_id": "1N8r-rn51Cj2kokFxIzasvhIlH6P1-x4i",
-      "required_checks": 32
+  "critical_cross_system_checks": {
+    "@NRFImetrica": {
+      "check_id": "NM-P5-BILATERAL-NO-COMP",
+      "rule": "NRFI_LEAN/SPORTS_CANDIDATE requires TOP and BOTTOM independently NRFI_HALF_PASS with own current-run evidence. ACCEPTABLE/UNCERTAIN/FAIL on either side forbids NRFI candidate."
+    },
+    "@NRFiPrensa": {
+      "check_id": "PR-P5-BILATERAL-NO-COMP",
+      "rule": "SO_MEDIA_POSITIVE_NRFI and Final Seal PASS require exactly two independent F7-Q NRFI_HALF_PASS records with complete F7-Q and own technical evidence."
     }
+  },
+  "legacy_review": {
+    "table": "public.nrfi_bilateral_legacy_review",
+    "status_that_forbids_current_candidate_authority": "REQUIRES_BILATERAL_REEVALUATION",
+    "explicit_forensic_cases": ["20260819-SEA-MIL","20260819-WSH-TEX"]
   },
   "supabase": {
     "project_id": "yejaollmavoudbxnbpll",
     "namespace": "system_audit_",
     "authority_table": "system_auditor_authority",
-    "migrations_required_through": 43
+    "migrations_required_through": 46
   },
   "drive": {
     "root_folder_id": "1h7JtnEKxWx0aLOpeGJ5wSBEQgpT4VtoV",
