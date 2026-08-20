@@ -26,6 +26,9 @@
     "model_may_create_tool_event_id": false,
     "kernel_query_required_before_research_event": true,
     "sports_evidence_requires_kernel_attested_extraction": true,
+    "kernel_attestation_requires_runtime_auth_context": true,
+    "kernel_attestation_required_request_role": "service_role",
+    "direct_sql_can_self_attest_kernel_fetch": false,
     "trusted_retrieval_modes": ["KERNEL_SERVER_FETCH", "KERNEL_PROVIDER_FETCH"],
     "discovery_only_events_may_support_factual_claims": false,
     "source_family_assignment_owner": "KERNEL",
@@ -121,6 +124,7 @@
     "DISCOVERY_IS_NOT_EVIDENCE",
     "SOURCE_FAMILY_IS_KERNEL_DERIVED",
     "NO_BACKDATING_BY_MODEL",
+    "DIRECT_SQL_CANNOT_SELF_ATTEST_KERNEL_FETCH",
     "MATERIAL_CONTRADICTION_FORCES_DEEPER_RESEARCH",
     "BEST_YRFI_RIVAL_REQUIRES_MATERIALIZATION_PATH",
     "FULL_GAME_DATA_CANNOT_GOVERN_WITHOUT_FIRST_INNING_CAUSAL_LINK",
@@ -129,7 +133,7 @@
     "BET_LABEL_REQUIRES_EXECUTABLE_AUTHORITY"
   ],
   "runtime": {
-    "database_migrations_required_through": 54,
+    "database_migrations_required_through": 55,
     "game_status_view": "public.nrfimetrica_game_dual_status",
     "bilateral_validation_function": "public.nrfim_latest_bilateral_nrfi_valid",
     "research_query_table": "public.research_kernel_queries"
