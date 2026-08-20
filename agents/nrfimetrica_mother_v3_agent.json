@@ -71,8 +71,8 @@
     "cross_target_authority_inheritance": false
   },
   "runtime": {
-    "database_migrations_required_through": 70,
-    "github_migrations_through": 70,
+    "database_migrations_required_through": 71,
+    "github_migrations_through": 71,
     "press_intake_table": "public.nrfimetrica_press_intakes",
     "system_reliability_audit_table": "public.nrfimetrica_system_calibration_audits",
     "kernel_test_table": "public.nrfimetrica_kernel_tests",
@@ -83,10 +83,12 @@
     "no_ai_probability_guard": "public.nrfimetrica_no_ai_probability_v17"
   },
   "validation": {
-    "state": "PENDING_TERMINAL_AUDIT",
+    "state": "PENDING_TERMINAL_AUDIT_POST_071",
     "post_fix_adversarial_suite": "12_OF_12_PASS",
     "pre_fix_gap_confirmed": 2,
     "pre_fix_gap_status": "PRESERVED_AS_FAILING_AUDIT_EVIDENCE",
+    "runtime_reaudit_post_071": "17_OF_17_PASS",
+    "mother_external_hash_readback": "PASS",
     "activation_allowed": false
   }
 }
