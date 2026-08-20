@@ -1,0 +1,10 @@
+{
+  "agent_id": "@iainvestigadora",
+  "agent_version": "IAINVESTIGADORA-AGENT-1.4",
+  "kernel_version": "IAINV-KERNEL-0.1-CONNECTED",
+  "protocol_id": "IAINVESTIGADORA_MLB_V14",
+  "compile": "PASS",
+  "unittest": "PASS",
+  "github_sha": "8428a8e0422fb0ac6b8866af66e14f0dcf3def3b",
+  "validated_at": "2026-08-20T14:25:56.674180+00:00"
+}
