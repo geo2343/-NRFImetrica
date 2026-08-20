@@ -2,106 +2,93 @@
 
 Agente causal para primera entrada MLB gobernado por `MOTHER V3`.
 
-## Autoridad activa
+## Autoridad en validación
 
 - `SYSTEM_VERSION = NRFIM MOTHER V3`
-- `AGENT_VERSION = MOTHER-V3-AGENT-1.10`
-- `KERNEL_VERSION = NRFIM-KERNEL-1.5-CALIBRATION-SEPARATION`
+- `AGENT_VERSION = MOTHER-V3-AGENT-1.11`
+- `KERNEL_VERSION = NRFIM-KERNEL-1.6-PREANALYSIS-COGNITIVE-GUARD`
 - `PROTOCOL_ID = NRFIMETRICA_MOTHER_V3_AUTONOMOUS`
-- `MOTHER_DOCUMENT_SHA256 = 391fbdfdf78965f9454307267f7e3d048abc7ccb4329e29870ad58aeabcb55f1`
+- `MOTHER_DOCUMENT_SHA256 = 44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8`
+- `STATUS = DISABLED` hasta cerrar la regresión y auditoría final.
 - `REAL_MONEY_AUTHORITY = FALSE`
-- migraciones de repositorio requeridas hasta `058`
+- migraciones de repositorio requeridas hasta `061` antes de la activación final.
 
-La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia y límites de autoridad; no suma métricas ni sustituye al analista.
+La IA decide deportivamente mediante razonamiento causal. El Kernel controla proceso, linaje, estados, evidencia, temporalidad y límites de autoridad; no suma métricas ni sustituye al analista.
 
-## Principio soberano: calibrar el sistema != calibrar el partido
+## A0P — reporte externo antes del análisis
 
-`GAME_CAUSAL_P = A5_GAME_CAUSAL_ONLY`
+`A0 → A0P_PRESS_INFORMATION_INTAKE → A1 → A2 → A3 → A4 → A5 → A6 → A7 → A8`
 
-La probabilidad deportiva de un juego no puede ser reemplazada por una frecuencia histórica, bin, score, banda, perfil estadístico ni grupo de partidos supuestamente equivalentes.
+A0P prepara **solo el lado receptor de @NRFImetrica**. Esta arquitectura no modifica `@NRFIprensa`.
 
-Reglas soberanas:
+Si existe un paquete limpio de Prensa, entra únicamente como `INFORMATION_FOR_ANALYSIS` con:
 
-- `HISTORICAL_CALIBRATION SHALL NOT OVERRIDE GAME-SPECIFIC CAUSAL EVIDENCE`.
-- Dos juegos no son equivalentes solo por compartir probabilidad, score, banda o perfil estadístico.
-- La calibración histórica tiene `SPORTS_EFFECT=NONE`, `RANKING_EFFECT=NONE` y `PROBABILITY_EFFECT=NONE`.
-- La calibración no crea ni elimina `SPORTS_CANDIDATE`.
-- La calibración no modifica ranking deportivo ni `GAME_CAUSAL_P`.
-- Solo puede auditar la fiabilidad estructural del sistema y, si corresponde, `ALLOW / CONDITION / BLOCK` autoridad económica a nivel de sistema.
+- `SPORTS_AUTHORITY = NONE`
+- `PROBABILITY_AUTHORITY = NONE`
+- `RANKING_AUTHORITY = NONE`
+- `MARKET_AUTHORITY = NONE`
+- `CONCLUSION_AUTHORITY = NONE`
 
-Documento soberano complementario:
+Si no existe paquete, A0P puede cerrar `SKIPPED_NOT_TRIGGERED` y Métrica continúa autónomamente.
 
-`00A — ENMIENDA SOBERANA — CALIBRAR EL SISTEMA ≠ CALIBRAR EL PARTIDO — @NRFImetrica`
+Picks, odds, consenso, ranking, probabilidad externa, edge/EV, recomendaciones y veredictos externos quedan fuera del intake limpio. Cada item debe formular una `MATERIALITY_QUESTION` y terminar con una disposición explícita de Métrica. Un delta material obliga a reconstrucción causal desde la fase propietaria; nunca permite override externo del Sports Verdict.
 
-Drive ID: `1Z-nLDwL4eQIgMFFt8Gltsut6MrqhTW8x7pEf6ZB9jnE`
+## Constitución cognitiva
 
-## Orden de análisis
+`THE PROTOCOL DEFINES THE FLOOR OF COVERAGE, NOT THE CEILING OF ANALYSIS.`
 
-`razonamiento causal individual → análisis bilateral → matchup secuencial → falsación adversarial → incertidumbre específica del partido → GAME_CAUSAL_P / Sports Seal → auditoría histórica externa del sistema`
+El contrato `COGNITIVE-1.0` exige:
 
-La historia audita a `@NRFImetrica`; no obliga al juego de hoy a parecerse al promedio de ayer.
+- representación provisional y revisable;
+- preguntas autónomas ante fricción material;
+- TOP 1ST y BOTTOM 1ST analizados independientemente;
+- causal bottleneck por media entrada;
+- compresión epistemológica de métricas correlacionadas;
+- mejor rival YRFI respaldado, no colección ilimitada de miedos;
+- second-pass review;
+- directional-bias check sin fabricar balance artificial;
+- semantic reclassification cuando cambia el significado de evidencia anterior;
+- posibilidad != materialización;
+- importancia != confianza.
 
-## Incertidumbre y robust edge
+## Calibrar el sistema != calibrar el partido
 
-`p_conservative` se conserva por compatibilidad contractual, pero ahora significa exclusivamente:
+`GAME_CAUSAL_P = A5_GAME_CAUSAL_ONLY`.
 
-`p_conservative = límite inferior de incertidumbre específica del partido`
+La historia no reemplaza la probabilidad del juego. `SYSTEM_RELIABILITY_AUDIT` puede detectar `RELIABLE`, `OVERCONFIDENT`, `UNDERCONFIDENT`, `MIXED`, `INSUFFICIENT_SAMPLE`, `DRIFT_DETECTED` o `NOT_AVAILABLE`, pero siempre mantiene:
 
-Fuente obligatoria: `GAME_SPECIFIC_STRESS_TEST_ONLY`.
+- `SPORTS_EFFECT = NONE`
+- `RANKING_EFFECT = NONE`
+- `PROBABILITY_EFFECT = NONE`
 
-Puede reflejar lineup, scratches, velocidad/comando/release, estado físico, compatibilidad bateador-arsenal, BB/HBP, viento, roof, clima y otras perturbaciones causalmente propias del juego actual.
+Su único efecto permitido sobre ejecución es `ALLOW / CONDITION / BLOCK` a nivel de confiabilidad del sistema.
 
-`ROBUST_EDGE = GAME_SPECIFIC_LOWER_BOUND - MARKET_BREAK_EVEN`
+`p_conservative` significa el límite inferior de incertidumbre específica del juego y su fuente obligatoria es `GAME_SPECIFIC_STRESS_TEST_ONLY`. Dos juegos no se consideran equivalentes por compartir probabilidad, score, banda o perfil estadístico.
 
-La historia no participa en ese lower bound.
+## A7 y A8
 
-## Auditoría histórica del sistema
+A7 es ahora `SYSTEM RELIABILITY AUDIT + PRESS INTEGRATION AUDIT + ABSOLUTE ELIGIBILITY`.
 
-Objetos físicos:
+A7 no ve precio y no reformula el Sports Verdict. `REANALYSIS_REQUIRED=TRUE` bloquea `RELEASE_TOKEN=ISSUED` hasta una nueva versión causal del análisis.
 
-- `public.nrfimetrica_system_calibration_audits`
-- `public.nrfimetrica_calibration_observations`
+A8 abre el mercado por primera vez y utiliza `GAME_SPECIFIC_LOWER_BOUND` para robust edge. La fuente histórica está prohibida como probabilidad del partido.
 
-Puede utilizar Brier Score, Log Loss, reliability curve, calibration slope/intercept, walk-forward validation, sealed temporal holdout, baseline comparison, ablation, drift y diagnóstico de overconfidence/underconfidence. Son auditoría del sistema, no votos del partido.
+## Bilateralidad
 
-La calibración será jerárquica/contextual cuando la muestra lo permita. No existe calibración universal con derecho a homologar partidos heterogéneos.
+NRFI continúa siendo:
 
-## Enforcement
+`TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`
 
-A7: `public.nrfim_enforce_calibration_separation_v15()`.
+No hay compensación entre medias entradas. Una mitad excelente nunca compensa una mitad que no pasa su análisis causal.
 
-Exige `game_probability_source=A5_GAME_CAUSAL_ONLY`, `eligibility_basis=GAME_CAUSAL_ONLY`, `calibration_role=SYSTEM_AUDIT_ONLY`, cero autoridad deportiva/ranking/probabilidad de la calibración, `historical_calibration_used=false` y lower bounds derivados de `GAME_SPECIFIC_STRESS_TEST`.
+## Reproducibilidad
 
-A8: `public.nrfim_assert_game_specific_conservative_probability()` más el trigger `public.nrfim_a8_game_specific_uncertainty_guard()`.
+Migraciones nuevas:
 
-Exige `market.p_conservative_source=GAME_SPECIFIC_UNCERTAINTY_ONLY`, igualdad exacta con el lower bound del juego y bloquea `historical_adjusted_p` y equivalentes.
+- `059_nrfimetrica_preanalysis_press_intake_v16.sql`
+- `060_nrfimetrica_cognitive_press_integration_v16.sql`
+- `061_nrfimetrica_agent_1_11_kernel_1_6_authority_reconcile.sql`
 
-## Pruebas adversariales ejecutadas
-
-- A7 limpio `SYSTEM_AUDIT_ONLY` → `ACCEPTED`.
-- `contract_calibration.u0_5.calibrated_p` → bloqueado.
-- certificación con `sports_authority=true` → bloqueada.
-- auditoría histórica intentando efecto deportivo → bloqueada.
-- A8 lower bound actual + fuente actual → `ACCEPTED`.
-- A8 fuente histórica → bloqueada.
-- A8 valor distinto al stress-test lower bound → bloqueado.
-- A8 `historical_adjusted_p` → bloqueado.
-
-No existía ningún A7 histórico con `release_token=ISSUED`; la regla A8 se validó sobre la función de aserción que ejecuta el trigger real, sin fabricar una corrida económica histórica inexistente.
-
-## Bilateralidad y clean room
-
-NRFI continúa siendo `TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN`, sin compensación entre medias entradas. Cada invocación nueva exige `RUN nuevo + INVOCATION_ID nuevo + documento Drive nuevo + fuentes nuevas + evidencia nueva + razonamiento nuevo`.
-
-## Migraciones recientes
-
-- `053_reconcile_deployed_semantic_custody_runtime.sql`
-- `054_calibrate_system_not_game.sql`
-- `055_fix_calibration_separation_digest_search_path.sql`
-- `056_enforce_a8_game_specific_uncertainty_only.sql`
-- `057_refresh_mother_authority_hash_after_calibration_amendment.sql`
-- `058_seal_mother_hash_refresh_and_reactivate.sql`
-
-La 057 desactiva de forma preventiva mientras el nuevo Documento Madre espera readback externo. La 058, ejecutada después del readback SHA-256, actualiza guards/autoridades vivas y reactiva el agente. Los hashes de RUNs y evidencias históricos permanecen intactos.
+El Documento Madre, Supabase y GitHub deben compartir exactamente la identidad 1.11/1.6 y SHA-256 antes de activación. Notion se usa únicamente como fuente de consulta y no forma parte de las superficies autorizadas de escritura de esta reforma.
 
 **El partido se analiza. El sistema se calibra.**
