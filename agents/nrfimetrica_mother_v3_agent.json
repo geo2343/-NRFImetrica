@@ -70,7 +70,7 @@
     "no_compensation_between_halves": true
   },
   "runtime": {
-    "database_migrations_required_through": 66,
+    "database_migrations_required_through": 68,
     "press_intake_table": "public.nrfimetrica_press_intakes",
     "press_item_table": "public.nrfimetrica_press_items",
     "press_disposition_table": "public.nrfimetrica_press_item_dispositions",
@@ -83,11 +83,14 @@
   },
   "validation": {
     "state": "PASS",
-    "terminal_audit": "10_OF_10_PASS",
-    "shared_assertions": "12_OF_12_PASS",
-    "earlier_adversarial_suites": "PASS",
+    "terminal_audit": "POST_067_12_OF_12_PASS",
+    "pre_067_terminal_audit": "10_OF_10_PASS",
+    "production_a8_assertion": "4_OF_4_PASS",
+    "corrected_adversarial_suite": "5_OF_5_PASS",
     "historical_harness_errors": 5,
     "historical_harness_errors_status": "SUPERSEDED_BY_CORRECTED_PASS_TESTS",
+    "runtime_missing_assertion_bug": "DETECTED_FIXED_AND_RETESTED",
+    "migration_sequence_duplicate_062": "RESOLVED",
     "security_definer_count": 0,
     "missing_safe_search_path_count": 0,
     "client_executable_function_count": 0,
