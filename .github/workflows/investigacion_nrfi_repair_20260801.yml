@@ -1,0 +1,72 @@
+name: investigacionNRFI repair capture 2026-08-01
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_sources_2026-08-01.md'
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fetch official MLB GUMBO feeds and extract first inning
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib, urllib.request
+
+          games = {
+              '822781': 'STL@TOR', '823109': 'MIN@SEA', '822944': 'CWS@TB',
+              '823594': 'MIA@NYM', '824485': 'PIT@CIN', '824808': 'PHI@BAL',
+              '824162': 'TEX@HOU', '824405': 'AZ@CLE', '824890': 'WSH@ATL',
+              '824649': 'NYY@CHC', '824326': 'KC@COL', '823269': 'SF@SD',
+              '823920': 'BOS@LAD', '824000': 'MIL@LAA', '824972': 'DET@ATH',
+          }
+          out = pathlib.Path('artifacts/investigacion_nrfi/2026-08-01')
+          raw_dir = out / 'raw'
+          raw_dir.mkdir(parents=True, exist_ok=True)
+          extracts = []
+          for game_pk, matchup in games.items():
+              url = f'https://statsapi.mlb.com/api/v1.1/game/{game_pk}/feed/live'
+              req = urllib.request.Request(url, headers={'User-Agent':'Mozilla/5.0 @investigacionNRFI/1.1'})
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  body = r.read()
+              payload = json.loads(body)
+              (raw_dir / f'{game_pk}.json').write_bytes(body)
+              gd = payload.get('gameData', {})
+              ld = payload.get('liveData', {})
+              plays = [p for p in ld.get('plays', {}).get('allPlays', []) if p.get('about', {}).get('inning') == 1]
+              box = ld.get('boxscore', {}).get('teams', {})
+              extracts.append({
+                  'game_pk': game_pk,
+                  'matchup': matchup,
+                  'source_url': url,
+                  'sha256': hashlib.sha256(body).hexdigest(),
+                  'game_datetime': gd.get('datetime'),
+                  'status': gd.get('status'),
+                  'venue': gd.get('venue'),
+                  'weather': gd.get('weather'),
+                  'teams': gd.get('teams'),
+                  'probable_pitchers': gd.get('probablePitchers'),
+                  'official_scorer': gd.get('officialScorer'),
+                  'primary_datacaster': gd.get('primaryDatacaster'),
+                  'away_boxscore': box.get('away'),
+                  'home_boxscore': box.get('home'),
+                  'first_inning_plays': plays,
+                  'linescore_first': (ld.get('linescore', {}).get('innings') or [{}])[0],
+              })
+          (out / 'first_inning_extract.json').write_text(json.dumps(extracts, ensure_ascii=False, indent=2), encoding='utf-8')
+          (out / 'manifest.json').write_text(json.dumps({'date':'2026-08-01','games':games,'count':len(games)}, indent=2), encoding='utf-8')
+          print('CAPTURED', len(extracts), 'GAMES')
+          PY
+      - name: Upload repair evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: investigacion-nrfi-2026-08-01-gumbo
+          path: artifacts/investigacion_nrfi/2026-08-01
+          if-no-files-found: error
+          retention-days: 30
