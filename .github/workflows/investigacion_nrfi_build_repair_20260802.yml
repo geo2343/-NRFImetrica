@@ -1,0 +1,64 @@
+name: investigacionNRFI build semantic repair 2026-08-02
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_build_trigger_20260802.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Adapt proven semantic builder to 2026-08-02
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          src=Path('scripts/build_investigacion_nrfi_repair_20260801.py').read_text()
+          src=src.replace('INVNRFI-20260801-AMEND-A1','INVNRFI-20260802-AMEND-A1')
+          src=src.replace('INVNRFI-20260801-f709b44c','INVNRFI-20260802-6c2a8e91')
+          src=src.replace('2026-08-01','2026-08-02')
+          src=src.replace('20260801','20260802')
+          src=src.replace('CAPTURE_COMMIT = "a63b60ac9caec558a76fab5dd826172c0b15120b"', 'CAPTURE_COMMIT = "'+__import__('subprocess').check_output(['git','rev-parse','HEAD']).decode().strip()+'"')
+          src=src.replace('CAPTURED_AT = "2026-08-20T11:53:37Z"', 'CAPTURED_AT = datetime.now(timezone.utc).isoformat()')
+          Path('/tmp/build_investigacion_nrfi_repair_20260802.py').write_text(src)
+          PY
+          python /tmp/build_investigacion_nrfi_repair_20260802.py
+      - name: Build compact ingestion bundles
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-02/repair_a1')
+          out=root/'compact'; out.mkdir(exist_ok=True)
+          for path in sorted((root/'normalized').glob('*.json')):
+              g=json.loads(path.read_text())
+              def compact_pitch(p):
+                  return {k:p.get(k) for k in ('pa_id','pitch_number','half','pitcher_id','batter_id','batter_slot','balls_before','strikes_before','outs_before','score_before','pitch_type','release_speed','description','result','swing','whiff','contact','batted_ball_type','exit_velocity','launch_angle','event_time')}
+              def compact_pa(p):
+                  return {k:p.get(k) for k in ('pa_id','half','batter_id','batter_name','pitcher_id','pitcher_name','batter_slot','ordinal','outs_before','pitch_sequence','pitch_count','pa_result','reach_type','runs_scored','outs_after','transition')}
+              c={k:g.get(k) for k in ('game_pk','matchup','source_url','raw_sha256','scheduled_start_at','actual_first_pitch_at','venue_id','venue_name','away_team','home_team','away_starter_id','away_starter_name','home_starter_id','home_starter_name','away_catcher_id','home_catcher_id','away_lineup','home_lineup','weather','top_runs','bottom_runs','total_runs','halves','pitcher_process')}
+              c['plate_appearances']=[compact_pa(x) for x in g['plate_appearances']]
+              c['pitch_events']=[compact_pitch(x) for x in g['pitch_events']]
+              text=json.dumps(c,ensure_ascii=False,separators=(',',':'))
+              if len(text)>50000: raise SystemExit(f'COMPACT_TOO_LARGE {g["game_pk"]} {len(text)}')
+              (out/f'{g["game_pk"]}.json').write_text(text,encoding='utf-8')
+          assert len(list(out.glob('*.json')))==15
+          s=json.loads((root/'summary.json').read_text())
+          assert s['game_count']==15
+          assert s['report_characters']>=45000
+          print('BUILD_PASS',s)
+          PY
+      - name: Persist semantic repair package
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-02/repair_a1
+          git diff --cached --quiet || git commit -m 'Build semantic repair package for investigacionNRFI 2026-08-02'
+          git push
