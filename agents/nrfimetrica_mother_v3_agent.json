@@ -9,7 +9,7 @@
     "mother_document_id": "1U7UM5fkBAPt3FjZ7X7tKtxvudFyFpvM9FOs6A1C1ITw",
     "mother_document_sha256": "799ccb5a483e7991f880ae7d49d2f191a98e292478ec64e76a55aa8250ec498b",
     "a0_authority_resolution": "DYNAMIC_AGENT_REGISTRY_PLUS_PROTOCOL_AUTHORITY",
-    "precedence": "V18_FORENSIC_REPAIR_PLUS_SUPABASE_EDGE_RUNTIME",
+    "precedence": "V18_FORENSIC_REPAIR_PLUS_SUPABASE_EDGE_RUNTIME_PLUS_RUNTIME_INDEPENDENCE_1_0",
     "real_money_authority": false
   },
   "runtime": {
@@ -19,8 +19,8 @@
     "edge_function_status": "ACTIVE",
     "verify_jwt": true,
     "vercel_dependency": "REMOVED",
-    "database_migrations_required_through": 74,
-    "github_migrations_through": 74,
+    "database_migrations_required_through": 75,
+    "github_migrations_through": 75,
     "sports_reasoning_packet": "V2_SEMANTIC_CUSTODY",
     "sports_reasoning_independent_of_certification_chain": true,
     "a0p_allowed_without_a0_for_sports_preanalysis": true,
@@ -30,6 +30,19 @@
     "sports_readiness_view": "public.nrfimetrica_sports_reasoning_readiness_v18",
     "system_reliability_audit_table": "public.nrfimetrica_system_calibration_audits",
     "kernel_test_table": "public.nrfimetrica_kernel_tests"
+  },
+  "runtime_independence": {
+    "policy_version": "RUNTIME-INDEPENDENCE-1.0",
+    "canonical_execution_route": "SUPABASE_EDGE_FUNCTIONS_PLUS_CONNECTED_KERNEL",
+    "canonical_state_backend": "SUPABASE",
+    "http_runtime_required": false,
+    "preferred_http_runtime": "SUPABASE_EDGE_FUNCTIONS",
+    "vercel_role": "OPTIONAL_HTTP_ADAPTER_NON_BLOCKING",
+    "vercel_required": false,
+    "vercel_failure_blocks_execution": false,
+    "vercel_unavailability_effect": "NON_BLOCKING",
+    "execution_status_source": "AGENT_AUTHORITY_AND_DOMAIN_GATES",
+    "vercel_json_role": "OPTIONAL_COMPATIBILITY_ONLY"
   },
   "sports_process": {
     "packet_required_for_every_game_resolution": true,
@@ -71,7 +84,8 @@
     "repair_suite_result": "12_OF_12_PASS",
     "edge_runtime_suite": "V18_SUPABASE_EDGE_RUNTIME",
     "edge_runtime_suite_result": "6_OF_6_PASS",
+    "runtime_independence_policy": "RUNTIME-INDEPENDENCE-1.0",
     "failed_run_retroactive_repair": "FORBIDDEN",
-    "migration": "074_nrfimetrica_v18_supabase_edge_runtime.sql"
+    "migration": "075_cross_agent_runtime_independence_v1.sql"
   }
 }
