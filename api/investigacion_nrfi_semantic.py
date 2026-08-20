@@ -12,6 +12,7 @@ from kernel.investigacion_nrfi import (
     AGENT_VERSION,
     KERNEL_VERSION,
     PROTOCOL_ID,
+    REPORT_CONTRACT_VERSION,
     InvestigacionNRFIProtocolViolation,
     forbid_decision_keys,
     validate_report_contract,
@@ -20,7 +21,7 @@ from kernel.investigacion_nrfi import (
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
 SUPABASE_SECRET_KEY = os.getenv("SUPABASE_SECRET_KEY", "") or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
-app = FastAPI(title="@investigacionNRFI Semantic Persistence", version="1.1")
+app = FastAPI(title="@investigacionNRFI Semantic Persistence", version="1.2")
 
 
 def _headers(prefer: str | None = None) -> dict[str, str]:
@@ -36,13 +37,7 @@ def _headers(prefer: str | None = None) -> dict[str, str]:
 
 async def sb(method: str, table: str, *, params: dict[str, str] | None = None, payload: Any = None, prefer: str | None = None) -> Any:
     async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.request(
-            method,
-            f"{SUPABASE_URL}/rest/v1/{table}",
-            headers=_headers(prefer),
-            params=params,
-            json=payload,
-        )
+        response = await client.request(method, f"{SUPABASE_URL}/rest/v1/{table}", headers=_headers(prefer), params=params, json=payload)
     if response.status_code >= 300:
         raise HTTPException(status_code=502, detail=f"SUPABASE_{table}_{response.status_code}:{response.text[:900]}")
     return response.json() if response.content else None
@@ -50,11 +45,7 @@ async def sb(method: str, table: str, *, params: dict[str, str] | None = None, p
 
 async def rpc(name: str, payload: dict[str, Any]) -> Any:
     async with httpx.AsyncClient(timeout=30.0) as client:
-        response = await client.post(
-            f"{SUPABASE_URL}/rest/v1/rpc/{name}",
-            headers=_headers(),
-            json=payload,
-        )
+        response = await client.post(f"{SUPABASE_URL}/rest/v1/rpc/{name}", headers=_headers(), json=payload)
     if response.status_code >= 300:
         raise HTTPException(status_code=502, detail=f"SUPABASE_RPC_{name}_{response.status_code}:{response.text[:900]}")
     return response.json() if response.content else None
@@ -105,11 +96,14 @@ class StructuredObjectCreate(BaseModel):
 class ReportContractPatch(BaseModel):
     volume_id: str
     drive_document_id: str
+    slate_row_count: int
+    excluded_game_summary_count: int = 0
     game_block_count: int
     phase_section_count: int
     daily_block_character_count: int
     required_section_markers: dict[str, bool]
     report_contract_verified: bool
+    delivery_contract_version: str = REPORT_CONTRACT_VERSION
 
 
 @app.get("/")
@@ -119,6 +113,7 @@ async def root():
         "agent_version": AGENT_VERSION,
         "kernel_version": KERNEL_VERSION,
         "protocol_id": PROTOCOL_ID,
+        "report_contract_version": REPORT_CONTRACT_VERSION,
         "semantic_persistence": True,
         "structured_object_types": sorted(STRUCTURED_OBJECT_TABLES),
     }
@@ -174,20 +169,27 @@ async def game_semantic_snapshot(daily_run_id: str, game_pk: str):
 
 @app.patch("/daily-runs/{daily_run_id}/report-contract")
 async def patch_report_contract(daily_run_id: str, req: ReportContractPatch):
-    games = await sb(
+    runs = await sb(
         "GET",
-        "investigacion_nrfi_games",
-        params={"select": "game_pk,research_status", "daily_run_id": f"eq.{daily_run_id}"},
+        "investigacion_nrfi_runs",
+        params={"select": "official_slate_count,processed_count,excluded_count", "daily_run_id": f"eq.{daily_run_id}", "limit": "1"},
     ) or []
-    nonexcluded = sum(1 for row in games if row.get("research_status") != "EXCLUDED")
+    if not runs:
+        raise HTTPException(status_code=404, detail="DAILY_RUN_NOT_FOUND")
+    run = runs[0]
     try:
         validate_report_contract(
-            nonexcluded_games=nonexcluded,
+            official_slate_count=int(run.get("official_slate_count") or 0),
+            nonexcluded_games=int(run.get("processed_count") or 0),
+            excluded_games=int(run.get("excluded_count") or 0),
+            slate_row_count=req.slate_row_count,
+            excluded_game_summary_count=req.excluded_game_summary_count,
             game_block_count=req.game_block_count,
             phase_section_count=req.phase_section_count,
             daily_block_character_count=req.daily_block_character_count,
             markers=req.required_section_markers,
             report_contract_verified=req.report_contract_verified,
+            delivery_contract_version=req.delivery_contract_version,
         )
     except InvestigacionNRFIProtocolViolation as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
@@ -197,11 +199,14 @@ async def patch_report_contract(daily_run_id: str, req: ReportContractPatch):
         "investigacion_nrfi_drive_appends",
         params={"daily_run_id": f"eq.{daily_run_id}", "volume_id": f"eq.{req.volume_id}", "drive_document_id": f"eq.{req.drive_document_id}"},
         payload={
+            "slate_row_count": req.slate_row_count,
+            "excluded_game_summary_count": req.excluded_game_summary_count,
             "game_block_count": req.game_block_count,
             "phase_section_count": req.phase_section_count,
             "daily_block_character_count": req.daily_block_character_count,
             "required_section_markers": req.required_section_markers,
             "report_contract_verified": True,
+            "delivery_contract_version": req.delivery_contract_version,
         },
         prefer="return=representation",
     )
