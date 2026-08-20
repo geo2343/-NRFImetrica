@@ -1,8 +1,8 @@
 {
   "agent_id": "@NRFiPrensa",
-  "agent_version": "V0.2-AGENT-1.1",
+  "agent_version": "V0.2-AGENT-1.2",
   "protocol_id": "SO_MEDIA_NRFI_V02",
-  "kernel_version": "NRFIPRENSA-KERNEL-0.2-BILATERAL-CONJUNCTION",
+  "kernel_version": "NRFIPRENSA-KERNEL-0.3-BILATERAL-1.1-HARD-GATE",
   "document_sha256": "a6ed0be85ea66750dbea7e3deafe717675433a78d141f0656688421e15dacbac",
   "document_lines": 1248,
   "status": "RESEARCH_ONLY_TRADING_HALT",
@@ -21,15 +21,9 @@
     "independent_clean_room": "FACTS_AND_TECHNICAL_DATA_ONLY_NO_PICKS_CONSENSUS_ODDS_JRC",
     "kernel": "PROCESS_CUSTODY_HARD_GATES_NO_SPORTS_VOTING"
   },
-  "lanes": {
-    "A_FACTUAL": "official/beat/direct verifiable facts",
-    "B_ANALYST": "picks/opinion/arguments kept separate",
-    "SOCIAL_TIP": "rumor/comment as lead only",
-    "TECHNICAL_DATA": "metric verification"
-  },
   "flow": ["F0","F1","F2","F3","F4","F5","F6","F7","F7-Q","F7-R","F8","F9","F10","POSTRESULT"],
-  "hard_gates": ["HG-01","HG-02","HG-03","HG-04","HG-05","HG-06","HG-07","HG-08","HG-09","HG-10","HG-11","HG-12","HG-13","HG-14","HG-BILATERAL-01"],
   "bilateral_conjunction": {
+    "version": "BILATERAL-1.1",
     "required": true,
     "logic": "TOP_1ST_NO_RUN AND BOTTOM_1ST_NO_RUN",
     "independent_half_approval_required": true,
@@ -39,8 +33,12 @@
     "acceptable_is_pass": false,
     "uncertain_is_pass": false,
     "one_dominant_pitcher_may_compensate_other_half": false,
-    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids"],
-    "half_pass_requires": ["F7Q_ALL_PASS","OFFICIAL_B1_B5","OSR_NOT_GOVERNING_OR_UNCERTAIN","DATA_QUALITY_SUFFICIENT","OWN_TECHNICAL_EVIDENCE"],
+    "required_half_dimensions": ["pitcher","opponent_top_order","splits","bb","hr","traffic","first_inning","current_form","matchup","material_run_path","data_quality","evidence_ids","first_inning_evidence_ids","current_version_evidence_ids","current_version_status","material_run_path_status","uncertainty_flags","half_rationale"],
+    "direct_first_inning_evidence_per_half_required": true,
+    "current_version_direct_evidence_per_half_required": true,
+    "direct_evidence_quality_allowed": ["HIGH","MEDIUM"],
+    "half_pass_requires": ["F7Q_ALL_PASS","OFFICIAL_B1_B5","OSR_NOT_GOVERNING_OR_UNCERTAIN","DATA_QUALITY_SUFFICIENT","CURRENT_VERSION_STABLE","MATERIAL_RUN_PATH_NOT_MATERIAL_OR_HIGH","NO_SEVERE_UNCERTAINTY","OWN_FIRST_INNING_DIRECT_EVIDENCE","OWN_CURRENT_VERSION_DIRECT_EVIDENCE"],
+    "severe_uncertainty_veto": ["MLB_DEBUT","POST_LONG_IL","ROLE_UNSTABLE","OPENER_BULK_UNCERTAINTY","FIRST_INNING_SAMPLE_ABSENT","STARTER_IDENTITY_UNCERTAIN"],
     "f8_positive_requires_two_half_passes": true,
     "final_pregame_seal_pass_requires_two_half_passes": true,
     "legacy_positive_without_two_half_passes": "REQUIRES_BILATERAL_REEVALUATION"
@@ -58,7 +56,7 @@
   "f8_independence": {
     "must_freeze_before_jrc": true,
     "strong_nrfi_operationally_enabled": false,
-    "positive_nrfi_requires_two_independent_half_passes": true
+    "positive_nrfi_requires_two_independent_bilateral_1_1_half_passes": true
   },
   "f10": {
     "max_transfer_candidates": 3,
@@ -70,6 +68,8 @@
     "project_id": "yejaollmavoudbxnbpll",
     "namespace_prefix": "nrfiprensa_",
     "shared_with_nrfimetrica_but_logically_separate": true,
+    "evidence_annotations_table": "public.nrfiprensa_evidence_annotations",
+    "bilateral_validation_function": "public.nrfiprensa_latest_bilateral_valid",
     "bilateral_legacy_review_table": "public.nrfi_bilateral_legacy_review"
   },
   "drive": {
@@ -79,17 +79,23 @@
     "sovereign_document_id": "1DahLE2LE04ZhfRv5mlLIwRqhdEOabjKACwlZm7X1Ack",
     "mandate_document_id": "1Qbb17NCOhdWwgnUM6n2yrKnd8oXEpxHxBQLmg7Wsq7g"
   },
-  "known_forensic_failure": {
-    "case": "SEA-HOU-2026-08-14",
-    "classification": "GOVERNANCE_BYPASS",
-    "do_not_repeat": ["HOLD_TO_PICK_VERBAL_OVERRIDE","CURRENT_ROSTER_AS_LINEUP","CONTROL_ONLY_RISK_MODEL","MISSING_OSR","MISSING_NO_WALK_PATHS","MISSING_RED_TEAM","ONE_STRONG_HALF_COMPENSATES_WEAK_HALF"]
-  },
+  "known_forensic_failures": [
+    "HOLD_TO_PICK_VERBAL_OVERRIDE",
+    "CURRENT_ROSTER_AS_LINEUP",
+    "CONTROL_ONLY_RISK_MODEL",
+    "MISSING_OSR",
+    "MISSING_NO_WALK_PATHS",
+    "MISSING_RED_TEAM",
+    "ONE_STRONG_HALF_COMPENSATES_WEAK_HALF"
+  ],
   "hard_truth_rules": [
     "NRFI_IS_TOP_AND_BOTTOM_CONJUNCTION",
     "NO_CROSS_HALF_COMPENSATION",
-    "NO_SO_MEDIA_POSITIVE_NRFI_UNLESS_BOTH_HALVES_PASS_INDEPENDENTLY",
+    "NO_SO_MEDIA_POSITIVE_NRFI_UNLESS_BOTH_HALVES_PASS_BILATERAL_1_1_INDEPENDENTLY",
     "ACCEPTABLE_OR_UNCERTAIN_HALF_FORBIDS_POSITIVE_NRFI",
+    "EACH_HALF_REQUIRES_DIRECT_FIRST_INNING_AND_CURRENT_VERSION_EVIDENCE",
+    "SEVERE_UNCERTAINTY_FORBIDS_HALF_PASS",
     "LEGACY_POSITIVE_WITHOUT_TWO_HALF_PASSES_REQUIRES_REEVALUATION"
   ],
-  "database_migrations_required_through": 46
+  "database_migrations_required_through": 51
 }
