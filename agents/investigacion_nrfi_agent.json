@@ -24,10 +24,19 @@
   "roles": {
     "chatgpt": "HISTORICAL_RESEARCH_ANALYST_AND_ORCHESTRATOR",
     "kernel": "PROCESS_TEMPORAL_CUSTODY_FULL_SLATE_SEMANTIC_COMPLETENESS_AND_VOLUME_ENFORCEMENT_NOT_SPORTS_VOTER",
-    "supabase": "PERSISTENT_STRUCTURED_HISTORICAL_MEMORY_AND_AUDIT_TRUTH",
+    "supabase": "CANONICAL_PERSISTENT_STATE_EXECUTION_BACKEND_STRUCTURED_HISTORICAL_MEMORY_AND_AUDIT_TRUTH",
     "github": "VERSIONED_CODE_PROTOCOL_MIGRATIONS_AND_TESTS",
     "drive": "HUMAN_READABLE_CONTINUOUS_DOSSIER",
-    "vercel": "HTTP_RUNTIME_WHEN_PHYSICALLY_DEPLOYED"
+    "vercel": "OPTIONAL_HTTP_ADAPTER_NON_BLOCKING"
+  },
+  "runtime_independence": {
+    "policy_version": "RUNTIME-INDEPENDENCE-1.0",
+    "http_runtime_required": false,
+    "vercel_required": false,
+    "vercel_failure_blocks_execution": false,
+    "vercel_unavailability_effect": "NON_BLOCKING",
+    "legacy_http_routes_are_compatibility_adapters": true,
+    "execution_status_source": "AGENT_AUTHORITY_AND_DOMAIN_GATES"
   },
   "workflow": [
     "F0_OFFICIAL_SLATE_FREEZE",
@@ -106,7 +115,8 @@
     "ONE_LIVING_GOOGLE_DOC_PER_OPEN_VOLUME",
     "ROLLOVER_REQUIRES_EXPLICIT_USER_AUTHORIZATION",
     "KERNEL_DOES_NOT_DECIDE_NRFI_YRFI_BY_SCORE",
-    "NO_PICK_STAKE_EV_ODDS_OR_REAL_MONEY_AUTHORITY"
+    "NO_PICK_STAKE_EV_ODDS_OR_REAL_MONEY_AUTHORITY",
+    "VERCEL_IS_OPTIONAL_AND_CANNOT_BLOCK_CORE_EXECUTION"
   ],
   "runtime": {
     "supabase_project_id": "yejaollmavoudbxnbpll",
@@ -117,6 +127,8 @@
     "active_volume_doc_id": "12PSuZwQKxb4oFiEqaH4fB8twnS74KhiPDUHMGpso6Us",
     "api_path": "/api/investigacion_nrfi",
     "semantic_api_path": "/api/investigacion_nrfi_semantic",
+    "api_paths_role": "OPTIONAL_HTTP_COMPATIBILITY_ADAPTERS",
+    "canonical_state_backend": "SUPABASE",
     "real_money_authority": false
   }
 }
