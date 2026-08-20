@@ -1,0 +1,478 @@
+============================================================
+[[INVNRFI_DAILY_RUN:INVNRFI-20260804-ORIGINAL-A1]]
+[[DAILY_HEADER]]
+@investigacionNRFI — JORNADA HISTÓRICA COMPLETA — 4 DE AGOSTO DE 2026
+HISTORICAL MLB FIRST-INNING INTELLIGENCE — DAILY-SLATE-REPORT-V2
+DAILY_RUN_ID = INVNRFI-20260804-ORIGINAL-A1
+VOLUME_ID = INVESTIGACIONNRFI-VOL-01
+RUN_TYPE = ORIGINAL
+PROTOCOL_ID = INVESTIGACION_NRFI_HISTORICAL_V1
+KERNEL_VERSION = INVESTIGACION-NRFI-KERNEL-0.2-SEMANTIC-COMPLETENESS
+AUTHORITY = HISTORICAL_RESEARCH_ONLY; REAL_MONEY_AUTHORITY = FALSE
+CAPTURE_COMMIT = 155d8c8576feb282f1ee3dddbf8107c5609044b4
+CAPTURED_AT = 2026-08-20T16:20:54Z
+SOURCE_FAMILY = MLB Stats API official schedule + official MLB GUMBO feeds
+TEMPORAL_RULE = PREGAME_EVIDENCE and POSTGAME_EXPLANATORY_EVIDENCE remain separated.
+
+[[EXECUTION_SUMMARY]]
+RESUMEN EJECUTIVO DE LA JORNADA
+El universo oficial contiene 15 partidos MLB finalizados y los 15 fueron procesados. No hay exclusiones, partidos pendientes ni miembros del slate desaparecidos. La jornada terminó con 9 NRFI y 6 YRFI. Se anotaron 15 carreras en primeras entradas; la media descriptiva fue 1.000 y la mediana fue 0.
+La distribución no fue homogénea. Nueve juegos terminaron 0-0 en la primera, dos produjeron exactamente una carrera, dos produjeron exactamente dos y dos alcanzaron tres o más. El volumen de carreras estuvo muy concentrado: CWS@BOS aportó seis por sí solo y SD@AZ tres. Por eso una media de una carrera por juego no representa un “juego típico”; el juego mediano siguió siendo cero carreras.
+La dirección del daño también fue asimétrica: 1 YRFI ocurrió solo en la parte alta, 5 solo en la baja y 0 tuvieron carreras en ambas mitades. Esto refuerza la obligación de evaluar las dos mitades por separado: el riesgo puede concentrarse completamente en un solo abridor y un solo top order.
+La jornada aporta varios contraejemplos de alto valor. NYM@CLE llenó las bases sin outs consumidos suficientes para estar cómodo y aun así quedó en cero; ATH@CIN convirtió dos sencillos consecutivos en una amenaza que murió con doble play; LAA@BAL tuvo un doble con dos outs sin anotación; TB@COL anotó precisamente en una doble matanza. El sistema, por tanto, no puede usar reglas simples como “tráfico = carrera”, “doble play = siempre protector” o “dos outs = peligro terminado”.
+Durante la auditoría mecánica se detectaron dos falsos rótulos XBH_DAMAGE: WSH@PHI y TB@COL no tuvieron extrabases en las mitades que anotaron. Fueron corregidos respectivamente a FREE_TRAFFIC_CHAIN y HIT_CONTACT_CHAIN antes de construir F5 y antes de escribir este reporte. Esa corrección forma parte de la trazabilidad de la jornada.
+
+[[SLATE_LEDGER]]
+LEDGER COMPLETO DE LA JORNADA — 15/15
+SLATE ROW 01 — GAME_PK 824805 — Los Angeles Angels @ Baltimore Orioles — Abridores: Grayson Rodriguez / Cade Povich — Final 1-3 — 1.ª 0-0 — NRFI — Oriole Park at Camden Yards
+SLATE ROW 02 — GAME_PK 824403 — New York Mets @ Cleveland Guardians — Abridores: Sean Manaea / Joey Cantillo — Final 6-2 — 1.ª 0-0 — NRFI — Progressive Field
+SLATE ROW 03 — GAME_PK 824484 — Athletics @ Cincinnati Reds — Abridores: J.T. Ginn / Brady Singer — Final 4-5 — 1.ª 0-0 — NRFI — Great American Ball Park
+SLATE ROW 04 — GAME_PK 823432 — Washington Nationals @ Philadelphia Phillies — Abridores: Carson Palmquist / Jesús Luzardo — Final 0-5 — 1.ª 0-1 — YRFI — Citizens Bank Park
+SLATE ROW 05 — GAME_PK 823517 — St. Louis Cardinals @ New York Yankees — Abridores: Hunter Dobbins / Ryan Weathers — Final 0-2 — 1.ª 0-0 — NRFI — Yankee Stadium
+SLATE ROW 06 — GAME_PK 824731 — Chicago White Sox @ Boston Red Sox — Abridores: Davis Martin / Patrick Sandoval — Final 2-14 — 1.ª 0-6 — YRFI — Fenway Park
+SLATE ROW 07 — GAME_PK 824888 — Miami Marlins @ Atlanta Braves — Abridores: Ryan Gusto / Grant Holmes — Final 2-4 — 1.ª 0-0 — NRFI — Truist Park
+SLATE ROW 08 — GAME_PK 824084 — Minnesota Twins @ Kansas City Royals — Abridores: Joe Ryan / Randy Dobnak — Final 2-8 — 1.ª 0-2 — YRFI — Kauffman Stadium
+SLATE ROW 09 — GAME_PK 823756 — Pittsburgh Pirates @ Milwaukee Brewers — Abridores: Jared Jones / Logan Henderson — Final 2-4 — 1.ª 0-0 — NRFI — American Family Field
+SLATE ROW 10 — GAME_PK 824645 — Los Angeles Dodgers @ Chicago Cubs — Abridores: Tarik Skubal / Javier Assad — Final 1-5 — 1.ª 0-0 — NRFI — Wrigley Field
+SLATE ROW 11 — GAME_PK 822865 — San Francisco Giants @ Texas Rangers — Abridores: Blade Tidwell / MacKenzie Gore — Final 4-5 — 1.ª 0-2 — YRFI — Globe Life Field
+SLATE ROW 12 — GAME_PK 824161 — Toronto Blue Jays @ Houston Astros — Abridores: Trey Yesavage / Hayden Wesneski — Final 2-7 — 1.ª 0-0 — NRFI — Daikin Park
+SLATE ROW 13 — GAME_PK 824321 — Tampa Bay Rays @ Colorado Rockies — Abridores: Freddy Peralta / Gabriel Hughes — Final 9-7 — 1.ª 0-1 — YRFI — Coors Field
+SLATE ROW 14 — GAME_PK 825054 — San Diego Padres @ Arizona Diamondbacks — Abridores: Randy Vásquez / Eduardo Rodriguez — Final 9-4 — 1.ª 3-0 — YRFI — Chase Field
+SLATE ROW 15 — GAME_PK 823108 — Detroit Tigers @ Seattle Mariners — Abridores: Troy Melton / Emerson Hancock — Final 8-0 — 1.ª 0-0 — NRFI — T-Mobile Park
+
+[[SLATE_STATISTICAL_SUMMARY]]
+RESUMEN ESTADÍSTICO DESCRIPTIVO
+NRFI = 9/15; YRFI = 6/15. Cero carreras = 9; una carrera = 2; dos carreras = 2; tres o más = 2. Total = 15 carreras. Media = 1.000; mediana = 0.
+Carrera solo en alta = 1; solo en baja = 5; en ambas = 0; en ninguna = 9. Esta sección es retrospectiva y descriptiva; no convierte frecuencias de una jornada en probabilidades futuras.
+La exposición ofensiva total de la primera entrada fue de 127 apariciones al plato. Ese número importa porque diferencia jornadas con muchos innings de seis o siete bateadores de jornadas dominadas por tres arriba/tres abajo. La exposición es una variable intermedia: aumenta oportunidades de daño, pero el desenlace depende de cómo se combinan tráfico, calidad del contacto y creación de outs.
+
+[[F1_F5_SYNTHESIS]]
+SÍNTESIS DE F1–F5
+F1 — CAPTURA FORENSE. Los 15 GAME_PK del schedule oficial fueron congelados; cada juego quedó ligado a primer lanzamiento real, sede, abridores, catchers, marcador final, lineup de nueve bateadores por equipo y hash del GUMBO. El control adversarial del orden inicial dio PASS 30/30: el slot 1 almacenado coincide con el primer PA observado en las 30 mitades.
+F2 — RECONSTRUCCIÓN PROFUNDA. Se materializaron 30 half-innings, 127 PA y 502 pitch events. Cada PA conserva bateador, lanzador, resultado, secuencia y transición; cada mitad conserva tráfico, outs, exposición B4/B5/B6, ponches, BB/HBP, hits, XBH/HR, secuencia exacta y mecanismo. El criterio es reconstruir PITCH → PA → HALF-INNING → FIRST-INNING, no inferir el resultado a partir del boxscore final.
+F3 — FEATURE FACTORY. Hay 225 feature values: nueve familias por partido y siete ventanas de secuencia históricas L3/L5/L10/L15/L20/SEASON/CAREER. Las ventanas que no pudieron reconstruirse desde el capture de esta ejecución permanecen BOUNDED_GAP con n=0 explícito y razón documental; no se rellenaron con cero estadístico ni se inventó historial.
+F4 — INTELIGENCIA HISTÓRICA / PRENSA / CONFIABILIDAD. Los mecanismos de la primera entrada se clasificaron a partir de la secuencia observada. La capa de prensa pregame permanece separada porque esta captura no certificó timestamps exactos de publicación anteriores al primer lanzamiento. Por tanto, ningún comentario postgame ni contexto sin timestamp fue promovido a PREGAME_EVIDENCE. Se conservaron 15 cohortes descriptivas no causales.
+F5 — BASE CONSULTABLE. Se generó HISTORICAL_EVIDENCE_PACKET-2026-08-04-A1 con future_game_count=0 y postgame_leak_count=0. Incluye PITCHER_HISTORY, TEAM_HISTORY, TOP_ORDER_HISTORY, PROCESS_HISTORY, EVENT_PATHS, CONTEXT, PRESS_HISTORY_PREGAME, lane postgame separada, confiabilidad, cobertura, lineage, incertidumbre y cohortes comparables. La autoridad sigue limitada a investigación histórica.
+
+[[GAME_BLOCKS]]
+------------------------------------------------------------
+GAME BLOCK 01 — GAME_PK 824805 — LAA@BAL
+Contexto. Los Angeles Angels visitó a Baltimore Orioles en Oriole Park at Camden Yards. Abridores oficiales: Grayson Rodriguez por el visitante y Cade Povich por el local. Marcador final 1-3. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-04T22:36:24.289Z. Condición ambiental archivada: {"condition": "Partly Cloudy", "temp": "88", "wind": "7 mph, In From CF"}.
+Top order visitante (primeros cinco puestos observados): 1. Zach Neto (R); 2. Mike Trout (R); 3. Nolan Schanuel (L); 4. Vaughn Grissom (R); 5. Denzer Guzman (R).
+Top order local (primeros cinco puestos observados): 1. Dylan Beavers (L); 2. Pete Alonso (R); 3. Gunnar Henderson (L); 4. Leody Taveras (S); 5. Christian Encarnacion-Strand (R).
+Reconstrucción exacta — parte alta:
+  PA 1: Zach Neto vs Cade Povich — Zach Neto flies out to center fielder Colton Cowser.
+  PA 2: Mike Trout vs Cade Povich — Mike Trout strikes out swinging.
+  PA 3: Nolan Schanuel vs Cade Povich — Nolan Schanuel doubles (20) on a sharp line drive to center fielder Colton Cowser.
+  PA 4: Vaughn Grissom vs Cade Povich — Vaughn Grissom strikes out swinging.
+Lectura de la alta. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 21 lanzamientos, con 2 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. Incluso hubo extrabase sin carrera, evidencia directa de que daño de contacto y carrera realizada no son equivalentes. 
+Reconstrucción exacta — parte baja:
+  PA 1: Dylan Beavers vs Grayson Rodriguez — Dylan Beavers strikes out swinging.
+  PA 2: Pete Alonso vs Grayson Rodriguez — Pete Alonso strikes out swinging.
+  PA 3: Gunnar Henderson vs Grayson Rodriguez — Gunnar Henderson lines out to second baseman Vaughn Grissom.
+Lectura de la baja. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 10 lanzamientos, con 2 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Cade Povich. Lanzadores observados en la baja: Grayson Rodriguez. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 21 pitcheos, 1 H, 0 BB, 0 HBP, 1 XBH, 0 HR y 2 K; exposición B4/B5/B6 = True/False/False. Baja: 3 BF, 10 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = False/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. Hubo extrabase; se conserva separado de la carrera realizada para evitar equiparar daño potencial con anotación efectiva. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 02 — GAME_PK 824403 — NYM@CLE
+Contexto. New York Mets visitó a Cleveland Guardians en Progressive Field. Abridores oficiales: Sean Manaea por el visitante y Joey Cantillo por el local. Marcador final 6-2. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-04T22:41:38.899Z. Condición ambiental archivada: {"condition": "Clear", "temp": "78", "wind": "6 mph, In From CF"}.
+Top order visitante (primeros cinco puestos observados): 1. A.J. Ewing (L); 2. Francisco Lindor (S); 3. Bo Bichette (R); 4. Francisco Alvarez (R); 5. Carson Benge (L).
+Top order local (primeros cinco puestos observados): 1. Steven Kwan (L); 2. Jo Adell (R); 3. Chase DeLauter (L); 4. Rhys Hoskins (R); 5. Angel Martínez (S).
+Reconstrucción exacta — parte alta:
+  PA 1: A.J. Ewing vs Joey Cantillo — A.J. Ewing lines out sharply to center fielder Steven Kwan.
+  PA 2: Francisco Lindor vs Joey Cantillo — Francisco Lindor called out on strikes.
+  PA 3: Bo Bichette vs Joey Cantillo — Bo Bichette singles on a ground ball to center fielder Steven Kwan.
+  PA 4: Francisco Alvarez vs Joey Cantillo — Francisco Alvarez strikes out on a foul tip.
+Lectura de la alta. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 18 lanzamientos, con 2 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. 
+Reconstrucción exacta — parte baja:
+  PA 1: Steven Kwan vs Sean Manaea — Steven Kwan hit by pitch.
+  PA 2: Jo Adell vs Sean Manaea — Jo Adell singles on a line drive to left fielder A.J. Ewing. Steven Kwan to 2nd.
+  PA 3: Chase DeLauter vs Sean Manaea — Chase DeLauter walks. Steven Kwan to 3rd. Jo Adell to 2nd.
+  PA 4: Rhys Hoskins vs Sean Manaea — Rhys Hoskins strikes out on a foul tip.
+  PA 5: Angel Martínez vs Sean Manaea — Angel Martínez strikes out swinging.
+  PA 6: Travis Bazzana vs Sean Manaea — Travis Bazzana grounds into a force out, fielded by shortstop Francisco Lindor. Chase DeLauter out at 2nd.
+Lectura de la baja. La mitad terminó sin carrera pese a 1 hit(s), 1 boleto(s) y 1 pelotazo(s). El abridor/equipo defensor enfrentó 6 bateadores y necesitó 20 lanzamientos, con 2 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. El primer bateador alcanzó base, pero la secuencia posterior evitó la anotación. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Joey Cantillo. Lanzadores observados en la baja: Sean Manaea. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 18 pitcheos, 1 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = True/False/False. Baja: 6 BF, 20 pitcheos, 1 H, 1 BB, 1 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = True/True/True.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 03 — GAME_PK 824484 — ATH@CIN
+Contexto. Athletics visitó a Cincinnati Reds en Great American Ball Park. Abridores oficiales: J.T. Ginn por el visitante y Brady Singer por el local. Marcador final 4-5. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-04T22:42:18.330Z. Condición ambiental archivada: {"condition": "Clear", "temp": "86", "wind": "3 mph, L To R"}.
+Top order visitante (primeros cinco puestos observados): 1. Lawrence Butler (L); 2. Jacob Wilson (R); 3. Tyler Soderstrom (L); 4. Jonah Heim (S); 5. Jeff McNeil (L).
+Top order local (primeros cinco puestos observados): 1. Elly De La Cruz (S); 2. Sal Stewart (R); 3. JJ Bleday (L); 4. Tyler Stephenson (R); 5. Ivan Johnson (S).
+Reconstrucción exacta — parte alta:
+  PA 1: Lawrence Butler vs Brady Singer — Lawrence Butler strikes out swinging.
+  PA 2: Jacob Wilson vs Brady Singer — Jacob Wilson strikes out swinging.
+  PA 3: Tyler Soderstrom vs Brady Singer — Tyler Soderstrom walks.
+  PA 4: Jonah Heim vs Brady Singer — Jonah Heim flies out to right fielder Héctor Rodríguez.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 1 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 20 lanzamientos, con 2 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. 
+Reconstrucción exacta — parte baja:
+  PA 1: Elly De La Cruz vs J.T. Ginn — Elly De La Cruz grounds out, second baseman Donovan Walton to first baseman Jeff McNeil.
+  PA 2: Sal Stewart vs J.T. Ginn — Sal Stewart singles on a ground ball to center fielder Henry Bolte.
+  PA 3: JJ Bleday vs J.T. Ginn — JJ Bleday singles on a ground ball to right fielder Lawrence Butler. Sal Stewart to 2nd.
+  PA 4: Tyler Stephenson vs J.T. Ginn — Tyler Stephenson grounds into a double play, shortstop Jacob Wilson to second baseman Donovan Walton to first baseman Jeff McNeil. JJ Bleday out at 2nd. Tyler Stephenson out at 1st.
+Lectura de la baja. La mitad terminó sin carrera pese a 2 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 10 lanzamientos, con 0 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La doble matanza fue un mecanismo material de destrucción del tráfico. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Brady Singer. Lanzadores observados en la baja: J.T. Ginn. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 20 pitcheos, 0 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = True/False/False. Baja: 4 BF, 10 pitcheos, 2 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. Hubo doble play; se registra su posición exacta porque una doble matanza puede destruir tráfico o, si existe corredor en tercera, permitir una carrera mientras añade outs. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 04 — GAME_PK 823432 — WSH@PHI
+Contexto. Washington Nationals visitó a Philadelphia Phillies en Citizens Bank Park. Abridores oficiales: Carson Palmquist por el visitante y Jesús Luzardo por el local. Marcador final 0-5. Primera entrada 0-1: YRFI. Primer lanzamiento registrado: 2026-08-04T22:42:46.791Z. Condición ambiental archivada: {"condition": "Partly Cloudy", "temp": "84", "wind": "4 mph, Out To CF"}.
+Top order visitante (primeros cinco puestos observados): 1. Dylan Crews (R); 2. Andrés Chaparro (R); 3. Brady House (R); 4. Abimelec Ortiz (L); 5. CJ Abrams (L).
+Top order local (primeros cinco puestos observados): 1. Kyle Schwarber (L); 2. Trea Turner (R); 3. Bryce Harper (L); 4. Luis Arraez (L); 5. Alec Bohm (R).
+Reconstrucción exacta — parte alta:
+  PA 1: Dylan Crews vs Jesús Luzardo — Dylan Crews lines out to right fielder Bryce Harper.
+  PA 2: Andrés Chaparro vs Jesús Luzardo — Andrés Chaparro strikes out swinging.
+  PA 3: Brady House vs Jesús Luzardo — Brady House strikes out swinging.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 8 lanzamientos, con 2 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Reconstrucción exacta — parte baja:
+  PA 1: Kyle Schwarber vs Carson Palmquist — Kyle Schwarber grounds out to first baseman Andrés Chaparro.
+  PA 2: Trea Turner vs Carson Palmquist — Trea Turner singles on a fly ball to center fielder Jacob Young.
+  PA 3: Bryce Harper vs Carson Palmquist — Bryce Harper walks. Trea Turner to 2nd.
+  PA 4: Luis Arraez vs Carson Palmquist — Luis Arraez singles on a line drive to center fielder Jacob Young. Trea Turner scores. Bryce Harper to 2nd.
+  PA 5: Alec Bohm vs Zack Littell — Alec Bohm grounds into a double play, third baseman Brady House to second baseman Jorbit Vivas to first baseman Andrés Chaparro. Luis Arraez out at 2nd. Alec Bohm out at 1st.
+Lectura de la baja. Esta mitad produjo 1 carrera(s) con 2 hit(s), 0 extrabase(s), 1 boleto(s), 0 pelotazo(s), 0 ponche(s), 5 bateadores y 20 lanzamientos. El mecanismo reconstruido es FREE_TRAFFIC_CHAIN. La base gratis aumentó exposición del orden y redujo el margen del lanzador antes del contacto decisivo. La doble matanza formó parte de la secuencia; en este caso debe leerse por su efecto sobre el estado de bases y outs, no asumir automáticamente que todo doble play protege el NRFI. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Jesús Luzardo. Lanzadores observados en la baja: Carson Palmquist, Zack Littell. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 3 BF, 8 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = False/False/False. Baja: 5 BF, 20 pitcheos, 2 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/True/False.
+Interpretación histórica. El YRFI se materializó exclusivamente en la parte baja. El mecanismo canónico para esa mitad es FREE_TRAFFIC_CHAIN. La mitad opuesta quedó en cero, lo que demuestra que el desenlace global puede quedar decidido por una sola vulnerabilidad bilateral. Para memoria histórica deben conservarse tanto el mecanismo que produjo las carreras como el mecanismo que contuvo la otra mitad.
+Lección incorporada. Hubo doble play; se registra su posición exacta porque una doble matanza puede destruir tráfico o, si existe corredor en tercera, permitir una carrera mientras añade outs. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 05 — GAME_PK 823517 — STL@NYY
+Contexto. St. Louis Cardinals visitó a New York Yankees en Yankee Stadium. Abridores oficiales: Hunter Dobbins por el visitante y Ryan Weathers por el local. Marcador final 0-2. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-04T23:09:12.903Z. Condición ambiental archivada: {"condition": "Partly Cloudy", "temp": "80", "wind": "6 mph, R To L"}.
+Top order visitante (primeros cinco puestos observados): 1. JJ Wetherholt (L); 2. Iván Herrera (R); 3. José Fermín (R); 4. Alec Burleson (L); 5. Nelson Velázquez (R).
+Top order local (primeros cinco puestos observados): 1. Trent Grisham (L); 2. Ben Rice (L); 3. Luis García Jr. (L); 4. Heliot Ramos (R); 5. Spencer Jones (L).
+Reconstrucción exacta — parte alta:
+  PA 1: JJ Wetherholt vs Ryan Weathers — JJ Wetherholt grounds out, second baseman Jazz Chisholm Jr. to first baseman Luis García Jr.
+  PA 2: Iván Herrera vs Ryan Weathers — Iván Herrera strikes out swinging.
+  PA 3: José Fermín vs Ryan Weathers — José Fermín grounds out, third baseman Ryan McMahon to first baseman Luis García Jr.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 17 lanzamientos, con 1 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Reconstrucción exacta — parte baja:
+  PA 1: Trent Grisham vs Hunter Dobbins — Trent Grisham grounds out to first baseman Blaze Jordan.
+  PA 2: Ben Rice vs Hunter Dobbins — Ben Rice grounds out, pitcher Hunter Dobbins to first baseman Blaze Jordan.
+  PA 3: Luis García Jr. vs Hunter Dobbins — Luis García Jr. grounds out, third baseman José Fermín to first baseman Blaze Jordan.
+Lectura de la baja. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 8 lanzamientos, con 0 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Ryan Weathers. Lanzadores observados en la baja: Hunter Dobbins. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 3 BF, 17 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = False/False/False. Baja: 3 BF, 8 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = False/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 06 — GAME_PK 824731 — CWS@BOS
+Contexto. Chicago White Sox visitó a Boston Red Sox en Fenway Park. Abridores oficiales: Davis Martin por el visitante y Patrick Sandoval por el local. Marcador final 2-14. Primera entrada 0-6: YRFI. Primer lanzamiento registrado: 2026-08-04T23:10:50.901Z. Condición ambiental archivada: {"condition": "Clear", "temp": "82", "wind": "2 mph, Out To CF"}.
+Top order visitante (primeros cinco puestos observados): 1. Chase Meidroth (R); 2. Munetaka Murakami (L); 3. Miguel Vargas (R); 4. Randal Grichuk (R); 5. Colson Montgomery (L).
+Top order local (primeros cinco puestos observados): 1. Nick Sogard (S); 2. Ceddanne Rafaela (R); 3. Wilyer Abreu (L); 4. Willson Contreras (R); 5. Masataka Yoshida (L).
+Reconstrucción exacta — parte alta:
+  PA 1: Chase Meidroth vs Patrick Sandoval — Chase Meidroth strikes out swinging.
+  PA 2: Munetaka Murakami vs Patrick Sandoval — Munetaka Murakami called out on strikes.
+  PA 3: Miguel Vargas vs Patrick Sandoval — Miguel Vargas walks.
+  PA 4: Randal Grichuk vs Patrick Sandoval — Randal Grichuk flies out to center fielder Ceddanne Rafaela.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 1 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 16 lanzamientos, con 2 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. 
+Reconstrucción exacta — parte baja:
+  PA 1: Nick Sogard vs Davis Martin — Nick Sogard doubles (3) on a fly ball to left fielder Randal Grichuk.
+  PA 2: Ceddanne Rafaela vs Davis Martin — Ceddanne Rafaela hit by pitch.
+  PA 3: Wilyer Abreu vs Davis Martin — Wilyer Abreu flies out to center fielder Brenton Doyle. Nick Sogard to 3rd.
+  PA 4: Willson Contreras vs Davis Martin — Willson Contreras singles on a fly ball to center fielder Brenton Doyle. Nick Sogard scores. Ceddanne Rafaela to 2nd.
+  PA 5: Masataka Yoshida vs Davis Martin — Masataka Yoshida singles on a sharp line drive to right fielder Braden Montgomery. Ceddanne Rafaela to 3rd. Willson Contreras to 2nd.
+  PA 6: Caleb Durbin vs Davis Martin — Caleb Durbin hits a grand slam (11) to left center field. Ceddanne Rafaela scores. Willson Contreras scores. Masataka Yoshida scores.
+  PA 7: Jarren Duran vs Davis Martin — Jarren Duran homers (15) on a fly ball to right center field.
+  PA 8: Andruw Monasterio vs Davis Martin — Andruw Monasterio singles on a ground ball to third baseman Miguel Vargas.
+  PA 9: Connor Wong vs Davis Martin — Connor Wong grounds into a double play, shortstop Luisangel Acuña to second baseman Chase Meidroth to first baseman Munetaka Murakami. Andruw Monasterio out at 2nd. Connor Wong out at 1st.
+Lectura de la baja. Esta mitad produjo 6 carrera(s) con 6 hit(s), 3 extrabase(s), 0 boleto(s), 1 pelotazo(s), 0 ponche(s), 9 bateadores y 26 lanzamientos. El mecanismo reconstruido es MULTI_HR. El jonrón creó daño de alta conversión y redujo la dependencia de múltiples eventos posteriores. La base gratis aumentó exposición del orden y redujo el margen del lanzador antes del contacto decisivo. La doble matanza formó parte de la secuencia; en este caso debe leerse por su efecto sobre el estado de bases y outs, no asumir automáticamente que todo doble play protege el NRFI. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Patrick Sandoval. Lanzadores observados en la baja: Davis Martin. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 16 pitcheos, 0 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = True/False/False. Baja: 9 BF, 26 pitcheos, 6 H, 0 BB, 1 HBP, 3 XBH, 2 HR y 0 K; exposición B4/B5/B6 = True/True/True.
+Interpretación histórica. El YRFI se materializó exclusivamente en la parte baja. El mecanismo canónico para esa mitad es MULTI_HR. La mitad opuesta quedó en cero, lo que demuestra que el desenlace global puede quedar decidido por una sola vulnerabilidad bilateral. Para memoria histórica deben conservarse tanto el mecanismo que produjo las carreras como el mecanismo que contuvo la otra mitad.
+Lección incorporada. Hubo doble play; se registra su posición exacta porque una doble matanza puede destruir tráfico o, si existe corredor en tercera, permitir una carrera mientras añade outs. Hubo extrabase; se conserva separado de la carrera realizada para evitar equiparar daño potencial con anotación efectiva. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 07 — GAME_PK 824888 — MIA@ATL
+Contexto. Miami Marlins visitó a Atlanta Braves en Truist Park. Abridores oficiales: Ryan Gusto por el visitante y Grant Holmes por el local. Marcador final 2-4. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-04T23:16:32.053Z. Condición ambiental archivada: {"condition": "Partly Cloudy", "temp": "85", "wind": "3 mph, L To R"}.
+Top order visitante (primeros cinco puestos observados): 1. Kyle Stowers (L); 2. Griffin Conine (L); 3. Otto Lopez (R); 4. Owen Caissie (L); 5. Heriberto Hernández (R).
+Top order local (primeros cinco puestos observados): 1. Drake Baldwin (L); 2. Ronald Acuña Jr. (R); 3. Matt Olson (L); 4. Michael Harris II (L); 5. Ozzie Albies (S).
+Reconstrucción exacta — parte alta:
+  PA 1: Kyle Stowers vs Grant Holmes — Kyle Stowers strikes out swinging.
+  PA 2: Griffin Conine vs Grant Holmes — Griffin Conine strikes out swinging.
+  PA 3: Otto Lopez vs Grant Holmes — Otto Lopez singles on a sharp line drive to left fielder Mike Yastrzemski.
+  PA 4: Owen Caissie vs Grant Holmes — Owen Caissie strikes out swinging.
+Lectura de la alta. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 15 lanzamientos, con 3 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. 
+Reconstrucción exacta — parte baja:
+  PA 1: Drake Baldwin vs Ryan Gusto — Drake Baldwin grounds out, second baseman Javier Sanoja to first baseman Kyle Stowers.
+  PA 2: Ronald Acuña Jr. vs Ryan Gusto — Ronald Acuña Jr. grounds out, shortstop Otto Lopez to first baseman Kyle Stowers.
+  PA 3: Matt Olson vs Ryan Gusto — Matt Olson singles on a line drive to left fielder Heriberto Hernández.
+  PA 4: Michael Harris II vs Ryan Gusto — Michael Harris II strikes out on a foul tip.
+Lectura de la baja. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 18 lanzamientos, con 1 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Grant Holmes. Lanzadores observados en la baja: Ryan Gusto. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 15 pitcheos, 1 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 3 K; exposición B4/B5/B6 = True/False/False. Baja: 4 BF, 18 pitcheos, 1 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 08 — GAME_PK 824084 — MIN@KC
+Contexto. Minnesota Twins visitó a Kansas City Royals en Kauffman Stadium. Abridores oficiales: Joe Ryan por el visitante y Randy Dobnak por el local. Marcador final 2-8. Primera entrada 0-2: YRFI. Primer lanzamiento registrado: 2026-08-04T23:50:18.988Z. Condición ambiental archivada: {"condition": "Overcast", "temp": "91", "wind": "6 mph, R To L"}.
+Top order visitante (primeros cinco puestos observados): 1. Trevor Larnach (L); 2. Ryan Jeffers (R); 3. Josh Bell (S); 4. Kody Clemens (L); 5. Royce Lewis (R).
+Top order local (primeros cinco puestos observados): 1. Carter Jensen (L); 2. Bobby Witt Jr. (R); 3. Jac Caglianone (L); 4. Salvador Perez (R); 5. Michael Massey (L).
+Reconstrucción exacta — parte alta:
+  PA 1: Trevor Larnach vs Randy Dobnak — Trevor Larnach grounds out, second baseman Michael Massey to first baseman Jac Caglianone.
+  PA 2: Ryan Jeffers vs Randy Dobnak — Ryan Jeffers grounds out, first baseman Jac Caglianone to pitcher Randy Dobnak.
+  PA 3: Josh Bell vs Randy Dobnak — Josh Bell grounds out, first baseman Jac Caglianone to pitcher Randy Dobnak.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 13 lanzamientos, con 0 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Reconstrucción exacta — parte baja:
+  PA 1: Carter Jensen vs Joe Ryan — Carter Jensen called out on strikes.
+  PA 2: Bobby Witt Jr. vs Joe Ryan — Bobby Witt Jr. singles on a ground ball to center fielder Luke Keaschall.
+  PA 3: Jac Caglianone vs Joe Ryan — Jac Caglianone singles on a sharp line drive to right fielder Alan Roden. Bobby Witt Jr. to 3rd.
+  PA 4: Salvador Perez vs Joe Ryan — Salvador Perez out on a sacrifice fly to left fielder Trevor Larnach. Bobby Witt Jr. scores.
+  PA 5: Michael Massey vs Joe Ryan — Michael Massey doubles (20) on a sharp line drive to center fielder Luke Keaschall. Jac Caglianone scores.
+  PA 6: Nick Loftin vs Joe Ryan — Nick Loftin grounds out, shortstop Ryan Kreidler to first baseman Royce Lewis.
+Lectura de la baja. Esta mitad produjo 2 carrera(s) con 3 hit(s), 1 extrabase(s), 0 boleto(s), 0 pelotazo(s), 1 ponche(s), 6 bateadores y 22 lanzamientos. El mecanismo reconstruido es XBH_DAMAGE. El extrabase fue el evento de aceleración que convirtió tráfico en posición de anotar o produjo directamente la carrera. Hubo extensión con dos outs, por lo que el modelo debe mantener vivo el riesgo hasta completar el tercer out. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Randy Dobnak. Lanzadores observados en la baja: Joe Ryan. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 3 BF, 13 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = False/False/False. Baja: 6 BF, 22 pitcheos, 3 H, 0 BB, 0 HBP, 1 XBH, 0 HR y 1 K; exposición B4/B5/B6 = True/True/True.
+Interpretación histórica. El YRFI se materializó exclusivamente en la parte baja. El mecanismo canónico para esa mitad es XBH_DAMAGE. La mitad opuesta quedó en cero, lo que demuestra que el desenlace global puede quedar decidido por una sola vulnerabilidad bilateral. Para memoria histórica deben conservarse tanto el mecanismo que produjo las carreras como el mecanismo que contuvo la otra mitad.
+Lección incorporada. Hubo extrabase; se conserva separado de la carrera realizada para evitar equiparar daño potencial con anotación efectiva. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 09 — GAME_PK 823756 — PIT@MIL
+Contexto. Pittsburgh Pirates visitó a Milwaukee Brewers en American Family Field. Abridores oficiales: Jared Jones por el visitante y Logan Henderson por el local. Marcador final 2-4. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-04T23:40:27.820Z. Condición ambiental archivada: {"condition": "Cloudy", "temp": "82", "wind": "8 mph, In From RF"}.
+Top order visitante (primeros cinco puestos observados): 1. Jake Mangum (S); 2. Brandon Lowe (L); 3. Bryan Reynolds (S); 4. Esmerlyn Valdez (R); 5. Spencer Horwitz (L).
+Top order local (primeros cinco puestos observados): 1. Brice Turang (L); 2. Jackson Chourio (R); 3. Garrett Mitchell (L); 4. William Contreras (R); 5. Christian Yelich (L).
+Reconstrucción exacta — parte alta:
+  PA 1: Jake Mangum vs Logan Henderson — Jake Mangum walks.
+  PA 2: Brandon Lowe vs Logan Henderson — Brandon Lowe strikes out on a foul tip.
+  PA 3: Bryan Reynolds vs Logan Henderson — Bryan Reynolds grounds into a force out, second baseman Brice Turang to shortstop Cooper Pratt. Jake Mangum out at 2nd. Bryan Reynolds to 1st.
+  PA 4: Esmerlyn Valdez vs Logan Henderson — Esmerlyn Valdez strikes out swinging.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 1 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 15 lanzamientos, con 2 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. El primer bateador alcanzó base, pero la secuencia posterior evitó la anotación. 
+Reconstrucción exacta — parte baja:
+  PA 1: Brice Turang vs Jared Jones — Brice Turang strikes out swinging.
+  PA 2: Jackson Chourio vs Jared Jones — Jackson Chourio singles on a line drive to right fielder Esmerlyn Valdez.
+  PA 3: Garrett Mitchell vs Jared Jones — Garrett Mitchell grounds into a force out, second baseman Nick Gonzales to shortstop Jacob Gonzalez. Jackson Chourio out at 2nd. Garrett Mitchell to 1st.
+  PA 4: William Contreras vs Jared Jones — William Contreras lines out to center fielder Jake Mangum.
+Lectura de la baja. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 14 lanzamientos, con 1 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Logan Henderson. Lanzadores observados en la baja: Jared Jones. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 15 pitcheos, 0 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 2 K; exposición B4/B5/B6 = True/False/False. Baja: 4 BF, 14 pitcheos, 1 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 10 — GAME_PK 824645 — LAD@CHC
+Contexto. Los Angeles Dodgers visitó a Chicago Cubs en Wrigley Field. Abridores oficiales: Tarik Skubal por el visitante y Javier Assad por el local. Marcador final 1-5. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-05T00:05:35.990Z. Condición ambiental archivada: {"condition": "Partly Cloudy", "temp": "83", "wind": "8 mph, Out To CF"}.
+Top order visitante (primeros cinco puestos observados): 1. Shohei Ohtani (L); 2. Andy Pages (R); 3. Freddie Freeman (L); 4. Max Muncy (L); 5. Mookie Betts (R).
+Top order local (primeros cinco puestos observados): 1. Pete Crow-Armstrong (L); 2. Seiya Suzuki (R); 3. Alex Bregman (R); 4. Michael Busch (L); 5. Nico Hoerner (R).
+Reconstrucción exacta — parte alta:
+  PA 1: Shohei Ohtani vs Javier Assad — Shohei Ohtani grounds out, second baseman Nico Hoerner to first baseman Michael Busch.
+  PA 2: Andy Pages vs Javier Assad — Andy Pages grounds out, third baseman Pedro Ramírez to first baseman Michael Busch.
+  PA 3: Freddie Freeman vs Javier Assad — Freddie Freeman strikes out swinging.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 20 lanzamientos, con 1 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Reconstrucción exacta — parte baja:
+  PA 1: Pete Crow-Armstrong vs Tarik Skubal — Pete Crow-Armstrong called out on strikes.
+  PA 2: Seiya Suzuki vs Tarik Skubal — Seiya Suzuki flies out to center fielder Andy Pages.
+  PA 3: Alex Bregman vs Tarik Skubal — Alex Bregman grounds out, shortstop Mookie Betts to first baseman Freddie Freeman.
+Lectura de la baja. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 15 lanzamientos, con 1 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Javier Assad. Lanzadores observados en la baja: Tarik Skubal. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 3 BF, 20 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = False/False/False. Baja: 3 BF, 15 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = False/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 11 — GAME_PK 822865 — SF@TEX
+Contexto. San Francisco Giants visitó a Texas Rangers en Globe Life Field. Abridores oficiales: Blade Tidwell por el visitante y MacKenzie Gore por el local. Marcador final 4-5. Primera entrada 0-2: YRFI. Primer lanzamiento registrado: 2026-08-05T00:08:56.790Z. Condición ambiental archivada: {"condition": "Roof Closed", "temp": "74", "wind": "0 mph, None"}.
+Top order visitante (primeros cinco puestos observados): 1. Osleivis Basabe (R); 2. Jung Hoo Lee (L); 3. Willy Adames (R); 4. Rafael Devers (L); 5. Daniel Susac (R).
+Top order local (primeros cinco puestos observados): 1. Joc Pederson (L); 2. Wyatt Langford (R); 3. Corey Seager (L); 4. Brandon Nimmo (L); 5. Ezequiel Duran (R).
+Reconstrucción exacta — parte alta:
+  PA 1: Osleivis Basabe vs MacKenzie Gore — Osleivis Basabe grounds out, shortstop Nicky Lopez to first baseman Joc Pederson.
+  PA 2: Jung Hoo Lee vs MacKenzie Gore — Jung Hoo Lee grounds out sharply to first baseman Joc Pederson.
+  PA 3: Willy Adames vs MacKenzie Gore — Willy Adames singles on a sharp line drive to left fielder Wyatt Langford.
+  PA 4: Rafael Devers vs MacKenzie Gore — Rafael Devers lines out sharply to left fielder Wyatt Langford.
+Lectura de la alta. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 11 lanzamientos, con 0 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. 
+Reconstrucción exacta — parte baja:
+  PA 1: Joc Pederson vs Blade Tidwell — Joc Pederson walks.
+  PA 2: Wyatt Langford vs Blade Tidwell — Wyatt Langford pops out to third baseman Christian Koss.
+  PA 3: Corey Seager vs Blade Tidwell — Corey Seager singles on a sharp line drive to second baseman Osleivis Basabe, deflected by first baseman Rafael Devers. Joc Pederson to 2nd.
+  PA 4: Brandon Nimmo vs Blade Tidwell — Brandon Nimmo doubles (27) on a sharp line drive to right fielder Jung Hoo Lee. Joc Pederson scores. Corey Seager to 3rd.
+  PA 5: Ezequiel Duran vs Blade Tidwell — Ezequiel Duran singles on a ground ball to right fielder Jung Hoo Lee. Corey Seager scores. Brandon Nimmo to 3rd.
+  PA 6: Evan Carter vs Blade Tidwell — Evan Carter pops out to third baseman Christian Koss in foul territory.
+  PA 7: Elias Díaz vs Blade Tidwell — Elias Díaz flies out to center fielder Grant McCray.
+Lectura de la baja. Esta mitad produjo 2 carrera(s) con 3 hit(s), 1 extrabase(s), 1 boleto(s), 0 pelotazo(s), 0 ponche(s), 7 bateadores y 32 lanzamientos. El mecanismo reconstruido es XBH_DAMAGE. El extrabase fue el evento de aceleración que convirtió tráfico en posición de anotar o produjo directamente la carrera. La base gratis aumentó exposición del orden y redujo el margen del lanzador antes del contacto decisivo. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: MacKenzie Gore. Lanzadores observados en la baja: Blade Tidwell. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 11 pitcheos, 1 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/False/False. Baja: 7 BF, 32 pitcheos, 3 H, 1 BB, 0 HBP, 1 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/True/True.
+Interpretación histórica. El YRFI se materializó exclusivamente en la parte baja. El mecanismo canónico para esa mitad es XBH_DAMAGE. La mitad opuesta quedó en cero, lo que demuestra que el desenlace global puede quedar decidido por una sola vulnerabilidad bilateral. Para memoria histórica deben conservarse tanto el mecanismo que produjo las carreras como el mecanismo que contuvo la otra mitad.
+Lección incorporada. Hubo extrabase; se conserva separado de la carrera realizada para evitar equiparar daño potencial con anotación efectiva. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 12 — GAME_PK 824161 — TOR@HOU
+Contexto. Toronto Blue Jays visitó a Houston Astros en Daikin Park. Abridores oficiales: Trey Yesavage por el visitante y Hayden Wesneski por el local. Marcador final 2-7. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-05T00:10:22.076Z. Condición ambiental archivada: {"condition": "Roof Closed", "temp": "73", "wind": "0 mph, None"}.
+Top order visitante (primeros cinco puestos observados): 1. Nathan Lukes (L); 2. Vladimir Guerrero Jr. (R); 3. Kazuma Okamoto (R); 4. George Springer (R); 5. Alejandro Kirk (R).
+Top order local (primeros cinco puestos observados): 1. Jeremy Peña (R); 2. Yordan Alvarez (L); 3. Isaac Paredes (R); 4. Daulton Varsho (L); 5. Christian Walker (R).
+Reconstrucción exacta — parte alta:
+  PA 1: Nathan Lukes vs Hayden Wesneski — Nathan Lukes lines out to left fielder Taylor Trammell.
+  PA 2: Vladimir Guerrero Jr. vs Hayden Wesneski — Vladimir Guerrero Jr. walks.
+  PA 3: Kazuma Okamoto vs Hayden Wesneski — Kazuma Okamoto strikes out swinging.
+  PA 4: George Springer vs Hayden Wesneski — George Springer flies out to center fielder Daulton Varsho.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 1 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 20 lanzamientos, con 1 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. 
+Reconstrucción exacta — parte baja:
+  PA 1: Jeremy Peña vs Trey Yesavage — Jeremy Peña walks.
+  PA 2: Yordan Alvarez vs Trey Yesavage — Yordan Alvarez grounds out, second baseman Ernie Clement to pitcher Trey Yesavage. Jeremy Peña to 2nd.
+  PA 3: Isaac Paredes vs Trey Yesavage — Isaac Paredes lines out to right fielder Nathan Lukes.
+  PA 4: Daulton Varsho vs Trey Yesavage — Daulton Varsho flies out sharply to center fielder Myles Straw.
+Lectura de la baja. La mitad terminó sin carrera pese a 0 hit(s), 1 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 19 lanzamientos, con 0 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. El primer bateador alcanzó base, pero la secuencia posterior evitó la anotación. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Hayden Wesneski. Lanzadores observados en la baja: Trey Yesavage. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 4 BF, 20 pitcheos, 0 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = True/False/False. Baja: 4 BF, 19 pitcheos, 0 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 13 — GAME_PK 824321 — TB@COL
+Contexto. Tampa Bay Rays visitó a Colorado Rockies en Coors Field. Abridores oficiales: Freddy Peralta por el visitante y Gabriel Hughes por el local. Marcador final 9-7. Primera entrada 0-1: YRFI. Primer lanzamiento registrado: 2026-08-05T00:41:00.175Z. Condición ambiental archivada: {"condition": "Partly Cloudy", "temp": "76", "wind": "9 mph, In From LF"}.
+Top order visitante (primeros cinco puestos observados): 1. Yandy Díaz (R); 2. Jonathan Aranda (L); 3. Junior Caminero (R); 4. Liam Hicks (L); 5. Ryan Vilade (R).
+Top order local (primeros cinco puestos observados): 1. Jake McCarthy (L); 2. Cole Carrigg (S); 3. Mickey Moniak (L); 4. Hunter Goodman (R); 5. Tyler Freeman (R).
+Reconstrucción exacta — parte alta:
+  PA 1: Yandy Díaz vs Gabriel Hughes — Yandy Díaz lines out to center fielder Cole Carrigg.
+  PA 2: Jonathan Aranda vs Gabriel Hughes — Jonathan Aranda grounds out, third baseman Kyle Karros to first baseman TJ Rumfield.
+  PA 3: Junior Caminero vs Gabriel Hughes — Junior Caminero grounds out, second baseman Willi Castro to first baseman TJ Rumfield.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 7 lanzamientos, con 0 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Reconstrucción exacta — parte baja:
+  PA 1: Jake McCarthy vs Freddy Peralta — Jake McCarthy singles on a sharp line drive to right fielder Victor Mesa Jr.
+  PA 2: Cole Carrigg vs Freddy Peralta — Cole Carrigg singles on a ground ball to right fielder Victor Mesa Jr. Jake McCarthy to 3rd.
+  PA 3: Mickey Moniak vs Freddy Peralta — Mickey Moniak grounds into a double play, second baseman Richie Palacios to shortstop Taylor Walls to first baseman Jonathan Aranda. Jake McCarthy scores. Cole Carrigg out at 2nd. Mickey Moniak out at 1st.
+  PA 4: Hunter Goodman vs Freddy Peralta — Hunter Goodman strikes out swinging.
+Lectura de la baja. Esta mitad produjo 1 carrera(s) con 2 hit(s), 0 extrabase(s), 0 boleto(s), 0 pelotazo(s), 1 ponche(s), 4 bateadores y 12 lanzamientos. El mecanismo reconstruido es HIT_CONTACT_CHAIN. La doble matanza formó parte de la secuencia; en este caso debe leerse por su efecto sobre el estado de bases y outs, no asumir automáticamente que todo doble play protege el NRFI. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Gabriel Hughes. Lanzadores observados en la baja: Freddy Peralta. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 3 BF, 7 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = False/False/False. Baja: 4 BF, 12 pitcheos, 2 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. El YRFI se materializó exclusivamente en la parte baja. El mecanismo canónico para esa mitad es HIT_CONTACT_CHAIN. La mitad opuesta quedó en cero, lo que demuestra que el desenlace global puede quedar decidido por una sola vulnerabilidad bilateral. Para memoria histórica deben conservarse tanto el mecanismo que produjo las carreras como el mecanismo que contuvo la otra mitad.
+Lección incorporada. Hubo doble play; se registra su posición exacta porque una doble matanza puede destruir tráfico o, si existe corredor en tercera, permitir una carrera mientras añade outs. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 14 — GAME_PK 825054 — SD@AZ
+Contexto. San Diego Padres visitó a Arizona Diamondbacks en Chase Field. Abridores oficiales: Randy Vásquez por el visitante y Eduardo Rodriguez por el local. Marcador final 9-4. Primera entrada 3-0: YRFI. Primer lanzamiento registrado: 2026-08-05T01:40:54.221Z. Condición ambiental archivada: {"condition": "Roof Closed", "temp": "76", "wind": "0 mph, None"}.
+Top order visitante (primeros cinco puestos observados): 1. Fernando Tatis Jr. (R); 2. Luis Rengifo (S); 3. Manny Machado (R); 4. Ty France (R); 5. Jackson Merrill (L).
+Top order local (primeros cinco puestos observados): 1. Corbin Carroll (L); 2. Geraldo Perdomo (S); 3. Max Kepler (L); 4. Ketel Marte (S); 5. Jorge Barrosa (S).
+Reconstrucción exacta — parte alta:
+  PA 1: Fernando Tatis Jr. vs Eduardo Rodriguez — Fernando Tatis Jr. doubles (23) on a ground ball to left fielder Max Kepler, deflected by third baseman Nolan Arenado.
+  PA 2: Luis Rengifo vs Eduardo Rodriguez — Luis Rengifo flies out to left fielder Max Kepler.
+  PA 3: Manny Machado vs Eduardo Rodriguez — Manny Machado doubles (20) on a fly ball to left fielder Max Kepler. Fernando Tatis Jr. scores.
+  PA 4: Ty France vs Eduardo Rodriguez — Ty France grounds out, third baseman Nolan Arenado to first baseman Tim Tawa.
+  PA 5: Jackson Merrill vs Eduardo Rodriguez — Jackson Merrill singles on a ground ball to right fielder Corbin Carroll. Manny Machado scores. Jackson Merrill to 2nd.
+  PA 6: Xander Bogaerts vs Eduardo Rodriguez — Xander Bogaerts singles on a ground ball to center fielder Ryan Waldschmidt. Jackson Merrill scores.
+  PA 7: Freddy Fermin vs Eduardo Rodriguez — Freddy Fermin flies out to center fielder Ryan Waldschmidt.
+Lectura de la alta. Esta mitad produjo 3 carrera(s) con 4 hit(s), 2 extrabase(s), 0 boleto(s), 0 pelotazo(s), 0 ponche(s), 7 bateadores y 29 lanzamientos. El mecanismo reconstruido es XBH_DAMAGE. El extrabase fue el evento de aceleración que convirtió tráfico en posición de anotar o produjo directamente la carrera. Hubo extensión con dos outs, por lo que el modelo debe mantener vivo el riesgo hasta completar el tercer out. 
+Reconstrucción exacta — parte baja:
+  PA 1: Corbin Carroll vs Randy Vásquez — Corbin Carroll grounds out, second baseman Jake Cronenworth to first baseman Ty France.
+  PA 2: Geraldo Perdomo vs Randy Vásquez — Geraldo Perdomo singles on a ground ball to left fielder Jase Bowen.
+  PA 3: Max Kepler vs Randy Vásquez — Max Kepler grounds into a force out, second baseman Jake Cronenworth to shortstop Xander Bogaerts. Geraldo Perdomo out at 2nd. Max Kepler to 1st.
+  PA 4: Ketel Marte vs Randy Vásquez — Ketel Marte flies out to center fielder Jackson Merrill.
+Lectura de la baja. La mitad terminó sin carrera pese a 1 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 18 lanzamientos, con 0 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Eduardo Rodriguez. Lanzadores observados en la baja: Randy Vásquez. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 7 BF, 29 pitcheos, 4 H, 0 BB, 0 HBP, 2 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/True/True. Baja: 4 BF, 18 pitcheos, 1 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. El YRFI se materializó exclusivamente en la parte alta. El mecanismo canónico para esa mitad es XBH_DAMAGE. La mitad opuesta quedó en cero, lo que demuestra que el desenlace global puede quedar decidido por una sola vulnerabilidad bilateral. Para memoria histórica deben conservarse tanto el mecanismo que produjo las carreras como el mecanismo que contuvo la otra mitad.
+Lección incorporada. Hubo extrabase; se conserva separado de la carrera realizada para evitar equiparar daño potencial con anotación efectiva. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+------------------------------------------------------------
+GAME BLOCK 15 — GAME_PK 823108 — DET@SEA
+Contexto. Detroit Tigers visitó a Seattle Mariners en T-Mobile Park. Abridores oficiales: Troy Melton por el visitante y Emerson Hancock por el local. Marcador final 8-0. Primera entrada 0-0: NRFI. Primer lanzamiento registrado: 2026-08-05T01:41:14.860Z. Condición ambiental archivada: {"condition": "Cloudy", "temp": "77", "wind": "9 mph, L To R"}.
+Top order visitante (primeros cinco puestos observados): 1. Kevin McGonigle (L); 2. Gleyber Torres (R); 3. Dillon Dingler (R); 4. James Outman (L); 5. Riley Greene (L).
+Top order local (primeros cinco puestos observados): 1. Cole Young (L); 2. Randy Arozarena (R); 3. Dominic Canzone (L); 4. Julio Rodríguez (R); 5. Josh Naylor (L).
+Reconstrucción exacta — parte alta:
+  PA 1: Kevin McGonigle vs Emerson Hancock — Kevin McGonigle strikes out swinging.
+  PA 2: Gleyber Torres vs Emerson Hancock — Gleyber Torres grounds out, second baseman Cole Young to first baseman Josh Naylor.
+  PA 3: Dillon Dingler vs Emerson Hancock — Dillon Dingler flies out to center fielder Julio Rodríguez.
+Lectura de la alta. La mitad terminó sin carrera pese a 0 hit(s), 0 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 3 bateadores y necesitó 13 lanzamientos, con 1 ponche(s). No hubo tráfico real: la protección del cero vino de retirar la parte inicial del orden sin permitir corredor. 
+Reconstrucción exacta — parte baja:
+  PA 1: Cole Young vs Troy Melton — Cole Young walks.
+  PA 2: Randy Arozarena vs Troy Melton — Randy Arozarena grounds into a double play, first baseman Spencer Torkelson to shortstop Javier Báez to pitcher Troy Melton. Cole Young out at 2nd. Randy Arozarena out at 1st.
+  PA 3: Dominic Canzone vs Troy Melton — Dominic Canzone singles on a line drive to center fielder Max Clark.
+  PA 4: Julio Rodríguez vs Troy Melton — Julio Rodríguez pops out to third baseman Kevin McGonigle.
+Lectura de la baja. La mitad terminó sin carrera pese a 1 hit(s), 1 boleto(s) y 0 pelotazo(s). El abridor/equipo defensor enfrentó 4 bateadores y necesitó 15 lanzamientos, con 0 ponche(s). Sí existió tráfico; por tanto, el cero no debe codificarse como ausencia de amenaza, sino como amenaza contenida antes de materializarse. La doble matanza fue un mecanismo material de destrucción del tráfico. La entrada se extendió con dos outs, recordando que alcanzar el segundo out no elimina por sí solo el riesgo. El primer bateador alcanzó base, pero la secuencia posterior evitó la anotación. 
+Control de lanzadores y continuidad. Lanzadores observados en la alta: Emerson Hancock. Lanzadores observados en la baja: Troy Melton. Si aparece más de un nombre en una mitad, la reconstrucción conserva el cambio real dentro de la primera entrada y no atribuye automáticamente todos los PA al abridor nominal.
+Métricas de proceso. Alta: 3 BF, 13 pitcheos, 0 H, 0 BB, 0 HBP, 0 XBH, 0 HR y 1 K; exposición B4/B5/B6 = False/False/False. Baja: 4 BF, 15 pitcheos, 1 H, 1 BB, 0 HBP, 0 XBH, 0 HR y 0 K; exposición B4/B5/B6 = True/False/False.
+Interpretación histórica. Este NRFI no se archiva simplemente como “cero”. Se distingue si fue un cero limpio de tres bateadores o un cero sobrevivido con tráfico. Esa diferencia es central para futuras consultas: dos resultados idénticos pueden tener mecanismos de estabilidad completamente distintos. La evidencia de este juego debe compararse por proceso —exposición, tráfico, destrucción de corredores, ponches y secuencia— y no solo por el resultado binario.
+Lección incorporada. Hubo doble play; se registra su posición exacta porque una doble matanza puede destruir tráfico o, si existe corredor en tercera, permitir una carrera mientras añade outs. Hubo base(s) gratis; se registra la ampliación de exposición sin asumir que necesariamente se convertirá en carrera. La unidad de aprendizaje es la secuencia completa y su mecanismo, no una regla univariable.
+Qué incorpora el sistema de este partido: (1) el resultado NRFI/YRFI como hecho observado; (2) el camino exacto de cada mitad; (3) la cantidad de bateadores expuestos y el momento en que apareció el tráfico; (4) los eventos de creación o pérdida de outs; (5) la identidad del top order realmente observado; (6) el contexto de abridores/catcher y ambiente; y (7) los límites de cobertura histórica previos al juego. Ningún punto de esta lista se transforma por sí solo en probabilidad ni recomendación de apuesta.
+Cobertura y límites del bloque. El GUMBO oficial sostiene el marcador, primer lanzamiento, lineup observado, PA, pitch events y secuencia de la primera entrada. Las ventanas históricas previas L3/L5/L10/L15/L20/SEASON/CAREER permanecen como BOUNDED_GAP cuando el capture no contiene la serie previa completa. La prensa pregame no se certifica sin timestamp anterior al primer lanzamiento. Esta separación impide hindsight leakage.
+
+[[CROSS_GAME_FINDINGS]]
+HALLAZGOS TRANSVERSALES DE LA JORNADA
+1. Tráfico no equivale a carrera. NYM@CLE es el contraejemplo más fuerte: HBP, sencillo y boleto cargaron las bases, pero dos ponches y un force out preservaron el cero. LAA@BAL añadió un doble con dos outs y también quedó sin anotar. La variable relevante es tráfico × estado de outs × siguiente calidad de contacto, no tráfico aislado.
+2. La doble matanza no tiene un único significado. ATH@CIN utilizó un GIDP para borrar dos sencillos y conservar NRFI. DET@SEA borró un boleto de apertura con otra doble matanza. En TB@COL, por el contrario, el GIDP permitió que Jake McCarthy anotara desde tercera. El sistema debe codificar transición de bases y outs, no una etiqueta moral de “bueno/malo”.
+3. Los dos outs no cierran la amenaza. En MIN@KC el segundo out llegó con el sacrifice fly, pero Michael Massey produjo otra carrera con doble. PIT@MIL y varios NRFI también extendieron la entrada después de dos outs sin convertir. Debe modelarse la extensión como exposición adicional, no como resultado predeterminado.
+4. El YRFI fue unilateral en los seis casos: cinco veces anotó solo el local y una sola vez anotó solo el visitante. No hubo un partido con carreras en ambas mitades. La lectura bilateral sigue siendo necesaria porque una mitad fuerte no compensa automáticamente una mitad vulnerable; basta un solo lado para romper el NRFI.
+5. La intensidad del daño estuvo concentrada. Boston produjo seis carreras en nueve BF con doble, HBP, sencillos, grand slam y HR consecutivo; San Diego produjo tres con dos dobles y dos sencillos productores. Estos innings no deben diluirse dentro de una media diaria: son mecanismos de cola pesada distintos de los YRFI de una sola carrera.
+6. El ambiente no determina el resultado. Coors Field produjo una sola carrera en la primera; Wrigley Field, con temperatura cálida y viento hacia el center, quedó 0-0; Fenway produjo seis. Venue y weather son contexto, no causas suficientes. La secuencia de PA siguió siendo la unidad explicativa inmediata.
+7. La auditoría del clasificador es parte del conocimiento. WSH@PHI y TB@COL demostraron que una etiqueta derivada puede ser incorrecta aun cuando el marcador y los PA sean correctos. La corrección se hizo comparando la etiqueta contra los eventos físicos: cero XBH no puede sostener XBH_DAMAGE. El sistema debe auditar coherencia semántica, no solo existencia de filas.
+8. Calidad de outs y contacto conviven. Grant Holmes ponchó a tres de cuatro bateadores de Miami; Grayson Rodriguez retiró con dos K un 1-2-3; pero otros ceros se produjeron mediante bolas en juego, force outs y dobles matanzas. Por ello K-rate de la primera entrada es informativo, pero no monopoliza la protección NRFI.
+9. Cambios de lanzador dentro de la primera entrada deben sobrevivir en la reconstrucción. En WSH@PHI el PA final de la parte baja fue registrado contra Zack Littell después de la exposición inicial de Carson Palmquist. La atribución mecánica debe seguir el pitcher real de cada PA y no asignar toda la entrada por comodidad al abridor anunciado.
+
+[[DATA_GAPS_AND_LIMITATIONS]]
+COBERTURA, INCERTIDUMBRE Y LÍMITES
+La jornada tiene cobertura completa del universo oficial, identidad de juegos, resultado final, primera entrada, lineups observados, half-innings, PA y pitch events. Eso permite reconstrucción causal-descriptiva del mecanismo realizado. Sin embargo, esta ejecución no pretende convertir la reconstrucción postgame en una fotografía pregame completa.
+Las series históricas de primeras entradas anteriores para cada abridor/equipo —L3, L5, L10, L15, L20, season y career— no fueron reconstruidas físicamente desde una base temporal anterior al juego dentro de este capture. Por diseño permanecen BOUNDED_GAP. Un campo con gap no significa valor cero; significa que el dato requerido no está certificado en esta corrida.
+La capa HUMAN_INFORMATION no promovió claims a PREGAME_EVIDENCE porque no se certificaron timestamps exactos de disponibilidad anteriores a cada first pitch. Las noticias, comentarios o relatos recuperados después del juego pueden servir como explicación postgame, pero no como evidencia de lo que el sistema habría sabido antes.
+Las cohortes de esta jornada son semillas retrospectivas descriptivas y no causales. Su n no debe interpretarse como muestra suficiente para estimar una probabilidad de NRFI/YRFI. El agente no produce picks, cuotas, stake, EV ni recomendación monetaria.
+
+[[SOURCE_AND_EVIDENCE_LEDGER]]
+SOURCE / EVIDENCE LEDGER
+Schedule oficial MLB SHA256 = e12d3eee9130f52268c2b28c9ec8cd30f05fb8f361b4d72669d70b969509f259. Capture commit = 155d8c8576feb282f1ee3dddbf8107c5609044b4. Captured at = 2026-08-20T16:20:54Z.
+EVIDENCE ROW 01 — GAME_PK 824805 — https://statsapi.mlb.com/api/v1.1/game/824805/feed/live — raw_sha256 16e507927ea7c999d84b358ce70cc35d564e049632a8661b149024d16ad6595e — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 02 — GAME_PK 824403 — https://statsapi.mlb.com/api/v1.1/game/824403/feed/live — raw_sha256 9886825795a2165e3d4a8c19abec7b295668d62520bd1d85a0ddbad5b505de96 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 03 — GAME_PK 824484 — https://statsapi.mlb.com/api/v1.1/game/824484/feed/live — raw_sha256 95ecbb71e6ccb558492627b4c31b0b1734c3b868e1fa1e1f668bebcba00e7f27 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 04 — GAME_PK 823432 — https://statsapi.mlb.com/api/v1.1/game/823432/feed/live — raw_sha256 e40964292c3e1583ebaa9801b7bec699ead4fae5122082b620ec976a9d188eb3 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 05 — GAME_PK 823517 — https://statsapi.mlb.com/api/v1.1/game/823517/feed/live — raw_sha256 104f72ab9458762b20bfe11b28f7f868cab894df49361610fa50f46202276d28 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 06 — GAME_PK 824731 — https://statsapi.mlb.com/api/v1.1/game/824731/feed/live — raw_sha256 88af3760c8ee6094dde5d91bac2e75375d5c8bdbbee32bdcbf8273cdd7b35c22 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 07 — GAME_PK 824888 — https://statsapi.mlb.com/api/v1.1/game/824888/feed/live — raw_sha256 2229082ba8da2875c4047ffa665c0576692496cd2bbb44e9431365ab98a006c5 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 08 — GAME_PK 824084 — https://statsapi.mlb.com/api/v1.1/game/824084/feed/live — raw_sha256 4d3278186dda1d350db652fd87d99aefb278ca678b28c74df588200be3f0a50b — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 09 — GAME_PK 823756 — https://statsapi.mlb.com/api/v1.1/game/823756/feed/live — raw_sha256 a8bc73098a63b92019a3ce0bd9a1a3b49148550311fc5d64c0bd3cc1f520e646 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 10 — GAME_PK 824645 — https://statsapi.mlb.com/api/v1.1/game/824645/feed/live — raw_sha256 860f4b2f5f5c5137ef08af2b1b4d3ad90ac70f0114354c47ba8019dba02989fa — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 11 — GAME_PK 822865 — https://statsapi.mlb.com/api/v1.1/game/822865/feed/live — raw_sha256 f9a37a8dfa211fb1e093f7683832afbf4e7142cc892513d2998c5713856452df — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 12 — GAME_PK 824161 — https://statsapi.mlb.com/api/v1.1/game/824161/feed/live — raw_sha256 ce100fa8e0c05d044acb11f0209af18d7fbbb5ddd682fca636b0c1e864a7bce1 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 13 — GAME_PK 824321 — https://statsapi.mlb.com/api/v1.1/game/824321/feed/live — raw_sha256 7acdff2204372281fe9da93ef430409037e63f87f3a674f6f79eaa707ce8875a — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 14 — GAME_PK 825054 — https://statsapi.mlb.com/api/v1.1/game/825054/feed/live — raw_sha256 26298daf1a101217bd76cda3e855b36c8f16a66e1e77250db5f5d139f0e886b7 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+EVIDENCE ROW 15 — GAME_PK 823108 — https://statsapi.mlb.com/api/v1.1/game/823108/feed/live — raw_sha256 fbd66a9be7b12fac069c20010bb739e8546627882a40ca34459684e691615b32 — lane POSTGAME_EXPLANATORY_EVIDENCE — observed GUMBO used for first-inning reconstruction.
+Lineage policy: source URL + raw hash + capture commit + retrieval timestamp travel with the structured objects. Postgame facts remain in their postgame lane. Missing pregame temporal certification is not silently upgraded.
+
+[[AUDIT_TRAIL]]
+AUDITORÍA TÉCNICA PRE-CIERRE
+F1 = PASS_PHYSICAL_SEMANTIC — 15/15 semantic-ready; lineup integrity 30/30 slot1 vs first observed PA.
+F2 = PASS_PHYSICAL_SEMANTIC — 30 half-innings, 127 PA, 502 pitch events, 15 first innings y 30 starter contexts.
+F3 = PASS_WITH_EXPLICIT_BOUNDED_HISTORY_WINDOWS — 225 feature values, nueve familias y siete ventanas por juego sin zero-fill.
+F4 = PASS_WITH_BOUNDED_PRESS_TIMESTAMPS — 15 mechanism reconstructions, 15 press coverage states, 15 cohorts; temporal firewall active.
+F5 = PASS_QUERYABLE_STRUCTURED — Evidence Packet 2026-08-04 A1, future_game_count=0, postgame_leak_count=0.
+QA MECHANISM = PASS_AFTER_CORRECTION — 823432 BOTTOM: XBH_DAMAGE -> FREE_TRAFFIC_CHAIN; 824321 BOTTOM: XBH_DAMAGE -> HIT_CONTACT_CHAIN. Correcciones justificadas por xbh=0 y secuencia física.
+REPORT CONTRACT STATE = PENDING_PHYSICAL_READBACK. Este texto todavía debe escribirse en Drive, releerse y medirse. No se certifica DAILY_CLOSURE hasta que el readback cumpla 15 slate rows, 15 game blocks, 11 marcadores y mínimo 45,000 caracteres.
+
+[[DAILY_CLOSURE]]
+CIERRE DE CONTENIDO — PENDIENTE DE CERTIFICACIÓN TERMINAL
+Los 15 juegos oficiales están procesados y F1–F5 están materializados. El contenido deportivo e histórico de la jornada queda listo para el gate de Drive. La certificación final —READBACK PASS, REPORT_CONTRACT PASS, FINAL_AUDIT PASS, DRIVE_APPEND_VERIFIED y CORE_MISSION_COMPLETE— se añadirá únicamente después de comprobar físicamente este bloque en el documento continuo.
+[[END_INVNRFI_DAILY_RUN:INVNRFI-20260804-ORIGINAL-A1]]
+============================================================
