@@ -17,7 +17,12 @@
       "1": "@NRFiPrensa",
       "2": "@NRFImetrica",
       "3": "@DepuracionMLB",
-      "4": "@investigacionNRFI"
+      "4": "@investigacionNRFI",
+      "5": "@ianalista"
+    },
+    "target_aliases": {
+      "@IAanalista": "@ianalista",
+      "@iaanalissta": "@ianalista"
     },
     "new_audit_run_per_invocation": true,
     "new_drive_folder_per_audit": true,
@@ -139,6 +144,21 @@
     "read_only_target": true,
     "audit_repair_reaudit_separate": true,
     "may_self_certify_repair": false
+  },
+  "adapters": {
+    "05": {
+      "system_id": "@ianalista",
+      "display_name": "IA ANALISTA MLB",
+      "adapter_version": "ADAPTER-1.0",
+      "authority_rule": "RESOLVE_TARGET_TIME_CANONICAL_AUTHORITY",
+      "current_drive_locator": "V5.2 + MDC-R1 2026-08-19",
+      "drive_root_folder_id": "10XgQfFmTzfoAK4aRo14RDJafTPAFJ1Q4",
+      "constitution_document_id": "1vWW42-MlFqUCDTV4UKwBfi7v2eO_zTomO3M3641w3Ec",
+      "panel_document_id": "1Pvc_oEKalglMjNx6JHmIRkeGi6a4DTMAfbkmIiV-EN0",
+      "hard_gates_document_id": "1Jk-q51sh2aehZRyOtfvbDCDfEtN8AWNj99BrA_lYfQA",
+      "phase_map": ["A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8_CONDITIONAL"],
+      "persistent_runtime_note": "No dedicated Supabase/GitHub target runtime was physically found during adapter registration; do not fabricate one. Resolve available target-time layers during each audit."
+    }
   },
   "runtime": {
     "supabase_project_id": "yejaollmavoudbxnbpll",
