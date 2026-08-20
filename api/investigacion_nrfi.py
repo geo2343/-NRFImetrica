@@ -32,7 +32,7 @@ from providers.mlb import fetch_schedule
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").rstrip("/")
 SUPABASE_SECRET_KEY = os.getenv("SUPABASE_SECRET_KEY", "") or os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 
-app = FastAPI(title="@investigacionNRFI Connected Kernel", version="0.1")
+app = FastAPI(title="@investigacionNRFI Connected Kernel", version="0.2")
 
 
 def _headers(prefer: str | None = None) -> dict[str, str]:
@@ -103,6 +103,11 @@ class DailyRunStart(BaseModel):
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
+class GameStatusUpdate(BaseModel):
+    research_status: str
+    exclusion_reason: str | None = None
+
+
 class ToolEventCreate(BaseModel):
     daily_run_id: str
     game_pk: str | None = None
@@ -119,7 +124,7 @@ class EvidenceCreate(BaseModel):
     game_pk: str | None = None
     phase_id: str | None = None
     tool_event_id: str
-    source_family_id: str
+    source_family_id: str | None = None
     canonical_origin: str
     publisher: str | None = None
     source_url: str | None = None
@@ -155,13 +160,6 @@ class DriveAppendCreate(BaseModel):
     readback_tool_event_id: str
     character_count_before: int | None = None
     character_count_after: int
-
-
-class RunAccountingUpdate(BaseModel):
-    expected_finalized_count: int
-    processed_count: int
-    excluded_count: int
-    metadata: dict[str, Any] = Field(default_factory=dict)
 
 
 @app.get("/")
@@ -209,13 +207,7 @@ async def start_daily_run(req: DailyRunStart):
     provider = await fetch_schedule(req.run_date)
     finals = [g for g in provider.get("games", []) if _is_final(g)]
     run_id = f"INVNRFI-{req.run_date.replace('-', '')}-{uuid4().hex[:8]}"
-    metadata = {
-        **req.metadata,
-        "provider": provider.get("provider"),
-        "finalized_game_pks": [str(g.get("game_id")) for g in finals],
-        "schedule_payload_hash": provider.get("raw_payload_hash") or stable_hash(provider),
-        "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
-    }
+    schedule_hash = provider.get("raw_payload_hash") or stable_hash(provider)
     row = {
         "daily_run_id": run_id,
         "agent_id": AGENT_ID,
@@ -227,30 +219,66 @@ async def start_daily_run(req: DailyRunStart):
         "parent_run_id": req.parent_run_id,
         "volume_id": volume["volume_id"],
         "status": "OPEN",
-        "expected_finalized_count": len(finals),
-        "metadata": metadata,
+        "metadata": {
+            **req.metadata,
+            "provider": provider.get("provider"),
+            "schedule_payload_hash": schedule_hash,
+            "mother_document_sha256": MOTHER_DOCUMENT_SHA256,
+        },
     }
     saved = await sb("POST", "investigacion_nrfi_runs", payload=row, prefer="return=representation")
-    await trace(run_id, "DAILY_RUN_STARTED", input_payload=req.model_dump(), output_payload=row, details={"expected_finalized": len(finals)})
-    return {"run": (saved or [row])[0], "finalized_games": finals, "active_volume": volume}
 
-
-@app.patch("/daily-runs/{daily_run_id}/accounting")
-async def update_accounting(daily_run_id: str, req: RunAccountingUpdate):
-    if min(req.expected_finalized_count, req.processed_count, req.excluded_count) < 0:
-        raise HTTPException(status_code=422, detail="NEGATIVE_COUNT_FORBIDDEN")
-    payload = {
-        "expected_finalized_count": req.expected_finalized_count,
-        "processed_count": req.processed_count,
-        "excluded_count": req.excluded_count,
-        "status": "IN_PROGRESS",
-        "metadata": req.metadata,
+    schedule_event_id = f"INVNRFI-TOOL-{uuid4().hex}"
+    schedule_event = {
+        "event_id": schedule_event_id,
+        "daily_run_id": run_id,
+        "tool_name": "providers.mlb.fetch_schedule",
+        "source_ref": provider.get("source_ref") or provider.get("provider"),
+        "invoked_at": provider.get("retrieved_at") or now_iso(),
+        "completed_at": provider.get("retrieved_at") or now_iso(),
+        "input_hash": stable_hash({"run_date": req.run_date}),
+        "output_hash": schedule_hash,
+        "metadata": {"run_date": req.run_date, "finalized_count": len(finals)},
     }
-    saved = await sb("PATCH", "investigacion_nrfi_runs", params={"daily_run_id": f"eq.{daily_run_id}"}, payload=payload, prefer="return=representation")
+    await sb("POST", "investigacion_nrfi_tool_events", payload=schedule_event, prefer="return=minimal")
+
+    games = []
+    for game in finals:
+        games.append({
+            "daily_run_id": run_id,
+            "game_pk": str(game.get("game_id")),
+            "away_team": game.get("away_team"),
+            "home_team": game.get("home_team"),
+            "first_pitch_at": game.get("scheduled_start"),
+            "final_status_text": str(game.get("detailed_state") or game.get("abstract_game_state") or "FINAL"),
+            "finalized_verified": True,
+            "research_status": "PENDING",
+            "identity_payload": game,
+        })
+    if games:
+        await sb("POST", "investigacion_nrfi_games", payload=games, prefer="return=minimal")
+    await rpc("investigacion_nrfi_sync_run_accounting", {"p_daily_run_id": run_id})
+    await trace(run_id, "DAILY_RUN_STARTED_AND_FINAL_GAME_LEDGER_FROZEN", input_payload=req.model_dump(), output_payload={"finalized_game_pks": [g["game_pk"] for g in games]}, details={"expected_finalized": len(games), "schedule_tool_event_id": schedule_event_id})
+    return {"run": (saved or [row])[0], "finalized_games": games, "active_volume": volume, "schedule_tool_event_id": schedule_event_id}
+
+
+@app.patch("/daily-runs/{daily_run_id}/games/{game_pk}")
+async def update_game_status(daily_run_id: str, game_pk: str, req: GameStatusUpdate):
+    if req.research_status not in {"PROCESSED", "EXCLUDED"}:
+        raise HTTPException(status_code=422, detail="GAME_STATUS_MUST_BE_PROCESSED_OR_EXCLUDED")
+    if req.research_status == "EXCLUDED" and not (req.exclusion_reason or "").strip():
+        raise HTTPException(status_code=422, detail="EXCLUSION_REASON_REQUIRED")
+    payload = {"research_status": req.research_status, "exclusion_reason": req.exclusion_reason, "updated_at": now_iso()}
+    saved = await sb("PATCH", "investigacion_nrfi_games", params={"daily_run_id": f"eq.{daily_run_id}", "game_pk": f"eq.{game_pk}"}, payload=payload, prefer="return=representation")
     if not saved:
-        raise HTTPException(status_code=404, detail="DAILY_RUN_NOT_FOUND")
-    await trace(daily_run_id, "DAILY_UNIVERSE_ACCOUNTING_UPDATED", input_payload=req.model_dump(), output_payload=saved[0])
+        raise HTTPException(status_code=404, detail="GAME_NOT_FOUND_IN_FINALIZED_LEDGER")
+    await trace(daily_run_id, "GAME_RESEARCH_STATUS_UPDATED", input_payload=req.model_dump(), output_payload=saved[0], details={"game_pk": game_pk})
     return saved[0]
+
+
+@app.post("/daily-runs/{daily_run_id}/accounting/sync")
+async def sync_accounting(daily_run_id: str):
+    return await rpc("investigacion_nrfi_sync_run_accounting", {"p_daily_run_id": daily_run_id})
 
 
 @app.post("/tool-events")
@@ -280,19 +308,17 @@ async def create_evidence(req: EvidenceCreate):
         validate_temporal_evidence(temporal_lane=req.temporal_lane, epistemic_lane=req.epistemic_lane, available_at=req.available_at, first_pitch_at=req.first_pitch_at)
     except InvestigacionNRFIProtocolViolation as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
-
     tools = await sb("GET", "investigacion_nrfi_tool_events", params={"select": "event_id,daily_run_id", "event_id": f"eq.{req.tool_event_id}", "limit": "1"}) or []
     if not tools or tools[0]["daily_run_id"] != req.daily_run_id:
         raise HTTPException(status_code=422, detail="TOOL_EVENT_NOT_FOUND_IN_DAILY_RUN")
 
     family_hash = stable_hash({"canonical_origin": req.canonical_origin.lower().strip(), "publisher": (req.publisher or "").lower().strip()})
-    family = {
-        "source_family_id": req.source_family_id,
-        "canonical_origin": req.canonical_origin,
-        "publisher": req.publisher,
-        "family_hash": family_hash,
-    }
-    await sb("POST", "investigacion_nrfi_source_families", params={"on_conflict": "source_family_id"}, payload=family, prefer="resolution=merge-duplicates,return=minimal")
+    family_id = req.source_family_id or f"INVNRFI-SRCF-{family_hash[:20]}"
+    existing = await sb("GET", "investigacion_nrfi_source_families", params={"select": "source_family_id", "family_hash": f"eq.{family_hash}", "limit": "1"}) or []
+    if existing:
+        family_id = existing[0]["source_family_id"]
+    else:
+        await sb("POST", "investigacion_nrfi_source_families", payload={"source_family_id": family_id, "canonical_origin": req.canonical_origin, "publisher": req.publisher, "family_hash": family_hash}, prefer="return=minimal")
 
     evidence_id = req.evidence_id or f"INVNRFI-EVID-{uuid4().hex}"
     payload_hash = stable_hash(req.object_payload)
@@ -302,7 +328,7 @@ async def create_evidence(req: EvidenceCreate):
         "game_pk": req.game_pk,
         "phase_id": req.phase_id,
         "tool_event_id": req.tool_event_id,
-        "source_family_id": req.source_family_id,
+        "source_family_id": family_id,
         "source_url": req.source_url,
         "temporal_lane": req.temporal_lane,
         "epistemic_lane": req.epistemic_lane,
@@ -316,7 +342,7 @@ async def create_evidence(req: EvidenceCreate):
         "object_payload": req.object_payload,
     }
     await sb("POST", "investigacion_nrfi_evidence", payload=row, prefer="return=minimal")
-    await trace(req.daily_run_id, "EVIDENCE_RECORDED", phase_id=req.phase_id, input_payload=req.model_dump(), output_payload=row, details={"evidence_id": evidence_id, "source_family_id": req.source_family_id})
+    await trace(req.daily_run_id, "EVIDENCE_RECORDED", phase_id=req.phase_id, input_payload=req.model_dump(), output_payload=row, details={"evidence_id": evidence_id, "source_family_id": family_id})
     return row
 
 
@@ -331,7 +357,6 @@ async def submit_phase(req: PhaseSubmit):
             validate_receipt(req.phase_id, req.receipt)
     except InvestigacionNRFIProtocolViolation as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
-
     row = {
         "daily_run_id": req.daily_run_id,
         "phase_id": req.phase_id,
@@ -387,4 +412,4 @@ async def close_daily_run(daily_run_id: str):
 @app.post("/volumes/{volume_id}/authorize-rollover")
 async def authorize_rollover(volume_id: str):
     result = await rpc("investigacion_nrfi_authorize_rollover", {"p_volume_id": volume_id})
-    return {"authorized": True, "volume": result, "note": "This endpoint must only be called after explicit user authorization."}
+    return {"authorized": True, "volume": result, "note": "Call only after explicit user authorization."}
