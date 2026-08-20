@@ -12,6 +12,7 @@
     "template_document_id": "10FGletumsFxNMLsJ8lcL0RstnSy7ZtVYmVN3xHUz8Hk",
     "patch_document_id": "1QlPCuxqNXnlprakP850L4PRqwxMX_L3lWsxVqQzLzqo",
     "patch_sha256": "785a42e9906b307ed66f16a1f1fed8ec82aa484eb663bfc272da1f60bf47bfaa",
+    "final_audit_document_id": "1UsllSZsfBBGR_AS_O2MQvveaXB4CV1JJb2q0kl8CuTM",
     "precedence": "CONSTITUCION_V1.3 > PATCH_OPERATIVO_V1.4 > MANUAL_V1.3 > FASES_V1.3 > PLANTILLA_V1.3"
   },
   "activation": {
@@ -43,5 +44,17 @@
     "destination": "@ianalista",
     "requires": ["F1_F12_TERMINAL","MANDATORY_PHASES_NOT_RUN_NONE","CORE_MISSION_COMPLETE_PASS","DRIVE_REPORT_COMPLETE_PASS","CHAT_REPORT_COMPLETE_PASS","READY_FOR_HANDOFF_TRUE"]
   },
-  "forbidden_outputs": ["pick","stake","odds","ev","edge","bet_recommendation","sports_verdict","probability","authoritative_probability","real_money_authority"]
+  "forbidden_outputs": ["pick","stake","odds","ev","edge","bet_recommendation","sports_verdict","probability","authoritative_probability","real_money_authority"],
+  "certification": {
+    "state": "OPERATIONAL_READY",
+    "final_audit_status": "PASS",
+    "adversarial_e2e": "PASS",
+    "github_ci": "PASS",
+    "real_target_smoke": "PASS",
+    "real_target_smoke_game_pk": 824474,
+    "test_residues": 0,
+    "vercel_deployment_verified": false,
+    "vercel_state": "0_PROJECTS_VISIBLE_BUILD_RATE_LIMIT",
+    "production_first_user_run": "EXECUTE_F1_F12_AND_DERIVE_F12_AUDIT"
+  }
 }
