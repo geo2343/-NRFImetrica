@@ -1,0 +1,91 @@
+name: investigacionNRFI semantic builder 2026-08-04
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_build_trigger_20260804.txt'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize full slate and reconstruct initial batting order
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, subprocess
+          spec=importlib.util.spec_from_file_location('builder','scripts/build_investigacion_nrfi_repair_20260801.py')
+          b=importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
+          date='2026-08-04'; base=pathlib.Path('artifacts/investigacion_nrfi')/date
+          root=base/'original_a1'; norm=root/'normalized'; compact=root/'compact'
+          norm.mkdir(parents=True,exist_ok=True); compact.mkdir(parents=True,exist_ok=True)
+          raw=json.loads((base/'first_inning_extract.json').read_text()); manifest=json.loads((base/'manifest.json').read_text())
+          if len(raw)!=manifest['count']: raise SystemExit('RAW_COUNT_MISMATCH')
+          capture_commit=subprocess.check_output(['git','log','-1','--format=%H','--',str(base/'manifest.json')],text=True).strip()
+          captured_at=subprocess.check_output(['git','log','-1','--format=%cI','--',str(base/'manifest.json')],text=True).strip()
+          def player_meta(rg,pid,name):
+              p=(rg.get('players') or {}).get('ID'+str(pid),{}) or {}
+              bat=(p.get('batSide') or {}).get('code') or (p.get('batSide') or {}).get('description')
+              pos=p.get('primaryPosition') or p.get('position') or {}
+              return {'player_id':str(pid),'player_name':name or (p.get('person') or p).get('fullName') or 'UNKNOWN','handedness':bat,'position':pos.get('abbreviation') or pos.get('name') or ''}
+          def align_lineup(rg, existing, pas):
+              ordered=[]; seen=set()
+              for pa in pas:
+                  pid=str(pa.get('batter_id') or '')
+                  if pid and pid not in seen:
+                      ordered.append(player_meta(rg,pid,pa.get('batter_name'))); seen.add(pid)
+              for x in existing or []:
+                  pid=str(x.get('player_id') or '')
+                  if pid and pid not in seen:
+                      ordered.append({k:x.get(k) for k in ('player_id','player_name','handedness','position')}); seen.add(pid)
+              ordered=ordered[:9]
+              if len(ordered)<9: raise SystemExit(f'LINEUP_LT9 {rg.get("game_pk")} {len(ordered)}')
+              for i,x in enumerate(ordered,1): x['slot']=i
+              return ordered
+          rows=[]
+          for rg in raw:
+              g=b.normalized_game(rg); pk=str(g['game_pk'])
+              top_pas=[x for x in g.get('plate_appearances',[]) if x.get('half')=='TOP']; bot_pas=[x for x in g.get('plate_appearances',[]) if x.get('half')=='BOTTOM']
+              g['away_lineup']=align_lineup(rg,g.get('away_lineup'),top_pas); g['home_lineup']=align_lineup(rg,g.get('home_lineup'),bot_pas)
+              amap={str(x['player_id']):x['slot'] for x in g['away_lineup']}; hmap={str(x['player_id']):x['slot'] for x in g['home_lineup']}
+              for pa in g.get('plate_appearances',[]): pa['batter_slot']=(amap if pa.get('half')=='TOP' else hmap).get(str(pa.get('batter_id')))
+              for pe in g.get('pitch_events',[]): pe['batter_slot']=(amap if pe.get('half')=='TOP' else hmap).get(str(pe.get('batter_id')))
+              for half,smap in [('TOP',amap),('BOTTOM',hmap)]:
+                  for bat in (g.get('halves',{}).get(half,{}).get('batters') or []): bat['slot']=smap.get(str(bat.get('id')))
+              if top_pas and str(g['away_lineup'][0]['player_id'])!=str(top_pas[0]['batter_id']): raise SystemExit(f'AWAY_SLOT1_FAIL {pk}')
+              if bot_pas and str(g['home_lineup'][0]['player_id'])!=str(bot_pas[0]['batter_id']): raise SystemExit(f'HOME_SLOT1_FAIL {pk}')
+              fl=rg.get('final_linescore') or {}; teams=fl.get('teams') or {}
+              g['final_score_away']=((teams.get('away') or {}).get('runs')); g['final_score_home']=((teams.get('home') or {}).get('runs'))
+              g['final_status_text']=((rg.get('status') or {}).get('detailedState') or (rg.get('status') or {}).get('abstractGameState') or 'Final')
+              g['capture_commit']=capture_commit; g['captured_at']=captured_at
+              (norm/f'{pk}.json').write_text(json.dumps(g,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+              def cp(p): return {k:p.get(k) for k in ('pa_id','pitch_number','half','pitcher_id','batter_id','batter_slot','balls_before','strikes_before','outs_before','score_before','pitch_type','release_speed','description','result','swing','whiff','contact','batted_ball_type','exit_velocity','launch_angle','event_time')}
+              def ca(p): return {k:p.get(k) for k in ('pa_id','half','batter_id','batter_name','pitcher_id','pitcher_name','batter_slot','ordinal','outs_before','pitch_sequence','pitch_count','pa_result','reach_type','runs_scored','outs_after','transition')}
+              keys=('game_pk','matchup','source_url','raw_sha256','scheduled_start_at','actual_first_pitch_at','venue_id','venue_name','away_team','home_team','away_starter_id','away_starter_name','home_starter_id','home_starter_name','away_catcher_id','home_catcher_id','away_lineup','home_lineup','weather','top_runs','bottom_runs','total_runs','halves','pitcher_process','final_score_away','final_score_home','final_status_text','capture_commit','captured_at')
+              c={k:g.get(k) for k in keys}; c['plate_appearances']=[ca(x) for x in g.get('plate_appearances',[])]; c['pitch_events']=[cp(x) for x in g.get('pitch_events',[])]
+              text=json.dumps(c,ensure_ascii=False,separators=(',',':'))
+              if len(text)>50000: raise SystemExit(f'COMPACT_TOO_LARGE {pk} {len(text)}')
+              (compact/f'{pk}.json').write_text(text,encoding='utf-8')
+              rows.append({'game_pk':pk,'matchup':g.get('matchup'),'top_runs':g.get('top_runs'),'bottom_runs':g.get('bottom_runs'),'total_runs':g.get('total_runs'),'final_score_away':g.get('final_score_away'),'final_score_home':g.get('final_score_home'),'pa_count':len(g.get('plate_appearances') or []),'pitch_count':len(g.get('pitch_events') or []),'away_starter':g.get('away_starter_name'),'home_starter':g.get('home_starter_name'),'first_pitch':g.get('actual_first_pitch_at'),'venue':g.get('venue_name'),'away_slot1':g['away_lineup'][0]['player_name'],'home_slot1':g['home_lineup'][0]['player_name']})
+          if len(rows)!=manifest['count']: raise SystemExit('NORMALIZED_COUNT_MISMATCH')
+          expected_halves=len(rows)*2
+          summary={'run_id':'INVNRFI-20260804-ORIGINAL-A1','run_type':'ORIGINAL','game_count':len(rows),'capture_commit':capture_commit,'captured_at':captured_at,'lineup_integrity':f'PASS_{expected_halves}_OF_{expected_halves}_SLOT1_OBSERVED','games':rows}
+          (root/'summary_dynamic.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding='utf-8')
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+      - name: Persist semantic package
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-04/original_a1
+          git diff --cached --quiet || git commit -m 'Build semantic package for investigacionNRFI 2026-08-04'
+          git push
