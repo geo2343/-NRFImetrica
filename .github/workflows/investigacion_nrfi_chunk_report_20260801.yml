@@ -1,0 +1,50 @@
+name: investigacionNRFI chunk repair report 2026-08-01
+
+on:
+  push:
+    paths:
+      - 'docs/investigacion_nrfi_chunk_trigger_20260801.txt'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  chunk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Split report at paragraph boundaries
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('artifacts/investigacion_nrfi/2026-08-01/repair_a1')
+          text=(root/'daily_report.md').read_text(encoding='utf-8')
+          parts=text.split('\n\n')
+          chunks=[]; cur=''
+          for p in parts:
+              piece=p+'\n\n'
+              if cur and len(cur)+len(piece)>7000:
+                  chunks.append(cur); cur=''
+              cur+=piece
+          if cur: chunks.append(cur)
+          out=root/'report_chunks'; out.mkdir(exist_ok=True)
+          for old in out.glob('*.txt'): old.unlink()
+          for i,c in enumerate(chunks,1):
+              (out/f'{i:02d}.txt').write_text(c,encoding='utf-8')
+          manifest={'count':len(chunks),'total_characters':sum(len(x) for x in chunks),'source_characters':len(text),'sha256':__import__('hashlib').sha256(text.encode()).hexdigest()}
+          (out/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+          assert manifest['total_characters']==manifest['source_characters']
+          assert max(map(len,chunks))<=7000
+          print(manifest)
+          PY
+      - name: Persist chunks
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add artifacts/investigacion_nrfi/2026-08-01/repair_a1/report_chunks
+          git diff --cached --quiet || git commit -m 'Persist Drive-safe report chunks for investigacionNRFI repair A1'
+          git push
