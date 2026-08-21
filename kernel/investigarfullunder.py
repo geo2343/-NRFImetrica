@@ -5,11 +5,13 @@ import json
 from typing import Any, Iterable
 
 AGENT_ID = "@Investigarfullunder"
-AGENT_VERSION = "INVESTIGARFULLUNDER-AGENT-1.0"
-KERNEL_VERSION = "FULLUNDER-RESEARCH-KERNEL-1.0"
-EDGE_KERNEL_VERSION = "FULLUNDER-EDGE-KERNEL-1.0"
+AGENT_VERSION = "INVESTIGARFULLUNDER-AGENT-1.1"
+KERNEL_VERSION = "FULLUNDER-RESEARCH-KERNEL-1.1"
+EDGE_KERNEL_VERSION = "FULLUNDER-EDGE-KERNEL-1.1"
 PROTOCOL_ID = "INVESTIGARFULLUNDER_FULL_GAME_PREGAME_V1"
 MOTHER_SHA256 = "18da7c034b9c2ff156b063ac1a12cc7f62b556c0bec55832d79a70c9246ab4de"
+HANDOFF_FORMAT_CONTRACT = "FULLUNDER-HANDOFF-FORMAT-1.1"
+REQUIRED_HANDOFF_SECTIONS = tuple(f"{i:02d}" for i in range(1, 21))
 PHASE_ORDER = tuple(f"F{i}" for i in range(1, 9))
 REQUIREMENT_COUNTS = {"F1": 93, "F2": 127, "F3": 132, "F4": 98, "F5": 159, "F6": 112, "F7": 122, "F8": 46}
 TOTAL_REQUIREMENTS = sum(REQUIREMENT_COUNTS.values())
@@ -120,17 +122,39 @@ def validate_phase_payload(phase_id: str, payload: dict[str, Any]) -> None:
         raise InvestigarFullUnderViolation("UNKNOWN_PHASE")
 
 
+def validate_handoff_structure(structure: dict[str, Any]) -> None:
+    if structure.get("format_contract_id") != HANDOFF_FORMAT_CONTRACT:
+        raise InvestigarFullUnderViolation("HANDOFF_FORMAT_CONTRACT_INVALID")
+    if structure.get("document_role") != "ANALYST_HANDOFF_BRIEF":
+        raise InvestigarFullUnderViolation("HANDOFF_DOCUMENT_ROLE_INVALID")
+    inventory = structure.get("section_inventory")
+    if not isinstance(inventory, list) or len(inventory) != 20 or set(inventory) != set(REQUIRED_HANDOFF_SECTIONS):
+        raise InvestigarFullUnderViolation("HANDOFF_SECTION_INVENTORY_INVALID")
+    if int(structure.get("required_section_count", 0)) != 20:
+        raise InvestigarFullUnderViolation("HANDOFF_SECTION_COUNT_INVALID")
+    if int(structure.get("heading_count", 0)) < 20:
+        raise InvestigarFullUnderViolation("HANDOFF_HEADINGS_INCOMPLETE")
+    if int(structure.get("table_count", 0)) < 15:
+        raise InvestigarFullUnderViolation("HANDOFF_TABLE_STRUCTURE_INCOMPLETE")
+    if int(structure.get("bold_anchor_count", 0)) < 20:
+        raise InvestigarFullUnderViolation("HANDOFF_BOLD_HIERARCHY_INCOMPLETE")
+    if structure.get("visual_hierarchy_pass") is not True or structure.get("structure_readback_pass") is not True:
+        raise InvestigarFullUnderViolation("HANDOFF_VISUAL_READBACK_REQUIRED")
+    if not str(structure.get("structure_hash") or "").strip():
+        raise InvestigarFullUnderViolation("HANDOFF_STRUCTURE_HASH_REQUIRED")
+
+
 def compute_target_binding_hash(game_pk: int, away_team: str, home_team: str, utc_timestamp: str) -> str:
     raw = f"{game_pk}|{away_team.strip().upper()}|{home_team.strip().upper()}|{utc_timestamp}"
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
-def compute_handoff_hash(*, run_id: str, game_pk: int, dossier_hash: str, brief_hash: str, master_hash: str, target_binding_hash: str, mother_sha256: str = MOTHER_SHA256) -> str:
-    raw = f"{run_id}|{game_pk}|{dossier_hash}|{brief_hash}|{master_hash}|{target_binding_hash}|{mother_sha256}"
+def compute_handoff_hash(*, run_id: str, game_pk: int, dossier_hash: str, brief_hash: str, master_hash: str, structure_hash: str, target_binding_hash: str, mother_sha256: str = MOTHER_SHA256) -> str:
+    raw = f"{run_id}|{game_pk}|{dossier_hash}|{brief_hash}|{master_hash}|{structure_hash}|{target_binding_hash}|{mother_sha256}"
     return hashlib.sha256(raw.encode()).hexdigest()
 
 
-def validate_handoff(*, phase_cursor: int, receipt_count: int, artifacts: dict[str, dict[str, Any]], source_snapshot_hash: str, handoff_hash: str, run_id: str, game_pk: int, target_binding_hash: str) -> None:
+def validate_handoff(*, phase_cursor: int, receipt_count: int, artifacts: dict[str, dict[str, Any]], structure_receipt: dict[str, Any], source_snapshot_hash: str, handoff_hash: str, run_id: str, game_pk: int, target_binding_hash: str) -> None:
     if phase_cursor != 8 or receipt_count != 8:
         raise InvestigarFullUnderViolation("F1_F8_NOT_COMPLETE")
     required = ("FULL_UNDER_PREGAME_EVIDENCE_DOSSIER", "ANALYST_HANDOFF_BRIEF", "MASTER_RESEARCH_REPORT")
@@ -140,13 +164,14 @@ def validate_handoff(*, phase_cursor: int, receipt_count: int, artifacts: dict[s
         artifact = artifacts[name]
         if artifact.get("readback_pass") is not True or artifact.get("readback_hash") != artifact.get("content_hash"):
             raise InvestigarFullUnderViolation("ARTIFACT_READBACK_INVALID")
+    validate_handoff_structure(structure_receipt)
     dossier_hash = artifacts[required[0]]["content_hash"]
     if source_snapshot_hash != dossier_hash:
         raise InvestigarFullUnderViolation("SOURCE_SNAPSHOT_HASH_MISMATCH")
     expected = compute_handoff_hash(
         run_id=run_id, game_pk=game_pk, dossier_hash=dossier_hash,
         brief_hash=artifacts[required[1]]["content_hash"], master_hash=artifacts[required[2]]["content_hash"],
-        target_binding_hash=target_binding_hash,
+        structure_hash=structure_receipt["structure_hash"], target_binding_hash=target_binding_hash,
     )
     if handoff_hash != expected:
         raise InvestigarFullUnderViolation("HANDOFF_HASH_INVALID")
