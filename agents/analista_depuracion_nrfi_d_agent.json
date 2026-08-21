@@ -1,10 +1,14 @@
 {
   "agent_id": "@AnalistaDepuracionRNFI_D",
   "display_name": "AnalistaDepuracionRNFI. D",
-  "agent_version": "ANALISTADEPURACIONRNFI-D-AGENT-1.0",
-  "kernel_version": "ANALISTADEPURACIONRNFI-D-KERNEL-1.0",
+  "agent_version": "ANALISTADEPURACIONRNFI-D-AGENT-1.1",
+  "kernel_version": "ANALISTADEPURACIONRNFI-D-KERNEL-1.1",
   "protocol_id": "ANALISTADEPURACIONRNFI_D_MLB_V1",
   "scope": "FULL_MLB_SLATE",
+  "reasoning_plane": "CHATGPT_AGENT_RUNTIME",
+  "control_plane": "SUPABASE_KERNEL",
+  "artifact_plane": "GOOGLE_DRIVE",
+  "audit_plane": "@AuditorKendelMLB",
   "source": {
     "drive_doc_id": "1ZsPlc2tOSzRH4_XQB0IpzwLGTQxeGASsjy8Cbzy3HLM",
     "sha256": "121f80c4569de1f87c438f96fbd48364a1756afee17a38f3f1f33698a67caea9",
@@ -18,45 +22,67 @@
     "final_nrfi_pick": false,
     "kernel_sports_judgment": false
   },
-  "phase_order": [
-    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9",
-    "D1", "D2", "F10", "F11", "REPORT_D", "PRE_DIALOGUE_FREEZE", "DIALOGUE"
-  ],
+  "phase_order": ["F1","F2","F3","F4","F5","F6","F7","F8","F9","D1","D2","F10","F11","REPORT_D","PRE_DIALOGUE_FREEZE","DIALOGUE"],
   "execution_mode": {
-    "pre_dialogue": "AUTO_CONTINUOUS_UNTIL_FINAL_DEPURATION_REPORT_D",
+    "pre_dialogue": "HOST_AGENT_AUTONOMOUS_LOOP_UNTIL_REPORT",
     "manual_phase_authorization": false,
+    "command_bus": "depurnrfi_d_submit_command_v11",
+    "execution_plan": "depurnrfi_d_get_execution_plan_v11",
     "post_report": "STOP_WAITING_USER_AUTHORIZATION",
     "dialogue": "USER_MEDIATED_ONE_D_RESPONSE_PER_AUTHORIZATION",
-    "dialogue_round_cap": null,
-    "auto_chain_dialogue": false,
-    "complete_chat_turn_required": true
+    "auto_chain_dialogue": false
+  },
+  "enforcement": {
+    "input_slate_integrity_gate": true,
+    "evidence_backed_requirement_attestations": true,
+    "blanket_attestation_block": true,
+    "not_applicable_escape_block": true,
+    "evidence_diversity_gate": true,
+    "e1_phase_receipts": true,
+    "state_version": true,
+    "idempotency": true,
+    "external_google_drive_readback_required": true,
+    "edge_self_drive_certification_forbidden": true,
+    "central_user_authorization": true,
+    "actor_binding": true
+  },
+  "causal_integrity": {
+    "route_can_produce_yrfi_is_not_route_governs_first_inning": true,
+    "non_governing_adverse_route_is_not_automatic_elimination": true,
+    "top_upper_plus_bottom_upper_is_not_central_yrfi_path": true,
+    "joint_materialization_required": true,
+    "retrospective_causal_elevation_without_new_evidence_forbidden": true,
+    "pruning_requires_what_changed": true
   },
   "depuration_contract": {
-    "f1_f9_preserve_full_slate": true,
     "d1_can_select": false,
     "d2_can_select": false,
     "f10_first_selection_authority": true,
     "max_candidates": 4,
     "f11_candidate_is_pick": false,
-    "f11_betting_fields_forbidden": true,
-    "report_drive_readback_required": true
+    "f11_betting_fields_forbidden": true
   },
   "dialogue_contract": {
     "pre_dialogue_report_frozen": true,
     "user_authorization_required_for_each_d_response": true,
+    "authorization_bound_to_exact_inbound_hash": true,
     "authorization_reusable": false,
-    "authorization_source": "EXTERNAL_USER_CONTROL_PLANE",
+    "generation_proof_required": true,
     "agent_can_grant_own_authorization": false,
-    "each_response_rendered_fully_in_chat": true,
     "user_transports_message_to_other_ai": true,
     "d_closes_first": true,
-    "a_closes_system": true,
-    "stop_after_each_turn": "STOP_WAITING_USER_AUTHORIZATION",
-    "stop_after_d_closing": "D_DIALOGUE_PARTICIPATION_COMPLETE_STOP"
+    "a_closes_system": true
+  },
+  "drive_authority": {
+    "mother_doc_id": "1Vc6k5H4dOby_KXOQ3-Cg8U-PfEPc8wga7zhcT4B6sao",
+    "manual_doc_id": "1hvVTEVrlaNBMrQZtihJxrxbfVMUyks48-GVO6GCEfW8",
+    "index_doc_id": "15JUOMMJcrZJ2ti8uO_ug4_sV0uukoL1WCSgeesmfroE",
+    "root_folder_id": "1WItLWad07tx1QyODDu-nq_XLmAqRWLH4"
   },
   "edge_function": {
     "slug": "analista-depuracion-nrfi-d-kernel",
-    "jwt_required": true
-  },
-  "drive_root_folder_id": "1WItLWad07tx1QyODDu-nq_XLmAqRWLH4"
+    "minimum_version": 3,
+    "jwt_required": true,
+    "role": "CONTROL_PLANE_ONLY"
+  }
 }
