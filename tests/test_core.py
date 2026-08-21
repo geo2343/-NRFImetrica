@@ -1,12 +1,13 @@
 import unittest
 
 from kernel.core import (
+    AGENT_VERSION,
     INDEPENDENT_AUDITOR_STATUS,
     KERNEL_VERSION,
     MOTHER_PROTOCOL_ID,
-    NRFI_PRENSA_BRIDGE_STATUS,
     NUMERIC_ENGINE_STATUS,
     REAL_MONEY_AUTHORITY,
+    RUNTIME_PLATFORM,
     SYSTEM_STATE,
     classify_game_status,
     validate_decision,
@@ -16,11 +17,12 @@ from kernel.core import (
 class CoreRulesTest(unittest.TestCase):
     def test_mother_protocol_is_active_authority(self):
         self.assertEqual(MOTHER_PROTOCOL_ID, "NRFIMETRICA_MOTHER_V3_AUTONOMOUS")
-        self.assertEqual(KERNEL_VERSION, "NRFIM-KERNEL-0.5-MOTHER-ENFORCED")
-        self.assertEqual(SYSTEM_STATE, "TRADING_HALT_RESEARCH")
-        self.assertEqual(NUMERIC_ENGINE_STATUS, "NO_ACTIVE_TRUSTED_ENGINE")
+        self.assertEqual(AGENT_VERSION, "MOTHER-V3-AGENT-1.14")
+        self.assertEqual(KERNEL_VERSION, "NRFIM-KERNEL-1.8.1-SUPABASE-EDGE-RUNTIME")
+        self.assertEqual(SYSTEM_STATE, "ACTIVE_RESEARCH_ECONOMIC_FIREWALL")
+        self.assertEqual(RUNTIME_PLATFORM, "SUPABASE_EDGE_FUNCTIONS")
+        self.assertEqual(NUMERIC_ENGINE_STATUS, "NO_ACTIVE_TRUSTED_GAME_SPECIFIC_ENGINE")
         self.assertEqual(INDEPENDENT_AUDITOR_STATUS, "NO_ACTIVE_TRUSTED_AUDITOR")
-        self.assertEqual(NRFI_PRENSA_BRIDGE_STATUS, "NO_VERIFIED_REAL_PACKET_BRIDGE")
         self.assertFalse(REAL_MONEY_AUTHORITY)
 
     def test_started_game_is_audit_only(self):
