@@ -1,61 +1,82 @@
 {
   "agent_id": "@AnalistaDepuracionRNFI_D",
   "display_name": "AnalistaDepuracionRNFI. D",
-  "agent_version": "ANALISTADEPURACIONRNFI-D-AGENT-1.0",
-  "kernel_version": "ANALISTADEPURACIONRNFI-D-KERNEL-1.0",
+  "agent_version": "ANALISTADEPURACIONRNFI-D-AGENT-1.1",
+  "kernel_version": "ANALISTADEPURACIONRNFI-D-KERNEL-1.1.1",
   "protocol_id": "ANALISTADEPURACIONRNFI_D_MLB_V1",
-  "scope": "FULL_MLB_SLATE",
+  "scope": "FULL_MLB_SLATE_DEPURATION",
+  "reasoning_plane": "CHATGPT_AGENT_RUNTIME",
+  "control_plane": "SUPABASE_KERNEL",
   "source": {
     "drive_doc_id": "1ZsPlc2tOSzRH4_XQB0IpzwLGTQxeGASsjy8Cbzy3HLM",
-    "sha256": "121f80c4569de1f87c438f96fbd48364a1756afee17a38f3f1f33698a67caea9",
-    "lines": 18569,
+    "legacy_fingerprint_sha256": "121f80c4569de1f87c438f96fbd48364a1756afee17a38f3f1f33698a67caea9",
+    "canonical_export_text_sha256": "c46dc9a945d37e3e53e2a6e3879045c6c7de38b25ea5f92894fded5cbaff857b",
     "binding_requirements": 1057,
+    "literal_catalog_located": 1057,
     "mutable": false
   },
   "authority": {
     "sports_depuration": true,
     "betting": false,
     "final_nrfi_pick": false,
-    "kernel_sports_judgment": false
+    "kernel_sports_judgment": false,
+    "f10_first_final_selection_authority": true,
+    "max_candidates": 4
   },
-  "phase_order": [
-    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9",
-    "D1", "D2", "F10", "F11", "REPORT_D", "PRE_DIALOGUE_FREEZE", "DIALOGUE"
-  ],
+  "phase_order": ["F1","F2","F3","F4","F5","F6","F7","F8","F9","D1","D2","F10","F11","REPORT_D","PRE_DIALOGUE_FREEZE","DIALOGUE"],
   "execution_mode": {
-    "pre_dialogue": "AUTO_CONTINUOUS_UNTIL_FINAL_DEPURATION_REPORT_D",
+    "pre_dialogue": "HOST_AGENT_AUTONOMOUS_LOOP_UNTIL_REPORT",
     "manual_phase_authorization": false,
     "post_report": "STOP_WAITING_USER_AUTHORIZATION",
     "dialogue": "USER_MEDIATED_ONE_D_RESPONSE_PER_AUTHORIZATION",
-    "dialogue_round_cap": null,
     "auto_chain_dialogue": false,
-    "complete_chat_turn_required": true
+    "d_closes_first": true,
+    "a_closes_system": true
   },
-  "depuration_contract": {
-    "f1_f9_preserve_full_slate": true,
-    "d1_can_select": false,
-    "d2_can_select": false,
-    "f10_first_selection_authority": true,
-    "max_candidates": 4,
-    "f11_candidate_is_pick": false,
-    "f11_betting_fields_forbidden": true,
-    "report_drive_readback_required": true
+  "control_contract": {
+    "input_manifest_gate": true,
+    "semantic_requirement_attestations": true,
+    "evidence_ledger": true,
+    "tool_event_ledger": true,
+    "e1_receipts": true,
+    "state_version": true,
+    "idempotency": true,
+    "command_bus": "depurnrfi_d_submit_command_v11",
+    "real_drive_readback_external_connector_only": true,
+    "old_v1_submit_phase_revoked": true,
+    "jwt_required": true,
+    "direct_anon_rpc": false,
+    "direct_authenticated_rpc": false
+  },
+  "causal_contract": {
+    "possible_vs_governing_separated": true,
+    "non_governing_adverse_route_not_auto_veto": true,
+    "joint_materialization_required": true,
+    "upper_paths_not_summed_as_central": true,
+    "pruning_requires_what_changed": true
   },
   "dialogue_contract": {
     "pre_dialogue_report_frozen": true,
     "user_authorization_required_for_each_d_response": true,
     "authorization_reusable": false,
-    "authorization_source": "EXTERNAL_USER_CONTROL_PLANE",
     "agent_can_grant_own_authorization": false,
-    "each_response_rendered_fully_in_chat": true,
+    "generation_proof_required": true,
     "user_transports_message_to_other_ai": true,
-    "d_closes_first": true,
-    "a_closes_system": true,
-    "stop_after_each_turn": "STOP_WAITING_USER_AUTHORIZATION",
-    "stop_after_d_closing": "D_DIALOGUE_PARTICIPATION_COMPLETE_STOP"
+    "post_turn_state": "STOP_WAITING_USER_AUTHORIZATION",
+    "d_closing_state": "D_DIALOGUE_PARTICIPATION_COMPLETE_STOP"
+  },
+  "certification": {
+    "suite_id": "DEPURNRFI-D-CURRENT-1.1",
+    "current_tests": 21,
+    "current_failed": 0,
+    "kendel_baseline_tests": 10,
+    "kendel_baseline_failed": 0,
+    "real_drive_smoke": true,
+    "smoke_fixture_residue": 0
   },
   "edge_function": {
     "slug": "analista-depuracion-nrfi-d-kernel",
+    "runtime_version": 3,
     "jwt_required": true
   },
   "drive_root_folder_id": "1WItLWad07tx1QyODDu-nq_XLmAqRWLH4"
