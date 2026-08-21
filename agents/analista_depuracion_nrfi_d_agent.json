@@ -1,0 +1,62 @@
+{
+  "agent_id": "@AnalistaDepuracionRNFI_D",
+  "display_name": "AnalistaDepuracionRNFI. D",
+  "agent_version": "ANALISTADEPURACIONRNFI-D-AGENT-1.0",
+  "kernel_version": "ANALISTADEPURACIONRNFI-D-KERNEL-1.0",
+  "protocol_id": "ANALISTADEPURACIONRNFI_D_MLB_V1",
+  "scope": "FULL_MLB_SLATE",
+  "source": {
+    "drive_doc_id": "1ZsPlc2tOSzRH4_XQB0IpzwLGTQxeGASsjy8Cbzy3HLM",
+    "sha256": "121f80c4569de1f87c438f96fbd48364a1756afee17a38f3f1f33698a67caea9",
+    "lines": 18569,
+    "binding_requirements": 1057,
+    "mutable": false
+  },
+  "authority": {
+    "sports_depuration": true,
+    "betting": false,
+    "final_nrfi_pick": false,
+    "kernel_sports_judgment": false
+  },
+  "phase_order": [
+    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9",
+    "D1", "D2", "F10", "F11", "REPORT_D", "PRE_DIALOGUE_FREEZE", "DIALOGUE"
+  ],
+  "execution_mode": {
+    "pre_dialogue": "AUTO_CONTINUOUS_UNTIL_FINAL_DEPURATION_REPORT_D",
+    "manual_phase_authorization": false,
+    "post_report": "STOP_WAITING_USER_AUTHORIZATION",
+    "dialogue": "USER_MEDIATED_ONE_D_RESPONSE_PER_AUTHORIZATION",
+    "dialogue_round_cap": null,
+    "auto_chain_dialogue": false,
+    "complete_chat_turn_required": true
+  },
+  "depuration_contract": {
+    "f1_f9_preserve_full_slate": true,
+    "d1_can_select": false,
+    "d2_can_select": false,
+    "f10_first_selection_authority": true,
+    "max_candidates": 4,
+    "f11_candidate_is_pick": false,
+    "f11_betting_fields_forbidden": true,
+    "report_drive_readback_required": true
+  },
+  "dialogue_contract": {
+    "pre_dialogue_report_frozen": true,
+    "user_authorization_required_for_each_d_response": true,
+    "authorization_reusable": false,
+    "authorization_source": "EXTERNAL_USER_CONTROL_PLANE",
+    "agent_can_grant_own_authorization": false,
+    "each_response_rendered_fully_in_chat": true,
+    "user_transports_message_to_other_ai": true,
+    "d_closes_first": true,
+    "a_closes_system": true,
+    "stop_after_each_turn": "STOP_WAITING_USER_AUTHORIZATION",
+    "stop_after_d_closing": "D_DIALOGUE_PARTICIPATION_COMPLETE_STOP"
+  },
+  "edge_function": {
+    "slug": "analista-depuracion-nrfi-d-kernel",
+    "jwt_required": true
+  },
+  "drive_root_folder_id": "1WItLWad07tx1QyODDu-nq_XLmAqRWLH4"
+}
