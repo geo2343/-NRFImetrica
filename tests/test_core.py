@@ -33,7 +33,7 @@ class CoreRulesTest(unittest.TestCase):
         self.assertEqual(classify_game_status("Preview", "Postponed"), "LOCAL_DATA_BLOCK")
 
     def test_legacy_competitive_decision_endpoint_is_superseded(self):
-        with self.assertRaisesRegex(ValueError, "LEGACY_DECISION_ENDPOINT_SUPERSEDED_BY_MOTHER_A1_A8"):
+        with self.assertRaisesRegex(ValueError, "LEGACY_DECISION_ENDPOINT_SUPERSEDED_BY_MOTHER_PACKET_V2_A1_A8"):
             validate_decision(
                 decision="NRFI_CANDIDATE",
                 central_nrfi_case={"case": "x"},
