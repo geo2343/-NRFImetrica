@@ -16,6 +16,7 @@
     "canonical_material_document_id": "1tpFeI9u59v6SGiQu9odRCSkO3cu-VRIuvFA5lL9MnX8",
     "execution_contract_document_id": "15mseTDnEfiisnTHNEccpoBwM_7IPQR2MlbxPAMm929c",
     "requirement_index_document_id": "1uVmjiBEKsK-JmbbeAdxZ3oyPV_EEhxsXAjhEoQjUCkA",
+    "technical_certificate_document_id": "11DU0RRFe9PjAJGl7udMuwyYLOupj4Xnq9EyWgeUAXUE",
     "mother_document_sha256": "c8511961eb94b90296163dc52056b4b217d2f8d6c459a1ebade5b80c5417f548",
     "mother_document_mutable": false,
     "precedence": "MLB_SYSTEM_V2_CONSTITUTION > ANALISTA_NRFI_MOTHER_DOCUMENT > MANDATE > EXECUTION_CONTRACT > HARD_GATES > REQUIREMENT_CATALOG > TECHNICAL_SCHEMAS"
@@ -39,12 +40,14 @@
   "runtime": {
     "canonical_state_backend": "SUPABASE",
     "canonical_execution_route": "SUPABASE_EDGE_FUNCTION_PLUS_POSTGRES_GUARDS",
+    "agent_kernel_version": "MLB-V2-KERNEL-0.3-HARDENED",
     "edge_function_slug": "mlb-v2-kernel",
-    "edge_function_runtime_version": 2,
-    "edge_function_kernel_version": "MLB-V2-KERNEL-0.3-HARDENED",
-    "edge_function_sha256": "6d72cd0bd2d3882129177e252b8b0c50e47f6309090e260edd7db317cb4271d0",
+    "edge_function_runtime_version": 3,
+    "edge_function_kernel_version": "MLB-V2-KERNEL-0.4-INCIDENT-LOGGED",
+    "edge_function_sha256": "60201ea4d63ab99aa900ebd6276ad61f3be6b6c8055e322f8db72d422c9c6bed",
     "edge_function_jwt_required": true,
     "registry_aware_kernel_versioning": true,
+    "security_incident_logging": true,
     "vercel_required": false
   },
   "persistence": [
@@ -67,7 +70,8 @@
     "mlb_v2_mission_finalizations",
     "mlb_v2_artifacts",
     "mlb_v2_run_events",
-    "mlb_v2_kernel_test_results"
+    "mlb_v2_kernel_test_results",
+    "mlb_v2_security_incidents"
   ],
   "non_compensatory_invariants": {
     "metric_voting_forbidden": true,
@@ -99,7 +103,7 @@
     "direct_report_link_required": true
   },
   "certification": {
-    "state": "TECHNICAL_AUDIT_PASS_PENDING_MAIN_CI_AND_DRIVE_FINAL_CERTIFICATE",
+    "state": "TECHNICAL_AUDIT_PASS_PENDING_PR_CI_AND_FINAL_DRIVE_READBACK",
     "supabase_registry_verified": true,
     "edge_function_active_verified": true,
     "postgres_guards_verified_present": true,
@@ -113,6 +117,9 @@
     "state_machine_e2e_test": "PASS",
     "a9_rewrite_attack": "BLOCKED",
     "drive_chat_mismatch_attack": "BLOCKED",
-    "cross_system_parity": "PENDING_MAIN_MERGE_CI_AND_DRIVE_FINAL_READBACK"
+    "audit_fixture_residue": 0,
+    "github_pr_1_main_merge": "PASS",
+    "drive_technical_certificate_created": true,
+    "cross_system_parity": "PENDING_FINAL_PARITY_PR_CI_AND_DRIVE_READBACK"
   }
 }

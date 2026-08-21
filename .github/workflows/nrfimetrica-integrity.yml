@@ -17,6 +17,7 @@ on:
       - 'agents/**'
       - 'protocols/**'
       - 'supabase/migrations/**'
+      - '.github/workflows/nrfimetrica-integrity.yml'
 
 permissions:
   contents: read
@@ -30,10 +31,11 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile Python runtime
-        run: python -m py_compile api/research.py kernel/core.py
+        run: python -m py_compile api/research.py kernel/core.py kernel/analistaa_nrfi.py
       - name: Validate canonical JSON manifests
         run: |
           python -m json.tool agents/nrfimetrica_mother_v3_agent.json >/dev/null
+          python -m json.tool agents/analistaa_nrfi_agent.json >/dev/null
           python -m json.tool protocols/nrfimetrica_mother_v3_autonomous.json >/dev/null
           python -m json.tool protocols/sports_reasoning_packet_v2.json >/dev/null
       - name: Reject stale constitutional hash in active enforcement source
@@ -41,8 +43,17 @@ jobs:
           ! grep -R "44edaa44707293115f8d129b8903c1d8f7dfa5f6bd79674de29cee01091228d8" kernel api agents protocols README.md
       - name: Assert active version parity
         run: |
-          grep -q "NRFIM-KERNEL-1.8-FORENSIC-REPAIR" kernel/core.py
-          grep -q "MOTHER-V3-AGENT-1.13" agents/nrfimetrica_mother_v3_agent.json
-          grep -q "NRFIM-KERNEL-1.8-FORENSIC-REPAIR" protocols/nrfimetrica_mother_v3_autonomous.json
+          grep -q "MOTHER-V3-AGENT-1.14" kernel/core.py
+          grep -q "NRFIM-KERNEL-1.8.1-SUPABASE-EDGE-RUNTIME" kernel/core.py
+          grep -q '"agent_version": "MOTHER-V3-AGENT-1.14"' agents/nrfimetrica_mother_v3_agent.json
+          grep -q '"kernel_version": "NRFIM-KERNEL-1.8.1-SUPABASE-EDGE-RUNTIME"' agents/nrfimetrica_mother_v3_agent.json
+          grep -q '"agent_version": "MOTHER-V3-AGENT-1.14"' protocols/nrfimetrica_mother_v3_autonomous.json
+          grep -q '"kernel_version": "NRFIM-KERNEL-1.8.1-SUPABASE-EDGE-RUNTIME"' protocols/nrfimetrica_mother_v3_autonomous.json
+          grep -q "ANALISTAANRFI-AGENT-2.2" kernel/analistaa_nrfi.py
+          grep -q "MLB-V2-KERNEL-0.3-HARDENED" kernel/analistaa_nrfi.py
           grep -q "SEMANTIC-CUSTODY-1.0" protocols/sports_reasoning_packet_v2.json
           test -f supabase/migrations/073_nrfimetrica_v18_forensic_process_repair.sql
+          test -f supabase/migrations/074_nrfimetrica_v18_supabase_edge_runtime.sql
+          test -f supabase/migrations/075_cross_agent_runtime_independence_v1.sql
+          test -f supabase/migrations/20260820224033_mlb_v2_analistaa_nrfi_state_hardening_v03.sql
+          test -f supabase/migrations/20260820225546_add_mlb_v2_security_incident_registry_v1.sql
