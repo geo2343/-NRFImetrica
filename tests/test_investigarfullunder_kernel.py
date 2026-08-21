@@ -1,11 +1,13 @@
 import unittest
 
 from kernel.investigarfullunder import (
+    HANDOFF_FORMAT_CONTRACT,
     MOTHER_SHA256,
     TOTAL_REQUIREMENTS,
     InvestigarFullUnderViolation,
     compute_handoff_hash,
     validate_handoff,
+    validate_handoff_structure,
     validate_phase_order,
     validate_phase_payload,
     validate_requirement_coverage,
@@ -102,23 +104,43 @@ class InvestigarFullUnderKernelTests(unittest.TestCase):
         with self.assertRaises(InvestigarFullUnderViolation):
             validate_phase_payload("F8", p)
 
-    def test_valid_handoff_hash_and_readback(self):
-        artifacts = {
-            "FULL_UNDER_PREGAME_EVIDENCE_DOSSIER": {"content_hash": "d", "readback_hash": "d", "readback_pass": True},
-            "ANALYST_HANDOFF_BRIEF": {"content_hash": "b", "readback_hash": "b", "readback_pass": True},
-            "MASTER_RESEARCH_REPORT": {"content_hash": "m", "readback_hash": "m", "readback_pass": True},
-        }
-        h = compute_handoff_hash(run_id="r", game_pk=1, dossier_hash="d", brief_hash="b", master_hash="m", target_binding_hash="t")
-        validate_handoff(phase_cursor=8, receipt_count=8, artifacts=artifacts, source_snapshot_hash="d", handoff_hash=h, run_id="r", game_pk=1, target_binding_hash="t")
+    def test_handoff_format_contract_pinned(self):
+        self.assertEqual(HANDOFF_FORMAT_CONTRACT, "FULLUNDER-HANDOFF-FORMAT-1.1")
+
+    def test_handoff_structure_requires_all_twenty_sections(self):
+        s = self._structure()
+        s["section_inventory"] = ["01", "02"]
+        with self.assertRaises(InvestigarFullUnderViolation):
+            validate_handoff_structure(s)
+
+    def test_handoff_structure_requires_tables_and_hierarchy(self):
+        s = self._structure()
+        s["table_count"] = 5
+        with self.assertRaises(InvestigarFullUnderViolation):
+            validate_handoff_structure(s)
+        s = self._structure()
+        s["bold_anchor_count"] = 2
+        with self.assertRaises(InvestigarFullUnderViolation):
+            validate_handoff_structure(s)
+
+    def test_valid_handoff_structure(self):
+        validate_handoff_structure(self._structure())
+
+    def test_valid_handoff_hash_readback_and_structure(self):
+        artifacts = self._artifacts()
+        structure = self._structure()
+        h = compute_handoff_hash(run_id="r", game_pk=1, dossier_hash="d", brief_hash="b", master_hash="m", structure_hash=structure["structure_hash"], target_binding_hash="t")
+        validate_handoff(phase_cursor=8, receipt_count=8, artifacts=artifacts, structure_receipt=structure, source_snapshot_hash="d", handoff_hash=h, run_id="r", game_pk=1, target_binding_hash="t")
 
     def test_handoff_rejects_bad_readback(self):
-        artifacts = {
-            "FULL_UNDER_PREGAME_EVIDENCE_DOSSIER": {"content_hash": "d", "readback_hash": "x", "readback_pass": True},
-            "ANALYST_HANDOFF_BRIEF": {"content_hash": "b", "readback_hash": "b", "readback_pass": True},
-            "MASTER_RESEARCH_REPORT": {"content_hash": "m", "readback_hash": "m", "readback_pass": True},
-        }
+        artifacts = self._artifacts()
+        artifacts["FULL_UNDER_PREGAME_EVIDENCE_DOSSIER"]["readback_hash"] = "x"
         with self.assertRaises(InvestigarFullUnderViolation):
-            validate_handoff(phase_cursor=8, receipt_count=8, artifacts=artifacts, source_snapshot_hash="d", handoff_hash="bad", run_id="r", game_pk=1, target_binding_hash="t")
+            validate_handoff(phase_cursor=8, receipt_count=8, artifacts=artifacts, structure_receipt=self._structure(), source_snapshot_hash="d", handoff_hash="bad", run_id="r", game_pk=1, target_binding_hash="t")
+
+    def test_handoff_rejects_missing_structure(self):
+        with self.assertRaises(InvestigarFullUnderViolation):
+            validate_handoff_structure({})
 
     def test_mother_hash_pinned(self):
         self.assertEqual(MOTHER_SHA256, "18da7c034b9c2ff156b063ac1a12cc7f62b556c0bec55832d79a70c9246ab4de")
@@ -148,6 +170,29 @@ class InvestigarFullUnderKernelTests(unittest.TestCase):
             "neutral_signal_semantics": True,
             "legitimate_open_gaps_documented": True,
             "final_source_snapshot_reference": True,
+        }
+
+    @staticmethod
+    def _artifacts():
+        return {
+            "FULL_UNDER_PREGAME_EVIDENCE_DOSSIER": {"content_hash": "d", "readback_hash": "d", "readback_pass": True},
+            "ANALYST_HANDOFF_BRIEF": {"content_hash": "b", "readback_hash": "b", "readback_pass": True},
+            "MASTER_RESEARCH_REPORT": {"content_hash": "m", "readback_hash": "m", "readback_pass": True},
+        }
+
+    @staticmethod
+    def _structure():
+        return {
+            "format_contract_id": "FULLUNDER-HANDOFF-FORMAT-1.1",
+            "document_role": "ANALYST_HANDOFF_BRIEF",
+            "required_section_count": 20,
+            "section_inventory": [f"{i:02d}" for i in range(1, 21)],
+            "heading_count": 24,
+            "table_count": 21,
+            "bold_anchor_count": 32,
+            "visual_hierarchy_pass": True,
+            "structure_readback_pass": True,
+            "structure_hash": "s",
         }
 
 
