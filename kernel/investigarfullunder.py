@@ -5,9 +5,11 @@ import json
 from typing import Any, Iterable
 
 AGENT_ID = "@Investigarfullunder"
-AGENT_VERSION = "INVESTIGARFULLUNDER-AGENT-1.1"
-KERNEL_VERSION = "FULLUNDER-RESEARCH-KERNEL-1.1"
-EDGE_KERNEL_VERSION = "FULLUNDER-EDGE-KERNEL-1.1"
+AGENT_VERSION = "INVESTIGARFULLUNDER-AGENT-1.2"
+KERNEL_VERSION = "FULLUNDER-RESEARCH-KERNEL-1.2-CONTROL-PLANE"
+EDGE_KERNEL_VERSION = "FULLUNDER-EDGE-KERNEL-1.2-COMMAND-BUS"
+CONTROL_PLANE_VERSION = "FULLUNDER-CONTROL-PLANE-1.2"
+POLICY_VERSION = "IFU-POLICY-1.2"
 PROTOCOL_ID = "INVESTIGARFULLUNDER_FULL_GAME_PREGAME_V1"
 MOTHER_SHA256 = "18da7c034b9c2ff156b063ac1a12cc7f62b556c0bec55832d79a70c9246ab4de"
 HANDOFF_FORMAT_CONTRACT = "FULLUNDER-HANDOFF-FORMAT-1.1"
@@ -15,6 +17,9 @@ REQUIRED_HANDOFF_SECTIONS = tuple(f"{i:02d}" for i in range(1, 21))
 PHASE_ORDER = tuple(f"F{i}" for i in range(1, 9))
 REQUIREMENT_COUNTS = {"F1": 93, "F2": 127, "F3": 132, "F4": 98, "F5": 159, "F6": 112, "F7": 122, "F8": 46}
 TOTAL_REQUIREMENTS = sum(REQUIREMENT_COUNTS.values())
+
+CONTROL_PLANE_PRINCIPLE = "KERNEL_CONTROLS_PROCESS_AI_CONTROLS_REASONING"
+WRITE_MODEL = "LLM_PROPOSES_KERNEL_VALIDATES_KERNEL_COMMITS"
 
 MARKET_KEYS = {
     "odds", "juice", "line_movement", "betting_consensus", "sportsbook",
@@ -27,6 +32,16 @@ DECISION_KEYS = {
     "sports_decision", "bet_recommendation",
 }
 MARKET_TEXT = ("odds", "juice", "sportsbook", "betting consensus", "line movement", "market total", "betting line")
+
+PHASE_ACTIONS = {
+    **{f"F{i}": {
+        "SET_REQUIREMENT_STATES", "REQUEST_TOOL", "COMPLETE_TOOL", "ADD_SOURCE", "ADD_EVIDENCE",
+        "UPSERT_ISSUE", "UPSERT_CONTRADICTION", "ADD_DEPENDENCY", "INVALIDATE_DESCENDANTS",
+        "RESOLVE_STALE", "SUBMIT_PHASE_RECEIPT",
+    } for i in range(1, 9)},
+    "POST_F8": {"REGISTER_ARTIFACT", "REGISTER_STRUCTURE_RECEIPT", "SUBMIT_HANDOFF", "PUBLISH", "SUBMIT_SEMANTIC_AUDIT"},
+}
+PHASE_ACTIONS["F8"].add("REGISTER_ARTIFACT")
 
 
 class InvestigarFullUnderViolation(ValueError):
@@ -54,6 +69,41 @@ def validate_no_market_or_decision_contamination(payload: dict[str, Any]) -> Non
     text = json.dumps(payload, ensure_ascii=False).lower()
     if any(term in text for term in MARKET_TEXT):
         raise InvestigarFullUnderViolation("MARKET_TEXT_CONTAMINATION")
+
+
+def validate_command_envelope(
+    envelope: dict[str, Any], *, current_state_version: int | None,
+    active_phase: str | None, capability_active: bool, active_policy_version: str = POLICY_VERSION,
+) -> None:
+    if envelope.get("agent_id") != AGENT_ID:
+        raise InvestigarFullUnderViolation("COMMAND_AGENT_INVALID")
+    action = str(envelope.get("action") or "").upper()
+    if not action or not str(envelope.get("idempotency_key") or "").strip():
+        raise InvestigarFullUnderViolation("COMMAND_ENVELOPE_INCOMPLETE")
+    if envelope.get("policy_version") != active_policy_version:
+        raise InvestigarFullUnderViolation("STALE_OR_UNKNOWN_POLICY")
+    if action == "CREATE_RUN":
+        if envelope.get("run_id") or envelope.get("capability_grant_id"):
+            raise InvestigarFullUnderViolation("CREATE_RUN_ENVELOPE_INVALID")
+        return
+    if active_phase is None or envelope.get("phase_id") != active_phase:
+        raise InvestigarFullUnderViolation("ACTIVE_PHASE_MISMATCH")
+    if envelope.get("expected_state_version") != current_state_version:
+        raise InvestigarFullUnderViolation("EXPECTED_STATE_VERSION_MISMATCH")
+    if not capability_active:
+        raise InvestigarFullUnderViolation("CAPABILITY_INVALID_OR_EXPIRED")
+    if action not in PHASE_ACTIONS.get(active_phase, set()):
+        raise InvestigarFullUnderViolation("CAPABILITY_ACTION_FORBIDDEN")
+
+
+def validate_evidence_broker_lineage(*, origin: str, run_id: str, phase_id: str, tool_events: list[dict[str, Any]]) -> None:
+    if origin.upper() in {"USER_PROVIDED", "SYSTEM_DERIVED"}:
+        return
+    if not tool_events:
+        raise InvestigarFullUnderViolation("TOOL_EVENT_REQUIRED_FOR_EXTERNAL_EVIDENCE")
+    for event in tool_events:
+        if event.get("run_id") != run_id or event.get("phase_id") != phase_id or event.get("status") != "SUCCEEDED":
+            raise InvestigarFullUnderViolation("TOOL_EVENT_INVALID_FOR_EVIDENCE")
 
 
 def validate_phase_order(phase_cursor: int, phase_id: str) -> None:
