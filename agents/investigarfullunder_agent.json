@@ -1,7 +1,7 @@
 {
   "agent_id": "@Investigarfullunder",
   "agent_version": "INVESTIGARFULLUNDER-AGENT-1.1",
-  "status": "KERNEL_CONNECTED_TESTED_PENDING_GITHUB_CI",
+  "status": "KERNEL_CONNECTED_FINAL_CERTIFICATION_CANDIDATE",
   "system_version": "MLB-SYSTEM-V2",
   "kernel_version": "FULLUNDER-RESEARCH-KERNEL-1.1",
   "edge_kernel_version": "FULLUNDER-EDGE-KERNEL-1.1",
@@ -24,6 +24,8 @@
     "requirement_index_file_id": "1DurWsa3ZJiYyHguUYsWgT3uIWwD51mw2",
     "handoff_contract_document_id": "12vriVu6rwUM2j9fiRJTNhndcFTx1ypj7_SLfUWYJOXs",
     "handoff_template_document_id": "1BJPRwLNbHr9i1LKANUWD1LfRPq0OfECyijUFZ0wAOyw",
+    "final_certificate_document_id": "1XuMwJrwc3KeG6K72pxqFzxihltAKu-8bXIfYZovJrLo",
+    "command_registry_document_id": "13Hye-QooyrTYf-grB_pKw8UbdYwUtx6TSCGk4Wl4rto",
     "mother_sha256": "18da7c034b9c2ff156b063ac1a12cc7f62b556c0bec55832d79a70c9246ab4de",
     "mother_bytes": 184260,
     "mother_lines": 11821,
@@ -92,9 +94,11 @@
     "audit_fixture_residue": 0,
     "mother_raw_drive_readback": "PASS",
     "handoff_template_drive_structure_readback": "PASS",
-    "github_ci": "PENDING_AFTER_V1_1_CHANGE",
-    "github_integrity_ci": "PENDING_AFTER_V1_1_CHANGE",
-    "drive_final_readback": "PENDING",
-    "cross_system_parity": "PENDING"
+    "drive_final_readback": "PASS",
+    "command_registry": "PASS",
+    "github_build_pr_5": "MERGED_74bbf00523811abb3ac0dd3e2aa0f4124254acd0",
+    "github_ci_v1_1_code": "PASS",
+    "github_integrity_ci_v1_1_code": "PASS",
+    "cross_system_parity": "PENDING_FINAL_STATUS_PROMOTION"
   }
 }
