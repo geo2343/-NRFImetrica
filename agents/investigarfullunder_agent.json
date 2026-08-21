@@ -1,7 +1,7 @@
 {
   "agent_id": "@Investigarfullunder",
   "agent_version": "INVESTIGARFULLUNDER-AGENT-1.1",
-  "status": "KERNEL_CONNECTED_FINAL_CERTIFICATION_CANDIDATE",
+  "status": "OPERATIONAL_READY_FINAL",
   "system_version": "MLB-SYSTEM-V2",
   "kernel_version": "FULLUNDER-RESEARCH-KERNEL-1.1",
   "edge_kernel_version": "FULLUNDER-EDGE-KERNEL-1.1",
@@ -92,13 +92,17 @@
     "handoff_incomplete_20_section_inventory_rejected": "PASS",
     "handoff_insufficient_table_structure_rejected": "PASS",
     "audit_fixture_residue": 0,
+    "security_incidents_real": 0,
     "mother_raw_drive_readback": "PASS",
     "handoff_template_drive_structure_readback": "PASS",
     "drive_final_readback": "PASS",
     "command_registry": "PASS",
     "github_build_pr_5": "MERGED_74bbf00523811abb3ac0dd3e2aa0f4124254acd0",
-    "github_ci_v1_1_code": "PASS",
-    "github_integrity_ci_v1_1_code": "PASS",
-    "cross_system_parity": "PENDING_FINAL_STATUS_PROMOTION"
+    "github_certification_pr_6": "MERGED_ebe0553346a675b82fa876b23fa3f798754feafc",
+    "github_integrity_ci_v1_1_with_agent": "PASS",
+    "github_kernel_ci_v1_1": "PASS",
+    "supabase_final_readback": "PASS",
+    "cross_system_parity": "PASS",
+    "operational_ready_final": true
   }
 }
