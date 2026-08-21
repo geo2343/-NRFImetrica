@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-const EDGE_KERNEL_VERSION = "FULLUNDER-EDGE-KERNEL-1.0";
+const EDGE_KERNEL_VERSION = "FULLUNDER-EDGE-KERNEL-1.1";
 const AGENT_ID = "@Investigarfullunder";
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL")!,
@@ -18,6 +18,7 @@ const tableFor = (action: string) => ({
   upsert_contradiction: "fullunder_contradictions",
   submit_phase_receipt: "fullunder_phase_receipts",
   register_artifact: "fullunder_artifacts",
+  submit_structure_receipt: "fullunder_artifact_structure_receipts",
   submit_handoff: "fullunder_handoffs",
 } as Record<string,string>)[action];
 
@@ -54,16 +55,14 @@ async function logIncident(action: string, payload: any, error: any) {
       source_layer: "EDGE_KERNEL",
       metadata: { edge_kernel_version: EDGE_KERNEL_VERSION, raw_payload_stored: false },
     });
-  } catch (_) {
-    // Incident logging never changes an allow/deny decision.
-  }
+  } catch (_) {}
 }
 
 Deno.serve(async (req: Request) => {
   if (req.method === "GET") {
     try {
       const reg = await registry();
-      return Response.json({ ok:true, status:"ACTIVE", agent_id:AGENT_ID, edge_kernel_version:EDGE_KERNEL_VERSION, jwt_required:true, market_blind:true, sports_decision_authority:false, registry:reg });
+      return Response.json({ ok:true, status:"ACTIVE", agent_id:AGENT_ID, edge_kernel_version:EDGE_KERNEL_VERSION, jwt_required:true, market_blind:true, sports_decision_authority:false, structured_handoff_required:true, registry:reg });
     } catch (e) {
       return Response.json({ ok:false, edge_kernel_version:EDGE_KERNEL_VERSION, error:String((e as any)?.message || e) }, { status:500 });
     }
@@ -79,21 +78,22 @@ Deno.serve(async (req: Request) => {
         supabase.from("fullunder_kernel_test_results").select("*",{count:"exact",head:true}),
         supabase.from("fullunder_kernel_test_results").select("*",{count:"exact",head:true}).eq("passed",false),
       ]);
-      return Response.json({ok:true,edge_kernel_version:EDGE_KERNEL_VERSION,registry:reg,active_requirements:reqCount,kernel_tests:testCount,kernel_test_failures:failedCount});
+      return Response.json({ok:true,edge_kernel_version:EDGE_KERNEL_VERSION,registry:reg,active_requirements:reqCount,kernel_tests:testCount,kernel_test_failures:failedCount,structured_handoff_required:true,handoff_format_contract:"FULLUNDER-HANDOFF-FORMAT-1.1"});
     }
     if (action === "get_run_state") {
       const runId = String(body.run_id || "");
-      const [run,reqs,receipts,artifacts,handoff,issues,contradictions] = await Promise.all([
+      const [run,reqs,receipts,artifacts,structures,handoff,issues,contradictions] = await Promise.all([
         supabase.from("fullunder_runs").select("*").eq("run_id",runId).maybeSingle(),
         supabase.from("fullunder_requirement_state").select("*").eq("run_id",runId),
         supabase.from("fullunder_phase_receipts").select("*").eq("run_id",runId).order("created_at"),
         supabase.from("fullunder_artifacts").select("*").eq("run_id",runId),
+        supabase.from("fullunder_artifact_structure_receipts").select("*").eq("run_id",runId),
         supabase.from("fullunder_handoffs").select("*").eq("run_id",runId).maybeSingle(),
         supabase.from("fullunder_issues").select("*").eq("run_id",runId),
         supabase.from("fullunder_contradictions").select("*").eq("run_id",runId),
       ]);
-      for (const r of [run,reqs,receipts,artifacts,handoff,issues,contradictions]) if (r.error) throw r.error;
-      return Response.json({ok:true,edge_kernel_version:EDGE_KERNEL_VERSION,run:run.data,requirements:reqs.data,receipts:receipts.data,artifacts:artifacts.data,handoff:handoff.data,issues:issues.data,contradictions:contradictions.data});
+      for (const r of [run,reqs,receipts,artifacts,structures,handoff,issues,contradictions]) if (r.error) throw r.error;
+      return Response.json({ok:true,edge_kernel_version:EDGE_KERNEL_VERSION,run:run.data,requirements:reqs.data,receipts:receipts.data,artifacts:artifacts.data,structure_receipts:structures.data,handoff:handoff.data,issues:issues.data,contradictions:contradictions.data});
     }
     const table = tableFor(action);
     if (!table) return Response.json({ok:false,error:"UNKNOWN_ACTION"},{status:400});
@@ -109,7 +109,7 @@ Deno.serve(async (req: Request) => {
       payload.ready_for_analyst = false;
       payload.phase_cursor = 0;
       payload.status = "RUN_CREATED";
-      payload.metadata = { ...(payload.metadata || {}), edge_kernel_version: EDGE_KERNEL_VERSION, protocol_id: reg.protocol_id };
+      payload.metadata = { ...(payload.metadata || {}), edge_kernel_version: EDGE_KERNEL_VERSION, protocol_id: reg.protocol_id, handoff_format_contract: "FULLUNDER-HANDOFF-FORMAT-1.1" };
     }
 
     const { data, error } = await supabase.from(table).upsert(payload).select();
