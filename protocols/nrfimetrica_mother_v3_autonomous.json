@@ -1,13 +1,13 @@
 {
   "protocol_id": "NRFIMETRICA_MOTHER_V3_AUTONOMOUS",
   "status": "ACTIVE_SOVEREIGN_PROTOCOL",
-  "agent_version": "MOTHER-V3-AGENT-1.13",
-  "kernel_version": "NRFIM-KERNEL-1.8-FORENSIC-REPAIR",
+  "agent_version": "MOTHER-V3-AGENT-1.14",
+  "kernel_version": "NRFIM-KERNEL-1.8.1-SUPABASE-EDGE-RUNTIME",
   "mother_document": {
     "name": "@NRFImetrica DOCUMENTO MADRE",
     "sha256": "799ccb5a483e7991f880ae7d49d2f191a98e292478ec64e76a55aa8250ec498b",
     "precedence": "LATEST_SOVEREIGN_PATCH_WINS",
-    "latest_runtime_patch": "FORENSIC_RUNTIME_REPAIR — 2026-08-20",
+    "latest_runtime_patch": "FORENSIC_RUNTIME_REPAIR + SUPABASE_EDGE_RUNTIME + RUNTIME_INDEPENDENCE — 2026-08-20",
     "authority_resolution": "DYNAMIC_AGENT_REGISTRY_PLUS_PROTOCOL_AUTHORITY"
   },
   "canonical_runtime_contracts": {
@@ -83,7 +83,14 @@
     "a7_release_required": true,
     "a8_required": true
   },
-  "migrations_required_through": 73,
+  "runtime_independence": {
+    "policy_version": "RUNTIME-INDEPENDENCE-1.0",
+    "canonical_execution_route": "SUPABASE_EDGE_FUNCTIONS_PLUS_CONNECTED_KERNEL",
+    "canonical_state_backend": "SUPABASE",
+    "vercel_required": false,
+    "vercel_failure_blocks_execution": false
+  },
+  "migrations_required_through": 75,
   "runtime_api": "api/research.py",
-  "runtime_api_version": "1.8"
+  "runtime_api_version": "1.8.1"
 }
