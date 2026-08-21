@@ -12,6 +12,7 @@ Production migrations, in physical order:
 4. `20260821013303 investigarfullunder_kernel_v1_decision_boundary_precision`
 5. `20260821013403 investigarfullunder_kernel_v1_requirement_phase_binding`
 6. `20260821013530 investigarfullunder_kernel_v1_audit_cleanup_safety`
+7. `20260821015523 investigarfullunder_handoff_visual_contract_v11`
 
 Final production objects use the dedicated `fullunder_` prefix and are separate from `mlb_v2_*` / `@AnalistaaNRFI` state.
 
@@ -39,12 +40,29 @@ Final production objects use the dedicated `fullunder_` prefix and are separate 
 - required final artifacts: `FULL_UNDER_PREGAME_EVIDENCE_DOSSIER`, `ANALYST_HANDOFF_BRIEF`, `MASTER_RESEARCH_REPORT`;
 - artifact identity immutable and final artifacts immutable after handoff;
 - each final artifact requires readback hash equality;
+- `ANALYST_HANDOFF_BRIEF` must satisfy `FULLUNDER-HANDOFF-FORMAT-1.1`;
+- the handoff brief must account for all 20 canonical F8 sections;
+- minimum visual structure: 20 headings, 15 tables/structured boxes and 20 bold anchors;
+- visual hierarchy and structure readback must both PASS;
+- the structure receipt is immutable and its `structure_hash` is part of the final handoff hash;
+- plain-text/unstructured handoff is therefore not eligible for `READY_FOR_ANALYST`;
 - handoff role, game, target, Mother, artifact types and cryptographic handoff hash are enforced;
 - `READY_FOR_ANALYST` and `COMPLETED` are derived only from valid handoff;
 - audit fixtures may be purged only through a SECURITY DEFINER cleanup function after `audit_fixture=true` verification.
 
 ## Physical validation
 
-Supabase adversarial/positive suite: `49/49 PASS`, `0 FAIL`, audit fixture residue `0` before GitHub certification.
+Supabase adversarial/positive suite after the visual-contract upgrade: `54/54 PASS`, `0 FAIL`.
 
-Edge Function: `investigarfullunder-kernel`, runtime version `1`, Kernel `FULLUNDER-EDGE-KERNEL-1.0`, JWT required, deployed hash `22548ca8f7e4d2b45d141d713738868b093e779fc7a113fbbed140469a337143`.
+Specific v1.1 tests:
+- handoff without structure receipt → REJECT;
+- incomplete 20-section inventory → REJECT;
+- insufficient table structure → REJECT;
+- complete structural receipt → ACCEPT;
+- full F1→F8→structured handoff → `COMPLETED / READY_FOR_ANALYST`.
+
+Audit fixture residue after the test: `0`.
+
+Official Drive handoff template: `1BJPRwLNbHr9i1LKANUWD1LfRPq0OfECyijUFZ0wAOyw`; physical readback found the 20 canonical F8 blocks as heading structure and 21 real tables.
+
+Edge Function: `investigarfullunder-kernel`, runtime version `2`, Kernel `FULLUNDER-EDGE-KERNEL-1.1`, JWT required, deployed hash `d893cb50007ea966b31cbf01d354f6925f80c569a3b75a7cb20575453fb8beea`.
