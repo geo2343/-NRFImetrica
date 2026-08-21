@@ -1,7 +1,7 @@
 {
   "agent_id": "@AnalistaaNRFI",
   "agent_version": "ANALISTAANRFI-AGENT-2.2",
-  "status": "KERNEL_CONNECTED_TECHNICAL_AUDIT_PASS",
+  "status": "OPERATIONAL_READY_FINAL",
   "system_version": "MLB-SYSTEM-V2",
   "kernel_version": "MLB-V2-KERNEL-0.3-HARDENED",
   "protocol_id": "ANALISTAANRFI_MLB_V2",
@@ -11,6 +11,8 @@
   "publication_authority": true,
   "stake_authority": false,
   "authority": {
+    "drive_parent_folder_id": "1grJSkyCh4xvZ6ciDa-yxz-EXwFFRJB-H",
+    "drive_parent_folder_name": "Análisis Kernel MLB",
     "drive_root_folder_id": "1B7LqTmIaPhUubx-cLqAQC73I4fBn-xIb",
     "mandate_document_id": "1N6hLQFQ4vUshvAS2ib-WMVPZfLrI9b_-UN4M5NTez3A",
     "canonical_material_document_id": "1tpFeI9u59v6SGiQu9odRCSkO3cu-VRIuvFA5lL9MnX8",
@@ -39,6 +41,7 @@
   "workflow": ["A1","A2","A3","A4","A5","A6","A7","A8","A9"],
   "runtime": {
     "canonical_state_backend": "SUPABASE",
+    "supabase_project_id": "yejaollmavoudbxnbpll",
     "canonical_execution_route": "SUPABASE_EDGE_FUNCTION_PLUS_POSTGRES_GUARDS",
     "agent_kernel_version": "MLB-V2-KERNEL-0.3-HARDENED",
     "edge_function_slug": "mlb-v2-kernel",
@@ -103,28 +106,33 @@
     "direct_report_link_required": true
   },
   "certification": {
-    "state": "TECHNICAL_REPAIRS_APPLIED_PENDING_FINAL_SUPABASE_PERMISSION_READBACK",
+    "state": "OPERATIONAL_READY_FINAL",
+    "operational_ready_final": true,
     "supabase_registry_verified": true,
+    "final_supabase_readback": "PASS",
     "edge_function_active_verified": true,
     "postgres_guards_verified_present": true,
     "github_kernel_module_present": true,
     "positive_e2e_investigator_to_a8_freeze": "PASS",
     "positive_e2e_a9_to_finalization": "PASS",
-    "adversarial_tests_persisted": 21,
-    "adversarial_tests_passed": 21,
-    "adversarial_tests_failed": 0,
+    "kernel_tests_total": 71,
+    "kernel_tests_passed": 71,
+    "kernel_tests_failed": 0,
+    "adversarial_tests_persisted_minimum": 21,
     "handoff_e2e_test": "PASS",
     "state_machine_e2e_test": "PASS",
     "a9_rewrite_attack": "BLOCKED",
     "drive_chat_mismatch_attack": "BLOCKED",
+    "real_security_incidents": 0,
+    "test_security_incidents": 1,
     "audit_fixture_residue": 0,
     "github_pr_1_main_merge": "PASS",
     "github_pr_2_main_merge": "PASS",
+    "github_pr_3_main_merge": "PASS",
     "github_kernel_ci": "PASS",
     "github_integrity_ci": "PASS",
     "drive_technical_certificate_created": true,
     "drive_final_readback": "PASS",
-    "final_supabase_recheck": "BLOCKED_BY_CONNECTOR_PERMISSION",
-    "cross_system_parity": "PENDING_FINAL_SUPABASE_PERMISSION_READBACK"
+    "cross_system_parity": "PASS"
   }
 }
