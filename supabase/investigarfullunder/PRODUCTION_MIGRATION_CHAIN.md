@@ -15,6 +15,9 @@ Production migrations, in physical order:
 7. `20260821015523 investigarfullunder_handoff_visual_contract_v11`
 8. `ifu_exhaustive_report_close_runtime_gaps`
 9. `ifu_exhaustive_report_register_patch_state`
+10. `ifu_control_plane_security_hardening`
+11. `ifu_requirement_detail_state_unification`
+12. `ifu_requirement_detail_structured_evidence_refs`
 
 Final production objects use the dedicated `fullunder_` prefix and are separate from `mlb_v2_*` / `@AnalistaaNRFI` state.
 
@@ -25,15 +28,19 @@ Final production objects use the dedicated `fullunder_` prefix and are separate 
 - target-binding hash derived by Postgres;
 - strict F1→F8 state machine;
 - 889 active requirement containers, bound to their active phase;
-- every requirement now requires its own `fullunder_requirement_execution_detail` record;
-- each detail requires specific `result_text`, non-empty `data_payload`, physical `evidence_refs` and `output_refs`;
+- every requirement requires its own `fullunder_requirement_execution_detail` record;
+- each detail requires specific `result_text`, non-empty `data_payload`, structured physical `evidence_refs` and non-empty `output_refs`;
+- `evidence_refs` reuse the strongest atomic support contract: `evidence_id|issue_id + exact path + support explanation`;
+- evidence IDs/issues must belong to the same run and phase, and evidence paths must resolve to a physical value;
 - generic reusable coverage language is rejected physically;
 - unresolved requirement details require recorded recovery attempts;
-- requirement evidence refs must resolve to physical evidence IDs from the same run and phase;
 - requirement detail rows can only be written through the Kernel command bus action `SET_REQUIREMENT_DETAILS`;
+- `SET_REQUIREMENT_DETAILS` writes the exhaustive detail and canonical requirement state atomically;
+- legacy `SET_REQUIREMENT_STATES` is disabled for F1–F8 so the two ledgers cannot diverge;
+- a consistency gate compares status, evidence refs and output refs before phase close;
 - direct writes to the requirement-detail table remain forbidden;
 - phase close is blocked unless the detailed requirement audit passes for that phase;
-- `SATISFIED` requires a physical evidence/output reference;
+- `SATISFIED` requires physical structured support;
 - no `NOT_EXECUTED` requirement at phase close;
 - recursive market contamination guard;
 - recursive sports-decision contamination guard;
@@ -57,7 +64,10 @@ Final production objects use the dedicated `fullunder_` prefix and are separate 
 - the structure receipt is immutable and its `structure_hash` is part of the final handoff hash;
 - plain-text/unstructured handoff is not eligible for `READY_FOR_ANALYST`;
 - handoff role, game, target, Mother, artifact types and cryptographic handoff hash are enforced;
-- `READY_FOR_ANALYST` and `COMPLETED` now have an independent canonical invariant: they are rejected unless all 889 detailed requirement records pass, all F1→F8 watchdogs pass, the exhaustive appendix passes readback/hash verification and a valid handoff exists;
+- `READY_FOR_ANALYST` and `COMPLETED` have an independent canonical invariant: they are rejected unless all 889 detailed requirement records pass, all F1→F8 watchdogs pass, the exhaustive appendix passes readback/hash verification and a valid handoff exists;
+- all `fullunder_*` internal ordinary tables in `public` have RLS enabled;
+- targeted internal Full Under `SECURITY DEFINER` helpers are not executable by `anon` or `authenticated`; service-role/Edge remains the operational gateway;
+- Full Under guard/trigger helpers identified by the database linter have pinned `search_path`;
 - audit fixtures may be purged only through a SECURITY DEFINER cleanup function after `audit_fixture=true` verification.
 
 ## IFU-EXHAUSTIVE-REPORT-1.0 repair
@@ -68,7 +78,10 @@ The repaired Kernel is `FULLUNDER-RESEARCH-KERNEL-1.2.1-EXHAUSTIVE-COVERAGE`.
 
 The legacy CHC@SEA run `58739976-4be5-47bb-9e21-06715facf0ff` was physically changed from `COMPLETED / ready_for_analyst=true` to `INVALIDATED_REQUIREMENT_REBUILD / false` because its detailed audit is `0/889`.
 
-Source migration for the hardening is tracked in `supabase/investigarfullunder/IFU_EXHAUSTIVE_REPORT_1_0.sql`.
+Tracked source files:
+- `supabase/investigarfullunder/IFU_EXHAUSTIVE_REPORT_1_0.sql`
+- `supabase/investigarfullunder/IFU_CONTROL_PLANE_SECURITY_HARDENING.sql`
+- `supabase/investigarfullunder/IFU_REQUIREMENT_LEDGER_UNIFICATION.sql`
 
 ## Physical validation
 
@@ -81,10 +94,21 @@ IFU-EXHAUSTIVE-REPORT-1.0 patch tests:
 - premature F1 close at `0/93` detailed requirements → REJECT with `FULLUNDER_REQUIREMENT_DETAIL_AUDIT_FAILED`;
 - attempt to restore invalid CHC@SEA to READY at `0/889` → REJECT with `FULLUNDER_READY_REQUIREMENT_DETAIL_INCOMPLETE`.
 
-All synthetic patch tests used rollback fixtures; fixture residue: `0`.
+Post-security smoke:
+- `CREATE_RUN` → PASS;
+- `REQUEST_TOOL` → PASS;
+- fixture transaction rolled back; residue `0`.
+
+Unified-ledger smoke:
+- `SET_REQUIREMENT_DETAILS` with `SATISFIED` and structured same-run/same-phase evidence path → COMMITTED;
+- detail/state consistency → PASS with `missing_state=0`, `status_mismatch=0`, `evidence_mismatch=0`, `output_mismatch=0`;
+- legacy `SET_REQUIREMENT_STATES` → REJECT with `FULLUNDER_CAPABILITY_ACTION_FORBIDDEN`;
+- fixture transaction rolled back; residue `0`.
+
+Security re-check confirms there are no remaining `fullunder_*` RLS-disabled errors or Full Under mutable-search-path warnings. The linter reports `RLS Enabled No Policy` INFO for internal Full Under tables; this is intentional deny-by-default because browser/anon access is not an operational data path.
 
 Operational certification remains deliberately disabled until a fresh real MLB run completes under the exhaustive standard.
 
 Official Drive handoff template: `1BJPRwLNbHr9i1LKANUWD1LfRPq0OfECyijUFZ0wAOyw`.
 
-Edge Function: `investigarfullunder-kernel`, runtime version `3`, JWT required. The Edge remains a command-bus gateway; the exhaustive coverage enforcement is implemented in the Supabase control plane.
+Edge Function: `investigarfullunder-kernel`, runtime version `3`, JWT required. The Edge remains a command-bus gateway; exhaustive coverage enforcement is implemented in the Supabase control plane.
